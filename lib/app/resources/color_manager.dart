@@ -6,14 +6,16 @@ abstract class ColorManager {
   static const white = Color(0xFFFFFFFF);
   static const grey = Color(0xFF6A7282);
   static const darkGrey = Color(0xFF45556C);
-  static const lightGrey = Color(0xFFF8F9FA);
+  static const lightGrey = Color(0xFFECEEF2);
+  static const orange = Color(0xFFFB9400);
+  static const notificationBorderColor = Color(0xffBEDBFF);
   static const reatingAvaterColor = Color(0xFFFFFCDA);
   static const homeAppBarGradient = [Color(0xFF1A50A4), Color(0xFF155DFC)];
   static const wheatherUpGradient = [Color(0xFF1754E8), Color(0xFFD9D9D9)];
   static const wheatherDownGradient = [Color(0xFF373333), Color(0xFFffffff)];
   static const _primarySwatch = {
     50: Color(0xFFE8EEFA),
-    100: Color(0xFFC6D2F1),
+    100: Color(0xFFDBEAFE),
     200: Color(0xFFA1B3E8),
     300: Color(0xFF7B93DF),
     400: Color(0xFF5E7BD8),

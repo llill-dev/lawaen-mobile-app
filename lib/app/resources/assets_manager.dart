@@ -31,6 +31,10 @@ class IconManager {
   static const String profileFill = "${iconPath}profile_nav_bar_fill.svg";
   static const String events = "${iconPath}events_nav_bar.svg";
   static const String eventsFill = "${iconPath}events_nav_bar_fill.svg";
+  static const String discount = "${iconPath}discount.svg";
+  static const String check = "${iconPath}check.svg";
+  static const String clock = "${iconPath}clock.svg";
+  static const String trach = "${iconPath}trach.svg";
 }
 
 class JsonManager {

@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
+import '../../../../../../app/routes/router.gr.dart';
 
 class HomeAppBarHeaderSection extends StatelessWidget {
-  const HomeAppBarHeaderSection({super.key});
+  final bool showNotificationIcon;
+  const HomeAppBarHeaderSection({super.key, this.showNotificationIcon = true});
 
   @override
   Widget build(BuildContext context) {
@@ -15,10 +18,17 @@ class HomeAppBarHeaderSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(ImageManager.logo),
-            CircleAvatar(
-              backgroundColor: Colors.white.withValues(alpha: 0.2),
-              child: IconButton(icon: SvgPicture.asset(IconManager.notification), onPressed: () {}),
-            ),
+            if (showNotificationIcon)
+              CircleAvatar(
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
+
+                child: IconButton(
+                  icon: SvgPicture.asset(IconManager.notification),
+                  onPressed: () {
+                    context.router.push(NotificationRoute());
+                  },
+                ),
+              ),
           ],
         ),
         SizedBox(height: 12.h),

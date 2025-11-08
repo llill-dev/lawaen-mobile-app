@@ -12,5 +12,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: SplashRoute.page, initial: true),
     AutoRoute(page: HomeRoute.page),
     AutoRoute(page: NavigationControllerRoute.page),
+    AutoRoute(page: NotificationRoute.page),
+    AutoRoute(page: NotificationDetailsRoute.page),
   ];
 }
