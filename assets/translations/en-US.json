@@ -50,5 +50,11 @@
   "privacyPolicy" : "Privacy Policy",
   "homeSearchBarHit" : "Search for restaurants, hotels, services..." ,
   "whatWouldLikeToFind": "What Would You Like To Find",
-  "viewAll": "View All"
+  "viewAll": "View All",
+  "upComingEvents": "Upcoming Events",
+  "addYourBusiness": "Add Your Business for Free",
+  "explore" : "explore",
+  "offers": "offers",
+  "events": "events",
+  "profile": "profile"
 }

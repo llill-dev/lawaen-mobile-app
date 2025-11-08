@@ -8,5 +8,9 @@ class AppRouter extends RootStackRouter {
   RouteType get defaultRouteType => const RouteType.cupertino();
 
   @override
-  List<AutoRoute> get routes => [AutoRoute(page: SplashRoute.page, initial: true), AutoRoute(page: HomeRoute.page)];
+  List<AutoRoute> get routes => [
+    AutoRoute(page: SplashRoute.page, initial: true),
+    AutoRoute(page: HomeRoute.page),
+    AutoRoute(page: NavigationControllerRoute.page),
+  ];
 }

@@ -50,5 +50,11 @@
   "privacyPolicy" :  "سياسة الخصوصية" ,
   "homeSearchBarHit" : "ابحث عن مطاعم، فنادق، خدمات...",
   "whatWouldLikeToFind": "ماذا تريد أن تجد",
-  "viewAll": "عرض الكل" 
+  "viewAll": "عرض الكل" ,
+  "upComingEvents": "الأحداث القادمة",
+  "addYourBusiness": "أضف عملك مجانًا",
+  "explore" : "استكشاف",
+  "offers": "عروض",
+  "events": "فعاليات",
+  "profile": "الملف الشخصي"
 }
