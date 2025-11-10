@@ -2,13 +2,15 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/extensions.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/popular_places/popular_places.dart';
 
 import '../../../../app/resources/color_manager.dart';
 import '../../../../generated/locale_keys.g.dart';
 import 'widgets/add_your_business.dart';
-import 'widgets/category_section.dart';
+import 'widgets/category/category_section.dart';
 import 'widgets/home_app_bar/home_app_bar.dart';
 import 'widgets/location_section.dart';
 import 'widgets/upcoming_events/upcoming_events.dart';
@@ -24,30 +26,33 @@ class HomeScreen extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: const HomeAppBar()),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(child: const LocationSection()),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(
             child: Row(
               children: [
                 Text(LocaleKeys.whatWouldLikeToFind.tr(), style: Theme.of(context).textTheme.headlineMedium),
                 Spacer(),
-                Text(
-                  LocaleKeys.viewAll.tr(),
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                GestureDetector(
+                  onTap: () => context.router.push(CategoryRoute()),
+                  child: Text(
+                    LocaleKeys.viewAll.tr(),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                  ),
                 ),
               ],
             ).horizontalPadding(padding: 16.w),
           ),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           CategorySection(),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(child: UpcomingEvents()),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(child: AddYourBusiness().horizontalPadding(padding: 40.w)),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(child: WeatherAndMap().horizontalPadding(padding: 16.w)),
-          SliverToBoxAdapter(child: SizedBox(height: 20.h)),
+          buildSpace(),
           SliverToBoxAdapter(
             child: Row(
               children: [
@@ -61,7 +66,7 @@ class HomeScreen extends StatelessWidget {
             ).horizontalPadding(padding: 16.w),
           ),
           PopularPlaces(),
-          SliverToBoxAdapter(child: SizedBox(height: 50.h)),
+          buildSpace(height: 50.h),
         ],
       ),
     );

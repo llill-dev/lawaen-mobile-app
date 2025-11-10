@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 
 import '../../resources/color_manager.dart';
@@ -29,4 +30,8 @@ String formattedTime(int remainingSeconds) {
   final minutes = (remainingSeconds ~/ 60).toString().padLeft(2, '0');
   final seconds = (remainingSeconds % 60).toString().padLeft(2, '0');
   return '$minutes:$seconds';
+}
+
+SliverToBoxAdapter buildSpace({double? height}) {
+  return SliverToBoxAdapter(child: SizedBox(height: height ?? 20.h));
 }

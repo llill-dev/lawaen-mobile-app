@@ -8,6 +8,8 @@ abstract class ColorManager {
   static const darkGrey = Color(0xFF45556C);
   static const lightGrey = Color(0xFFECEEF2);
   static const orange = Color(0xFFFB9400);
+  static const green = Color(0xff7BBF33);
+  static const borderColor = Color(0xffE2E8F0);
   static const notificationBorderColor = Color(0xffBEDBFF);
   static const reatingAvaterColor = Color(0xFFFFFCDA);
   static const homeAppBarGradient = [Color(0xFF1A50A4), Color(0xFF155DFC)];

@@ -1,8 +1,9 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_container.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_header_section.dart';
+
+import '../../../../../../app/core/widgets/primary_back_button.dart';
 
 class NotificationAppBar extends StatelessWidget {
   const NotificationAppBar({super.key});
@@ -16,23 +17,7 @@ class NotificationAppBar extends StatelessWidget {
           SizedBox(height: 10),
           Row(
             children: [
-              GestureDetector(
-                onTap: () => context.pop(),
-                child: Container(
-                  decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(14)),
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-                  child: Row(
-                    children: [
-                      Icon(Icons.arrow_back, color: ColorManager.primary, size: 16),
-                      SizedBox(width: 4),
-                      Text(
-                        'back',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              PrimaryBackButton(),
               SizedBox(width: 12),
               Text(
                 'Notifications',

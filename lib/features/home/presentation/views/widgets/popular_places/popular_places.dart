@@ -106,7 +106,7 @@ class PopularPlaces extends StatelessWidget {
                           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                           decoration: BoxDecoration(
                             color: ColorManager.white,
-                            border: Border.all(color: const Color(0xff7BBF33).withValues(alpha: 0.3)),
+                            border: Border.all(color: ColorManager.green.withValues(alpha: 0.3)),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: SvgPicture.asset(IconManager.phone, width: 20.w, height: 20.h),

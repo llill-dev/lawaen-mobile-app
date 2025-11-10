@@ -9,6 +9,7 @@ class ImageManager {
   static const String events = "${imagePath}events.png";
   static const String map = "${imagePath}map.jpg";
   static const String place = "${imagePath}place.png";
+  static const String cat = "${imagePath}cat.png";
 }
 
 class IconManager {
@@ -35,6 +36,7 @@ class IconManager {
   static const String check = "${iconPath}check.svg";
   static const String clock = "${iconPath}clock.svg";
   static const String trach = "${iconPath}trach.svg";
+  static const String filter = "${iconPath}filter.svg";
 }
 
 class JsonManager {
