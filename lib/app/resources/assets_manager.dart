@@ -10,6 +10,8 @@ class ImageManager {
   static const String map = "${imagePath}map.jpg";
   static const String place = "${imagePath}place.png";
   static const String cat = "${imagePath}cat.png";
+  static const String catItem = "${imagePath}cat_item.png";
+  static const String itmePhoto = "${imagePath}item_photo.png";
 }
 
 class IconManager {
