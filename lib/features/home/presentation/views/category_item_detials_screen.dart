@@ -10,6 +10,7 @@ import 'widgets/category_item_details/info_section.dart';
 import 'widgets/category_item_details/loctaion_item_section.dart';
 import 'widgets/category_item_details/photos_section.dart';
 import 'widgets/category_item_details/section_selector.dart';
+import 'widgets/category_item_details/services_section.dart';
 
 @RoutePage()
 class CategoryItemDetialsScreen extends StatefulWidget {
@@ -53,7 +54,7 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
                   ),
                   InfoSection(),
                   LocationItemSection(),
-                  // ServicesSection(),
+                  ServicesSection(),
                 ],
               ),
             ),

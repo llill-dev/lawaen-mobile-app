@@ -5,6 +5,7 @@ import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
+import 'feedback_bottom_sheet.dart';
 
 class BasicInfoSection extends StatelessWidget {
   const BasicInfoSection({super.key});
@@ -53,17 +54,64 @@ class BasicInfoSection extends StatelessWidget {
           ),
           12.verticalSpace,
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: List.generate(stars.length, (index) => stars[index])),
-              8.horizontalSpace,
-              Text(
-                "0 rating Count",
-                style: Theme.of(context).textTheme.labelMedium?.copyWith(color: ColorManager.orange),
+              Row(
+                children: [
+                  _buildUserActionContainer(
+                    context: context,
+                    title: "Feedback",
+                    onTap: () => _showFeedBackBttomSheet(context),
+                  ),
+                  4.horizontalSpace,
+                  _buildUserActionContainer(context: context, title: "Report", onTap: () {}, read: true),
+                ],
               ),
             ],
           ),
         ],
       ).horizontalPadding(padding: 16.w),
+    );
+  }
+
+  void _showFeedBackBttomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ColorManager.white,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      builder: (_) {
+        return const FeedbackBottomSheet();
+      },
+    );
+  }
+
+  Widget _buildUserActionContainer({
+    required BuildContext context,
+    required String title,
+    bool read = false,
+    required Function()? onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(8.w),
+        decoration: BoxDecoration(
+          color: read ? ColorManager.red : ColorManager.green,
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Row(
+          children: [
+            if (read) ...[Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r), 4.horizontalSpace],
+            Text(
+              title,
+              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: ColorManager.white, fontSize: 12),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

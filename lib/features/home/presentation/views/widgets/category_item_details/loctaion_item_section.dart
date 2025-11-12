@@ -15,9 +15,8 @@ class LocationItemSection extends StatelessWidget {
     return Container(
       padding: EdgeInsets.all(24.w),
       decoration: BoxDecoration(
-        color: ColorManager.primarySwatch[200],
+        color: ColorManager.secondary.withValues(alpha: .25),
         borderRadius: BorderRadius.circular(10),
-        boxShadow: [BoxShadow(color: ColorManager.black.withValues(alpha: .25), blurRadius: 4, offset: Offset(0, 4))],
       ),
       child: Column(
         children: [
