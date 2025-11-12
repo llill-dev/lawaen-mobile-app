@@ -10,6 +10,7 @@ abstract class ColorManager {
   static const lightGrey = Color(0xFFECEEF2);
   static const orange = Color(0xFFFB9400);
   static const green = Color(0xff7BBF33);
+  static const muneGreen = Color(0xffDCFCE7);
   static const red = Color(0xffE7000B);
   static const borderColor = Color(0xffE2E8F0);
   static const notificationBorderColor = Color(0xffBEDBFF);

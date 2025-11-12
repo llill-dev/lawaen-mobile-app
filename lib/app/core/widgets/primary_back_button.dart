@@ -6,7 +6,8 @@ import '../../resources/color_manager.dart';
 class PrimaryBackButton extends StatelessWidget {
   final bool withShadow;
   final double? width;
-  const PrimaryBackButton({super.key, this.withShadow = false, this.width});
+  final bool iconOnlay;
+  const PrimaryBackButton({super.key, this.withShadow = false, this.width, this.iconOnlay = false});
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +33,10 @@ class PrimaryBackButton extends StatelessWidget {
         child: Row(
           children: [
             Icon(Icons.arrow_back, color: ColorManager.primary, size: 16),
-            SizedBox(width: 4),
-            Text('back', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary)),
+            if (!iconOnlay) ...[
+              SizedBox(width: 4),
+              Text('back', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary)),
+            ],
           ],
         ),
       ),

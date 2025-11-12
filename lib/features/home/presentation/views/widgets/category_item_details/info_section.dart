@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 
 import '../../../../../../app/resources/color_manager.dart';
 
@@ -68,10 +70,13 @@ class InfoItem extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Container(
-          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-          decoration: BoxDecoration(color: ColorManager.primarySwatch[100], borderRadius: BorderRadius.circular(10)),
-          child: SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 20.w, height: 20.h),
+        GestureDetector(
+          onTap: () => context.router.push(MenuRoute()),
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+            decoration: BoxDecoration(color: ColorManager.primarySwatch[100], borderRadius: BorderRadius.circular(10)),
+            child: SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 20.w, height: 20.h),
+          ),
         ),
         15.horizontalSpace,
         Expanded(

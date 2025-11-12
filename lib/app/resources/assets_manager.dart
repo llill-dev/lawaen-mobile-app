@@ -12,6 +12,7 @@ class ImageManager {
   static const String cat = "${imagePath}cat.png";
   static const String catItem = "${imagePath}cat_item.png";
   static const String itmePhoto = "${imagePath}item_photo.png";
+  static const String mune = "${imagePath}mune_card.png";
 }
 
 class IconManager {
@@ -39,6 +40,7 @@ class IconManager {
   static const String clock = "${iconPath}clock.svg";
   static const String trach = "${iconPath}trach.svg";
   static const String filter = "${iconPath}filter.svg";
+  static const String mune = "${iconPath}mune.svg";
 }
 
 class JsonManager {
