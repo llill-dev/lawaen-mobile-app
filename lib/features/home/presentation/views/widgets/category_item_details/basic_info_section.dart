@@ -58,17 +58,32 @@ class BasicInfoSection extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(children: List.generate(stars.length, (index) => stars[index])),
-              Row(
-                children: [
-                  _buildUserActionContainer(
-                    context: context,
-                    title: "Feedback",
-                    onTap: () => _showFeedBackBttomSheet(context),
+              GestureDetector(
+                onTap: () => _showFeedBackBttomSheet(context),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                  decoration: BoxDecoration(
+                    color: ColorManager.white,
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: ColorManager.primary, width: 2),
                   ),
-                  4.horizontalSpace,
-                  _buildUserActionContainer(context: context, title: "Report", onTap: () {}, read: true),
-                ],
+                  child: Text(
+                    "Feedback",
+                    style: Theme.of(
+                      context,
+                    ).textTheme.headlineMedium?.copyWith(color: ColorManager.primary, fontSize: 12),
+                  ),
+                ),
               ),
+            ],
+          ),
+          12.verticalSpace,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildUserActionContainer(context: context, title: "claim", onTap: () {}),
+              4.horizontalSpace,
+              _buildUserActionContainer(context: context, title: "Report", onTap: () {}, read: true),
             ],
           ),
         ],
@@ -97,14 +112,17 @@ class BasicInfoSection extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.all(8.w),
+        width: 150.w,
+        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
         decoration: BoxDecoration(
           color: read ? ColorManager.red : ColorManager.green,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            if (read) ...[Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r), 4.horizontalSpace],
+            Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r),
+            4.horizontalSpace,
             Text(
               title,
               style: Theme.of(context).textTheme.labelMedium?.copyWith(color: ColorManager.white, fontSize: 12),

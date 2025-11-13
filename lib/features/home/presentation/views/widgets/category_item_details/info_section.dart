@@ -71,7 +71,7 @@ class InfoItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         GestureDetector(
-          onTap: () => context.router.push(MenuRoute()),
+          onTap: () => context.router.push(MuneRoute()),
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
             decoration: BoxDecoration(color: ColorManager.primarySwatch[100], borderRadius: BorderRadius.circular(10)),

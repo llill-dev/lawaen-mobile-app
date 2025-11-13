@@ -30,6 +30,7 @@ class CustomTextField extends StatefulWidget {
     this.horizontalContentPadding = 14,
     this.hitStyle,
     super.key,
+    this.withBorder = true,
   });
 
   final TextEditingController? controller;
@@ -54,6 +55,7 @@ class CustomTextField extends StatefulWidget {
   final double verticalContentPadding;
   final double horizontalContentPadding;
   final int maxLines;
+  final bool withBorder;
 
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
@@ -160,11 +162,23 @@ class _CustomTextFieldState extends State<CustomTextField> {
                         vertical: widget.verticalContentPadding.h,
                         horizontal: widget.horizontalContentPadding.w,
                       ),
-                      enabledBorder: state.hasError ? errorBorder : enabledBorder,
-                      border: state.hasError ? errorBorder : enabledBorder,
-                      focusedBorder: state.hasError ? errorBorder : focusedBorder,
-                      errorBorder: errorBorder,
-                      focusedErrorBorder: errorBorder,
+                      enabledBorder: !widget.withBorder
+                          ? InputBorder.none
+                          : state.hasError
+                          ? errorBorder
+                          : enabledBorder,
+                      border: !widget.withBorder
+                          ? InputBorder.none
+                          : state.hasError
+                          ? errorBorder
+                          : enabledBorder,
+                      focusedBorder: !widget.withBorder
+                          ? InputBorder.none
+                          : state.hasError
+                          ? errorBorder
+                          : focusedBorder,
+                      errorBorder: !widget.withBorder ? InputBorder.none : errorBorder,
+                      focusedErrorBorder: !widget.withBorder ? InputBorder.none : errorBorder,
                       isCollapsed: true,
                       suffixIcon: widget.isFieldObscure
                           ? Padding(

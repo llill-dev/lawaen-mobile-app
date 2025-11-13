@@ -41,6 +41,8 @@ class IconManager {
   static const String trach = "${iconPath}trach.svg";
   static const String filter = "${iconPath}filter.svg";
   static const String mune = "${iconPath}mune.svg";
+  static const String sendFeedback = "${iconPath}send_feedback.svg";
+  static const String profileFeddback = "${iconPath}profile.svg";
 }
 
 class JsonManager {
