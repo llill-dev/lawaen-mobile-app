@@ -20,5 +20,9 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: MuneRoute.page),
     AutoRoute(page: FeedbackRoute.page),
     AutoRoute(page: FeedbackChatRoute.page),
+    AutoRoute(page: AddRoute.page),
+    AutoRoute(page: AddEventRoute.page),
+    AutoRoute(page: AddClassifiedRoute.page),
+    AutoRoute(page: AddMissingPlaceRoute.page),
   ];
 }

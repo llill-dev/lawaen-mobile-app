@@ -13,6 +13,7 @@ class ImageManager {
   static const String catItem = "${imagePath}cat_item.png";
   static const String itmePhoto = "${imagePath}item_photo.png";
   static const String mune = "${imagePath}mune_card.png";
+  static const String addMap = "${imagePath}add_map.png";
 }
 
 class IconManager {
@@ -43,6 +44,11 @@ class IconManager {
   static const String mune = "${iconPath}mune.svg";
   static const String sendFeedback = "${iconPath}send_feedback.svg";
   static const String profileFeddback = "${iconPath}profile.svg";
+  static const String addEvent = "${iconPath}add_event.svg";
+  static const String addClassified = "${iconPath}add_classified.svg";
+  static const String arrowLeft = "${iconPath}arrow_left.svg";
+  static const String upload = "${iconPath}upload.svg";
+  static const String claim = "${iconPath}claim.svg";
 }
 
 class JsonManager {

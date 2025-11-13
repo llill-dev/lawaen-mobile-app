@@ -8,7 +8,19 @@ class PrimaryBackButton extends StatelessWidget {
   final double? width;
   final bool iconOnlay;
   final double? iconSize;
-  const PrimaryBackButton({super.key, this.withShadow = false, this.width, this.iconOnlay = false, this.iconSize});
+  final Color? iconColor;
+  final Color? backgroundColor;
+  final double? fontSize;
+  const PrimaryBackButton({
+    super.key,
+    this.withShadow = false,
+    this.width,
+    this.iconOnlay = false,
+    this.iconSize,
+    this.iconColor,
+    this.backgroundColor,
+    this.fontSize,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +29,7 @@ class PrimaryBackButton extends StatelessWidget {
       child: Container(
         width: width,
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: backgroundColor ?? Colors.white,
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             if (withShadow)
@@ -33,10 +45,15 @@ class PrimaryBackButton extends StatelessWidget {
 
         child: Row(
           children: [
-            Icon(Icons.arrow_back, color: ColorManager.primary, size: iconSize ?? 16),
+            Icon(Icons.arrow_back, color: iconColor ?? ColorManager.primary, size: iconSize ?? 16),
             if (!iconOnlay) ...[
               SizedBox(width: 4),
-              Text('back', style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary)),
+              Text(
+                'back',
+                style: Theme.of(
+                  context,
+                ).textTheme.headlineSmall?.copyWith(color: iconColor ?? ColorManager.primary, fontSize: fontSize),
+              ),
             ],
           ],
         ),
