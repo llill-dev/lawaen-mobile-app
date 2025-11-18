@@ -52,6 +52,9 @@ class IconManager {
   static const String claim = "${iconPath}claim.svg";
   static const String offersDetails = "${iconPath}offers_details.svg";
   static const String offersFilter = "${iconPath}offers_filter.svg";
+  static const String gridIcon = "${iconPath}grid_icon.svg";
+  static const String listIcon = "${iconPath}list_icon.svg";
+  static const String trending = "${iconPath}trending.svg";
 }
 
 class JsonManager {

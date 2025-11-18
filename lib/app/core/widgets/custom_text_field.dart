@@ -32,6 +32,7 @@ class CustomTextField extends StatefulWidget {
     super.key,
     this.withBorder = true,
     this.borderWidth,
+    this.borderColor,
   });
 
   final TextEditingController? controller;
@@ -58,6 +59,7 @@ class CustomTextField extends StatefulWidget {
   final int maxLines;
   final bool withBorder;
   final double? borderWidth;
+  final Color? borderColor;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -99,11 +101,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
         );
         final enabledBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide(width: widget.borderWidth ?? _borderWidth, color: ColorManager.blackSwatch[4]!),
+          borderSide: BorderSide(
+            width: widget.borderWidth ?? _borderWidth,
+            color: widget.borderColor ?? ColorManager.blackSwatch[4]!,
+          ),
         );
         final focusedBorder = OutlineInputBorder(
           borderRadius: BorderRadius.circular(_borderRadius),
-          borderSide: BorderSide(width: widget.borderWidth ?? _borderWidth, color: ColorManager.blackSwatch[4]!),
+          borderSide: BorderSide(
+            width: widget.borderWidth ?? _borderWidth,
+            color: widget.borderColor ?? ColorManager.blackSwatch[4]!,
+          ),
         );
         return Column(
           mainAxisSize: MainAxisSize.min,

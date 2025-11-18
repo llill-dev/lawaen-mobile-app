@@ -53,7 +53,6 @@
   "viewAll": "View All",
   "upComingEvents": "Upcoming Events",
   "addYourBusiness": "Add Your Business for Free",
-  "explore" : "explore",
   "offers": "offers",
   "events": "events",
   "profile": "profile",
@@ -129,5 +128,8 @@
   "claim": "Claim",
   "servicesManagerTitle": "Services Manager",
   "servicesManagerItems": "Your service ({count} items)",
-  "noServicesYet": "No service items yet. Add your first item to get started!"
+  "noServicesYet": "No service items yet. Add your first item to get started!",
+  "explore": "Explore",
+  "search_for_places_and_services": "Search for places and services...",
+  "recent_search": "Recent Search"
 }
