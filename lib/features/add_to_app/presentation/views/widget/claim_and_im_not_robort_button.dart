@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class ClaimAndImNotRobortButtons extends StatefulWidget {
   const ClaimAndImNotRobortButtons({super.key});
@@ -35,23 +39,28 @@ class _ClaimAndImNotRobortButtonsState extends State<ClaimAndImNotRobortButtons>
                   checkColor: ColorManager.primary,
                   activeColor: ColorManager.blackSwatch[3],
                 ),
-                Text("I'm not robot", style: Theme.of(context).textTheme.headlineSmall),
+                Text(LocaleKeys.imNotRobot.tr(), style: Theme.of(context).textTheme.headlineSmall),
               ],
             ),
           ),
         ),
         12.horizontalSpace,
         Expanded(
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
-            decoration: buildContainer(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(IconManager.claim),
-                4.horizontalSpace,
-                Text("claim", style: Theme.of(context).textTheme.headlineSmall),
-              ],
+          child: GestureDetector(
+            onTap: () {
+              context.pushRoute(ClaimRoute());
+            },
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+              decoration: buildContainer(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(IconManager.claim),
+                  4.horizontalSpace,
+                  Text(LocaleKeys.claim.tr(), style: Theme.of(context).textTheme.headlineSmall),
+                ],
+              ),
             ),
           ),
         ),

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class CheckBoxRow extends StatelessWidget {
   final String title;
@@ -49,7 +51,7 @@ class _ContionsState extends State<ConditionsWidget> {
       child: Column(
         children: [
           CheckBoxRow(
-            title: "I accept the terms and conditions",
+            title: LocaleKeys.acceptTerms.tr(),
             value: acceptTerms,
             onChanged: (value) {
               setState(() {
@@ -59,7 +61,7 @@ class _ContionsState extends State<ConditionsWidget> {
           ),
           8.verticalSpace,
           CheckBoxRow(
-            title: "I have reviewed the subscription cost",
+            title: LocaleKeys.reviewSubscriptionCost.tr(),
             value: acceptSubscriptionCost,
             onChanged: (value) {
               setState(() {
@@ -69,7 +71,7 @@ class _ContionsState extends State<ConditionsWidget> {
           ),
           8.verticalSpace,
           CheckBoxRow(
-            title: "All the information that I have filled in is correct and at my own risk",
+            title: LocaleKeys.informationCorrect.tr(),
             value: acceptInformation,
             onChanged: (value) {
               setState(() {

@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'add_container.dart';
 
@@ -13,12 +15,12 @@ class DetermineLocation extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Location", style: Theme.of(context).textTheme.headlineMedium),
+          Text(LocaleKeys.location.tr(), style: Theme.of(context).textTheme.headlineMedium),
           24.verticalSpace,
           ClipRRect(borderRadius: BorderRadius.circular(8.r), child: Image.asset(ImageManager.addMap)),
           30.verticalSpace,
           Text(
-            "The location will be determined accurately. Make sure that you have enabled location determination.",
+            LocaleKeys.locationHint.tr(),
             style: Theme.of(context).textTheme.headlineSmall,
           ),
         ],

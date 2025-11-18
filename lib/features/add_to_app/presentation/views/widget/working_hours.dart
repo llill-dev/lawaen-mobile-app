@@ -1,8 +1,10 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_container.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_item.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class WorkingHours extends StatelessWidget {
   const WorkingHours({super.key});
@@ -14,18 +16,18 @@ class WorkingHours extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Working Time", style: Theme.of(context).textTheme.headlineMedium),
+          Text(LocaleKeys.workingTime.tr(), style: Theme.of(context).textTheme.headlineMedium),
           12.verticalSpace,
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: TextFiledItem(title: "Open Time", withTitle: false)),
+              Expanded(child: TextFiledItem(title: LocaleKeys.openTime.tr(), withTitle: false)),
               8.horizontalSpace,
-              Expanded(child: TextFiledItem(title: "Close Time", withTitle: false)),
+              Expanded(child: TextFiledItem(title: LocaleKeys.closeTime.tr(), withTitle: false)),
             ],
           ),
           12.verticalSpace,
-          DropDownItem(title: "Work All days", items: [], onChanged: null, withTitle: false),
+          DropDownItem(title: LocaleKeys.workAllDays.tr(), items: [], onChanged: null, withTitle: false),
         ],
       ),
     );

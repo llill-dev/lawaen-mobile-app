@@ -8,8 +8,18 @@ class TextFiledItem extends StatelessWidget {
   final String title;
   final int? maxLines;
   final bool withTitle;
+  final String? hintText;
+  final bool? readOnly;
   final TextEditingController? controller;
-  const TextFiledItem({super.key, required this.title, this.maxLines, this.withTitle = true, this.controller});
+  const TextFiledItem({
+    super.key,
+    required this.title,
+    this.maxLines,
+    this.withTitle = true,
+    this.controller,
+    this.hintText,
+    this.readOnly,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +30,8 @@ class TextFiledItem extends StatelessWidget {
           Text(title, style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.primary)),
         8.verticalSpace,
         CustomTextField(
-          hint: title,
+          hint: hintText ?? title,
+          readOnly: readOnly ?? false,
           fillColor: ColorManager.blackSwatch[3],
           horizontalContentPadding: 8.w,
           verticalContentPadding: 10.h,

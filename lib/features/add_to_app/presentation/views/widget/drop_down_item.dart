@@ -5,10 +5,18 @@ import 'package:lawaen/app/resources/color_manager.dart';
 
 class DropDownItem extends StatelessWidget {
   final String title;
+  final String? hit;
   final List<String> items;
   final Function(String)? onChanged;
   final bool withTitle;
-  const DropDownItem({super.key, required this.title, required this.items, this.onChanged, this.withTitle = true});
+  const DropDownItem({
+    super.key,
+    required this.title,
+    required this.items,
+    this.onChanged,
+    this.withTitle = true,
+    this.hit,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +30,7 @@ class DropDownItem extends StatelessWidget {
           decoration: InputDecoration(
             fillColor: ColorManager.blackSwatch[3],
             hint: Text(
-              title,
+              hit ?? title,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.blackSwatch[6]),
             ),
             filled: true,

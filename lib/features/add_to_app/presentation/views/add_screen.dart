@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/primary_back_button.dart';
@@ -6,6 +7,7 @@ import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_action_button.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 @RoutePage()
 class AddScreen extends StatelessWidget {
@@ -38,14 +40,14 @@ class AddScreen extends StatelessWidget {
                 24.verticalSpace,
                 Center(
                   child: Text(
-                    "Welcome to Your Lawean",
+                    LocaleKeys.addScreenWelcomeTitle.tr(),
                     style: Theme.of(context).textTheme.displayLarge?.copyWith(color: ColorManager.white, fontSize: 24),
                   ),
                 ),
                 24.verticalSpace,
                 Center(
                   child: Text(
-                    "Choose an action to get started",
+                    LocaleKeys.addScreenSubtitle.tr(),
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
                   ),
                 ),
@@ -54,8 +56,8 @@ class AddScreen extends StatelessWidget {
                 ...[
                   AddActionButton(
                     icon: IconManager.addEvent,
-                    title: "Add a new event",
-                    subtitle: "Create and publish your event",
+                    title: LocaleKeys.addEventActionTitle.tr(),
+                    subtitle: LocaleKeys.addEventActionSubtitle.tr(),
                     onTap: () {
                       context.router.navigate(AddEventRoute());
                     },
@@ -64,8 +66,8 @@ class AddScreen extends StatelessWidget {
                   12.verticalSpace,
                   AddActionButton(
                     icon: IconManager.addClassified,
-                    title: "Add a new classified",
-                    subtitle: "Post a classified advertisement",
+                    title: LocaleKeys.addClassifiedActionTitle.tr(),
+                    subtitle: LocaleKeys.addClassifiedActionSubtitle.tr(),
                     onTap: () {
                       context.router.navigate(AddClassifiedRoute());
                     },
@@ -75,8 +77,8 @@ class AddScreen extends StatelessWidget {
                   AddActionButton(
                     icon: IconManager.location,
                     isLocation: true,
-                    title: "Add a missing place",
-                    subtitle: "Help us add a place to the map",
+                    title: LocaleKeys.addMissingPlaceActionTitle.tr(),
+                    subtitle: LocaleKeys.addMissingPlaceActionSubtitle.tr(),
                     onTap: () {
                       context.router.navigate(AddMissingPlaceRoute());
                     },
@@ -86,7 +88,7 @@ class AddScreen extends StatelessWidget {
                 40.verticalSpace,
                 Center(
                   child: Text(
-                    "Need help? Contact our support team",
+                    LocaleKeys.addSupportText.tr(),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
                     textAlign: TextAlign.center,
                   ),

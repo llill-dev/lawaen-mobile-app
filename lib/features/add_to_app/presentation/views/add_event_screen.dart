@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
@@ -10,6 +11,7 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/note_contai
 import 'package:lawaen/features/add_to_app/presentation/views/widget/upload_file.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/we_dont_collect_data_text.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/working_hours.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'widget/add_app_bar.dart';
 
@@ -26,11 +28,10 @@ class AddEventScreen extends StatelessWidget {
           padding: EdgeInsets.zero,
           child: Column(
             children: [
-              AddAppBar(title: "Add Event"),
+              AddAppBar(title: LocaleKeys.addEventTitle.tr()),
               24.verticalSpace,
               NoteContainer(
-                note:
-                    "Please note that this service is paid.After you fill in your information, our team will contact you.",
+                note: LocaleKeys.addEventNote.tr(),
               ),
               24.verticalSpace,
               AddToAppForm(isEvent: true),
@@ -45,7 +46,7 @@ class AddEventScreen extends StatelessWidget {
               24.verticalSpace,
               ClaimAndImNotRobortButtons(),
               24.verticalSpace,
-              PrimaryButton(text: "submit", onPressed: () {}, withShadow: true),
+              PrimaryButton(text: LocaleKeys.submit.tr(), onPressed: () {}, withShadow: true),
               24.verticalSpace,
               WeDontCollectDataText(),
               24.verticalSpace,

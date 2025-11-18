@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_item.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class AddToAppForm extends StatelessWidget {
   final bool isEvent;
@@ -14,40 +16,40 @@ class AddToAppForm extends StatelessWidget {
     return Form(
       child: Column(
         children: [
-          DropDownItem(title: "Select the main category", items: [], onChanged: null),
+          DropDownItem(title: LocaleKeys.selectMainCategory.tr(), items: [], onChanged: null),
           12.verticalSpace,
-          DropDownItem(title: "Select the sub category", items: [], onChanged: null),
+          DropDownItem(title: LocaleKeys.selectSubCategory.tr(), items: [], onChanged: null),
           12.verticalSpace,
-          TextFiledItem(title: "Full Name"),
-          if (isEvent) ...[12.verticalSpace, TextFiledItem(title: "Event type")],
+          TextFiledItem(title: LocaleKeys.fullName.tr()),
+          if (isEvent) ...[12.verticalSpace, TextFiledItem(title: LocaleKeys.eventType.tr())],
           12.verticalSpace,
-          TextFiledItem(title: "Description", maxLines: 4),
+          TextFiledItem(title: LocaleKeys.description.tr(), maxLines: 4),
           12.verticalSpace,
-          TextFiledItem(title: "Phone number with city code"),
+          TextFiledItem(title: LocaleKeys.phoneNumberWithCode.tr()),
           12.verticalSpace,
-          TextFiledItem(title: "WhatsApp number"),
-          if (isClassified) ...[12.verticalSpace, TextFiledItem(title: "Price")],
+          TextFiledItem(title: LocaleKeys.whatsappNumber.tr()),
+          if (isClassified) ...[12.verticalSpace, TextFiledItem(title: LocaleKeys.price.tr())],
           if (isEvent) ...[
             12.verticalSpace,
-            TextFiledItem(title: "Facebook page link"),
+            TextFiledItem(title: LocaleKeys.facebookPageLink.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "Instagram page link"),
+            TextFiledItem(title: LocaleKeys.instagramPageLink.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "Price"),
+            TextFiledItem(title: LocaleKeys.price.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "Booking Fee"),
+            TextFiledItem(title: LocaleKeys.bookingFee.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "Organizer's page link"),
+            TextFiledItem(title: LocaleKeys.organizerPageLink.tr()),
           ],
           if (isMissingPlace) ...[
             12.verticalSpace,
-            TextFiledItem(title: "Facebook page link"),
+            TextFiledItem(title: LocaleKeys.facebookPageLink.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "Instagram page link"),
+            TextFiledItem(title: LocaleKeys.instagramPageLink.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "website link"),
+            TextFiledItem(title: LocaleKeys.websiteLink.tr()),
             12.verticalSpace,
-            TextFiledItem(title: "email"),
+            TextFiledItem(title: LocaleKeys.emailAddress.tr()),
           ],
         ],
       ),
