@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
+import 'package:lawaen/app/core/widgets/grid_and_list_buttons_with_title.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -34,26 +35,10 @@ class ExploreHeaderSection extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(LocaleKeys.explore.tr(), style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 24)),
-                Row(
-                  children: [
-                    buildDisplayIcon(
-                      isSelected: isGridView,
-                      icon: IconManager.gridIcon,
-                      onTap: () => onViewModeChanged(true),
-                    ),
-                    8.horizontalSpace,
-                    buildDisplayIcon(
-                      isSelected: !isGridView,
-                      icon: IconManager.listIcon,
-                      onTap: () => onViewModeChanged(false),
-                    ),
-                  ],
-                ),
-              ],
+            GridAndListButtonsWithTitle(
+              isGridView: isGridView,
+              onViewModeChanged: onViewModeChanged,
+              title: LocaleKeys.explore.tr(),
             ),
             16.verticalSpace,
             CustomTextField(
@@ -66,23 +51,6 @@ class ExploreHeaderSection extends StatelessWidget {
             16.verticalSpace,
             RecentSearch(),
           ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildDisplayIcon({required bool isSelected, required String icon, VoidCallback? onTap}) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(8),
-        decoration: BoxDecoration(
-          color: isSelected ? ColorManager.primary : ColorManager.white,
-          borderRadius: BorderRadius.circular(8),
-        ),
-        child: SvgPicture.asset(
-          icon,
-          colorFilter: isSelected ? ColorFilter.mode(ColorManager.white, BlendMode.srcIn) : null,
         ),
       ),
     );
