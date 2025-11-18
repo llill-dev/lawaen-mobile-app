@@ -14,6 +14,7 @@ class ImageManager {
   static const String itmePhoto = "${imagePath}item_photo.png";
   static const String mune = "${imagePath}mune_card.png";
   static const String addMap = "${imagePath}add_map.png";
+  static const String offers = "${imagePath}offers.png";
 }
 
 class IconManager {
@@ -49,6 +50,8 @@ class IconManager {
   static const String arrowLeft = "${iconPath}arrow_left.svg";
   static const String upload = "${iconPath}upload.svg";
   static const String claim = "${iconPath}claim.svg";
+  static const String offersDetails = "${iconPath}offers_details.svg";
+  static const String offersFilter = "${iconPath}offers_filter.svg";
 }
 
 class JsonManager {

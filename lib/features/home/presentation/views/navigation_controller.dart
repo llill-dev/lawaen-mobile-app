@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/features/offers/presentation/views/offers_screen.dart';
 
 import '../../../../app/app_prefs.dart';
 import '../../../../app/core/refresh_cubit/refresh_cubit.dart';
@@ -34,7 +35,7 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
   @override
   void initState() {
     super.initState();
-    _pages = [HomeScreen(), Container(), Container(), Container(), Container()];
+    _pages = [HomeScreen(), Container(), OffersScreen(), Container(), Container()];
 
     _currentIndex = widget.initialIndex.clamp(0, _pages.length - 1);
 
