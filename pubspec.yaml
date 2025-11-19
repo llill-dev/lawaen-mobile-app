@@ -1,20 +1,18 @@
 name: lawaen
 description: "A new Flutter project."
-publish_to: 'none' 
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
   sdk: ^3.9.2
 dependencies:
-  flutter:
-    sdk: flutter
-  cupertino_icons: ^1.0.8
-  injectable_generator: ^2.9.0
   auto_route: ^10.2.0
   auto_size_text: ^3.0.0
   awesome_dio_interceptor: ^1.3.0
+  bloc: ^9.1.0
   cached_network_image: ^3.4.1
   connectivity_plus: ^7.0.0
+  cupertino_icons: ^1.0.8
   dartz: ^0.10.1
   dio: ^5.9.0
   dotted_line: ^3.2.3
@@ -22,7 +20,10 @@ dependencies:
   equatable: ^2.0.7
   firebase_core: ^4.2.1
   firebase_messaging: ^16.0.4
+  flutter:
+    sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_dotenv: ^6.0.0
   flutter_local_notifications: ^19.5.0
   flutter_screenutil: ^5.9.3
   flutter_svg: ^2.2.2
@@ -32,6 +33,8 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
   infinite_scroll_pagination: ^5.1.1
+  injectable: ^2.5.2
+  injectable_generator: ^2.9.0
   intl_phone_field: ^3.2.0
   json_annotation: ^4.9.0
   lottie: ^3.3.2
@@ -46,16 +49,13 @@ dependencies:
   syncfusion_flutter_datepicker: ^31.2.5
   tuple: ^2.0.2
   url_launcher: ^6.3.2
-  injectable: ^2.5.2
-  flutter_dotenv: ^6.0.0
-  bloc: ^9.1.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^6.0.0
   auto_route_generator: ^10.2.5
   build_runner: ^2.10.1
+  flutter_lints: ^6.0.0
+  flutter_test:
+    sdk: flutter
   json_serializable: ^6.11.1
   retrofit_generator: ^10.1.2
 
