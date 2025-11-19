@@ -15,7 +15,7 @@ class EventsScreen extends StatefulWidget {
 }
 
 class _EventsScreenState extends State<EventsScreen> {
-  bool _isGridView = true;
+  bool _isGridView = false;
   static const int _eventsCount = 8;
   final List<String> _eventTypes = const ['Culture', 'Music', 'Children', 'Sports', 'Business', 'Food'];
   int _selectedEventTypeIndex = 0;

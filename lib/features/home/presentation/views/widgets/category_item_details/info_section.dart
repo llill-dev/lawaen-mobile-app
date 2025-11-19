@@ -9,7 +9,8 @@ import 'package:lawaen/app/routes/router.gr.dart';
 import '../../../../../../app/resources/color_manager.dart';
 
 class InfoSection extends StatelessWidget {
-  const InfoSection({super.key});
+  final bool isEvent;
+  const InfoSection({super.key, this.isEvent = false});
 
   @override
   Widget build(BuildContext context) {
@@ -30,24 +31,24 @@ class InfoSection extends StatelessWidget {
             ],
           ),
         ),
-
-        20.verticalSpace,
-
-        Container(
-          padding: EdgeInsets.all(24.w),
-          decoration: _buildBoxDecoration(),
-          child: Column(
-            children: [
-              InfoItem(),
-              12.verticalSpace,
-              InfoItem(),
-              12.verticalSpace,
-              InfoItem(),
-              12.verticalSpace,
-              InfoItem(),
-            ],
+        if (!isEvent) ...[
+          20.verticalSpace,
+          Container(
+            padding: EdgeInsets.all(24.w),
+            decoration: _buildBoxDecoration(),
+            child: Column(
+              children: [
+                InfoItem(),
+                12.verticalSpace,
+                InfoItem(),
+                12.verticalSpace,
+                InfoItem(),
+                12.verticalSpace,
+                InfoItem(),
+              ],
+            ),
           ),
-        ),
+        ],
       ],
     ).horizontalPadding(padding: 16.w);
   }

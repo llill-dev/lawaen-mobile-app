@@ -55,6 +55,10 @@ class IconManager {
   static const String gridIcon = "${iconPath}grid_icon.svg";
   static const String listIcon = "${iconPath}list_icon.svg";
   static const String trending = "${iconPath}trending.svg";
+  static const String facebook = "${iconPath}facebook.svg";
+  static const String insta = "${iconPath}insta.svg";
+  static const String whatsApp = "${iconPath}whatsaap.svg";
+  static const String phoneIcon = "${iconPath}phone_icon.svg";
 }
 
 class JsonManager {

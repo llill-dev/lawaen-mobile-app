@@ -28,7 +28,7 @@ class SectionSelector extends StatelessWidget {
           ],
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: List.generate(sections.length, (index) {
             return _SectionItem(
               title: sections[index],

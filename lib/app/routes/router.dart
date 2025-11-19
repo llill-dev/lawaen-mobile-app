@@ -27,5 +27,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ServicesManagerRoute.page),
     AutoRoute(page: MuneManagerRoute.page),
     AutoRoute(page: ClaimRoute.page),
+    AutoRoute(page: EventsDetailsRoute.page),
   ];
 }
