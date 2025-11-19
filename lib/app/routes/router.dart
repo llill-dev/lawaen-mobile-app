@@ -28,5 +28,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: MuneManagerRoute.page),
     AutoRoute(page: ClaimRoute.page),
     AutoRoute(page: EventsDetailsRoute.page),
+    AutoRoute(page: OnboardingRoute.page),
   ];
 }

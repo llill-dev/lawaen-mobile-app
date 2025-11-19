@@ -22,6 +22,8 @@ abstract class ColorManager {
   static const addClassifiedGradient = [Color(0xFF615FFF), Color(0xFF4f39f6)];
   static const addMissingPlaceGradient = [Color(0xFFAD46FF), Color(0xFF9810FA)];
   static const categoryItemDetailsGradinet = Color(0xff0F172B);
+  static const onBoardingGradient = [Color(0xFF155DFC), Color(0xFF1A50A4), Color(0xFF155DFC)];
+  static const onBoardingShadowColor = Color(0xFF171766);
   static const _primarySwatch = {
     50: Color(0xFFE8EEFA),
     100: Color(0xFFDBEAFE),

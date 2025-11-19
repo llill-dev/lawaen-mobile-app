@@ -131,5 +131,8 @@
   "servicesManagerItems": "خدماتك ({count} عناصر)",
   "noServicesYet": "لا توجد خدمات بعد. أضف أول خدمة للبدء!",
   "search_for_places_and_services": "ابحث عن مطاعم، فنادق، خدمات...",
-  "recent_search": "البحث مؤخراً"
+  "recent_search": "البحث مؤخراً",
+  "onBoardingMessage":"أينما تكون، \"Lawaen\" هو صديقك: فنادق، مطاعم، قافليات، متاجر، معارض، مواقع تاريخية... عروض وإعلانات... معلومات شاملة وتحديثات مستمرة.",
+  "onBoardingTitle":"لنبدأ الآن",
+  "next":"التالي"
 }

@@ -131,5 +131,8 @@
   "noServicesYet": "No service items yet. Add your first item to get started!",
   "explore": "Explore",
   "search_for_places_and_services": "Search for places and services...",
-  "recent_search": "Recent Search"
+  "recent_search": "Recent Search",
+  "onBoardingMessage":"Wherever you are, \"Lawaen\" is your companion: hotels, restaurants, cafes, shops, museums, historical sites... offers and advertisements... comprehensive and constantly updated information.",
+  "next":"Next",
+  "onBoardingTitle":"Let's get started"
 }

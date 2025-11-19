@@ -18,6 +18,7 @@ class PrimaryButton extends StatelessWidget {
     this.onPressed,
     this.borederColor,
     this.withShadow = false,
+    this.shadowColor,
     super.key,
   });
 
@@ -33,6 +34,7 @@ class PrimaryButton extends StatelessWidget {
   final Color? backgroundColor;
   final Color? borederColor;
   final bool? withShadow;
+  final Color? shadowColor;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -50,7 +52,7 @@ class PrimaryButton extends StatelessWidget {
           boxShadow: withShadow == true
               ? [
                   BoxShadow(
-                    color: ColorManager.black.withValues(alpha: .25),
+                    color: shadowColor ?? ColorManager.black.withValues(alpha: .25),
                     blurRadius: 4.r,
                     offset: const Offset(0, 4),
                   ),

@@ -15,6 +15,7 @@ class ImageManager {
   static const String mune = "${imagePath}mune_card.png";
   static const String addMap = "${imagePath}add_map.png";
   static const String offers = "${imagePath}offers.png";
+  static const String onboarding = "${imagePath}onboarding.png";
 }
 
 class IconManager {
