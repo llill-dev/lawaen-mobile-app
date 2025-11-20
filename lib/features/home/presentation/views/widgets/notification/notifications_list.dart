@@ -24,8 +24,8 @@ class NotificationsList extends StatelessWidget {
                   top: 15,
                   right: 15,
                   child: Container(
-                    width: 10.w,
-                    height: 10.w,
+                    width: 10,
+                    height: 10,
                     decoration: BoxDecoration(color: ColorManager.orange, shape: BoxShape.circle),
                   ),
                 ),

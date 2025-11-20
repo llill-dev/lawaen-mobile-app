@@ -23,10 +23,10 @@ class HomeAppBar extends StatelessWidget {
           CustomTextField(
             hint: LocaleKeys.homeSearchBarHit.tr(),
             hitStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.grey),
-            prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 8.w),
+            prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 12),
             fillColor: Colors.white,
-            horizontalContentPadding: 16.w,
-            verticalContentPadding: 12.h,
+            horizontalContentPadding: 16,
+            verticalContentPadding: 12,
             borderRadius: 16.0,
           ),
         ],

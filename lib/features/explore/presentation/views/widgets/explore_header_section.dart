@@ -45,8 +45,11 @@ class ExploreHeaderSection extends StatelessWidget {
               hint: LocaleKeys.search_for_places_and_services.tr(),
               fillColor: ColorManager.blackSwatch[3],
               borderColor: ColorManager.blackSwatch[3],
-              verticalContentPadding: 14.h,
-              prefixIcon: Padding(padding: const EdgeInsets.all(8.0), child: SvgPicture.asset(IconManager.search)),
+              verticalContentPadding: 14,
+              prefixIcon: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 12.h),
+                child: SvgPicture.asset(IconManager.search),
+              ),
             ),
             16.verticalSpace,
             RecentSearch(),

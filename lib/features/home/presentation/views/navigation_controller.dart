@@ -116,7 +116,7 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
                     _isFabOpen ? Icons.close : Icons.add,
                     key: ValueKey(_isFabOpen),
                     color: ColorManager.white,
-                    size: 40.w,
+                    size: 40,
                   ),
                 ),
               ),
