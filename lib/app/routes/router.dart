@@ -10,6 +10,8 @@ class AppRouter extends RootStackRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(page: SplashRoute.page, initial: true),
+
+    // Home
     AutoRoute(page: HomeRoute.page),
     AutoRoute(page: NavigationControllerRoute.page),
     AutoRoute(page: NotificationRoute.page),
@@ -20,6 +22,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: MuneRoute.page),
     AutoRoute(page: FeedbackRoute.page),
     AutoRoute(page: FeedbackChatRoute.page),
+
+    // Add
     AutoRoute(page: AddRoute.page),
     AutoRoute(page: AddEventRoute.page),
     AutoRoute(page: AddClassifiedRoute.page),
@@ -27,9 +31,16 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ServicesManagerRoute.page),
     AutoRoute(page: MuneManagerRoute.page),
     AutoRoute(page: ClaimRoute.page),
+
+    // Events
     AutoRoute(page: EventsDetailsRoute.page),
+
+    // Onboarding
     AutoRoute(page: OnboardingRoute.page),
+
+    // Auth
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: RegisterRoute.page),
+    AutoRoute(page: QrCodeRoute.page),
   ];
 }

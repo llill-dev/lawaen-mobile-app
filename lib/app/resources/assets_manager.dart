@@ -17,6 +17,8 @@ class ImageManager {
   static const String offers = "${imagePath}offers.png";
   static const String onboarding = "${imagePath}onboarding.png";
   static const String profile = "${imagePath}profile_image.png";
+  static const String qrCodeTop = "${imagePath}qr_code_top.png";
+  static const String qrCodeBottom = "${imagePath}qr_code_bottom.png";
 }
 
 class IconManager {
@@ -29,16 +31,19 @@ class IconManager {
   static const String send = "${iconPath}send.svg";
   static const String phone = "${iconPath}phone.svg";
   static const String star = "${iconPath}star.svg";
+  //bottom nav bar
   static const String home = "${iconPath}home_nav_bar.svg";
   static const String homeFill = "${iconPath}home_nav_bar_fill.svg";
   static const String explore = "${iconPath}explore_nav_bar.svg";
   static const String exploreFill = "${iconPath}explore_nav_bar_fill.svg";
   static const String offers = "${iconPath}offers_nav_bar.svg";
   static const String offersFill = "${iconPath}offers_nav_bar_fill.svg";
-  static const String profile = "${iconPath}profile_nav_bar.svg";
-  static const String profileFill = "${iconPath}profile_nav_bar_fill.svg";
   static const String events = "${iconPath}events_nav_bar.svg";
   static const String eventsFill = "${iconPath}events_nav_bar_fill.svg";
+  static const String nearby = "${iconPath}nearby.svg";
+  //
+  static const String profile = "${iconPath}profile_nav_bar.svg";
+  static const String profileFill = "${iconPath}profile_nav_bar_fill.svg";
   static const String discount = "${iconPath}discount.svg";
   static const String check = "${iconPath}check.svg";
   static const String clock = "${iconPath}clock.svg";
@@ -61,6 +66,7 @@ class IconManager {
   static const String insta = "${iconPath}insta.svg";
   static const String whatsApp = "${iconPath}whatsaap.svg";
   static const String phoneIcon = "${iconPath}phone_icon.svg";
+  static const String heart = "${iconPath}heart.svg";
 }
 
 class JsonManager {

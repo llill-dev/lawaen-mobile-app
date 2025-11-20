@@ -145,5 +145,8 @@
   "next":"Next",
   "onBoardingTitle":"Let's get started",
   "alreadyHaveAccount":"Already have an account?",
-  "uploadProfileImage":"Upload Profile Image"
+  "uploadProfileImage":"Upload Profile Image",
+  "yourQR":"Your QR",
+  "thankYou":"Thank You",
+  "nearby":"Nearby"
 }

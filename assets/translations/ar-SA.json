@@ -145,5 +145,8 @@
   "onBoardingTitle":"لنبدأ الآن",
   "next":"التالي",
   "alreadyHaveAccount":"لديك حساب بالفعل؟",
-  "uploadProfileImage" : "قم بتحميل صورة ملفك الشخصي"
+  "uploadProfileImage" : "قم بتحميل صورة ملفك الشخصي",
+  "yourQR":" الكود الخاص بك",
+  "thankYou":"شكراً لك",
+  "nearby":"قريب"
 }

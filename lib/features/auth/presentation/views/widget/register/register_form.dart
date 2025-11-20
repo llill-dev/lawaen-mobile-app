@@ -87,7 +87,7 @@ class _RegisterFormState extends State<RegisterForm> with FormStateMixin {
             text: LocaleKeys.signIn.tr(),
             onPressed: () {
               //if (form.key.currentState!.validate()) {}
-              context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
+              context.router.pushAndPopUntil(QrCodeRoute(), predicate: (route) => false);
             },
             height: 40.h,
           ),

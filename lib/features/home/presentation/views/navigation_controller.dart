@@ -37,7 +37,7 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
   @override
   void initState() {
     super.initState();
-    _pages = [HomeScreen(), ExploreScreen(), OffersScreen(), EventsScreen(), Container()];
+    _pages = [HomeScreen(), ExploreScreen(), Container(), OffersScreen(), EventsScreen()];
 
     _currentIndex = widget.initialIndex.clamp(0, _pages.length - 1);
 
@@ -149,17 +149,17 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
     final icons = [
       [IconManager.homeFill, IconManager.home],
       [IconManager.exploreFill, IconManager.explore],
+      [IconManager.nearby, IconManager.nearby],
       [IconManager.offersFill, IconManager.offers],
       [IconManager.eventsFill, IconManager.events],
-      [IconManager.profileFill, IconManager.profile],
     ];
 
     final titles = [
       LocaleKeys.home.tr(),
       LocaleKeys.explore.tr(),
+      LocaleKeys.nearby.tr(),
       LocaleKeys.offers.tr(),
       LocaleKeys.events.tr(),
-      LocaleKeys.profile.tr(),
     ];
 
     return GestureDetector(
@@ -170,7 +170,11 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
         fit: BoxFit.contain,
         child: Column(
           children: [
-            SvgPicture.asset(isSelected ? icons[index][0] : icons[index][1], width: 20.w),
+            SvgPicture.asset(
+              isSelected ? icons[index][0] : icons[index][1],
+              width: 20.w,
+              colorFilter: isSelected ? ColorFilter.mode(ColorManager.primary, BlendMode.srcIn) : null,
+            ),
             6.verticalSpace,
             Text(
               titles[index],

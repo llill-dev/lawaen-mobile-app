@@ -9,8 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i24;
-import 'package:flutter/material.dart' as _i25;
+import 'package:auto_route/auto_route.dart' as _i25;
+import 'package:flutter/material.dart' as _i26;
 import 'package:lawaen/features/add_to_app/presentation/views/add_classified_screen.dart'
     as _i1;
 import 'package:lawaen/features/add_to_app/presentation/views/add_event_screen.dart'
@@ -24,11 +24,13 @@ import 'package:lawaen/features/add_to_app/presentation/views/claim_screen.dart'
 import 'package:lawaen/features/add_to_app/presentation/views/mune_manager_screen.dart'
     as _i14;
 import 'package:lawaen/features/add_to_app/presentation/views/services_manager_screen.dart'
-    as _i22;
+    as _i23;
 import 'package:lawaen/features/auth/presentation/views/login_screen.dart'
     as _i13;
-import 'package:lawaen/features/auth/presentation/views/register_screen.dart'
+import 'package:lawaen/features/auth/presentation/views/qr_code_screen.dart'
     as _i21;
+import 'package:lawaen/features/auth/presentation/views/register_screen.dart'
+    as _i22;
 import 'package:lawaen/features/events/presentation/views/events_details_screen.dart'
     as _i9;
 import 'package:lawaen/features/home/presentation/views/category_details_screen.dart'
@@ -56,17 +58,17 @@ import 'package:lawaen/features/offers/presentation/views/offers_screen.dart'
 import 'package:lawaen/features/onboarding/presentation/views/onboarding_screen.dart'
     as _i20;
 import 'package:lawaen/features/splash/presentation/views/splash_screen.dart'
-    as _i23;
+    as _i24;
 
 /// generated route for
 /// [_i1.AddClassifiedScreen]
-class AddClassifiedRoute extends _i24.PageRouteInfo<void> {
-  const AddClassifiedRoute({List<_i24.PageRouteInfo>? children})
+class AddClassifiedRoute extends _i25.PageRouteInfo<void> {
+  const AddClassifiedRoute({List<_i25.PageRouteInfo>? children})
     : super(AddClassifiedRoute.name, initialChildren: children);
 
   static const String name = 'AddClassifiedRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i1.AddClassifiedScreen();
@@ -76,13 +78,13 @@ class AddClassifiedRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.AddEventScreen]
-class AddEventRoute extends _i24.PageRouteInfo<void> {
-  const AddEventRoute({List<_i24.PageRouteInfo>? children})
+class AddEventRoute extends _i25.PageRouteInfo<void> {
+  const AddEventRoute({List<_i25.PageRouteInfo>? children})
     : super(AddEventRoute.name, initialChildren: children);
 
   static const String name = 'AddEventRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i2.AddEventScreen();
@@ -92,13 +94,13 @@ class AddEventRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.AddMissingPlaceScreen]
-class AddMissingPlaceRoute extends _i24.PageRouteInfo<void> {
-  const AddMissingPlaceRoute({List<_i24.PageRouteInfo>? children})
+class AddMissingPlaceRoute extends _i25.PageRouteInfo<void> {
+  const AddMissingPlaceRoute({List<_i25.PageRouteInfo>? children})
     : super(AddMissingPlaceRoute.name, initialChildren: children);
 
   static const String name = 'AddMissingPlaceRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i3.AddMissingPlaceScreen();
@@ -108,13 +110,13 @@ class AddMissingPlaceRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.AddScreen]
-class AddRoute extends _i24.PageRouteInfo<void> {
-  const AddRoute({List<_i24.PageRouteInfo>? children})
+class AddRoute extends _i25.PageRouteInfo<void> {
+  const AddRoute({List<_i25.PageRouteInfo>? children})
     : super(AddRoute.name, initialChildren: children);
 
   static const String name = 'AddRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i4.AddScreen();
@@ -124,13 +126,13 @@ class AddRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.CategoryDetailsScreen]
-class CategoryDetailsRoute extends _i24.PageRouteInfo<void> {
-  const CategoryDetailsRoute({List<_i24.PageRouteInfo>? children})
+class CategoryDetailsRoute extends _i25.PageRouteInfo<void> {
+  const CategoryDetailsRoute({List<_i25.PageRouteInfo>? children})
     : super(CategoryDetailsRoute.name, initialChildren: children);
 
   static const String name = 'CategoryDetailsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i5.CategoryDetailsScreen();
@@ -140,13 +142,13 @@ class CategoryDetailsRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.CategoryItemDetialsScreen]
-class CategoryItemDetialsRoute extends _i24.PageRouteInfo<void> {
-  const CategoryItemDetialsRoute({List<_i24.PageRouteInfo>? children})
+class CategoryItemDetialsRoute extends _i25.PageRouteInfo<void> {
+  const CategoryItemDetialsRoute({List<_i25.PageRouteInfo>? children})
     : super(CategoryItemDetialsRoute.name, initialChildren: children);
 
   static const String name = 'CategoryItemDetialsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i6.CategoryItemDetialsScreen();
@@ -156,13 +158,13 @@ class CategoryItemDetialsRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i7.CategoryScreen]
-class CategoryRoute extends _i24.PageRouteInfo<void> {
-  const CategoryRoute({List<_i24.PageRouteInfo>? children})
+class CategoryRoute extends _i25.PageRouteInfo<void> {
+  const CategoryRoute({List<_i25.PageRouteInfo>? children})
     : super(CategoryRoute.name, initialChildren: children);
 
   static const String name = 'CategoryRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i7.CategoryScreen();
@@ -172,13 +174,13 @@ class CategoryRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.ClaimScreen]
-class ClaimRoute extends _i24.PageRouteInfo<void> {
-  const ClaimRoute({List<_i24.PageRouteInfo>? children})
+class ClaimRoute extends _i25.PageRouteInfo<void> {
+  const ClaimRoute({List<_i25.PageRouteInfo>? children})
     : super(ClaimRoute.name, initialChildren: children);
 
   static const String name = 'ClaimRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i8.ClaimScreen();
@@ -188,13 +190,13 @@ class ClaimRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.EventsDetailsScreen]
-class EventsDetailsRoute extends _i24.PageRouteInfo<void> {
-  const EventsDetailsRoute({List<_i24.PageRouteInfo>? children})
+class EventsDetailsRoute extends _i25.PageRouteInfo<void> {
+  const EventsDetailsRoute({List<_i25.PageRouteInfo>? children})
     : super(EventsDetailsRoute.name, initialChildren: children);
 
   static const String name = 'EventsDetailsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i9.EventsDetailsScreen();
@@ -204,13 +206,13 @@ class EventsDetailsRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.FeedbackChatScreen]
-class FeedbackChatRoute extends _i24.PageRouteInfo<void> {
-  const FeedbackChatRoute({List<_i24.PageRouteInfo>? children})
+class FeedbackChatRoute extends _i25.PageRouteInfo<void> {
+  const FeedbackChatRoute({List<_i25.PageRouteInfo>? children})
     : super(FeedbackChatRoute.name, initialChildren: children);
 
   static const String name = 'FeedbackChatRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i10.FeedbackChatScreen();
@@ -220,13 +222,13 @@ class FeedbackChatRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i11.FeedbackScreen]
-class FeedbackRoute extends _i24.PageRouteInfo<void> {
-  const FeedbackRoute({List<_i24.PageRouteInfo>? children})
+class FeedbackRoute extends _i25.PageRouteInfo<void> {
+  const FeedbackRoute({List<_i25.PageRouteInfo>? children})
     : super(FeedbackRoute.name, initialChildren: children);
 
   static const String name = 'FeedbackRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i11.FeedbackScreen();
@@ -236,13 +238,13 @@ class FeedbackRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.HomeScreen]
-class HomeRoute extends _i24.PageRouteInfo<void> {
-  const HomeRoute({List<_i24.PageRouteInfo>? children})
+class HomeRoute extends _i25.PageRouteInfo<void> {
+  const HomeRoute({List<_i25.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i12.HomeScreen();
@@ -252,13 +254,13 @@ class HomeRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i13.LoginScreen]
-class LoginRoute extends _i24.PageRouteInfo<void> {
-  const LoginRoute({List<_i24.PageRouteInfo>? children})
+class LoginRoute extends _i25.PageRouteInfo<void> {
+  const LoginRoute({List<_i25.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i13.LoginScreen();
@@ -268,13 +270,13 @@ class LoginRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i14.MuneManagerScreen]
-class MuneManagerRoute extends _i24.PageRouteInfo<void> {
-  const MuneManagerRoute({List<_i24.PageRouteInfo>? children})
+class MuneManagerRoute extends _i25.PageRouteInfo<void> {
+  const MuneManagerRoute({List<_i25.PageRouteInfo>? children})
     : super(MuneManagerRoute.name, initialChildren: children);
 
   static const String name = 'MuneManagerRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i14.MuneManagerScreen();
@@ -284,13 +286,13 @@ class MuneManagerRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i15.MuneScreen]
-class MuneRoute extends _i24.PageRouteInfo<void> {
-  const MuneRoute({List<_i24.PageRouteInfo>? children})
+class MuneRoute extends _i25.PageRouteInfo<void> {
+  const MuneRoute({List<_i25.PageRouteInfo>? children})
     : super(MuneRoute.name, initialChildren: children);
 
   static const String name = 'MuneRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i15.MuneScreen();
@@ -301,11 +303,11 @@ class MuneRoute extends _i24.PageRouteInfo<void> {
 /// generated route for
 /// [_i16.NavigationControllerScreen]
 class NavigationControllerRoute
-    extends _i24.PageRouteInfo<NavigationControllerRouteArgs> {
+    extends _i25.PageRouteInfo<NavigationControllerRouteArgs> {
   NavigationControllerRoute({
-    _i25.Key? key,
+    _i26.Key? key,
     int initialIndex = 0,
-    List<_i24.PageRouteInfo>? children,
+    List<_i25.PageRouteInfo>? children,
   }) : super(
          NavigationControllerRoute.name,
          args: NavigationControllerRouteArgs(
@@ -317,7 +319,7 @@ class NavigationControllerRoute
 
   static const String name = 'NavigationControllerRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<NavigationControllerRouteArgs>(
@@ -334,7 +336,7 @@ class NavigationControllerRoute
 class NavigationControllerRouteArgs {
   const NavigationControllerRouteArgs({this.key, this.initialIndex = 0});
 
-  final _i25.Key? key;
+  final _i26.Key? key;
 
   final int initialIndex;
 
@@ -356,13 +358,13 @@ class NavigationControllerRouteArgs {
 
 /// generated route for
 /// [_i17.NotificationDetailsScreen]
-class NotificationDetailsRoute extends _i24.PageRouteInfo<void> {
-  const NotificationDetailsRoute({List<_i24.PageRouteInfo>? children})
+class NotificationDetailsRoute extends _i25.PageRouteInfo<void> {
+  const NotificationDetailsRoute({List<_i25.PageRouteInfo>? children})
     : super(NotificationDetailsRoute.name, initialChildren: children);
 
   static const String name = 'NotificationDetailsRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i17.NotificationDetailsScreen();
@@ -372,13 +374,13 @@ class NotificationDetailsRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.NotificationScreen]
-class NotificationRoute extends _i24.PageRouteInfo<void> {
-  const NotificationRoute({List<_i24.PageRouteInfo>? children})
+class NotificationRoute extends _i25.PageRouteInfo<void> {
+  const NotificationRoute({List<_i25.PageRouteInfo>? children})
     : super(NotificationRoute.name, initialChildren: children);
 
   static const String name = 'NotificationRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i18.NotificationScreen();
@@ -388,8 +390,8 @@ class NotificationRoute extends _i24.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i19.OffersScreen]
-class OffersRoute extends _i24.PageRouteInfo<OffersRouteArgs> {
-  OffersRoute({_i25.Key? key, List<_i24.PageRouteInfo>? children})
+class OffersRoute extends _i25.PageRouteInfo<OffersRouteArgs> {
+  OffersRoute({_i26.Key? key, List<_i25.PageRouteInfo>? children})
     : super(
         OffersRoute.name,
         args: OffersRouteArgs(key: key),
@@ -398,7 +400,7 @@ class OffersRoute extends _i24.PageRouteInfo<OffersRouteArgs> {
 
   static const String name = 'OffersRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<OffersRouteArgs>(
@@ -412,7 +414,7 @@ class OffersRoute extends _i24.PageRouteInfo<OffersRouteArgs> {
 class OffersRouteArgs {
   const OffersRouteArgs({this.key});
 
-  final _i25.Key? key;
+  final _i26.Key? key;
 
   @override
   String toString() {
@@ -432,13 +434,13 @@ class OffersRouteArgs {
 
 /// generated route for
 /// [_i20.OnboardingScreen]
-class OnboardingRoute extends _i24.PageRouteInfo<void> {
-  const OnboardingRoute({List<_i24.PageRouteInfo>? children})
+class OnboardingRoute extends _i25.PageRouteInfo<void> {
+  const OnboardingRoute({List<_i25.PageRouteInfo>? children})
     : super(OnboardingRoute.name, initialChildren: children);
 
   static const String name = 'OnboardingRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
       return const _i20.OnboardingScreen();
@@ -447,49 +449,65 @@ class OnboardingRoute extends _i24.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i21.RegisterScreen]
-class RegisterRoute extends _i24.PageRouteInfo<void> {
-  const RegisterRoute({List<_i24.PageRouteInfo>? children})
+/// [_i21.QrCodeScreen]
+class QrCodeRoute extends _i25.PageRouteInfo<void> {
+  const QrCodeRoute({List<_i25.PageRouteInfo>? children})
+    : super(QrCodeRoute.name, initialChildren: children);
+
+  static const String name = 'QrCodeRoute';
+
+  static _i25.PageInfo page = _i25.PageInfo(
+    name,
+    builder: (data) {
+      return const _i21.QrCodeScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i22.RegisterScreen]
+class RegisterRoute extends _i25.PageRouteInfo<void> {
+  const RegisterRoute({List<_i25.PageRouteInfo>? children})
     : super(RegisterRoute.name, initialChildren: children);
 
   static const String name = 'RegisterRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i21.RegisterScreen();
+      return const _i22.RegisterScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i22.ServicesManagerScreen]
-class ServicesManagerRoute extends _i24.PageRouteInfo<void> {
-  const ServicesManagerRoute({List<_i24.PageRouteInfo>? children})
+/// [_i23.ServicesManagerScreen]
+class ServicesManagerRoute extends _i25.PageRouteInfo<void> {
+  const ServicesManagerRoute({List<_i25.PageRouteInfo>? children})
     : super(ServicesManagerRoute.name, initialChildren: children);
 
   static const String name = 'ServicesManagerRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i22.ServicesManagerScreen();
+      return const _i23.ServicesManagerScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i23.SplashScreen]
-class SplashRoute extends _i24.PageRouteInfo<void> {
-  const SplashRoute({List<_i24.PageRouteInfo>? children})
+/// [_i24.SplashScreen]
+class SplashRoute extends _i25.PageRouteInfo<void> {
+  const SplashRoute({List<_i25.PageRouteInfo>? children})
     : super(SplashRoute.name, initialChildren: children);
 
   static const String name = 'SplashRoute';
 
-  static _i24.PageInfo page = _i24.PageInfo(
+  static _i25.PageInfo page = _i25.PageInfo(
     name,
     builder: (data) {
-      return const _i23.SplashScreen();
+      return const _i24.SplashScreen();
     },
   );
 }
