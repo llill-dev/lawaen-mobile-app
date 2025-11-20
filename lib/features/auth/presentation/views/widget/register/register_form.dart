@@ -10,17 +10,17 @@ import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/auth_text_field_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-class LoginForm extends StatefulWidget {
-  const LoginForm({super.key});
+class RegisterForm extends StatefulWidget {
+  const RegisterForm({super.key});
 
   @override
-  State<LoginForm> createState() => _LoginFormState();
+  State<RegisterForm> createState() => _RegisterFormState();
 }
 
-class _LoginFormState extends State<LoginForm> with FormStateMixin {
+class _RegisterFormState extends State<RegisterForm> with FormStateMixin {
   @override
   int numberOfFields() {
-    return 3;
+    return 4;
   }
 
   @override
@@ -56,7 +56,31 @@ class _LoginFormState extends State<LoginForm> with FormStateMixin {
             prefixIcon: Icons.lock_outlined,
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(errorText: LocaleKeys.fieldRequired.tr()),
+              FormBuilderValidators.password(
+                minUppercaseCount: 1,
+                minLowercaseCount: 1,
+                minSpecialCharCount: 1,
+                minNumberCount: 1,
+                minLength: 8,
+                errorText: LocaleKeys.passwordMustBe8Chars.tr(),
+              ),
             ]),
+          ),
+          12.verticalSpace,
+          AuthTextFieldItem(
+            controller: form.controllers[3],
+            title: LocaleKeys.confirmPassword.tr(),
+            hint: LocaleKeys.enterYourPassword.tr(),
+            prefixIcon: Icons.lock_outlined,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return LocaleKeys.fieldRequired.tr();
+              }
+              if (value != form.controllers[2].text) {
+                return LocaleKeys.passwordsDoNotMatch.tr();
+              }
+              return null;
+            },
           ),
           32.verticalSpace,
           PrimaryButton(

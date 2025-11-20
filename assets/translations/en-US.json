@@ -143,5 +143,7 @@
   "recent_search": "Recent Search",
   "onBoardingMessage":"Wherever you are, \"Lawaen\" is your companion: hotels, restaurants, cafes, shops, museums, historical sites... offers and advertisements... comprehensive and constantly updated information.",
   "next":"Next",
-  "onBoardingTitle":"Let's get started"
+  "onBoardingTitle":"Let's get started",
+  "alreadyHaveAccount":"Already have an account?",
+  "uploadProfileImage":"Upload Profile Image"
 }
