@@ -152,5 +152,9 @@
   "savedPlace":"الاماكن المحفوظة",
   "reatings":"التقييمات",
   "contactUs":"تواصل معنا",
-  "notifications":"الإشعارات"
+  "notifications":"الإشعارات",
+  "settings":"الاعدادات",
+  "helpSupport":"الدعم والمساعدة",
+  "aboutApp":"عن التطبيق",
+  "deleteAccount":"حذف الحساب"
 }

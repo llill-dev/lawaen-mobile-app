@@ -73,6 +73,14 @@ class IconManager {
   static const String retings = "${iconPath}profile_retings.svg";
   static const String contactUs = "${iconPath}contact_us.svg";
   static const String qrCodeProfile = "${iconPath}qr_code_profile.svg";
+  static const String claimProfile = "${iconPath}claim_profile.svg";
+  static const String deleteAccount = "${iconPath}delete_account.svg";
+  static const String help = "${iconPath}help.svg";
+  static const String languages = "${iconPath}languages.svg";
+  static const String privacy = "${iconPath}privacy.svg";
+  static const String terms = "${iconPath}terms.svg";
+  static const String about = "${iconPath}about.svg";
+  static const String logout = "${iconPath}logout.svg";
 }
 
 class JsonManager {

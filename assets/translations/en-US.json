@@ -152,5 +152,9 @@
   "savedPlace":"Saved Place",
   "reatings":"Reatings",
   "contactUs":"Contact Us",
-  "notifications":"Notifications"
+  "notifications":"Notifications",
+  "settings":"Settings",
+  "helpSupport":"Help & support",
+  "aboutApp":"About App",
+  "deleteAccount":"Delete Account"
 }
