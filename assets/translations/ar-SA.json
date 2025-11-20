@@ -148,5 +148,9 @@
   "uploadProfileImage" : "قم بتحميل صورة ملفك الشخصي",
   "yourQR":" الكود الخاص بك",
   "thankYou":"شكراً لك",
-  "nearby":"قريب"
+  "nearby":"قريب",
+  "savedPlace":"الاماكن المحفوظة",
+  "reatings":"التقييمات",
+  "contactUs":"تواصل معنا",
+  "notifications":"الإشعارات"
 }

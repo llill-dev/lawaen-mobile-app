@@ -67,6 +67,12 @@ class IconManager {
   static const String whatsApp = "${iconPath}whatsaap.svg";
   static const String phoneIcon = "${iconPath}phone_icon.svg";
   static const String heart = "${iconPath}heart.svg";
+
+  //profile
+  static const String saved = "${iconPath}saved.svg";
+  static const String retings = "${iconPath}profile_retings.svg";
+  static const String contactUs = "${iconPath}contact_us.svg";
+  static const String qrCodeProfile = "${iconPath}qr_code_profile.svg";
 }
 
 class JsonManager {

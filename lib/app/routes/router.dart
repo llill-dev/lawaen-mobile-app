@@ -42,5 +42,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: RegisterRoute.page),
     AutoRoute(page: QrCodeRoute.page),
+
+    // Profile
+    AutoRoute(page: ProfileRoute.page),
   ];
 }

@@ -5,12 +5,13 @@ import '../../../../../../app/resources/color_manager.dart';
 
 class HomeAppBarContainer extends StatelessWidget {
   final Widget child;
-  const HomeAppBarContainer({super.key, required this.child});
+  final EdgeInsetsGeometry? padding;
+  const HomeAppBarContainer({super.key, required this.child, this.padding});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: ColorManager.homeAppBarGradient,

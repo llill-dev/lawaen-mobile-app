@@ -148,5 +148,9 @@
   "uploadProfileImage":"Upload Profile Image",
   "yourQR":"Your QR",
   "thankYou":"Thank You",
-  "nearby":"Nearby"
+  "nearby":"Nearby",
+  "savedPlace":"Saved Place",
+  "reatings":"Reatings",
+  "contactUs":"Contact Us",
+  "notifications":"Notifications"
 }

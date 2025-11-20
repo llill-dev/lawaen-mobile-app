@@ -18,17 +18,33 @@ class HomeAppBarHeaderSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Image.asset(ImageManager.logo),
-            if (showNotificationIcon)
-              CircleAvatar(
-                backgroundColor: Colors.white.withValues(alpha: 0.2),
-
-                child: IconButton(
-                  icon: SvgPicture.asset(IconManager.notification),
-                  onPressed: () {
-                    context.router.push(NotificationRoute());
-                  },
+            Row(
+              children: [
+                if (showNotificationIcon)
+                  CircleAvatar(
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                    child: IconButton(
+                      icon: SvgPicture.asset(IconManager.notification),
+                      onPressed: () {
+                        context.router.push(NotificationRoute());
+                      },
+                    ),
+                  ),
+                6.horizontalSpace,
+                CircleAvatar(
+                  backgroundColor: Colors.white.withValues(alpha: 0.2),
+                  child: IconButton(
+                    icon: SvgPicture.asset(
+                      IconManager.profile,
+                      colorFilter: ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                    ),
+                    onPressed: () {
+                      context.router.push(ProfileRoute());
+                    },
+                  ),
                 ),
-              ),
+              ],
+            ),
           ],
         ),
         SizedBox(height: 12.h),
