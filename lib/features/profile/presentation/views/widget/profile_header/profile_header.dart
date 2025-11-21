@@ -13,30 +13,33 @@ class ProfileHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          Stack(
-            clipBehavior: Clip.none,
-            children: [
-              HomeAppBarContainer(
-                padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 24.h, bottom: 70.h),
-                child: ProfileUserInfo(),
+      child: SizedBox(
+        height: 280.h,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned.fill(
+              top: 0,
+              bottom: 120.h,
+              child: HomeAppBarContainer(
+                padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 24.h, bottom: 75.h),
+                child: const ProfileUserInfo(),
               ),
-              Positioned(
-                bottom: -120.h,
-                left: 0,
-                right: 0,
-                child: Stack(
-                  children: [
-                    ProfileSectionsGrid().horizontalPadding(padding: 16.w),
-                    Positioned(left: 50.w, right: 50.w, top: 40.h, child: SvgPicture.asset(IconManager.qrCodeProfile)),
-                  ],
-                ),
+            ),
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Stack(
+                clipBehavior: Clip.none,
+                children: [
+                  ProfileSectionsGrid().horizontalPadding(padding: 16.w),
+                  Positioned(left: 50.w, right: 50.w, top: 40.h, child: SvgPicture.asset(IconManager.qrCodeProfile)),
+                ],
               ),
-            ],
-          ),
-          SizedBox(height: 130.h),
-        ],
+            ),
+          ],
+        ),
       ),
     );
   }
