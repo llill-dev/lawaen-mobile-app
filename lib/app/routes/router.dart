@@ -45,5 +45,6 @@ class AppRouter extends RootStackRouter {
 
     // Profile
     AutoRoute(page: ProfileRoute.page),
+    AutoRoute(page: RatingsRoute.page),
   ];
 }

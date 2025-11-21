@@ -8,11 +8,13 @@ class GridAndListButtonsWithTitle extends StatelessWidget {
   final bool isGridView;
   final ValueChanged<bool> onViewModeChanged;
   final String title;
+  final bool withBackButton;
   const GridAndListButtonsWithTitle({
     super.key,
     required this.isGridView,
     required this.onViewModeChanged,
     required this.title,
+    this.withBackButton = false,
   });
 
   @override
@@ -20,7 +22,19 @@ class GridAndListButtonsWithTitle extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 24)),
+        if (withBackButton)
+          Row(
+            children: [
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Icon(Icons.arrow_back, color: ColorManager.black),
+              ),
+              18.horizontalSpace,
+              Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 24)),
+            ],
+          )
+        else
+          Text(title, style: Theme.of(context).textTheme.bodyMedium!.copyWith(fontSize: 24)),
         Row(
           children: [
             buildDisplayIcon(isSelected: isGridView, icon: IconManager.gridIcon, onTap: () => onViewModeChanged(true)),

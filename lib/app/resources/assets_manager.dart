@@ -19,6 +19,7 @@ class ImageManager {
   static const String profile = "${imagePath}profile_image.png";
   static const String qrCodeTop = "${imagePath}qr_code_top.png";
   static const String qrCodeBottom = "${imagePath}qr_code_bottom.png";
+  static const String ratings = "${imagePath}ratings.png";
 }
 
 class IconManager {
