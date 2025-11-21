@@ -18,7 +18,7 @@ class ProfileSectionsGrid extends StatelessWidget {
         title: LocaleKeys.savedPlace.tr(),
         subtitle: "12 Items",
         icon: IconManager.saved,
-        onTap: () {},
+        onTap: () => context.pushRoute(FavoritesRoute()),
       ),
       _ProfileSectionData(
         title: LocaleKeys.reatings.tr(),
@@ -30,14 +30,19 @@ class ProfileSectionsGrid extends StatelessWidget {
         title: LocaleKeys.contactUs.tr(),
         subtitle: "8 Items",
         icon: IconManager.contactUs,
-        onTap: () {},
+        onTap: () {
+          print('ekskfkds');
+        },
       ),
       _ProfileSectionData(
         title: LocaleKeys.notifications.tr(),
         subtitle: "3 Items",
         icon: IconManager.notification,
         notification: true,
-        onTap: () {},
+        onTap: () {
+          print('ekskfkds');
+          context.pushRoute(NotificationRoute());
+        },
       ),
     ];
     return LayoutBuilder(

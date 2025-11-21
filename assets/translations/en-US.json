@@ -156,5 +156,6 @@
   "settings":"Settings",
   "helpSupport":"Help & support",
   "aboutApp":"About App",
-  "deleteAccount":"Delete Account"
+  "deleteAccount":"Delete Account",
+  "favorites":"Favorites"
 }
