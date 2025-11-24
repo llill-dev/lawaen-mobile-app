@@ -47,5 +47,6 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: ProfileRoute.page),
     AutoRoute(page: RatingsRoute.page),
     AutoRoute(page: FavoritesRoute.page),
+    AutoRoute(page: ContactUsRoute.page),
   ];
 }
