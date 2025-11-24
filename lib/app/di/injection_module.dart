@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/config/configuration.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../routes/router.dart';
 
 const String applicationJson = "application/json";
-const String contentType = "content-type";
-const String accept = "accept";
+const String contentType = "Content-Type";
+const String accept = "Accept";
 const String authorization = "Authorization";
-const String language = "accept-language";
+const String language = "lang";
 
 @module
 abstract class InjectableModule {
@@ -19,24 +20,42 @@ abstract class InjectableModule {
   Future<SharedPreferences> get sharedPref => SharedPreferences.getInstance();
 
   @lazySingleton
-  Dio get dioInstance {
-    final dio = Dio();
-
-    final options = BaseOptions(
-      headers: {contentType: applicationJson, accept: applicationJson},
-      receiveTimeout: const Duration(seconds: 30),
-      sendTimeout: const Duration(seconds: 30),
-      connectTimeout: const Duration(seconds: 30),
-      validateStatus: (status) {
-        return status != null && ((status >= 200 && status < 300) || (status >= 400 && status <= 422));
-      },
+  Dio dioInstance(AppPreferences appPrefs, Configuration config) {
+    final dio = Dio(
+      BaseOptions(
+        baseUrl: config.getBaseUrl,
+        headers: {accept: applicationJson},
+        connectTimeout: const Duration(seconds: 30),
+        sendTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        validateStatus: (status) => status != null && status < 500,
+      ),
     );
 
-    dio.options = options;
+    dio.interceptors.add(
+      InterceptorsWrapper(
+        onRequest: (options, handler) {
+          final token = appPrefs.getString(prefsKey: "token");
+
+          if (token.isNotEmpty) {
+            options.headers[authorization] = "Bearer $token";
+          }
+
+          options.headers[language] = appPrefs.getAppLanguage();
+
+          final deviceId = appPrefs.getString(prefsKey: "device_id");
+          options.headers["x-device-id"] = deviceId;
+
+          options.headers.putIfAbsent(contentType, () => applicationJson);
+
+          handler.next(options);
+        },
+      ),
+    );
 
     if (!kReleaseMode) {
       dio.interceptors.add(
-        PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: true, request: true),
+        PrettyDioLogger(requestHeader: true, requestBody: true, responseHeader: false, responseBody: true),
       );
     }
 
