@@ -3,8 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/auth_gradient_container.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/custom_auth_container.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/custom_auth_image.dart';
@@ -18,6 +20,7 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authCubit = getIt<AuthCubit>();
     return Scaffold(
       body: AuthGradientContainer(
         child: SafeArea(
@@ -36,9 +39,9 @@ class RegisterScreen extends StatelessWidget {
                         style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.grey),
                       ),
                       24.verticalSpace,
-                      UploadProfileImage(),
+                      UploadProfileImage(authCubit: authCubit),
                       24.verticalSpace,
-                      RegisterForm(),
+                      RegisterForm(authCubit: authCubit),
                       12.verticalSpace,
                       PrimaryButton(
                         text: LocaleKeys.skip.tr(),

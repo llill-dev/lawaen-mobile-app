@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/config/configuration.dart';
+import 'package:lawaen/app/interceptor/auth_interceptor.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../routes/router.dart';
@@ -20,7 +21,7 @@ abstract class InjectableModule {
   Future<SharedPreferences> get sharedPref => SharedPreferences.getInstance();
 
   @lazySingleton
-  Dio dioInstance(AppPreferences appPrefs, Configuration config) {
+  Dio dioInstance(AppPreferences appPrefs, Configuration config, AuthInterceptor authInterceptor) {
     final dio = Dio(
       BaseOptions(
         baseUrl: config.getBaseUrl,
@@ -31,20 +32,17 @@ abstract class InjectableModule {
         validateStatus: (status) => status != null && status < 500,
       ),
     );
+    dio.interceptors.add(authInterceptor);
 
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          final token = appPrefs.getString(prefsKey: "token");
-
-          if (token.isNotEmpty) {
-            options.headers[authorization] = "Bearer $token";
-          }
-
           options.headers[language] = appPrefs.getAppLanguage();
 
           final deviceId = appPrefs.getString(prefsKey: "device_id");
-          options.headers["x-device-id"] = deviceId;
+          if (deviceId.isNotEmpty) {
+            options.headers["x-device-id"] = deviceId;
+          }
 
           options.headers.putIfAbsent(contentType, () => applicationJson);
 

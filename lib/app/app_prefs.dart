@@ -9,6 +9,7 @@ import 'resources/language_manager.dart';
 const String prefsLang = "lang";
 const String prefsGuest = "guest";
 const String prefsToken = "prefs_token";
+const String refreshToken = "refresh_token";
 
 @Injectable()
 class AppPreferences {
@@ -60,6 +61,7 @@ class AppPreferences {
   Future<void> logout() async {
     await _sharedPreferences.remove(prefsToken);
     await _sharedPreferences.remove(prefsGuest);
+    await _sharedPreferences.remove(refreshToken);
     await configureInjection(Environment.prod);
   }
 }

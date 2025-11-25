@@ -7,10 +7,12 @@ import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class UploadProfileImage extends StatefulWidget {
-  const UploadProfileImage({super.key});
+  final AuthCubit authCubit;
+  const UploadProfileImage({super.key, required this.authCubit});
 
   @override
   State<UploadProfileImage> createState() => _UploadProfileImageState();
@@ -29,6 +31,7 @@ class _UploadProfileImageState extends State<UploadProfileImage> {
       setState(() {
         _selectedImage = File(file.path);
       });
+      widget.authCubit.profileImage = _selectedImage;
     } catch (error) {
       debugPrint('Failed to select profile image: $error');
     }

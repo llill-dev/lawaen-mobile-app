@@ -9,6 +9,7 @@ class AuthTextFieldItem extends StatelessWidget {
   final IconData prefixIcon;
   final TextEditingController? controller;
   final String? Function(String?)? validator;
+  final bool? isFieldObscure;
   const AuthTextFieldItem({
     super.key,
     required this.title,
@@ -16,6 +17,7 @@ class AuthTextFieldItem extends StatelessWidget {
     required this.prefixIcon,
     this.controller,
     this.validator,
+    this.isFieldObscure,
   });
 
   @override
@@ -32,6 +34,7 @@ class AuthTextFieldItem extends StatelessWidget {
           borderColor: ColorManager.blackSwatch[3],
           verticalContentPadding: 12.h,
           hint: hint,
+          isFieldObscure: isFieldObscure ?? false,
           prefixIcon: Padding(
             padding: EdgeInsets.symmetric(horizontal: 12.w),
             child: Icon(prefixIcon, color: ColorManager.grey, size: 19.r),

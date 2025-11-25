@@ -1,1 +1,8 @@
-class Urls {}
+class Urls {
+  //auth
+  static const String _authPrefix = "auth";
+  static const String login = "$_authPrefix/login";
+  static const String register = "$_authPrefix/register";
+  static const String refreshToken = "$_authPrefix/refresh-token";
+  static const String changePassword = "$_authPrefix/change-password";
+}
