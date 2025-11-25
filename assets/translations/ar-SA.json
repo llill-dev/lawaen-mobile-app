@@ -157,5 +157,9 @@
   "helpSupport":"الدعم والمساعدة",
   "aboutApp":"عن التطبيق",
   "deleteAccount":"حذف الحساب",
-  "favorites":"المفضلة"
+  "favorites":"المفضلة",
+  "locationPermissionDialogTitle":"نحتاج إلى موقعك\nلعرض المعالم القريبة.",
+  "locationPermissionDialogMessage":"لا تقلق، نحن لا نتتبعك.\nنحن نستخدم موقعك فقط لتحميل المحتوى.",
+  "enableLocation":"تمكين الوصول للموقع",
+  "denyLocation":"رفض الوصول للموقع" 
 }

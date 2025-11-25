@@ -157,5 +157,9 @@
   "helpSupport":"Help & support",
   "aboutApp":"About App",
   "deleteAccount":"Delete Account",
-  "favorites":"Favorites"
+  "favorites":"Favorites",
+  "locationPermissionDialogTitle":"We need your location\nto show nearby attractions.",
+  "locationPermissionDialogMessage":"Don’t worry—we don’t track you.\nWe only use your location once to load content.",
+  "enableLocation":"Enable Location",
+  "denyLocation":"Deny Location"
 }

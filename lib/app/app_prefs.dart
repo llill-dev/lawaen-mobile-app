@@ -10,6 +10,9 @@ const String prefsLang = "lang";
 const String prefsGuest = "guest";
 const String prefsToken = "prefs_token";
 const String refreshToken = "refresh_token";
+const String prefsLat = "prefs_latitude";
+const String prefsLng = "prefs_longitude";
+const String prefsLocationTimestamp = "prefs_location_timestamp";
 
 @Injectable()
 class AppPreferences {
@@ -58,7 +61,18 @@ class AppPreferences {
     }
   }
 
+  Future<void> setDouble({required String prefsKey, required double value}) async {
+    await _sharedPreferences.setDouble(prefsKey, value);
+  }
+
+  double? getDouble({required String prefsKey}) {
+    return _sharedPreferences.getDouble(prefsKey);
+  }
+
   Future<void> logout() async {
+    await _sharedPreferences.remove(prefsLat);
+    await _sharedPreferences.remove(prefsLng);
+    await _sharedPreferences.remove(prefsLocationTimestamp);
     await _sharedPreferences.remove(prefsToken);
     await _sharedPreferences.remove(prefsGuest);
     await _sharedPreferences.remove(refreshToken);

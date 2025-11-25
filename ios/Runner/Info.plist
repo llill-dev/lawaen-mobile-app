@@ -47,5 +47,9 @@
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to your photo library to upload a profile image.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>We use your location to show nearby attractions and places.</string>
+
+
 </dict>
 </plist>

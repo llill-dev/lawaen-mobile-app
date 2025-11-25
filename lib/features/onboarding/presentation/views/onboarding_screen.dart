@@ -5,8 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
-import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
+import 'package:lawaen/features/onboarding/presentation/views/widgets/location_permssion_dialog.dart';
 
 @RoutePage()
 class OnboardingScreen extends StatelessWidget {
@@ -44,7 +44,7 @@ class OnboardingScreen extends StatelessWidget {
                 24.verticalSpace,
                 PrimaryButton(
                   text: LocaleKeys.next.tr(),
-                  onPressed: () => context.pushRoute(LoginRoute()),
+                  onPressed: () => _showLocationPermissionDialog(context),
                   textColor: ColorManager.black,
                   backgroundColor: ColorManager.white,
                   borederColor: ColorManager.white,
@@ -57,6 +57,16 @@ class OnboardingScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void _showLocationPermissionDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (dialogContext) {
+        return LocationPermissionDialog(onClose: () => Navigator.of(dialogContext, rootNavigator: true).pop());
+      },
     );
   }
 }
