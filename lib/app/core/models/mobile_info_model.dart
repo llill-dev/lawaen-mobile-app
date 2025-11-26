@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'mobile_info_model.g.dart';
 
-@JsonSerializable(explicitToJson: true)
+@JsonSerializable(explicitToJson: true, fieldRename: FieldRename.snake)
 class MobileInfo {
   final String brand;
   final String modelName;

@@ -44,6 +44,9 @@ class AppException implements Exception {
       case 500:
         errorCode = ApiErrorCode.serverError;
         break;
+      case 400:
+        errorCode = ApiErrorCode.badRequest;
+        break;
       default:
         errorCode = ApiErrorCode.unknownError;
     }

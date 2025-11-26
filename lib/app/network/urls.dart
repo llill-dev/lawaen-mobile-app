@@ -3,6 +3,6 @@ class Urls {
   static const String _authPrefix = "auth";
   static const String login = "$_authPrefix/login";
   static const String register = "$_authPrefix/register";
-  static const String refreshToken = "$_authPrefix/refresh-token";
+  static const String refreshToken = "$_authPrefix/refresh_token";
   static const String changePassword = "$_authPrefix/change-password";
 }

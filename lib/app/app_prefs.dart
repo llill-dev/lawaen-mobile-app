@@ -13,6 +13,7 @@ const String refreshToken = "refresh_token";
 const String prefsLat = "prefs_latitude";
 const String prefsLng = "prefs_longitude";
 const String prefsLocationTimestamp = "prefs_location_timestamp";
+const String isFisrtTime = "is_fisrt_time";
 
 @Injectable()
 class AppPreferences {
@@ -67,6 +68,29 @@ class AppPreferences {
 
   double? getDouble({required String prefsKey}) {
     return _sharedPreferences.getDouble(prefsKey);
+  }
+
+  // --------- AUTH HELPERS ---------
+
+  Future<void> saveTokens({required String accessToken, required String refresh}) async {
+    await setString(prefsKey: prefsToken, value: accessToken);
+    await setString(prefsKey: refreshToken, value: refresh);
+  }
+
+  String get accessToken => _sharedPreferences.getString(prefsToken) ?? '';
+
+  String get storedRefreshToken => _sharedPreferences.getString(refreshToken) ?? '';
+
+  bool get isGuest => _sharedPreferences.getBool(prefsGuest) ?? false;
+
+  Future<void> setGuest(bool value) async {
+    await setBool(prefsKey: prefsGuest, value: value);
+  }
+
+  bool get isFirstTime => _sharedPreferences.getBool(isFisrtTime) ?? false;
+
+  Future<void> setFirstTime(bool value) async {
+    await setBool(prefsKey: isFisrtTime, value: value);
   }
 
   Future<void> logout() async {

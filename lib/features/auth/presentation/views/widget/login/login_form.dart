@@ -9,7 +9,6 @@ import 'package:lawaen/app/core/utils/form_state_mixin.dart';
 import 'package:lawaen/app/core/utils/form_utils.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/di/injection.dart';
-import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/auth_text_field_item.dart';
@@ -72,18 +71,15 @@ class _LoginFormState extends State<LoginForm> with FormStateMixin {
                 isLoading: state is AuthLoading,
                 text: LocaleKeys.signIn.tr(),
                 onPressed: () async {
-                  // if (form.key.currentState!.validate()) {
-                  //   final emailOrPhoneNumber = form.controllers[0].text;
-                  //   final password = form.controllers[1].text;
-                  //   if (emailOrPhoneNumber.contains('@')) {
-                  //     authCubit.login(email: emailOrPhoneNumber, password: password);
-                  //   } else {
-                  //     authCubit.login(phoneNumber: emailOrPhoneNumber, password: password);
-                  //   }
-                  // }
-
-                  final location = await getIt<LocationService>().getBestEffortLocation();
-                  print("lat : ${location.latitude}, long: ${location.longitude}");
+                  if (form.key.currentState!.validate()) {
+                    final emailOrPhoneNumber = form.controllers[0].text;
+                    final password = form.controllers[1].text;
+                    if (emailOrPhoneNumber.contains('@')) {
+                      authCubit.login(email: emailOrPhoneNumber, password: password);
+                    } else {
+                      authCubit.login(phoneNumber: emailOrPhoneNumber, password: password);
+                    }
+                  }
                 },
                 height: 40.h,
               );

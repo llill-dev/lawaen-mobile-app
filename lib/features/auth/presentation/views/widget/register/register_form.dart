@@ -93,7 +93,7 @@ class _RegisterFormState extends State<RegisterForm> with FormStateMixin {
             bloc: widget.authCubit,
             listener: (context, state) {
               if (state is AuthSuccess) {
-                context.router.pushAndPopUntil(QrCodeRoute(), predicate: (route) => false);
+                context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
               }
               if (state is AuthFailure) {
                 showToast(message: state.errorMessage);

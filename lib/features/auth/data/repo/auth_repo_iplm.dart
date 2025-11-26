@@ -1,7 +1,11 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
@@ -13,28 +17,39 @@ import 'package:lawaen/features/auth/presentation/params/register_params.dart';
 @Injectable(as: AuthRepo)
 class AuthRepoImpl implements AuthRepo {
   final AppServiceClient appServiceClient;
-
+  final prefs = getIt<AppPreferences>();
   AuthRepoImpl({required this.appServiceClient});
   @override
   Future<Either<ErrorModel, UserModel>> register(RegisterParams params) async {
-    MultipartFile? file;
     try {
-      if (params.image != null) {
-        file = await MultipartFile.fromFile(params.image!.path, filename: params.image!.path.split('/').last);
+      // MultipartFile? file;
+      // if (params.image != null) {
+      //   file = await MultipartFile.fromFile(params.image!.path, filename: params.image!.path.split('/').last);
+      // }
+
+      // final response = await appServiceClient.register(
+      //   name: params.name,
+      //   email: params.email,
+      //   password: params.password,
+      //   phone: params.phone,
+      //   device: jsonEncode(params.device.toJson()),
+      //   image: file,
+      // );
+
+      final response = await appServiceClient.register(params);
+
+      if (response.errors == null && response.data != null) {
+        prefs.setBool(prefsKey: isFisrtTime, value: false);
+        await _saveTokens(
+          accessToken: response.data!.tokens.accessToken,
+          refreshToken: response.data!.tokens.refreshToken,
+        );
+        return Right(response.data!.user);
       }
-      final response = await appServiceClient.register(
-        name: params.name,
-        email: params.email,
-        password: params.password,
-        phone: params.phone,
-        device: params.device,
-        image: file,
-      );
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return Right(response.data!);
-      }
+      log("register error: ${response.errors}");
       return Left(ErrorModel(errorMessage: response.errors?[0]));
     } on DioException catch (e) {
+      log("register error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
@@ -43,11 +58,18 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<ErrorModel, UserModel>> login(LoginParams params) async {
     try {
       final response = await appServiceClient.login(params);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return Right(response.data!);
+      if (response.data != null && response.errors == null) {
+        prefs.setBool(prefsKey: isFisrtTime, value: false);
+        await _saveTokens(
+          accessToken: response.data!.tokens.accessToken,
+          refreshToken: response.data!.tokens.refreshToken,
+        );
+        return Right(response.data!.user);
       }
+
       return Left(ErrorModel(errorMessage: response.errors?[0]));
     } on DioException catch (e) {
+      log("login error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
@@ -56,12 +78,48 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<ErrorModel, UserModel>> chagnePassword(ChangePasswordParams params) async {
     try {
       final response = await appServiceClient.changePassword(params);
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return Right(response.data!);
+      if (response.errors == null && response.data != null) {
+        return Right(response.data!.user);
       }
       return Left(ErrorModel(errorMessage: response.errors?[0]));
     } on DioException catch (e) {
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> refreshToken() async {
+    try {
+      final storedRefresh = prefs.storedRefreshToken;
+
+      if (storedRefresh.isEmpty) {
+        return Left(ErrorModel(errorMessage: "No refresh token stored"));
+      }
+
+      final token = await appServiceClient.refreshToken({"refreshToken": storedRefresh});
+
+      log("refresh token response: $token:  ${token.accessToken} ${token.refreshToken}");
+
+      final newAccess = token.accessToken;
+      final newRefresh = token.refreshToken;
+
+      if (newAccess.isEmpty || newRefresh.isEmpty) {
+        log("Invalid refresh token response (empty tokens)");
+        return Left(ErrorModel(errorMessage: "Invalid refresh token response"));
+      }
+
+      _saveTokens(accessToken: newAccess, refreshToken: newRefresh);
+
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    } catch (e) {
+      log("Unexpected refreshToken error: $e");
+      return Left(ErrorModel(errorMessage: "Unexpected error refreshing token"));
+    }
+  }
+
+  Future<void> _saveTokens({required String accessToken, required String refreshToken}) async {
+    await prefs.saveTokens(accessToken: accessToken, refresh: refreshToken);
   }
 }
