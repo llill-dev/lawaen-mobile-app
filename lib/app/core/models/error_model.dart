@@ -1,13 +1,12 @@
 import '../../network/exceptions.dart';
 
 class ErrorModel {
-  ErrorModel({this.code, this.errorMessage});
-
-  ErrorModel.fromException(AppException exception) {
-    code = exception.code;
-    errorMessage = exception.message;
-  }
-
+  String errorMessage;
   ApiErrorCode? code;
-  String? errorMessage;
+
+  ErrorModel({required this.errorMessage, this.code});
+
+  factory ErrorModel.fromException(AppException exception) {
+    return ErrorModel(errorMessage: exception.message, code: exception.code);
+  }
 }

@@ -47,6 +47,7 @@ class _SplashScreenState extends State<SplashScreen> {
     if (!mounted) return;
 
     if (isUserFirstTime && !hasToken) {
+      prefs.setBool(prefsKey: isFisrtTime, value: false);
       context.router.replace(OnboardingRoute());
       return;
     }

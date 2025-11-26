@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/api_response.dart';
@@ -25,17 +27,17 @@ abstract class AppServiceClient {
   @POST(Urls.login)
   Future<ApiResponse<UserDataModel>> login(@Body() LoginParams params);
 
-  //@MultiPart()
+  @MultiPart()
   @POST(Urls.register)
-  Future<ApiResponse<UserDataModel>> register(@Body() RegisterParams params);
-  // Future<ApiResponse<UserModel>> register({
-  //   @Part(name: "name") required String name,
-  //   @Part(name: "email") String? email,
-  //   @Part(name: "password") required String password,
-  //   @Part(name: "phone") String? phone,
-  //   @Part(name: "device") required String device,
-  //   @Part(name: "image") MultipartFile? image,
-  // });
+  //Future<ApiResponse<UserDataModel>> register(@Body() RegisterParams params);
+  Future<ApiResponse<UserDataModel>> register({
+    @Part(name: "name") required String name,
+    @Part(name: "email") String? email,
+    @Part(name: "password") required String password,
+    @Part(name: "phone") String? phone,
+    @Part(name: "device") required String device,
+    @Part(name: "image") File? image,
+  });
 
   @POST(Urls.changePassword)
   Future<ApiResponse<UserDataModel>> changePassword(@Body() ChangePasswordParams params);
