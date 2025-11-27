@@ -1,0 +1,7 @@
+import 'package:dartz/dartz.dart';
+import 'package:lawaen/app/core/models/error_model.dart';
+import 'package:lawaen/features/home/data/models/city_model.dart';
+
+abstract class HomeRepo {
+  Future<Either<ErrorModel, List<CityModel>>> getCities();
+}

@@ -8,7 +8,7 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
-import 'package:lawaen/features/auth/presentation/params/register_params.dart';
+import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -44,4 +44,8 @@ abstract class AppServiceClient {
 
   @POST(Urls.refreshToken)
   Future<TokenModel> refreshToken(@Body() Map<String, dynamic> body);
+
+  //Home
+  @GET(Urls.getCities)
+  Future<ApiResponse<List<CityModel>>> getCities();
 }

@@ -5,4 +5,7 @@ class Urls {
   static const String register = "$_authPrefix/register";
   static const String refreshToken = "$_authPrefix/refresh_token";
   static const String changePassword = "$_authPrefix/change-password";
+
+  //home
+  static const String getCities = "cities/get";
 }
