@@ -18,7 +18,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: NotificationDetailsRoute.page),
     AutoRoute(page: CategoryRoute.page),
     AutoRoute(page: CategoryDetailsRoute.page),
-    AutoRoute(page: CategoryItemDetialsRoute.page),
+    AutoRoute(page: CategoryItemDetialsRoute.page, path: '/item/:subCategoryId/:itemId'),
     AutoRoute(page: MuneRoute.page),
     AutoRoute(page: FeedbackRoute.page),
     AutoRoute(page: FeedbackChatRoute.page),

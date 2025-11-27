@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:lawaen/app/core/services/deep_linking_service.dart';
 
 import 'app/di/injection.dart';
 import 'app/resources/theme_manager.dart';
@@ -13,6 +14,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    DeepLinkService.handleInitialLink(context);
+    DeepLinkService.listenForLinks(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(

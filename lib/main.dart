@@ -12,6 +12,7 @@ import 'app.dart';
 import 'app/di/injection.dart';
 import 'app/resources/language_manager.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
 FutureOr<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -46,6 +47,7 @@ FutureOr<void> main() async {
             supportedLocales: const [arabicLocale, englishLocale],
             fallbackLocale: englishLocale,
             startLocale: englishLocale,
+
             path: assetPathLocalization,
             child: const MyApp(),
           ),

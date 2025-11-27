@@ -15,7 +15,7 @@ class ExploreItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushRoute(CategoryItemDetialsRoute()),
+      onTap: () => context.pushRoute(CategoryItemDetialsRoute(itemId: "", subCategoryId: "")),
       child: Container(
         decoration: BoxDecoration(
           color: ColorManager.white,

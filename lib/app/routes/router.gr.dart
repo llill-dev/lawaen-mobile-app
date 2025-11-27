@@ -150,18 +150,74 @@ class CategoryDetailsRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.CategoryItemDetialsScreen]
-class CategoryItemDetialsRoute extends _i29.PageRouteInfo<void> {
-  const CategoryItemDetialsRoute({List<_i29.PageRouteInfo>? children})
-    : super(CategoryItemDetialsRoute.name, initialChildren: children);
+class CategoryItemDetialsRoute
+    extends _i29.PageRouteInfo<CategoryItemDetialsRouteArgs> {
+  CategoryItemDetialsRoute({
+    _i30.Key? key,
+    required String subCategoryId,
+    required String itemId,
+    List<_i29.PageRouteInfo>? children,
+  }) : super(
+         CategoryItemDetialsRoute.name,
+         args: CategoryItemDetialsRouteArgs(
+           key: key,
+           subCategoryId: subCategoryId,
+           itemId: itemId,
+         ),
+         rawPathParams: {'subCategoryId': subCategoryId, 'itemId': itemId},
+         initialChildren: children,
+       );
 
   static const String name = 'CategoryItemDetialsRoute';
 
   static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
-      return const _i6.CategoryItemDetialsScreen();
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<CategoryItemDetialsRouteArgs>(
+        orElse: () => CategoryItemDetialsRouteArgs(
+          subCategoryId: pathParams.getString('subCategoryId'),
+          itemId: pathParams.getString('itemId'),
+        ),
+      );
+      return _i6.CategoryItemDetialsScreen(
+        key: args.key,
+        subCategoryId: args.subCategoryId,
+        itemId: args.itemId,
+      );
     },
   );
+}
+
+class CategoryItemDetialsRouteArgs {
+  const CategoryItemDetialsRouteArgs({
+    this.key,
+    required this.subCategoryId,
+    required this.itemId,
+  });
+
+  final _i30.Key? key;
+
+  final String subCategoryId;
+
+  final String itemId;
+
+  @override
+  String toString() {
+    return 'CategoryItemDetialsRouteArgs{key: $key, subCategoryId: $subCategoryId, itemId: $itemId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! CategoryItemDetialsRouteArgs) return false;
+    return key == other.key &&
+        subCategoryId == other.subCategoryId &&
+        itemId == other.itemId;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ subCategoryId.hashCode ^ itemId.hashCode;
 }
 
 /// generated route for

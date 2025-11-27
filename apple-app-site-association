@@ -1,0 +1,12 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "TEAMID.com.llill.lawaen",
+        "paths": [ "/item/*" ]
+      }
+    ]
+  }
+}
+

@@ -18,7 +18,7 @@ class CategoryInofList extends StatelessWidget {
       separatorBuilder: (context, index) => 10.verticalSpace,
       itemBuilder: (context, index) {
         return GestureDetector(
-          onTap: () => context.router.push(CategoryItemDetialsRoute()),
+          onTap: () => context.router.push(CategoryItemDetialsRoute(itemId: "", subCategoryId: "")),
           child: Container(
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(

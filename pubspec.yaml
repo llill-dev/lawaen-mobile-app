@@ -6,6 +6,7 @@ version: 1.0.0+1
 environment:
   sdk: ^3.9.2
 dependencies:
+  app_links: ^6.4.1
   apple_maps_flutter: ^1.4.0
   auto_route: ^10.2.0
   auto_size_text: ^3.0.0

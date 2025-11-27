@@ -14,7 +14,7 @@ class FavoritesItme extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.pushRoute(CategoryItemDetialsRoute());
+        context.pushRoute(CategoryItemDetialsRoute(itemId: "", subCategoryId: ""));
       },
       child: Container(
         decoration: BoxDecoration(

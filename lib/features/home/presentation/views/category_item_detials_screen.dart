@@ -14,7 +14,14 @@ import 'widgets/category_item_details/services_section.dart';
 
 @RoutePage()
 class CategoryItemDetialsScreen extends StatefulWidget {
-  const CategoryItemDetialsScreen({super.key});
+  const CategoryItemDetialsScreen({
+    super.key,
+    @PathParam('subCategoryId') required this.subCategoryId,
+    @PathParam('itemId') required this.itemId,
+  });
+
+  final String subCategoryId;
+  final String itemId;
 
   @override
   State<CategoryItemDetialsScreen> createState() => _CategoryItemDetialsScreenState();
