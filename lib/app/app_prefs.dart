@@ -87,7 +87,7 @@ class AppPreferences {
     await setBool(prefsKey: prefsGuest, value: value);
   }
 
-  bool get isFirstTime => _sharedPreferences.getBool(isFisrtTime) ?? false;
+  bool get isFirstTime => _sharedPreferences.getBool(isFisrtTime) ?? true;
 
   Future<void> setFirstTime(bool value) async {
     await setBool(prefsKey: isFisrtTime, value: value);
