@@ -45,10 +45,20 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>This app needs access to your photo library to upload a profile image.</string>
+
+	<!-- Apple Maps Required -->
+	<key>io.flutter.embedded_views_preview</key>
+	<true/>
+
+	<!-- Required Location Permissions -->
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We use your location to show nearby attractions and places.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>We use your location to help provide map-related features even when the app is not open.</string>
+
+	<!-- Photo Library Permission  -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo library to upload a profile image.</string>
 
 
 </dict>
