@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import 'category_item.dart';
 
@@ -8,18 +11,40 @@ class CategorySection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverPadding(
-      padding: EdgeInsets.symmetric(horizontal: 16.w),
-      sliver: SliverGrid.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-          childAspectRatio: 1,
-        ),
-        itemCount: 6,
-        itemBuilder: (context, index) {
-          return CategoryItem(index: index);
+    return SliverToBoxAdapter(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        buildWhen: (p, c) => p.categoriesState != c.categoriesState,
+        builder: (context, state) {
+          final isLoading = state.categoriesState == RequestState.loading;
+
+          if (state.categoriesState == RequestState.error) {
+            return const SizedBox.shrink();
+          }
+
+          return Skeletonizer(
+            enabled: isLoading,
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 10,
+                  crossAxisSpacing: 10,
+                  childAspectRatio: .8,
+                ),
+                itemCount: isLoading ? 6 : state.categories.length.clamp(0, 6),
+                itemBuilder: (_, index) {
+                  if (isLoading) {
+                    return const CategoryItem(image: "", count: "-------", name: "-------", isLoading: true);
+                  }
+                  final item = state.categories[index];
+                  return CategoryItem(image: item.image, name: item.name, count: item.totalCategoryCount.toString());
+                },
+              ),
+            ),
+          );
         },
       ),
     );

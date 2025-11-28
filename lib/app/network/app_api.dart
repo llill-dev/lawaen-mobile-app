@@ -8,6 +8,7 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
@@ -48,4 +49,7 @@ abstract class AppServiceClient {
   //Home
   @GET(Urls.getCities)
   Future<ApiResponse<List<CityModel>>> getCities();
+
+  @GET(Urls.getCategories)
+  Future<ApiResponse<List<CategoryModel>>> getCategories();
 }

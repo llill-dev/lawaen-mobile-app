@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
+import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -26,6 +27,20 @@ class HomeRepoImpl implements HomeRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("getCities error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<CategoryModel>>> getCategories() async {
+    try {
+      final response = await appServiceClient.getCategories();
+      if (response.status && response.data != null) {
+        return Right(response.data!);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getCategories error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

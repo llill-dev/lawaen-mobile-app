@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/extensions.dart';
 import 'open_map_widget.dart';
 import 'weather_widget.dart';
 
@@ -8,13 +9,15 @@ class WeatherAndMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        OpenMapWidget(),
-        SizedBox(width: 10.w),
-        const WeatherWidget(),
-      ],
+    return SliverToBoxAdapter(
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          OpenMapWidget(),
+          SizedBox(width: 10.w),
+          const WeatherWidget(),
+        ],
+      ).horizontalPadding(padding: 16.w),
     );
   }
 }

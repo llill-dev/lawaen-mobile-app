@@ -10,6 +10,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i29;
+import 'package:collection/collection.dart' as _i32;
 import 'package:flutter/material.dart' as _i30;
 import 'package:lawaen/features/add_to_app/presentation/views/add_classified_screen.dart'
     as _i1;
@@ -33,6 +34,7 @@ import 'package:lawaen/features/auth/presentation/views/register_screen.dart'
     as _i26;
 import 'package:lawaen/features/events/presentation/views/events_details_screen.dart'
     as _i10;
+import 'package:lawaen/features/home/data/models/category_model.dart' as _i31;
 import 'package:lawaen/features/home/presentation/views/category_details_screen.dart'
     as _i5;
 import 'package:lawaen/features/home/presentation/views/category_item_detials_screen.dart'
@@ -222,18 +224,55 @@ class CategoryItemDetialsRouteArgs {
 
 /// generated route for
 /// [_i7.CategoryScreen]
-class CategoryRoute extends _i29.PageRouteInfo<void> {
-  const CategoryRoute({List<_i29.PageRouteInfo>? children})
-    : super(CategoryRoute.name, initialChildren: children);
+class CategoryRoute extends _i29.PageRouteInfo<CategoryRouteArgs> {
+  CategoryRoute({
+    _i30.Key? key,
+    required List<_i31.CategoryModel> categories,
+    List<_i29.PageRouteInfo>? children,
+  }) : super(
+         CategoryRoute.name,
+         args: CategoryRouteArgs(key: key, categories: categories),
+         initialChildren: children,
+       );
 
   static const String name = 'CategoryRoute';
 
   static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
-      return const _i7.CategoryScreen();
+      final args = data.argsAs<CategoryRouteArgs>();
+      return _i7.CategoryScreen(key: args.key, categories: args.categories);
     },
   );
+}
+
+class CategoryRouteArgs {
+  const CategoryRouteArgs({this.key, required this.categories});
+
+  final _i30.Key? key;
+
+  final List<_i31.CategoryModel> categories;
+
+  @override
+  String toString() {
+    return 'CategoryRouteArgs{key: $key, categories: $categories}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! CategoryRouteArgs) return false;
+    return key == other.key &&
+        const _i32.ListEquality<_i31.CategoryModel>().equals(
+          categories,
+          other.categories,
+        );
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      const _i32.ListEquality<_i31.CategoryModel>().hash(categories);
 }
 
 /// generated route for

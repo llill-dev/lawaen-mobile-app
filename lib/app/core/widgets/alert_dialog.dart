@@ -1,11 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
-
 import '../../../generated/locale_keys.g.dart';
-import '../../resources/assets_manager.dart';
 import '../../resources/color_manager.dart';
 import 'primary_button.dart';
 
@@ -16,100 +12,90 @@ Future<void> alertDialog({
   required Function onConfirm,
   String rejectButtonTitle = LocaleKeys.cancel,
   Function? onCancel,
+  bool isError = false,
+  String? subtitle,
+  IconData? icon,
+  Widget? actions,
+  bool isTwoButtons = true,
   Color? approveButtonColor,
   Color? rejectButtonColor,
-  String? subtitle,
-  String? icon,
-  bool isTwoButtons = true,
-  Widget? actions,
 }) {
-  return showDialog(
-    context: context,
-    builder: (context) {
-      return Dialog(
-        insetPadding: REdgeInsets.symmetric(horizontal: 16),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-        backgroundColor: ColorManager.white,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            16.verticalSpace,
-            if (icon != null) ...[
-              CircleAvatar(
-                radius: 32.r,
-                backgroundColor: ColorManager.primarySwatch[50],
-                child: SvgPicture.asset(icon, width: 24.w, height: 24.h),
-              ),
-              24.verticalSpace,
-            ],
-            Padding(
-              padding: REdgeInsets.symmetric(horizontal: 25.w),
-              child: Text(
-                message,
-                style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 22),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            if (subtitle != null) ...[
-              8.verticalSpace,
-              Padding(
-                padding: REdgeInsets.symmetric(horizontal: 25.w),
-                child: Text(subtitle, style: Theme.of(context).textTheme.displayMedium, textAlign: TextAlign.center),
-              ),
-            ],
+  final Color primary = ColorManager.primary;
 
-            if (actions != null) ...[16.verticalSpace, actions],
-            20.verticalSpace,
-            Padding(
-              padding: REdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  PrimaryButton(
-                    text: approveButtonTitle.tr(),
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                      onConfirm();
-                    },
-                    backgroundColor: approveButtonColor,
-                    borederColor: approveButtonColor,
-                  ),
-                  const SizedBox(width: 8),
-                  if (isTwoButtons) ...[
-                    16.verticalSpace,
-                    PrimaryButton(
-                      text: rejectButtonTitle.tr(),
-                      isLight: true,
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        if (onCancel != null) {
-                          onCancel();
-                        }
-                      },
-                      backgroundColor: rejectButtonColor,
-                      borederColor: rejectButtonColor ?? Colors.white,
-                    ),
-                  ],
+  return showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    barrierColor: Colors.black.withOpacity(.45),
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.r)),
+    builder: (context) {
+      return Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 12.w, right: 12.w),
+        child: Material(
+          borderRadius: BorderRadius.circular(20.r),
+          color: Colors.white,
+          child: Padding(
+            padding: EdgeInsets.all(20.w),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (isError) Icon(icon ?? Icons.error_rounded, color: Colors.red, size: 46.r),
+
+                if (!isError && icon != null) Icon(icon, size: 46.r, color: primary),
+
+                14.verticalSpace,
+
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 20.sp),
+                ),
+
+                if (subtitle != null) ...[
+                  8.verticalSpace,
+                  Text(subtitle, textAlign: TextAlign.center, style: Theme.of(context).textTheme.displayMedium),
                 ],
-              ),
+
+                if (actions != null) ...[16.verticalSpace, actions],
+
+                20.verticalSpace,
+
+                /// Buttons row
+                Row(
+                  children: [
+                    Expanded(
+                      child: PrimaryButton(
+                        text: approveButtonTitle.tr(),
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                          onConfirm();
+                        },
+                        backgroundColor: approveButtonColor ?? (isError ? ColorManager.red : primary),
+                        borederColor: approveButtonColor ?? (isError ? ColorManager.red : primary),
+                      ),
+                    ),
+                    if (isTwoButtons) ...[
+                      12.horizontalSpace,
+                      Expanded(
+                        child: PrimaryButton(
+                          text: rejectButtonTitle.tr(),
+                          isLight: true,
+                          backgroundColor: rejectButtonColor ?? ColorManager.white,
+                          borederColor: rejectButtonColor ?? ColorManager.white,
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                            if (onCancel != null) onCancel();
+                          },
+                        ),
+                      ),
+                    ],
+                  ],
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       );
-    },
-  );
-}
-
-Widget getAnimatedImage(String animationName) {
-  return SizedBox(width: 100.w, height: 100.w, child: Lottie.asset(animationName));
-}
-
-void progressDialog({required BuildContext context}) {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (context) {
-      return PopScope(canPop: false, child: Center(child: getAnimatedImage(JsonManager.loading)));
     },
   );
 }

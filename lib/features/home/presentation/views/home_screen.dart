@@ -1,73 +1,105 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
+import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
-import 'package:lawaen/app/routes/router.gr.dart';
-import 'package:lawaen/features/home/presentation/views/widgets/popular_places/popular_places.dart';
-
-import '../../../../app/resources/color_manager.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/view_all_categories.dart';
 import '../../../../generated/locale_keys.g.dart';
-import 'widgets/add_your_business.dart';
-import 'widgets/category/category_section.dart';
+
 import 'widgets/home_app_bar/home_app_bar.dart';
 import 'widgets/location_section.dart';
+import 'widgets/category/category_section.dart';
+import 'widgets/add_your_business.dart';
 import 'widgets/upcoming_events/upcoming_events.dart';
 import 'widgets/weather_and_map/weather_and_map.dart';
+import 'widgets/popular_places/popular_places.dart';
 
 @RoutePage()
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  late HomeCubit cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    cubit = getIt<HomeCubit>();
+    cubit.initHome();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: CustomScrollView(
-        slivers: [
-          SliverToBoxAdapter(child: const HomeAppBar()),
-          buildSpace(),
-          SliverToBoxAdapter(child: const LocationSection()),
-          buildSpace(),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                Text(LocaleKeys.whatWouldLikeToFind.tr(), style: Theme.of(context).textTheme.headlineMedium),
-                Spacer(),
-                GestureDetector(
-                  onTap: () => context.router.push(CategoryRoute()),
-                  child: Text(
-                    LocaleKeys.viewAll.tr(),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
-                  ),
+    return BlocProvider.value(
+      value: cubit,
+      child: BlocListener<HomeCubit, HomeState>(
+        listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
+        listener: (context, state) {
+          alertDialog(
+            context: context,
+            message: state.globalError!,
+            isError: true,
+            icon: Icons.wifi_tethering_error_rounded_outlined,
+            onConfirm: () => cubit.initHome(),
+            onCancel: () => cubit.clearGlobalError(),
+          );
+        },
+        child: SafeArea(
+          child: RefreshIndicator(
+            onRefresh: () async => cubit.initHome(),
+            child: CustomScrollView(
+              physics: const AlwaysScrollableScrollPhysics(),
+              slivers: [
+                SliverToBoxAdapter(child: const HomeAppBar()),
+                buildSpace(),
+                const LocationSection(),
+
+                buildSpace(),
+
+                ViewAllCategories(),
+                buildSpace(),
+                const CategorySection(),
+
+                buildSpace(),
+
+                const UpcomingEvents(),
+                buildSpace(),
+
+                const AddYourBusiness(),
+                buildSpace(),
+
+                const WeatherAndMap(),
+                buildSpace(),
+
+                SliverToBoxAdapter(
+                  child: Row(
+                    children: [
+                      Text(LocaleKeys.popularPlaces.tr(), style: Theme.of(context).textTheme.headlineMedium),
+                      const Spacer(),
+                      Text(
+                        LocaleKeys.viewAll.tr(),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                      ),
+                    ],
+                  ).horizontalPadding(padding: 16.w),
                 ),
+
+                const PopularPlaces(),
+                buildSpace(height: 50.h),
               ],
-            ).horizontalPadding(padding: 16.w),
+            ),
           ),
-          buildSpace(),
-          CategorySection(),
-          buildSpace(),
-          SliverToBoxAdapter(child: UpcomingEvents()),
-          buildSpace(),
-          SliverToBoxAdapter(child: AddYourBusiness().horizontalPadding(padding: 40.w)),
-          buildSpace(),
-          SliverToBoxAdapter(child: WeatherAndMap().horizontalPadding(padding: 16.w)),
-          buildSpace(),
-          SliverToBoxAdapter(
-            child: Row(
-              children: [
-                Text('Popular Places', style: Theme.of(context).textTheme.headlineMedium),
-                Spacer(),
-                Text(
-                  'view All',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
-                ),
-              ],
-            ).horizontalPadding(padding: 16.w),
-          ),
-          PopularPlaces(),
-          buildSpace(height: 50.h),
-        ],
+        ),
       ),
     );
   }

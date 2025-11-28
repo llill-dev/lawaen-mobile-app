@@ -48,52 +48,54 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text('Upcoming Events', style: Theme.of(context).textTheme.bodyMedium),
-        SizedBox(height: 5.h),
-        AspectRatio(
-          aspectRatio: 16 / 7,
-          child: Stack(
-            children: [
-              PageView.builder(
-                controller: _pageController,
-                itemCount: events.length,
-                itemBuilder: (context, index) {
-                  final event = events[index];
-                  return EventItem(
-                    image: event['image'],
-                    day: event['day'],
-                    month: event['month'],
-                    title: event['title'],
-                    goToNextPage: _goToNextPage,
-                  );
-                },
-              ),
-              Positioned(
-                bottom: 12.h,
-                left: 0,
-                right: 0,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(events.length, (index) {
-                    return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4.w),
-                      width: 8.w,
-                      height: 8.h,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: _currentPage == index ? ColorManager.white : Colors.white.withValues(alpha: 0.5),
-                      ),
+    return SliverToBoxAdapter(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('Upcoming Events', style: Theme.of(context).textTheme.bodyMedium),
+          SizedBox(height: 5.h),
+          AspectRatio(
+            aspectRatio: 16 / 7,
+            child: Stack(
+              children: [
+                PageView.builder(
+                  controller: _pageController,
+                  itemCount: events.length,
+                  itemBuilder: (context, index) {
+                    final event = events[index];
+                    return EventItem(
+                      image: event['image'],
+                      day: event['day'],
+                      month: event['month'],
+                      title: event['title'],
+                      goToNextPage: _goToNextPage,
                     );
-                  }),
+                  },
                 ),
-              ),
-            ],
+                Positioned(
+                  bottom: 12.h,
+                  left: 0,
+                  right: 0,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: List.generate(events.length, (index) {
+                      return Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4.w),
+                        width: 8.w,
+                        height: 8.h,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: _currentPage == index ? ColorManager.white : Colors.white.withValues(alpha: 0.5),
+                        ),
+                      );
+                    }),
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
-    ).horizontalPadding(padding: 16.w);
+        ],
+      ).horizontalPadding(padding: 16.w),
+    );
   }
 }

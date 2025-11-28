@@ -1,9 +1,7 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lawaen/app/core/widgets/alert_dialog.dart';
-import 'package:lawaen/app/di/injection.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -13,80 +11,83 @@ class LocationSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cubit = getIt<HomeCubit>();
-    return BlocConsumer<HomeCubit, HomeState>(
-      bloc: cubit..getCities(),
-      listener: (context, state) {
-        if (state is GetCitiesError) {
-          alertDialog(context: context, message: state.errorMessage, onConfirm: () => cubit.getCities());
-        }
-      },
-      builder: (context, state) {
-        if (state is GetCitiesSuccess) {
-          final locations = state.cities;
+    return SliverToBoxAdapter(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        buildWhen: (p, c) => p.citiesState != c.citiesState,
+        builder: (context, state) {
+          if (state.citiesState == RequestState.loading) {
+            return _buildSkeletonLoader();
+          }
+
+          if (state.citiesState == RequestState.error) {
+            return const SizedBox.shrink();
+          }
+
           return Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: SizedBox(
               height: 0.12.sh,
               child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                itemCount: locations.length,
+                itemCount: state.cities.length,
                 separatorBuilder: (_, _) => SizedBox(width: 16.w),
                 itemBuilder: (context, index) {
+                  final city = state.cities[index];
                   return Column(
                     children: [
                       Expanded(
-                        child: AspectRatio(aspectRatio: 1, child: CachedNetworkImage(imageUrl: locations[index].image)),
+                        child: AspectRatio(aspectRatio: 1, child: CachedNetworkImage(imageUrl: city.image)),
                       ),
-                      SizedBox(height: 8.h),
-                      Text(locations[index].name, style: Theme.of(context).textTheme.headlineSmall),
+                      8.verticalSpace,
+                      Text(city.name, style: Theme.of(context).textTheme.headlineSmall),
                     ],
                   );
                 },
               ),
             ),
           );
-        }
-        if (state is GetCitiesError) {
-          return SizedBox.shrink();
-        }
-        return _CitiesLoadingWidget();
-      },
+        },
+      ),
+    );
+  }
+
+  Widget _buildSkeletonLoader() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: SizedBox(
+        height: 0.12.sh,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: 4,
+          separatorBuilder: (_, _) => SizedBox(width: 16.w),
+          itemBuilder: (_, _) => const _CitySkeleton(),
+        ),
+      ),
     );
   }
 }
 
-class _CitiesLoadingWidget extends StatelessWidget {
-  const _CitiesLoadingWidget();
+class _CitySkeleton extends StatelessWidget {
+  const _CitySkeleton();
 
   @override
   Widget build(BuildContext context) {
     return Skeletonizer(
-      containersColor: ColorManager.lightGrey,
       enabled: true,
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: SizedBox(
-          height: 0.12.sh,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            itemCount: 4,
-            separatorBuilder: (_, _) => SizedBox(width: 16.w),
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Container(
-                    height: 70.h,
-                    width: 70.w,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: ColorManager.lightGrey),
-                  ),
-                  SizedBox(height: 8.h),
-                  Text("this is a test", style: Theme.of(context).textTheme.headlineSmall),
-                ],
-              );
-            },
+      child: Column(
+        children: [
+          Container(
+            width: 70.w,
+            height: 70.w,
+            decoration: BoxDecoration(shape: BoxShape.circle, color: ColorManager.lightGrey),
           ),
-        ),
+          8.verticalSpace,
+          Container(
+            width: 60.w,
+            height: 12.h,
+            decoration: BoxDecoration(color: ColorManager.lightGrey, borderRadius: BorderRadius.circular(8.r)),
+          ),
+        ],
       ),
     );
   }
