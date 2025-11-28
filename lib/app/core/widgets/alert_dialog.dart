@@ -39,17 +39,13 @@ Future<void> alertDialog({
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isError) Icon(icon ?? Icons.error_rounded, color: Colors.red, size: 46.r),
+                if (isError) Icon(icon ?? Icons.error_outline_outlined, color: ColorManager.red, size: 46.r),
 
                 if (!isError && icon != null) Icon(icon, size: 46.r, color: primary),
 
                 14.verticalSpace,
 
-                Text(
-                  message,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 20.sp),
-                ),
+                Text(message, textAlign: TextAlign.center, style: Theme.of(context).textTheme.displayLarge),
 
                 if (subtitle != null) ...[
                   8.verticalSpace,

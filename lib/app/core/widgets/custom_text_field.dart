@@ -33,6 +33,7 @@ class CustomTextField extends StatefulWidget {
     this.withBorder = true,
     this.borderWidth,
     this.borderColor,
+    this.onFieldSubmitted,
   });
 
   final TextEditingController? controller;
@@ -60,6 +61,7 @@ class CustomTextField extends StatefulWidget {
   final bool withBorder;
   final double? borderWidth;
   final Color? borderColor;
+  final void Function(String)? onFieldSubmitted;
   @override
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
@@ -124,6 +126,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 bloc: _refreshCubit,
                 builder: (context, refreshState) {
                   return TextFormField(
+                    onFieldSubmitted: widget.onFieldSubmitted,
                     focusNode: widget.focusNode,
                     controller: widget.controller,
                     obscureText: _obscure,

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,6 +6,7 @@ import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_details_cubit.dart/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/category_details_item.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class CategoryInfoList extends StatelessWidget {
   const CategoryInfoList({super.key});
@@ -16,9 +18,25 @@ class CategoryInfoList extends StatelessWidget {
         if (state.categoryDetailsState == RequestState.loading) {
           return const _CategoryDetailsSkeleton();
         }
+        if (state.categories.isEmpty && !state.isLoadingMore) {
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Text(
+                LocaleKeys.notFound.tr(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.headlineMedium,
+              ),
+            ),
+          );
+        }
         final items = state.categories;
         return SliverList.separated(
-          separatorBuilder: (context, index) => 10.verticalSpace,
+          separatorBuilder: (context, index) {
+            if (items[index].name == null && items[index].address == null && items[index].image.isEmpty) {
+              return SizedBox.shrink();
+            }
+            return 10.verticalSpace;
+          },
           itemBuilder: (context, index) {
             if (index == items.length) {
               return state.isLoadingMore
@@ -28,7 +46,9 @@ class CategoryInfoList extends StatelessWidget {
                     )
                   : SizedBox.shrink();
             }
-
+            if (items[index].name == null && items[index].address == null && items[index].image.isEmpty) {
+              return SizedBox.shrink();
+            }
             return CategoryDetailsItem(categoryDetailsModel: items[index]);
           },
           itemCount: items.length + 1,

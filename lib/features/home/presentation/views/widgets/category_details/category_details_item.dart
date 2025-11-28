@@ -37,7 +37,12 @@ class CategoryDetailsItem extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(categoryDetailsModel.name ?? "", style: Theme.of(context).textTheme.headlineMedium),
+                  Text(
+                    categoryDetailsModel.name ?? "",
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                   8.verticalSpace,
                   if (categoryDetailsModel.address != null)
                     Row(

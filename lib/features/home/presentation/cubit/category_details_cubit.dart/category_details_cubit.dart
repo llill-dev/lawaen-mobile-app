@@ -15,21 +15,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
 
   CategoryDetailsCubit(this._categoryDetailsRepo) : super(const CategoryDetailsState());
 
-  Future<void> initCategoryDetails(String id, String? search) async {
-    emit(state.copyWith(categories: [], categoriesCurrentPage: 1, hasMore: true, isLoadingMore: false));
-
-    await getCategoryDetails(id, search, isLoadMore: false);
-  }
-
-  Future<void> loadMore(String id, String? search) async {
-    if (!state.hasMore || state.isLoadingMore) return;
-
-    emit(state.copyWith(isLoadingMore: true));
-
-    await getCategoryDetails(id, search, isLoadMore: true);
-  }
-
-  Future<void> getCategoryDetails(String id, String? search, {required bool isLoadMore}) async {
+  Future<void> getCategoryDetails({required String mainCategoryId, String? search, required bool isLoadMore}) async {
     if (!isLoadMore) {
       emit(state.copyWith(categoryDetailsState: RequestState.loading, categoriesError: null));
     }
@@ -44,7 +30,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       page: state.categoriesCurrentPage,
     );
 
-    final result = await _categoryDetailsRepo.getCategoryDetails(id, params);
+    final result = await _categoryDetailsRepo.getCategoryDetails(mainCategoryId, params);
 
     result.fold(
       (failure) {
@@ -71,5 +57,17 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
         );
       },
     );
+  }
+
+  Future<void> loadMore({required String mainCategoryId, String? search}) async {
+    if (!state.hasMore || state.isLoadingMore) return;
+
+    emit(state.copyWith(isLoadingMore: true));
+
+    await getCategoryDetails(mainCategoryId: mainCategoryId, search: search, isLoadMore: true);
+  }
+
+  void clearGlobalError() {
+    emit(state.copyWith(globalError: null));
   }
 }
