@@ -10,10 +10,10 @@ import '../../resources/color_manager.dart';
 class CachedImage extends StatelessWidget {
   final String? url; // Image from URL
   final String? filePath; // Image from local storage
-  final double width;
-  final double height;
+  final double? width;
+  final double? height;
   final BorderRadius? radius;
-  final BoxFit fit;
+  final BoxFit? fit;
   final bool? withShadow;
   final Color? shadowColor;
   final bool? withTitle;
@@ -22,8 +22,8 @@ class CachedImage extends StatelessWidget {
   const CachedImage({
     this.url,
     this.filePath,
-    required this.width,
-    required this.height,
+    this.width,
+    this.height,
     this.radius,
     this.withShadow,
     this.shadowColor = ColorManager.black,

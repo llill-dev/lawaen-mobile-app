@@ -7,7 +7,7 @@ class CategoryModel {
   final String id;
   final String name;
   final String image;
-  final String description;
+  final String? description;
 
   @JsonKey(name: 'second_category')
   final List<SecondCategory> secondCategory;
@@ -36,9 +36,14 @@ class SecondCategory {
   @JsonKey(name: 'category_id')
   final String categoryId;
 
-  final String image;
+  final String? image;
+
+  @JsonKey(defaultValue: "")
   final String name;
-  final String description;
+
+  final String? description;
+
+  @JsonKey(fromJson: _countsFromJson, toJson: _countsToJson)
   final Map<String, int> counts;
 
   SecondCategory({
@@ -55,4 +60,16 @@ class SecondCategory {
   factory SecondCategory.fromJson(Map<String, dynamic> json) => _$SecondCategoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$SecondCategoryToJson(this);
+  static Map<String, int> _countsFromJson(dynamic json) {
+    if (json is Map<String, dynamic>) {
+      return json.map((key, value) {
+        final parsedValue = int.tryParse(value.toString()) ?? 0;
+        return MapEntry(key, parsedValue);
+      });
+    }
+
+    return {};
+  }
+
+  static Map<String, dynamic> _countsToJson(Map<String, int> counts) => counts;
 }

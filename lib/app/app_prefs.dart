@@ -40,7 +40,7 @@ class AppPreferences {
     if (language != null && language.isNotEmpty) {
       return language;
     } else {
-      return LanguageType.arabic.getValue();
+      return LanguageType.english.getValue();
     }
   }
 

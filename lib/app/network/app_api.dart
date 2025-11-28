@@ -8,8 +8,10 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -52,4 +54,11 @@ abstract class AppServiceClient {
 
   @GET(Urls.getCategories)
   Future<ApiResponse<List<CategoryModel>>> getCategories();
+
+  //category details
+  @GET(Urls.getCategoryDetails)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getCategoryDetails({
+    @Queries() required GetCategoryDetailsParams params,
+    @Path("id") required String id,
+  });
 }

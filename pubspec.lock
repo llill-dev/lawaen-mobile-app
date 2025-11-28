@@ -1501,14 +1501,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.2"
-  shimmer_container:
-    dependency: "direct main"
-    description:
-      name: shimmer_container
-      sha256: cbe1d219b3cea9ac48697212c8c870ac1a0ab9181502cc6f5b299503fd65011e
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.2"
   skeletonizer:
     dependency: "direct main"
     description:

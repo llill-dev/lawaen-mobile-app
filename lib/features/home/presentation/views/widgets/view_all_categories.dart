@@ -6,7 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
-import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class ViewAllCategories extends StatelessWidget {

@@ -8,7 +8,7 @@ import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
-import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/view_all_categories.dart';
 import '../../../../generated/locale_keys.g.dart';
 

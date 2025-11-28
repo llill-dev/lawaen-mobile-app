@@ -22,7 +22,7 @@ class CategoryList extends StatelessWidget {
         itemCount: categories.length,
         itemBuilder: (context, index) {
           final item = categories[index];
-          return CategoryItem(image: item.image, name: item.name, count: item.totalCategoryCount.toString());
+          return CategoryItem(categoryModel: item);
         },
       ),
     );

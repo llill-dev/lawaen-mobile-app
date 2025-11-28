@@ -5,18 +5,23 @@ import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/home/data/models/category_model.dart';
 
 class CategoryItem extends StatelessWidget {
-  final String count;
-  final String name;
-  final String image;
+  final CategoryModel categoryModel;
   final bool isLoading;
-  const CategoryItem({super.key, required this.count, required this.name, required this.image, this.isLoading = false});
+  const CategoryItem({super.key, required this.categoryModel, this.isLoading = false});
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.router.push(CategoryDetailsRoute()),
+      onTap: () => context.router.push(
+        CategoryDetailsRoute(
+          categoryName: categoryModel.name,
+          categoryId: categoryModel.id,
+          secondCategory: categoryModel.secondCategory,
+        ),
+      ),
       child: Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
@@ -42,19 +47,22 @@ class CategoryItem extends StatelessWidget {
           children: [
             isLoading
                 ? ShimmerBox(width: 50.w, height: 50.w, borderRadius: BorderRadius.circular(50))
-                : NetworkIcon(url: image, size: 50.w),
+                : NetworkIcon(url: categoryModel.image, size: 50.w),
 
             SizedBox(height: 8.h),
 
             isLoading
                 ? ShimmerBox(width: 35.w, height: 10.h, borderRadius: BorderRadius.circular(4))
-                : Text(count, style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 12)),
+                : Text(
+                    categoryModel.totalCategoryCount.toString(),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 12),
+                  ),
 
             SizedBox(height: 6.h),
 
             isLoading
                 ? ShimmerBox(width: 50.w, height: 10.h, borderRadius: BorderRadius.circular(4))
-                : Text(name, style: Theme.of(context).textTheme.headlineSmall),
+                : Text(categoryModel.name, style: Theme.of(context).textTheme.headlineSmall),
           ],
         ),
       ),

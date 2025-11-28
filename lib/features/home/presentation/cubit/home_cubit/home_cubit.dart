@@ -2,9 +2,9 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 
-import '../../data/models/category_model.dart';
-import '../../data/models/city_model.dart';
-import '../../data/repos/home_repo.dart';
+import '../../../data/models/category_model.dart';
+import '../../../data/models/city_model.dart';
+import '../../../data/repos/home_repo/home_repo.dart';
 
 part 'home_state.dart';
 

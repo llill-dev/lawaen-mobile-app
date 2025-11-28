@@ -9,7 +9,7 @@ import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
-import 'package:lawaen/features/home/data/repos/home_repo.dart';
+import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @Injectable(as: HomeRepo)

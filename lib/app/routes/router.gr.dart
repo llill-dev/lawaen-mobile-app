@@ -136,18 +136,81 @@ class AddRoute extends _i29.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.CategoryDetailsScreen]
-class CategoryDetailsRoute extends _i29.PageRouteInfo<void> {
-  const CategoryDetailsRoute({List<_i29.PageRouteInfo>? children})
-    : super(CategoryDetailsRoute.name, initialChildren: children);
+class CategoryDetailsRoute
+    extends _i29.PageRouteInfo<CategoryDetailsRouteArgs> {
+  CategoryDetailsRoute({
+    _i30.Key? key,
+    required String categoryId,
+    required List<_i31.SecondCategory> secondCategory,
+    required String categoryName,
+    List<_i29.PageRouteInfo>? children,
+  }) : super(
+         CategoryDetailsRoute.name,
+         args: CategoryDetailsRouteArgs(
+           key: key,
+           categoryId: categoryId,
+           secondCategory: secondCategory,
+           categoryName: categoryName,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'CategoryDetailsRoute';
 
   static _i29.PageInfo page = _i29.PageInfo(
     name,
     builder: (data) {
-      return const _i5.CategoryDetailsScreen();
+      final args = data.argsAs<CategoryDetailsRouteArgs>();
+      return _i5.CategoryDetailsScreen(
+        key: args.key,
+        categoryId: args.categoryId,
+        secondCategory: args.secondCategory,
+        categoryName: args.categoryName,
+      );
     },
   );
+}
+
+class CategoryDetailsRouteArgs {
+  const CategoryDetailsRouteArgs({
+    this.key,
+    required this.categoryId,
+    required this.secondCategory,
+    required this.categoryName,
+  });
+
+  final _i30.Key? key;
+
+  final String categoryId;
+
+  final List<_i31.SecondCategory> secondCategory;
+
+  final String categoryName;
+
+  @override
+  String toString() {
+    return 'CategoryDetailsRouteArgs{key: $key, categoryId: $categoryId, secondCategory: $secondCategory, categoryName: $categoryName}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! CategoryDetailsRouteArgs) return false;
+    return key == other.key &&
+        categoryId == other.categoryId &&
+        const _i32.ListEquality<_i31.SecondCategory>().equals(
+          secondCategory,
+          other.secondCategory,
+        ) &&
+        categoryName == other.categoryName;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      categoryId.hashCode ^
+      const _i32.ListEquality<_i31.SecondCategory>().hash(secondCategory) ^
+      categoryName.hashCode;
 }
 
 /// generated route for

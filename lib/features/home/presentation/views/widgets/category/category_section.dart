@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lawaen/features/home/presentation/cubit/home_cubit.dart';
+import 'package:lawaen/features/home/data/models/category_model.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
 import 'category_item.dart';
@@ -37,10 +38,13 @@ class CategorySection extends StatelessWidget {
                 itemCount: isLoading ? 6 : state.categories.length.clamp(0, 6),
                 itemBuilder: (_, index) {
                   if (isLoading) {
-                    return const CategoryItem(image: "", count: "-------", name: "-------", isLoading: true);
+                    return CategoryItem(
+                      categoryModel: CategoryModel(description: "", id: "", image: "", name: "", secondCategory: []),
+                      isLoading: true,
+                    );
                   }
                   final item = state.categories[index];
-                  return CategoryItem(image: item.image, name: item.name, count: item.totalCategoryCount.toString());
+                  return CategoryItem(categoryModel: item);
                 },
               ),
             ),
