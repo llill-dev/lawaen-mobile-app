@@ -12,15 +12,18 @@ class CategoryDetailsState extends Equatable {
   final bool hasMore;
   final bool isLoadingMore;
 
+  final String? selectedSecondCategoryId;
+
   const CategoryDetailsState({
     this.categoryDetailsState = RequestState.idle,
     this.categories = const [],
     this.categoriesError,
     this.globalError,
     this.categoriesCurrentPage = 1,
-    this.limit = 4,
+    this.limit = 10,
     this.hasMore = true,
     this.isLoadingMore = false,
+    this.selectedSecondCategoryId,
   });
 
   CategoryDetailsState copyWith({
@@ -32,6 +35,9 @@ class CategoryDetailsState extends Equatable {
     int? limit,
     bool? hasMore,
     bool? isLoadingMore,
+
+    bool resetSelectedSecondCategoryId = false,
+    String? selectedSecondCategoryId,
   }) {
     return CategoryDetailsState(
       categoryDetailsState: categoryDetailsState ?? this.categoryDetailsState,
@@ -42,6 +48,10 @@ class CategoryDetailsState extends Equatable {
       limit: limit ?? this.limit,
       hasMore: hasMore ?? this.hasMore,
       isLoadingMore: isLoadingMore ?? this.isLoadingMore,
+
+      selectedSecondCategoryId: resetSelectedSecondCategoryId
+          ? null
+          : (selectedSecondCategoryId ?? this.selectedSecondCategoryId),
     );
   }
 
@@ -55,5 +65,6 @@ class CategoryDetailsState extends Equatable {
     limit,
     hasMore,
     isLoadingMore,
+    selectedSecondCategoryId,
   ];
 }

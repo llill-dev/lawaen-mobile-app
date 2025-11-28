@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
@@ -55,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           );
         },
         child: SafeArea(
-          child: RefreshIndicator(
+          child: CustomRefreshIndcator(
             onRefresh: () async => cubit.initHome(),
             child: CustomScrollView(
               physics: const AlwaysScrollableScrollPhysics(),

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
@@ -15,9 +16,51 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
 
   CategoryDetailsCubit(this._categoryDetailsRepo) : super(const CategoryDetailsState());
 
-  Future<void> getCategoryDetails({required String mainCategoryId, String? search, required bool isLoadMore}) async {
+  String? _mainCategoryId;
+  String? _search;
+
+  Timer? _debounceTimer;
+
+  Future<void> initCategoryDetails({required String mainCategoryId, String? search}) async {
+    _mainCategoryId = mainCategoryId;
+    _search = search;
+
+    emit(
+      state.copyWith(
+        categories: [],
+        categoriesCurrentPage: 1,
+        hasMore: true,
+        isLoadingMore: false,
+        categoryDetailsState: RequestState.loading,
+      ),
+    );
+
+    await _fetchCategoryDetails(isLoadMore: false);
+  }
+
+  Future<void> selectSecondCategory(String? secondCategoryId) async {
+    final bool reset = secondCategoryId == null;
+
+    emit(
+      state.copyWith(
+        resetSelectedSecondCategoryId: reset,
+        selectedSecondCategoryId: secondCategoryId,
+        categories: [],
+        categoriesCurrentPage: 1,
+        hasMore: true,
+        isLoadingMore: false,
+        categoryDetailsState: RequestState.loading,
+      ),
+    );
+
+    await _fetchCategoryDetails(isLoadMore: false);
+  }
+
+  Future<void> _fetchCategoryDetails({required bool isLoadMore}) async {
+    if (_mainCategoryId == null) return;
+
     if (!isLoadMore) {
-      emit(state.copyWith(categoryDetailsState: RequestState.loading, categoriesError: null));
+      emit(state.copyWith(categoryDetailsState: RequestState.loading, categoriesError: null, globalError: null));
     }
 
     final location = await getIt<LocationService>().getBestEffortLocation();
@@ -25,12 +68,16 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     final params = GetCategoryDetailsParams(
       latitude: location.latitude,
       longitude: location.longitude,
-      search: search,
       limit: state.limit,
       page: state.categoriesCurrentPage,
+      search: _search,
     );
 
-    final result = await _categoryDetailsRepo.getCategoryDetails(mainCategoryId, params);
+    final bool useSecond = state.selectedSecondCategoryId != null;
+
+    final String idToSend = useSecond ? state.selectedSecondCategoryId! : _mainCategoryId!;
+
+    final result = await _categoryDetailsRepo.getCategoryDetails(idToSend, params, useSecondCategory: useSecond);
 
     result.fold(
       (failure) {
@@ -59,12 +106,39 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
     );
   }
 
-  Future<void> loadMore({required String mainCategoryId, String? search}) async {
+  void loadMoreDebounced() {
+    if (!state.hasMore || state.isLoadingMore) return;
+
+    _debounceTimer?.cancel();
+    _debounceTimer = Timer(const Duration(milliseconds: 250), () {
+      loadMore();
+    });
+  }
+
+  Future<void> loadMore() async {
+    if (_mainCategoryId == null) return;
+
     if (!state.hasMore || state.isLoadingMore) return;
 
     emit(state.copyWith(isLoadingMore: true));
 
-    await getCategoryDetails(mainCategoryId: mainCategoryId, search: search, isLoadMore: true);
+    await _fetchCategoryDetails(isLoadMore: true);
+  }
+
+  Future<void> refresh() async {
+    if (_mainCategoryId == null) return;
+
+    emit(
+      state.copyWith(
+        categories: [],
+        categoriesCurrentPage: 1,
+        hasMore: true,
+        isLoadingMore: false,
+        categoryDetailsState: RequestState.loading,
+      ),
+    );
+
+    await _fetchCategoryDetails(isLoadMore: false);
   }
 
   void clearGlobalError() {

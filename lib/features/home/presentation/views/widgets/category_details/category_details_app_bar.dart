@@ -38,11 +38,7 @@ class CategoryDetailsAppBar extends StatelessWidget {
               borderRadius: 16.0,
               onFieldSubmitted: (value) {
                 if (value.trim().isNotEmpty && controller.text.trim().isNotEmpty) {
-                  cubit.getCategoryDetails(
-                    mainCategoryId: categoryId,
-                    isLoadMore: false,
-                    search: controller.text.trim(),
-                  );
+                  cubit.initCategoryDetails(mainCategoryId: categoryId, search: controller.text.trim());
                 }
               },
             ),

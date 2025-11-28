@@ -9,5 +9,8 @@ class Urls {
   //home
   static const String getCities = "cities/get";
   static const String getCategories = "category/get";
+
+  //category details
   static const String getCategoryDetails = "/location/by_basic/{id}";
+  static const String getCategoryDetailsBySecond = "/location/by_second/{id}";
 }

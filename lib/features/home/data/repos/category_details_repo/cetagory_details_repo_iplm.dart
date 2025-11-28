@@ -21,10 +21,13 @@ class CategoryDetailsRepoImpl implements CategoryDetailsRepo {
   @override
   Future<Either<ErrorModel, List<CategoryDetailsModel>>> getCategoryDetails(
     String id,
-    GetCategoryDetailsParams params,
-  ) async {
+    GetCategoryDetailsParams params, {
+    bool useSecondCategory = false,
+  }) async {
     try {
-      final response = await appServiceClient.getCategoryDetails(id: id, params: params);
+      final response = useSecondCategory
+          ? await appServiceClient.getCategoryDetailsBySecond(id: id, params: params)
+          : await appServiceClient.getCategoryDetails(id: id, params: params);
       if (response.status && response.data != null) {
         return Right(response.data!);
       }

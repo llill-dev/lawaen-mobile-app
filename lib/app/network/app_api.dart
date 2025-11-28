@@ -61,4 +61,10 @@ abstract class AppServiceClient {
     @Queries() required GetCategoryDetailsParams params,
     @Path("id") required String id,
   });
+
+  @GET(Urls.getCategoryDetailsBySecond)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getCategoryDetailsBySecond({
+    @Queries() required GetCategoryDetailsParams params,
+    @Path("id") required String id,
+  });
 }

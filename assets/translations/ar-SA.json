@@ -162,5 +162,7 @@
   "locationPermissionDialogMessage":"لا تقلق، نحن لا نتتبعك.\nنحن نستخدم موقعك فقط لتحميل المحتوى.",
   "enableLocation":"تمكين الوصول للموقع",
   "denyLocation":"رفض الوصول للموقع" ,
-  "popularPlaces" : "أماكن مشهورة"
+  "popularPlaces" : "أماكن مشهورة",
+  "filter" : "تصفية",
+  "all" : "الكل"
 }

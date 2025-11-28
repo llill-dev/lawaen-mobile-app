@@ -86,7 +86,7 @@ class OffersScreen extends StatelessWidget {
       builder: (context) {
         final List<String> subCategories = ["Food", "Cars", "Electronics", "Restaurants", "Travel"];
         final ValueNotifier<Set<String>> selected = ValueNotifier<Set<String>>({});
-        return FilterCategoryInfo(selected: selected, subCategories: subCategories);
+        return Container();
       },
     );
   }

@@ -162,5 +162,7 @@
   "locationPermissionDialogMessage":"Don’t worry—we don’t track you.\nWe only use your location once to load content.",
   "enableLocation":"Enable Location",
   "denyLocation":"Deny Location",
-  "popularPlaces" : "Popular Places"
+  "popularPlaces" : "Popular Places",
+  "filter" : "Filter",
+  "all" : "All"
 }

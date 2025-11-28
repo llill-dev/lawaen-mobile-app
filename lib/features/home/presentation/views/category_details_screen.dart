@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -38,11 +39,11 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   void initState() {
     super.initState();
     cubit = getIt<CategoryDetailsCubit>();
-    cubit.getCategoryDetails(mainCategoryId: widget.categoryId, isLoadMore: false);
+    cubit.initCategoryDetails(mainCategoryId: widget.categoryId);
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
-        cubit.loadMore(mainCategoryId: widget.categoryId);
+        cubit.loadMoreDebounced();
       }
     });
   }
@@ -60,40 +61,43 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 message: state.globalError!,
                 isError: true,
                 context: context,
-                onConfirm: () => cubit.getCategoryDetails(mainCategoryId: widget.categoryId, isLoadMore: false),
+                onConfirm: () => cubit.initCategoryDetails(mainCategoryId: widget.categoryId),
                 onCancel: () => cubit.clearGlobalError(),
               );
             }
           },
           child: SafeArea(
-            child: CustomScrollView(
-              controller: _scrollController,
-              clipBehavior: Clip.none,
-              slivers: [
-                CategoryDetailsAppBar(categoryId: widget.categoryId),
+            child: CustomRefreshIndcator(
+              onRefresh: () => cubit.initCategoryDetails(mainCategoryId: widget.categoryId),
+              child: CustomScrollView(
+                controller: _scrollController,
+                clipBehavior: Clip.none,
+                slivers: [
+                  CategoryDetailsAppBar(categoryId: widget.categoryId),
 
-                buildSpace(),
-                SliverToBoxAdapter(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: PrimaryBackButton(withShadow: true, width: 75.w).horizontalPadding(padding: 16.w),
+                  buildSpace(),
+                  SliverToBoxAdapter(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: PrimaryBackButton(withShadow: true, width: 75.w).horizontalPadding(padding: 16.w),
+                    ),
                   ),
-                ),
 
-                buildSpace(),
-                SliverToBoxAdapter(
-                  child: Text(
-                    widget.categoryName,
-                    style: Theme.of(context).textTheme.bodyLarge,
-                  ).horizontalPadding(padding: 16.w),
-                ),
+                  buildSpace(),
+                  SliverToBoxAdapter(
+                    child: Text(
+                      widget.categoryName,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ).horizontalPadding(padding: 16.w),
+                  ),
 
-                buildSpace(),
-                AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory),
+                  buildSpace(),
+                  AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory),
 
-                buildSpace(),
-                CategoryInfoList(),
-              ],
+                  buildSpace(),
+                  CategoryInfoList(),
+                ],
+              ),
             ),
           ),
         ),
