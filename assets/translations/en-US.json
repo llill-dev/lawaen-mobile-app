@@ -18,7 +18,7 @@
   "cancel": "Cancel",
   "retry": "Retry",
   "fieldRequired": "This field is required!",
-  "unKnownError": "un known error",
+  "unKnownError": "unknown error",
   "noItems": "No items",
   "invalidInput": "Invalid input",
   "sessionTimedOut": "Session timed out",

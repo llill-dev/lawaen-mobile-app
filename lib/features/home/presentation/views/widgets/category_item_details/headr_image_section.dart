@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
-import '../../../../../../app/resources/assets_manager.dart';
+import 'package:lawaen/features/home/data/models/category_item_model.dart';
 
 class HeaderImageSection extends StatefulWidget {
-  const HeaderImageSection({super.key});
+  final ItemData itemData;
+  const HeaderImageSection({super.key, required this.itemData});
 
   @override
   State<HeaderImageSection> createState() => _HeaderImageSectionState();
@@ -16,17 +18,6 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   bool isExpanded = false;
-
-  // Example working hours list
-  final List<Map<String, String>> workHours = [
-    {"day": "Sunday", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "Monday", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "Tuesday", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "Wednesday", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "Thursday", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "firady", "hours": "09:00 AM - 06:00 PM"},
-    {"day": "Saturday", "hours": "09:00 AM - 06:00 PM"},
-  ];
 
   void _toggleDropdown(BuildContext context) {
     if (isExpanded) {
@@ -42,6 +33,16 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
   OverlayEntry _createOverlayEntry(BuildContext context) {
     RenderSliverToBoxAdapter renderBox = context.findRenderObject() as RenderSliverToBoxAdapter;
     Offset position = renderBox.child!.localToGlobal(Offset.zero);
+    final String workingHours = widget.itemData.ui?.workingHours?.label ?? "";
+    final List<Map<String, String>> workHours = [
+      {"day": "Sunday", "hours": workingHours},
+      {"day": "Monday", "hours": workingHours},
+      {"day": "Tuesday", "hours": workingHours},
+      {"day": "Wednesday", "hours": workingHours},
+      {"day": "Thursday", "hours": workingHours},
+      {"day": "firady", "hours": workingHours},
+      {"day": "Saturday", "hours": workingHours},
+    ];
 
     return OverlayEntry(
       builder: (context) => Positioned(
@@ -87,6 +88,7 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
 
   @override
   Widget build(BuildContext context) {
+    bool isOpenNow = widget.itemData.ui?.workingHours?.isOpenNow == true;
     return SliverToBoxAdapter(
       child: Stack(
         children: [
@@ -95,8 +97,8 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  ColorManager.categoryItemDetailsGradinet.withValues(alpha: 0.5),
-                  ColorManager.categoryItemDetailsGradinet.withValues(alpha: 0.7),
+                  ColorManager.categoryItemDetailsGradinet.withValues(alpha: 0.1),
+                  ColorManager.categoryItemDetailsGradinet.withValues(alpha: 0.3),
                   ColorManager.categoryItemDetailsGradinet,
                 ],
                 begin: Alignment.topCenter,
@@ -104,8 +106,13 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
               ),
             ),
             child: AspectRatio(
-              aspectRatio: 16 / 10,
-              child: Image.asset(ImageManager.catItem, fit: BoxFit.cover, width: double.infinity),
+              aspectRatio: 16 / 9,
+              child: NetworkIcon(
+                url: widget.itemData.item?.images?.first ?? "",
+                fit: BoxFit.cover,
+
+                width: double.infinity,
+              ),
             ),
           ),
 
@@ -115,7 +122,10 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
             left: 15.w,
             child: GestureDetector(
               onTap: () => context.pop(),
-              child: Icon(Icons.arrow_back, color: ColorManager.white, size: 18.r),
+              child: CircleAvatar(
+                backgroundColor: ColorManager.black.withValues(alpha: .5),
+                child: Icon(Icons.arrow_back, color: ColorManager.white, size: 18.r),
+              ),
             ),
           ),
 
@@ -126,9 +136,16 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Banyan Tree Damascus",
-                  style: Theme.of(context).textTheme.labelMedium?.copyWith(color: ColorManager.white),
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: ColorManager.black.withValues(alpha: 0.6),
+                  ),
+                  child: Text(
+                    widget.itemData.item?.name ?? "",
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
+                  ),
                 ),
                 10.verticalSpace,
                 CompositedTransformTarget(
@@ -139,11 +156,14 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
                         onTap: () => _toggleDropdown(context),
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
-                          decoration: BoxDecoration(color: ColorManager.red, borderRadius: BorderRadius.circular(8)),
+                          decoration: BoxDecoration(
+                            color: isOpenNow ? ColorManager.green : ColorManager.red,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
                           child: Row(
                             children: [
                               Text(
-                                "Closed now",
+                                isOpenNow ? "Open now" : "Closed now",
                                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
                               ),
                               Icon(
@@ -156,9 +176,16 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
                         ),
                       ),
                       8.horizontalSpace,
-                      Text(
-                        "9:00AM - 6:00PM",
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.lightGrey),
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                          color: ColorManager.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Text(
+                          widget.itemData.ui?.workingHours?.label ?? "",
+                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.lightGrey),
+                        ),
                       ),
                     ],
                   ),

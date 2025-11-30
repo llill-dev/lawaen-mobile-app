@@ -17,7 +17,9 @@ class CategoryDetailsItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.router.push(CategoryItemDetialsRoute(itemId: "", subCategoryId: "")),
+      onTap: () => context.router.push(
+        CategoryItemDetialsRoute(itemId: categoryDetailsModel.id, subCategoryId: categoryDetailsModel.main ?? ""),
+      ),
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
         decoration: BoxDecoration(

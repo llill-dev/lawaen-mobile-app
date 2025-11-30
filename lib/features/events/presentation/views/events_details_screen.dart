@@ -38,15 +38,15 @@ class _EventsDetailsScreenState extends State<EventsDetailsScreen> {
               onSectionSelected: (index) => setState(() => selectedIndex = index),
             ),
             buildSpace(),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.w),
-                child: IndexedStack(
-                  index: selectedIndex,
-                  children: const [InfoSection(isEvent: true), LocationItemSection()],
-                ),
-              ),
-            ),
+            // SliverToBoxAdapter(
+            //   child: Padding(
+            //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+            //     child: IndexedStack(
+            //       index: selectedIndex,
+            //       children: const [InfoSection(isEvent: true), LocationItemSection()],
+            //     ),
+            //   ),
+            // ),
           ],
         ),
       ),

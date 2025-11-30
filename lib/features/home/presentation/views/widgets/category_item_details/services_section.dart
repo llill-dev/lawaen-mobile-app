@@ -1,26 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/features/home/data/models/category_item_model.dart';
 
 import '../../../../../../app/resources/color_manager.dart';
 
 class ServicesSection extends StatelessWidget {
-  const ServicesSection({super.key});
+  final ItemData itemData;
+  const ServicesSection({super.key, required this.itemData});
 
   @override
   Widget build(BuildContext context) {
-    final services = [
-      "Teeth Whitening ",
-      "Cleaning",
-      "X-ray",
-      "Consultation",
-      "Braces",
-      "Swimming Pool",
-      "Spa & Wellness",
-      "Beach Access",
-      "Fitness Center",
-    ];
+    final services = itemData.ui?.options ?? [];
+    if (services.isEmpty) return SizedBox.shrink();
     return Container(
       padding: EdgeInsets.all(18.w),
+      margin: EdgeInsets.only(bottom: 18),
       decoration: BoxDecoration(
         color: ColorManager.white,
         borderRadius: BorderRadius.circular(10),
@@ -29,6 +23,7 @@ class ServicesSection extends StatelessWidget {
       ),
       child: GridView.builder(
         padding: EdgeInsets.zero,
+        clipBehavior: Clip.none,
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
         itemCount: services.length,
@@ -39,7 +34,8 @@ class ServicesSection extends StatelessWidget {
           mainAxisExtent: 45.h,
         ),
         itemBuilder: (context, index) {
-          return ServicesItem(serviceTitle: services[index]);
+          if (services[index].title == null) return SizedBox.shrink();
+          return ServicesItem(serviceTitle: services[index].title!);
         },
       ),
     );

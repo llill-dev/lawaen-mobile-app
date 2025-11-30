@@ -61,9 +61,10 @@ class _SectionItem extends StatelessWidget {
         ),
         child: Text(
           title,
-          style: Theme.of(
-            context,
-          ).textTheme.headlineSmall?.copyWith(color: isSelected ? ColorManager.primary : ColorManager.darkGrey),
+          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+            color: isSelected ? ColorManager.primary : ColorManager.darkGrey,
+            fontSize: 12,
+          ),
         ),
       ),
     );

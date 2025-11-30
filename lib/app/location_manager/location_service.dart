@@ -1,8 +1,12 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/functions/url_launcher.dart';
+
+import 'package:geocoding/geocoding.dart';
 
 class AppLocation {
   final double latitude;
@@ -166,6 +170,73 @@ class LocationService {
 
   AppLocation _tempLocation() {
     return AppLocation(latitude: 33.5138, longitude: 36.2765, timestamp: DateTime.now());
+  }
+
+  // =========================
+  //  OPEN MAPS
+  // =========================
+
+  /// Opens Google Maps on Android and Apple Maps on iOS.
+  Future<void> openLocationInMaps({required double latitude, required double longitude}) async {
+    final lat = latitude.toString();
+    final lng = longitude.toString();
+
+    try {
+      if (Platform.isIOS) {
+        // Apple Maps
+        final appleUrl = "http://maps.apple.com/?ll=$lat,$lng";
+
+        await launchURL(link: appleUrl);
+        return;
+      }
+
+      // ANDROID: Google Maps App
+      final googleNative = "geo:$lat,$lng?q=$lat,$lng";
+      try {
+        await launchURL(link: googleNative);
+        return;
+      } catch (_) {
+        // ignore and fallback
+      }
+
+      // FALLBACK (Browser)
+      final fallbackGoogle = "https://www.google.com/maps/search/?api=1&query=$lat,$lng";
+
+      await launchURL(link: fallbackGoogle);
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error opening maps: $e");
+      }
+    }
+  }
+
+  // =================================
+  /// REVERSE GEOCODING
+  // ===============================
+
+  Future<String> getAddressFromCoordinates({required double latitude, required double longitude}) async {
+    try {
+      final placemarks = await placemarkFromCoordinates(latitude, longitude);
+
+      if (placemarks.isEmpty) return "Unknown location";
+
+      final p = placemarks.first;
+
+      final parts = [
+        if (p.country != null && p.country!.isNotEmpty) p.country,
+        if (p.administrativeArea != null && p.administrativeArea!.isNotEmpty) p.administrativeArea,
+        if (p.locality != null && p.locality!.isNotEmpty) p.locality,
+      ];
+
+      if (parts.isEmpty) return "Unknown location";
+
+      return parts.join(", ");
+    } catch (e) {
+      if (kDebugMode) {
+        print("Error in reverse geocoding: $e");
+      }
+      return "Unknown location";
+    }
   }
 }
 

@@ -1,50 +1,78 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/core/functions/url_launcher.dart';
 import 'package:lawaen/app/extensions.dart';
-import 'package:lawaen/app/resources/assets_manager.dart';
-import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/home/data/models/category_item_model.dart';
 
 import '../../../../../../app/resources/color_manager.dart';
 
 class InfoSection extends StatelessWidget {
   final bool isEvent;
-  const InfoSection({super.key, this.isEvent = false});
+  final ItemData itemData;
+  const InfoSection({super.key, this.isEvent = false, required this.itemData});
 
   @override
   Widget build(BuildContext context) {
+    final emails = itemData.ui?.contacts?.emails;
+    final urls = itemData.ui?.contacts?.urls;
     return Column(
       children: [
-        Container(
-          padding: EdgeInsets.all(24.w),
-          decoration: _buildBoxDecoration(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("About", style: Theme.of(context).textTheme.headlineLarge),
-              10.verticalSpace,
-              Text(
-                "Life beckons at Banyan Tree, your sanctuary for the senses. Nestled in the heart of Bluewaters Island, our resort offers unparalleled views of the Arabian Gulf. Experience world-class hospitality with state-of-the-art facilities and exceptional service.",
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ],
-          ),
-        ),
-        if (!isEvent) ...[
+        // Container(
+        //   padding: EdgeInsets.all(24.w),
+        //   decoration: _buildBoxDecoration(),
+        //   child: Column(
+        //     crossAxisAlignment: CrossAxisAlignment.start,
+        //     children: [
+        //       Text("About", style: Theme.of(context).textTheme.headlineLarge),
+        //       10.verticalSpace,
+        //       Text(itemData.item?.description ?? "", style: Theme.of(context).textTheme.headlineMedium),
+        //     ],
+        //   ),
+        // ),
+        if (!isEvent && ((emails != null && emails.isNotEmpty) || (urls != null && urls.isNotEmpty))) ...[
           20.verticalSpace,
           Container(
             padding: EdgeInsets.all(24.w),
             decoration: _buildBoxDecoration(),
             child: Column(
               children: [
-                InfoItem(),
                 12.verticalSpace,
-                InfoItem(),
-                12.verticalSpace,
-                InfoItem(),
-                12.verticalSpace,
-                InfoItem(),
+
+                if (emails != null && emails.isNotEmpty)
+                  ...emails.map((email) {
+                    return Column(
+                      children: [
+                        InfoItem(
+                          title: email.title ?? "",
+                          icon: email.svg,
+                          onTap: () {
+                            final emailAddress = email.value?.trim() ?? "";
+                            if (emailAddress.isNotEmpty) {
+                              launchEmail(emailAddress);
+                            }
+                          },
+                        ),
+                        12.verticalSpace,
+                      ],
+                    );
+                  }),
+
+                if (urls != null && urls.isNotEmpty)
+                  ...urls.map((url) {
+                    return Column(
+                      children: [
+                        InfoItem(
+                          title: url.title ?? "",
+                          icon: url.svg,
+                          onTap: () {
+                            launchURL(link: url.value.toString());
+                          },
+                        ),
+                        10.verticalSpace,
+                      ],
+                    );
+                  }),
               ],
             ),
           ),
@@ -64,35 +92,48 @@ class InfoSection extends StatelessWidget {
 }
 
 class InfoItem extends StatelessWidget {
-  const InfoItem({super.key});
+  final String title;
+  final String? icon;
+  final String? subTitle;
+  final String? moreInfoToShow;
+  final VoidCallback? onTap;
+  const InfoItem({super.key, required this.title, required this.icon, this.subTitle, this.onTap, this.moreInfoToShow});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        GestureDetector(
-          onTap: () => context.router.push(MuneRoute()),
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-            decoration: BoxDecoration(color: ColorManager.primarySwatch[100], borderRadius: BorderRadius.circular(10)),
-            child: SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 20.w, height: 20.h),
+    return GestureDetector(
+      onTap: onTap,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (icon != null)
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+              decoration: BoxDecoration(
+                color: ColorManager.primarySwatch[100],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: SvgPicture.string(icon!, color: ColorManager.primary, width: 20.w, height: 20.h),
+            ),
+          15.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: Theme.of(context).textTheme.headlineMedium),
+                if (subTitle != null) ...[
+                  4.verticalSpace,
+                  Text(subTitle!, style: Theme.of(context).textTheme.headlineMedium),
+                ],
+                if (moreInfoToShow != null) ...[
+                  4.verticalSpace,
+                  Text(moreInfoToShow!, style: Theme.of(context).textTheme.headlineMedium),
+                ],
+              ],
+            ),
           ),
-        ),
-        15.horizontalSpace,
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Opening Hours", style: Theme.of(context).textTheme.headlineMedium),
-              4.verticalSpace,
-              Text("09:00 AM - 06:00 PM", style: Theme.of(context).textTheme.headlineMedium),
-              4.verticalSpace,
-              Text("Monday - Sunday", style: Theme.of(context).textTheme.headlineSmall),
-            ],
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -13,4 +13,6 @@ class Urls {
   //category details
   static const String getCategoryDetails = "/location/by_basic/{id}";
   static const String getCategoryDetailsBySecond = "/location/by_second/{id}";
+
+  static const String getItemData = "/location/by_id/{second_id}/{id}";
 }

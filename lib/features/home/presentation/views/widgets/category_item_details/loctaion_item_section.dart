@@ -2,13 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
+import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 
 import '../../../../../../app/resources/color_manager.dart';
 
 class LocationItemSection extends StatelessWidget {
-  const LocationItemSection({super.key});
+  final double? latitude;
+  final double? longitude;
+  const LocationItemSection({super.key, this.latitude, this.longitude});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +28,14 @@ class LocationItemSection extends StatelessWidget {
           15.verticalSpace,
           Text("Damascus Bluewaters Island", style: Theme.of(context).textTheme.headlineMedium),
           15.verticalSpace,
-          PrimaryButton(text: "open in map"),
+          PrimaryButton(
+            text: "open in map",
+            onPressed: () async {
+              if (latitude != null && longitude != null) {
+                await getIt<LocationService>().openLocationInMaps(latitude: latitude!, longitude: longitude!);
+              }
+            },
+          ),
         ],
       ),
     ).horizontalPadding(padding: 16.w);

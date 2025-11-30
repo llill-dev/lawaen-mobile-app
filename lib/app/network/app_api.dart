@@ -9,6 +9,7 @@ import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
+import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
@@ -65,6 +66,12 @@ abstract class AppServiceClient {
   @GET(Urls.getCategoryDetailsBySecond)
   Future<ApiResponse<List<CategoryDetailsModel>>> getCategoryDetailsBySecond({
     @Queries() required GetCategoryDetailsParams params,
+    @Path("id") required String id,
+  });
+
+  @GET(Urls.getItemData)
+  Future<ApiResponse<ItemData>> getItemData({
+    @Path("second_id") required String secondId,
     @Path("id") required String id,
   });
 }

@@ -8,8 +8,9 @@ class NetworkIcon extends StatelessWidget {
   final String url;
   final double? size;
   final BoxFit? fit;
-
-  const NetworkIcon({super.key, required this.url, this.size, this.fit});
+  final double? width;
+  final double? height;
+  const NetworkIcon({super.key, required this.url, this.size, this.fit, this.width, this.height});
 
   bool get _isSvg => url.toLowerCase().endsWith(".svg");
 
@@ -18,8 +19,8 @@ class NetworkIcon extends StatelessWidget {
     if (_isSvg) {
       return SvgPicture.network(
         url,
-        height: size,
-        width: size,
+        height: size ?? height,
+        width: size ?? width,
         fit: fit ?? BoxFit.cover,
         placeholderBuilder: (context) => Shimmer.fromColors(
           baseColor: ColorManager.blackSwatch[5] ?? Colors.grey.shade300,
@@ -29,7 +30,7 @@ class NetworkIcon extends StatelessWidget {
         errorBuilder: (context, url, error) => const Icon(Icons.error),
       );
     } else {
-      return CachedImage(url: url, height: size, width: size, fit: fit);
+      return CachedImage(url: url, height: size ?? height, width: size ?? width, fit: fit);
     }
   }
 }
