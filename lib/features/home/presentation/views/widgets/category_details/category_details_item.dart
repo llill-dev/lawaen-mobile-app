@@ -32,7 +32,9 @@ class CategoryDetailsItem extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.circular(14),
-              child: CachedImage(width: 50.w, height: 50.h, url: categoryDetailsModel.image, fit: BoxFit.fill),
+              child: categoryDetailsModel.image.isEmpty
+                  ? Image.asset(ImageManager.emptyPhoto, width: 50.w, height: 50.h, fit: BoxFit.fill)
+                  : CachedImage(width: 50.w, height: 50.h, url: categoryDetailsModel.image, fit: BoxFit.fill),
             ),
             18.horizontalSpace,
             Expanded(

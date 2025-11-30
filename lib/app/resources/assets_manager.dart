@@ -20,6 +20,7 @@ class ImageManager {
   static const String qrCodeTop = "${imagePath}qr_code_top.png";
   static const String qrCodeBottom = "${imagePath}qr_code_bottom.png";
   static const String ratings = "${imagePath}ratings.png";
+  static const String emptyPhoto = "${imagePath}dubailogo.png";
 }
 
 class IconManager {

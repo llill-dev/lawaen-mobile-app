@@ -79,7 +79,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   SliverToBoxAdapter(
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: PrimaryBackButton(withShadow: true, width: 75.w).horizontalPadding(padding: 16.w),
+                      child: PrimaryBackButton(withShadow: false).horizontalPadding(padding: 16.w),
                     ),
                   ),
 

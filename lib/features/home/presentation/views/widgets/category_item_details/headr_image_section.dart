@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/helper/network_icon.dart';
+import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 
@@ -105,15 +106,22 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
                 end: Alignment.bottomCenter,
               ),
             ),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: NetworkIcon(
-                url: widget.itemData.item?.images?.first ?? "",
-                fit: BoxFit.cover,
+            child: widget.itemData.item?.images == null || widget.itemData.item!.images!.isEmpty
+                ? Image.asset(
+                    ImageManager.emptyPhoto,
+                    width: double.infinity,
+                    height: double.infinity,
+                    fit: BoxFit.cover,
+                  )
+                : AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: NetworkIcon(
+                      url: widget.itemData.item!.images!.first,
+                      fit: BoxFit.cover,
 
-                width: double.infinity,
-              ),
-            ),
+                      width: double.infinity,
+                    ),
+                  ),
           ),
 
           // Back button
