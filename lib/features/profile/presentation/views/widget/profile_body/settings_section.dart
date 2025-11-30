@@ -2,7 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/widgets/show_language_bottom_sheet.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
@@ -44,9 +46,20 @@ class SettingsSection extends StatelessWidget {
                   icon: IconManager.languages,
                   onTap: () {
                     final appPreferences = getIt<AppPreferences>();
-                    appPreferences.changeAppLanguage();
-                    context.setLocale(appPreferences.getAppLanguage() == english ? englishLocale : arabicLocale);
-                    context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
+                    showLanguageBottomSheet(
+                      title: LocaleKeys.language.tr(),
+                      context: context,
+                      options: [LocaleKeys.english.tr(), LocaleKeys.arabic.tr()],
+                      selectedOption: appPreferences.getAppLanguage() == english
+                          ? LocaleKeys.english.tr()
+                          : LocaleKeys.arabic.tr(),
+                      onSelect: (p0) async {
+                        appPreferences.changeAppLanguage();
+                        context.setLocale(appPreferences.getAppLanguage() == english ? englishLocale : arabicLocale);
+                        setLocaleIdentifier(appPreferences.getAppLanguage() == english ? 'en_US' : 'ar_SA');
+                        context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
+                      },
+                    );
                   },
                 ),
                 SettingsItme(

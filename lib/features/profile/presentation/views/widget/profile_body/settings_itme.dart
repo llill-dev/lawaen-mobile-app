@@ -23,11 +23,11 @@ class SettingsItme extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8),
-      child: Column(
-        children: [
-          GestureDetector(
-            onTap: onTap,
-            child: Row(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Column(
+          children: [
+            Row(
               children: [
                 CircleAvatar(
                   backgroundColor: ColorManager.lightGrey,
@@ -44,13 +44,13 @@ class SettingsItme extends StatelessWidget {
                 Icon(Icons.arrow_forward_ios_rounded, size: 16, color: ColorManager.black),
               ],
             ),
-          ),
-          if (hasDivider)
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4),
-              child: const Divider(color: ColorManager.lightGrey, thickness: 2),
-            ),
-        ],
+            if (hasDivider)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: const Divider(color: ColorManager.lightGrey, thickness: 2),
+              ),
+          ],
+        ),
       ),
     );
   }

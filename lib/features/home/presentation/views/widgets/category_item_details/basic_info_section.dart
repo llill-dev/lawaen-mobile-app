@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,6 +6,7 @@ import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/item_details_link_row.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
 import 'feedback_bottom_sheet.dart';
@@ -56,7 +58,7 @@ class BasicInfoSection extends StatelessWidget {
                     border: Border.all(color: ColorManager.primary, width: 2),
                   ),
                   child: Text(
-                    "Feedback",
+                    LocaleKeys.feedback.tr(),
                     style: Theme.of(
                       context,
                     ).textTheme.headlineMedium?.copyWith(color: ColorManager.primary, fontSize: 12),
@@ -70,9 +72,9 @@ class BasicInfoSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              _buildUserActionContainer(context: context, title: "claim", onTap: () {}),
+              _buildUserActionContainer(context: context, title: LocaleKeys.claim.tr(), onTap: () {}),
               4.horizontalSpace,
-              _buildUserActionContainer(context: context, title: "Report", onTap: () {}, read: true),
+              _buildUserActionContainer(context: context, title: LocaleKeys.report.tr(), onTap: () {}, read: true),
             ],
           ),
         ],

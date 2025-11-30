@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,6 +7,7 @@ import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class HeaderImageSection extends StatefulWidget {
   final ItemData itemData;
@@ -36,13 +38,13 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
     Offset position = renderBox.child!.localToGlobal(Offset.zero);
     final String workingHours = widget.itemData.ui?.workingHours?.label ?? "";
     final List<Map<String, String>> workHours = [
-      {"day": "Sunday", "hours": workingHours},
-      {"day": "Monday", "hours": workingHours},
-      {"day": "Tuesday", "hours": workingHours},
-      {"day": "Wednesday", "hours": workingHours},
-      {"day": "Thursday", "hours": workingHours},
-      {"day": "firady", "hours": workingHours},
-      {"day": "Saturday", "hours": workingHours},
+      {"day": LocaleKeys.sunday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.monday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.tuesday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.wednesday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.thursday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.friday.tr(), "hours": workingHours},
+      {"day": LocaleKeys.saturday.tr(), "hours": workingHours},
     ];
 
     return OverlayEntry(
@@ -171,7 +173,7 @@ class _HeaderImageSectionState extends State<HeaderImageSection> {
                           child: Row(
                             children: [
                               Text(
-                                isOpenNow ? "Open now" : "Closed now",
+                                isOpenNow ? LocaleKeys.openNow.tr() : LocaleKeys.closedNow.tr(),
                                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
                               ),
                               Icon(

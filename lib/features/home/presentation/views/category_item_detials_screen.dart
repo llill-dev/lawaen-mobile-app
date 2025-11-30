@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:lawaen/app/core/widgets/error_view.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_item_details_cubit/category_item_detials_cubit.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'widgets/category_item_details/basic_info_section.dart';
 import 'widgets/category_item_details/headr_image_section.dart';
@@ -34,7 +36,12 @@ class CategoryItemDetialsScreen extends StatefulWidget {
 
 class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
   int selectedIndex = 0;
-  final List<String> sections = ["Photos", "Information", "Location", "Services"];
+  final List<String> sections = [
+    LocaleKeys.photos.tr(),
+    LocaleKeys.information.tr(),
+    LocaleKeys.location.tr(),
+    LocaleKeys.services.tr(),
+  ];
   late final CategoryItemDetialsCubit cubit;
   @override
   void initState() {

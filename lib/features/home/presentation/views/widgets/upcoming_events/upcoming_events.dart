@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
 import 'event_item.dart';
@@ -52,7 +54,7 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Upcoming Events', style: Theme.of(context).textTheme.bodyMedium),
+          Text(LocaleKeys.upcomingEvents.tr(), style: Theme.of(context).textTheme.bodyMedium),
           SizedBox(height: 5.h),
           AspectRatio(
             aspectRatio: 16 / 7,

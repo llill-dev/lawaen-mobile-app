@@ -1,5 +1,7 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../resources/color_manager.dart';
 
@@ -49,7 +51,7 @@ class PrimaryBackButton extends StatelessWidget {
             if (!iconOnlay) ...[
               SizedBox(width: 4),
               Text(
-                'back',
+                LocaleKeys.back.tr(),
                 style: Theme.of(
                   context,
                 ).textTheme.headlineSmall?.copyWith(color: iconColor ?? ColorManager.primary, fontSize: fontSize),

@@ -227,7 +227,7 @@ class LocationService {
 
       final placemarks = await placemarkFromCoordinates(latitude, longitude);
 
-      if (placemarks.isEmpty) return "Unknown location";
+      if (placemarks.isEmpty) return "";
 
       final p = placemarks.first;
 
@@ -237,14 +237,14 @@ class LocationService {
         if (p.locality != null && p.locality!.isNotEmpty) p.locality,
       ];
 
-      if (parts.isEmpty) return "Unknown location";
+      if (parts.isEmpty) return "";
 
       return parts.join(", ");
     } catch (e) {
       if (kDebugMode) {
         print("Error in reverse geocoding: $e");
       }
-      return "Unknown location";
+      return "";
     }
   }
 }
