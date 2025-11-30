@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 
 import '../../../data/models/category_model.dart';

@@ -1,7 +1,5 @@
 part of 'home_cubit.dart';
 
-enum RequestState { idle, loading, success, error }
-
 class HomeState extends Equatable {
   // CITIES
   final RequestState citiesState;

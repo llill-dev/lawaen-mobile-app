@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';

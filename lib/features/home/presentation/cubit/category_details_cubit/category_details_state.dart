@@ -1,7 +1,5 @@
 part of 'category_details_cubit.dart';
 
-enum RequestState { idle, loading, success, error }
-
 class CategoryDetailsState extends Equatable {
   final RequestState categoryDetailsState;
   final List<CategoryDetailsModel> categories;
