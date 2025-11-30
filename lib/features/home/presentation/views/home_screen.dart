@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
-import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
@@ -35,70 +34,67 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = getIt<HomeCubit>();
+    cubit = context.read<HomeCubit>();
     cubit.initHome();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: cubit,
-      child: BlocListener<HomeCubit, HomeState>(
-        listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
-        listener: (context, state) {
-          alertDialog(
-            context: context,
-            message: state.globalError!,
-            isError: true,
-            icon: Icons.wifi_tethering_error_rounded_outlined,
-            onConfirm: () => cubit.initHome(),
-            onCancel: () => cubit.clearGlobalError(),
-          );
-        },
-        child: SafeArea(
-          child: CustomRefreshIndcator(
-            onRefresh: () async => cubit.initHome(),
-            child: CustomScrollView(
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                SliverToBoxAdapter(child: const HomeAppBar()),
-                buildSpace(),
-                const LocationSection(),
+    return BlocListener<HomeCubit, HomeState>(
+      listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
+      listener: (context, state) {
+        alertDialog(
+          context: context,
+          message: state.globalError!,
+          isError: true,
+          icon: Icons.wifi_tethering_error_rounded_outlined,
+          onConfirm: () => cubit.initHome(),
+          onCancel: () => cubit.clearGlobalError(),
+        );
+      },
+      child: SafeArea(
+        child: CustomRefreshIndcator(
+          onRefresh: () async => cubit.initHome(),
+          child: CustomScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            slivers: [
+              SliverToBoxAdapter(child: const HomeAppBar()),
+              buildSpace(),
+              const LocationSection(),
 
-                buildSpace(),
+              buildSpace(),
 
-                ViewAllCategories(),
-                buildSpace(),
-                const CategorySection(),
+              ViewAllCategories(),
+              buildSpace(),
+              const CategorySection(),
 
-                buildSpace(),
+              buildSpace(),
 
-                const UpcomingEvents(),
-                buildSpace(),
+              const UpcomingEvents(),
+              buildSpace(),
 
-                const AddYourBusiness(),
-                buildSpace(),
+              const AddYourBusiness(),
+              buildSpace(),
 
-                const WeatherAndMap(),
-                buildSpace(),
+              const WeatherAndMap(),
+              buildSpace(),
 
-                SliverToBoxAdapter(
-                  child: Row(
-                    children: [
-                      Text(LocaleKeys.popularPlaces.tr(), style: Theme.of(context).textTheme.headlineMedium),
-                      const Spacer(),
-                      Text(
-                        LocaleKeys.viewAll.tr(),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
-                      ),
-                    ],
-                  ).horizontalPadding(padding: 16.w),
-                ),
+              SliverToBoxAdapter(
+                child: Row(
+                  children: [
+                    Text(LocaleKeys.popularPlaces.tr(), style: Theme.of(context).textTheme.headlineMedium),
+                    const Spacer(),
+                    Text(
+                      LocaleKeys.viewAll.tr(),
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                    ),
+                  ],
+                ).horizontalPadding(padding: 16.w),
+              ),
 
-                const PopularPlaces(),
-                buildSpace(height: 50.h),
-              ],
-            ),
+              const PopularPlaces(),
+              buildSpace(height: 50.h),
+            ],
           ),
         ),
       ),

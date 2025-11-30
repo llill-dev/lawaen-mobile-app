@@ -7,6 +7,7 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_itme.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -38,7 +39,16 @@ class SettingsSection extends StatelessWidget {
           _SettingsContainer(
             child: Column(
               children: [
-                SettingsItme(title: LocaleKeys.language.tr(), icon: IconManager.languages, onTap: () {}),
+                SettingsItme(
+                  title: LocaleKeys.language.tr(),
+                  icon: IconManager.languages,
+                  onTap: () {
+                    final appPreferences = getIt<AppPreferences>();
+                    appPreferences.changeAppLanguage();
+                    context.setLocale(appPreferences.getAppLanguage() == english ? englishLocale : arabicLocale);
+                    context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
+                  },
+                ),
                 SettingsItme(
                   title: LocaleKeys.location.tr(),
                   icon: IconManager.location,

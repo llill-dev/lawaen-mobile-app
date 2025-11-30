@@ -1,6 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lawaen/app/core/services/deep_linking_service.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 
 import 'app/di/injection.dart';
 import 'app/resources/theme_manager.dart';
@@ -23,14 +25,17 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: "Lawaen",
-      debugShowCheckedModeBanner: false,
-      localizationsDelegates: context.localizationDelegates,
-      supportedLocales: context.supportedLocales,
-      locale: context.locale,
-      theme: getApplicationTheme(),
-      routerConfig: getIt<AppRouter>().config(),
+    return MultiBlocProvider(
+      providers: [BlocProvider(create: (context) => getIt<HomeCubit>())],
+      child: MaterialApp.router(
+        title: "Lawaen",
+        debugShowCheckedModeBanner: false,
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        theme: getApplicationTheme(),
+        routerConfig: getIt<AppRouter>().config(),
+      ),
     );
   }
 }

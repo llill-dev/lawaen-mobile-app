@@ -87,6 +87,7 @@ class LocationService {
         permissionStatus == AppLocationPermissionStatus.serviceDisabled) {
       throw LocationException(permissionStatus);
     }
+
     final Position position;
     if (Platform.isIOS) {
       position = await Geolocator.getCurrentPosition(locationSettings: AppleSettings(accuracy: LocationAccuracy.high));
@@ -98,7 +99,7 @@ class LocationService {
 
     final location = AppLocation(latitude: position.latitude, longitude: position.longitude, timestamp: DateTime.now());
 
-    await _saveLocation(location);
+    await saveLocation(location);
     return location;
   }
 
@@ -115,7 +116,7 @@ class LocationService {
 
     final location = AppLocation(latitude: position.latitude, longitude: position.longitude, timestamp: DateTime.now());
 
-    await _saveLocation(location);
+    await saveLocation(location);
     return location;
   }
 
@@ -135,19 +136,21 @@ class LocationService {
     }
   }
 
+  /// Public helper to save any location (GPS or manually selected city)
+  Future<void> saveLocation(AppLocation location) async {
+    await _prefs.setDouble(prefsKey: prefsLat, value: location.latitude);
+    await _prefs.setDouble(prefsKey: prefsLng, value: location.longitude);
+    await _prefs.setString(prefsKey: prefsLocationTimestamp, value: location.timestamp.toIso8601String());
+  }
+
+  /// Backwards-compat wrapper if you still call this somewhere
   Future<void> saveFallbackLocation(AppLocation location) async {
-    await _saveLocation(location);
+    await saveLocation(location);
   }
 
   // =========================
   // Private helpers
   // =========================
-
-  Future<void> _saveLocation(AppLocation location) async {
-    await _prefs.setDouble(prefsKey: prefsLat, value: location.latitude);
-    await _prefs.setDouble(prefsKey: prefsLng, value: location.longitude);
-    await _prefs.setString(prefsKey: prefsLocationTimestamp, value: location.timestamp.toIso8601String());
-  }
 
   AppLocation? _getLocationFromPrefs() {
     final lat = _prefs.getDouble(prefsKey: prefsLat);
@@ -216,6 +219,12 @@ class LocationService {
 
   Future<String> getAddressFromCoordinates({required double latitude, required double longitude}) async {
     try {
+      final appLang = _prefs.getAppLanguage();
+
+      final localeIdentifier = appLang == 'ar' ? 'ar_SA' : 'en_US';
+
+      setLocaleIdentifier(localeIdentifier);
+
       final placemarks = await placemarkFromCoordinates(latitude, longitude);
 
       if (placemarks.isEmpty) return "Unknown location";

@@ -1,6 +1,9 @@
+import 'dart:math' as math;
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/location_manager/location_service.dart';
 
 import '../../../data/models/category_model.dart';
 import '../../../data/models/city_model.dart';
@@ -11,12 +14,14 @@ part 'home_state.dart';
 @Injectable()
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo _homeRepo;
+  final LocationService _locationService;
 
-  HomeCubit(this._homeRepo) : super(const HomeState());
+  HomeCubit(this._homeRepo, this._locationService) : super(const HomeState());
 
   Future<void> initHome() async {
     getCities();
     getCategories();
+    loadUserLocation();
   }
 
   // ────────────────────────────────────────────────
@@ -38,7 +43,16 @@ class HomeCubit extends Cubit<HomeState> {
         );
       },
       (cities) {
-        emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
+        final matchedCity = _getCityForLocation(state.userLatitude, state.userLongitude, cities);
+
+        emit(
+          state.copyWith(
+            citiesState: RequestState.success,
+            cities: cities,
+            citiesError: null,
+            currentCity: matchedCity ?? state.currentCity,
+          ),
+        );
       },
     );
   }
@@ -66,6 +80,98 @@ class HomeCubit extends Cubit<HomeState> {
       },
     );
   }
+
+  // ────────────────────────────────────────────────
+  // LOCATION
+  // ────────────────────────────────────────────────
+  Future<void> loadUserLocation() async {
+    emit(state.copyWith(locationState: RequestState.loading, locationError: null));
+
+    try {
+      final location = await _locationService.getBestEffortLocation();
+
+      final address = await _locationService.getAddressFromCoordinates(
+        latitude: location.latitude,
+        longitude: location.longitude,
+      );
+
+      final matchedCity = _getCityForLocation(location.latitude, location.longitude, state.cities);
+
+      emit(
+        state.copyWith(
+          locationState: RequestState.success,
+          locationError: null,
+          userLatitude: location.latitude,
+          userLongitude: location.longitude,
+          userAddress: address,
+          currentCity: matchedCity ?? state.currentCity,
+        ),
+      );
+    } catch (e) {
+      emit(state.copyWith(locationState: RequestState.error, locationError: e.toString()));
+    }
+  }
+
+  Future<void> selectCity(CityModel city) async {
+    final appLocation = AppLocation(
+      latitude: city.location.latitude,
+      longitude: city.location.longitude,
+      timestamp: DateTime.now(),
+    );
+
+    await _locationService.saveLocation(appLocation);
+
+    emit(
+      state.copyWith(
+        userLatitude: appLocation.latitude,
+        userLongitude: appLocation.longitude,
+        userAddress: city.name,
+        currentCity: city,
+        locationState: RequestState.success,
+        locationError: null,
+      ),
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // HELPERS: city matching by user location
+  // ────────────────────────────────────────────────
+  CityModel? _getCityForLocation(double? latitude, double? longitude, List<CityModel> cities) {
+    if (latitude == null || longitude == null || cities.isEmpty) return null;
+
+    CityModel? bestMatch;
+    double? bestDistance;
+
+    for (final city in cities) {
+      final distance = _calculateDistanceInMeters(latitude, longitude, city.location.latitude, city.location.longitude);
+
+      final cityRadiusMeters = city.radius * 1000;
+
+      if (distance <= cityRadiusMeters) {
+        if (bestDistance == null || distance < bestDistance) {
+          bestDistance = distance;
+          bestMatch = city;
+        }
+      }
+    }
+
+    return bestMatch;
+  }
+
+  double _calculateDistanceInMeters(double lat1, double lon1, double lat2, double lon2) {
+    const earthRadius = 6371000.0;
+    final dLat = _degToRad(lat2 - lat1);
+    final dLon = _degToRad(lon2 - lon1);
+
+    final a =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(_degToRad(lat1)) * math.cos(_degToRad(lat2)) * math.sin(dLon / 2) * math.sin(dLon / 2);
+
+    final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    return earthRadius * c;
+  }
+
+  double _degToRad(double deg) => deg * (math.pi / 180.0);
 
   void clearGlobalError() {
     emit(state.copyWith(globalError: null));

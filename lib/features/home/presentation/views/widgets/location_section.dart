@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:skeletonizer/skeletonizer.dart';
@@ -13,7 +13,7 @@ class LocationSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: BlocBuilder<HomeCubit, HomeState>(
-        buildWhen: (p, c) => p.citiesState != c.citiesState,
+        buildWhen: (p, c) => p.citiesState != c.citiesState || p.currentCity != c.currentCity,
         builder: (context, state) {
           if (state.citiesState == RequestState.loading) {
             return _buildSkeletonLoader();
@@ -33,14 +33,32 @@ class LocationSection extends StatelessWidget {
                 separatorBuilder: (_, _) => SizedBox(width: 16.w),
                 itemBuilder: (context, index) {
                   final city = state.cities[index];
-                  return Column(
-                    children: [
-                      Expanded(
-                        child: AspectRatio(aspectRatio: 1, child: CachedNetworkImage(imageUrl: city.image)),
-                      ),
-                      8.verticalSpace,
-                      Text(city.name, style: Theme.of(context).textTheme.headlineSmall),
-                    ],
+                  final isCurrentCity = state.currentCity != null && state.currentCity!.name == city.name;
+
+                  return GestureDetector(
+                    onTap: () {
+                      context.read<HomeCubit>().selectCity(city);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 1,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: isCurrentCity ? Border.all(color: ColorManager.primary, width: 2.w) : null,
+                              ),
+                              padding: EdgeInsets.all(3.w),
+                              child: ClipOval(child: CachedNetworkImage(imageUrl: city.image)),
+                            ),
+                          ),
+                        ),
+                        8.verticalSpace,
+                        Text(city.name, style: Theme.of(context).textTheme.headlineSmall),
+                      ],
+                    ),
                   );
                 },
               ),
