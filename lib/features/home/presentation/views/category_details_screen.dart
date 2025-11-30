@@ -8,7 +8,7 @@ import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
-import 'package:lawaen/features/home/presentation/cubit/category_details_cubit.dart/category_details_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/all_and_fillter_catergory_datails_row.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/category_details_app_bar.dart';
 

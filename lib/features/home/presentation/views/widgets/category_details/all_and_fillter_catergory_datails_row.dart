@@ -7,7 +7,7 @@ import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
-import 'package:lawaen/features/home/presentation/cubit/category_details_cubit.dart/category_details_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/filter_category_info.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
