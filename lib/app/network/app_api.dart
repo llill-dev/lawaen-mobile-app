@@ -74,4 +74,7 @@ abstract class AppServiceClient {
     @Path("second_id") required String secondId,
     @Path("id") required String id,
   });
+
+  @GET(Urls.searchLocation)
+  Future<ApiResponse<List<CategoryDetailsModel>>> searchLocation({@Queries() required GetCategoryDetailsParams params});
 }

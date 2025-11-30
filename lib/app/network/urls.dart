@@ -15,4 +15,6 @@ class Urls {
   static const String getCategoryDetailsBySecond = "/location/by_second/{id}";
 
   static const String getItemData = "/location/by_id/{second_id}/{id}";
+
+  static const String searchLocation = "location/search";
 }
