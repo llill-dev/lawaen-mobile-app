@@ -14,6 +14,7 @@ part 'map_state.dart';
 class MapCubit extends Cubit<MapState> {
   final MapRepo _mapRepo;
   final LocationService _locationService;
+  String? _search;
 
   MapCubit(this._mapRepo, this._locationService) : super(const MapState());
 
@@ -38,16 +39,22 @@ class MapCubit extends Cubit<MapState> {
     final params = GetCategoryDetailsParams(
       latitude: state.userLatitude!,
       longitude: state.userLongitude!,
-      limit: 50,
+      limit: 5,
       page: 1,
-      search: state.searchQuery.isEmpty ? null : state.searchQuery,
+      search: _search,
     );
 
     final result = await _mapRepo.getInitialItems(params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(itemsState: RequestState.error, itemsError: failure.errorMessage));
+        emit(
+          state.copyWith(
+            itemsState: RequestState.error,
+            itemsError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
       },
       (items) {
         emit(state.copyWith(itemsState: RequestState.success, items: items, itemsError: null));
@@ -73,7 +80,13 @@ class MapCubit extends Cubit<MapState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(categoriesState: RequestState.error, categoriesError: failure.errorMessage));
+        emit(
+          state.copyWith(
+            categoriesState: RequestState.error,
+            categoriesError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
       },
       (categories) {
         emit(state.copyWith(categoriesState: RequestState.success, categories: categories, categoriesError: null));
@@ -101,16 +114,22 @@ class MapCubit extends Cubit<MapState> {
     final params = GetCategoryDetailsParams(
       latitude: state.userLatitude!,
       longitude: state.userLongitude!,
-      limit: 50,
+      limit: 10,
       page: 1,
-      search: state.searchQuery.isEmpty ? null : state.searchQuery,
+      search: _search,
     );
 
     final result = await _mapRepo.getItemsByCategory(categoryId, params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(itemsState: RequestState.error, itemsError: failure.errorMessage));
+        emit(
+          state.copyWith(
+            itemsState: RequestState.error,
+            itemsError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
       },
       (items) {
         emit(state.copyWith(itemsState: RequestState.success, items: items, itemsError: null));
@@ -122,7 +141,7 @@ class MapCubit extends Cubit<MapState> {
   // SEARCH FILTER
   // ===================================================
   Future<void> updateSearch(String text) async {
-    emit(state.copyWith(searchQuery: text));
+    _search = text;
 
     await _loadInitialItems();
   }

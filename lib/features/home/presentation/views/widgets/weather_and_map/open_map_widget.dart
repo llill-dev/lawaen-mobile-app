@@ -1,8 +1,12 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class OpenMapWidget extends StatelessWidget {
   const OpenMapWidget({super.key});
@@ -29,18 +33,21 @@ class OpenMapWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.r),
                   boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, offset: const Offset(0, 2))],
                 ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    SvgPicture.asset(IconManager.send, width: 16.w, height: 16.h),
-                    SizedBox(width: 5.w),
-                    Text(
-                      'Open Interactive Map',
-                      style: Theme.of(
-                        context,
-                      ).textTheme.headlineSmall?.copyWith(color: ColorManager.primary, fontSize: 12.sp),
-                    ),
-                  ],
+                child: GestureDetector(
+                  onTap: () => context.router.push(NearbyMapRoute()),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      SvgPicture.asset(IconManager.send, width: 16.w, height: 16.h),
+                      SizedBox(width: 5.w),
+                      Text(
+                        LocaleKeys.openInteractiveMap.tr(),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(color: ColorManager.primary, fontSize: 12.sp),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:auto_route/annotations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/features/events/presentation/views/events_screen.dart';
 import 'package:lawaen/features/explore/presentation/views/explore_screen.dart';
-import 'package:lawaen/features/nearby/presentation/views/apple_maps_screen.dart';
-import 'package:lawaen/features/nearby/presentation/views/google_maps_screen.dart';
+import 'package:lawaen/features/nearby/presentation/views/nearby_map_screen.dart';
 import 'package:lawaen/features/offers/presentation/views/offers_screen.dart';
 
 import '../../../../app/app_prefs.dart';
@@ -40,9 +37,8 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
 
   @override
   void initState() {
-    final nearbyScreen = Platform.isIOS ? AppleMapsScreen() : GoogleMapsScreen();
     super.initState();
-    _pages = [HomeScreen(), ExploreScreen(), nearbyScreen, OffersScreen(), EventsScreen()];
+    _pages = [HomeScreen(), ExploreScreen(), NearbyMapScreen(), OffersScreen(), EventsScreen()];
 
     _currentIndex = widget.initialIndex.clamp(0, _pages.length - 1);
 

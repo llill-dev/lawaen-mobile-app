@@ -48,5 +48,8 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: RatingsRoute.page),
     AutoRoute(page: FavoritesRoute.page),
     AutoRoute(page: ContactUsRoute.page),
+
+    //map
+    AutoRoute(page: NearbyMapRoute.page),
   ];
 }

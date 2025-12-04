@@ -72,7 +72,7 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
               child: CustomScrollView(
                 clipBehavior: Clip.none,
                 slivers: [
-                  HeaderImageSection(itemData: state.categoryItems!),
+                  SliverToBoxAdapter(child: HeaderSection(itemData: state.categoryItems!)),
                   buildSpace(height: 8.h),
 
                   BasicInfoSection(itemData: state.categoryItems!),

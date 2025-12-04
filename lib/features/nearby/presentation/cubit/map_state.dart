@@ -12,10 +12,11 @@ class MapState extends Equatable {
   final double? userLatitude;
   final double? userLongitude;
 
-  final String searchQuery;
   final String? selectedCategoryId;
 
   final bool isSheetExpanded;
+
+  final String? globalError;
 
   const MapState({
     this.itemsState = RequestState.idle,
@@ -26,9 +27,10 @@ class MapState extends Equatable {
     this.categoriesError,
     this.userLatitude,
     this.userLongitude,
-    this.searchQuery = '',
+
     this.selectedCategoryId,
     this.isSheetExpanded = false,
+    this.globalError,
   });
 
   MapState copyWith({
@@ -40,9 +42,9 @@ class MapState extends Equatable {
     String? categoriesError,
     double? userLatitude,
     double? userLongitude,
-    String? searchQuery,
     String? selectedCategoryId,
     bool? isSheetExpanded,
+    String? globalError,
   }) {
     return MapState(
       itemsState: itemsState ?? this.itemsState,
@@ -53,9 +55,10 @@ class MapState extends Equatable {
       categoriesError: categoriesError,
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
-      searchQuery: searchQuery ?? this.searchQuery,
+
       selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       isSheetExpanded: isSheetExpanded ?? this.isSheetExpanded,
+      globalError: globalError ?? this.globalError,
     );
   }
 
@@ -69,8 +72,9 @@ class MapState extends Equatable {
     categoriesError,
     userLatitude,
     userLongitude,
-    searchQuery,
+
     selectedCategoryId,
     isSheetExpanded,
+    globalError,
   ];
 }

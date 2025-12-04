@@ -183,5 +183,6 @@
   "saturday" : "السبت",
   "openInMap" : "فتح في الخريطة",
   "english" : "الإنجليزية",
-  "arabic" : "العربية"
+  "arabic" : "العربية",
+  "openInteractiveMap" : "فتح الخريطة التفاعلية"
 }
