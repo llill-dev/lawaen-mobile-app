@@ -18,7 +18,7 @@ class HomeAppBarContainer extends StatelessWidget {
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
         ),
-        borderRadius: BorderRadius.circular(30.r),
+        borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.r), bottomRight: Radius.circular(30.r)),
         boxShadow: [
           BoxShadow(
             color: ColorManager.black.withValues(alpha: 0.2),

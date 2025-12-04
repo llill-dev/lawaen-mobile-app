@@ -32,7 +32,6 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
   late final PageController _pageController;
   final _refreshCubit = getIt<RefreshCubit>();
   final AppPreferences appPreferences = getIt<AppPreferences>();
-  bool _isFabOpen = false;
   late final List<Widget> _pages;
 
   @override
@@ -63,35 +62,6 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
     }
   }
 
-  void _toggleFab() {
-    setState(() {
-      _isFabOpen = !_isFabOpen;
-    });
-  }
-
-  List<Widget> _buildSocialButtons() {
-    final socialIcons = [Icons.facebook, Icons.camera_alt_outlined];
-
-    return List.generate(socialIcons.length, (i) {
-      return AnimatedPositioned(
-        duration: Duration(milliseconds: 250 + (i * 100)),
-        bottom: (i + 1) * 70.0,
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 300),
-          opacity: _isFabOpen ? 1 : 0,
-          child: FloatingActionButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
-            backgroundColor: ColorManager.primary,
-            onPressed: () {
-              // TODO: open your social link (e.g., launchUrl)
-            },
-            child: Icon(socialIcons[i], color: ColorManager.white, size: 30.w),
-          ),
-        ),
-      );
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<RefreshCubit, RefreshState>(
@@ -99,30 +69,6 @@ class NavigationControllerScreenState extends State<NavigationControllerScreen> 
       builder: (context, state) {
         return Scaffold(
           extendBodyBehindAppBar: true,
-          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-          floatingActionButton: Stack(
-            alignment: Alignment.bottomLeft,
-            clipBehavior: Clip.none,
-            children: [
-              if (_isFabOpen) ..._buildSocialButtons(),
-              FloatingActionButton(
-                onPressed: _toggleFab,
-                elevation: 0,
-                backgroundColor: ColorManager.primary,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.r)),
-                child: AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  transitionBuilder: (child, anim) => RotationTransition(turns: anim, child: child),
-                  child: Icon(
-                    _isFabOpen ? Icons.close : Icons.add,
-                    key: ValueKey(_isFabOpen),
-                    color: ColorManager.white,
-                    size: 40,
-                  ),
-                ),
-              ),
-            ],
-          ),
           extendBody: true,
           bottomNavigationBar: Material(
             borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),

@@ -9,6 +9,7 @@ import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/home_social_links.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/view_all_categories.dart';
 import '../../../../generated/locale_keys.g.dart';
 
@@ -34,8 +35,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    cubit = context.read<HomeCubit>();
-    cubit.initHome();
+    //cubit = context.read<HomeCubit>();
+    //cubit.initHome();
   }
 
   @override
@@ -77,6 +78,9 @@ class _HomeScreenState extends State<HomeScreen> {
               buildSpace(),
 
               const WeatherAndMap(),
+              buildSpace(),
+
+              const HomeSocialLinks(),
               buildSpace(),
 
               SliverToBoxAdapter(

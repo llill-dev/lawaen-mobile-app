@@ -122,6 +122,8 @@ class HomeCubit extends Cubit<HomeState> {
 
     await _locationService.saveLocation(appLocation);
 
+    initHome();
+
     emit(
       state.copyWith(
         userLatitude: appLocation.latitude,

@@ -10,7 +10,8 @@ class NetworkIcon extends StatelessWidget {
   final BoxFit? fit;
   final double? width;
   final double? height;
-  const NetworkIcon({super.key, required this.url, this.size, this.fit, this.width, this.height});
+  final Color? color;
+  const NetworkIcon({super.key, required this.url, this.size, this.fit, this.width, this.height, this.color});
 
   bool get _isSvg => url.toLowerCase().endsWith(".svg");
 
@@ -22,6 +23,7 @@ class NetworkIcon extends StatelessWidget {
         height: size ?? height,
         width: size ?? width,
         fit: fit ?? BoxFit.cover,
+        colorFilter: color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
         placeholderBuilder: (context) => Shimmer.fromColors(
           baseColor: ColorManager.blackSwatch[5] ?? Colors.grey.shade300,
           highlightColor: ColorManager.blackSwatch[3] ?? Colors.grey.shade100,

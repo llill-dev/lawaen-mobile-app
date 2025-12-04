@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => getIt<HomeCubit>())],
+      providers: [BlocProvider(create: (context) => getIt<HomeCubit>()..initHome())],
       child: MaterialApp.router(
         title: "Lawaen",
         debugShowCheckedModeBanner: false,

@@ -52,7 +52,9 @@ class _SplashScreenState extends State<SplashScreen> {
       return;
     }
     if (!hasToken) {
-      context.router.replace(const LoginRoute());
+      //context.router.replace(const LoginRoute());
+      prefs.setBool(prefsKey: prefsGuest, value: true);
+      context.router.replace(NavigationControllerRoute());
       return;
     }
 

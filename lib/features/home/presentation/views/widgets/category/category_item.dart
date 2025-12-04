@@ -47,7 +47,7 @@ class CategoryItem extends StatelessWidget {
           children: [
             isLoading
                 ? ShimmerBox(width: 50.w, height: 50.w, borderRadius: BorderRadius.circular(50))
-                : NetworkIcon(url: categoryModel.image, size: 50.w),
+                : NetworkIcon(url: categoryModel.image, size: 50.w, color: ColorManager.primary),
 
             SizedBox(height: 8.h),
 
@@ -62,7 +62,10 @@ class CategoryItem extends StatelessWidget {
 
             isLoading
                 ? ShimmerBox(width: 50.w, height: 10.h, borderRadius: BorderRadius.circular(4))
-                : Text(categoryModel.name, style: Theme.of(context).textTheme.headlineSmall),
+                : Text(
+                    categoryModel.name,
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
+                  ),
           ],
         ),
       ),

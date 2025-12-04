@@ -16,21 +16,11 @@ class InfoSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final emails = itemData.ui?.contacts?.emails;
     final urls = itemData.ui?.contacts?.urls;
+    final services = itemData.ui?.options ?? [];
     return Column(
       children: [
-        // Container(
-        //   padding: EdgeInsets.all(24.w),
-        //   decoration: _buildBoxDecoration(),
-        //   child: Column(
-        //     crossAxisAlignment: CrossAxisAlignment.start,
-        //     children: [
-        //       Text("About", style: Theme.of(context).textTheme.headlineLarge),
-        //       10.verticalSpace,
-        //       Text(itemData.item?.description ?? "", style: Theme.of(context).textTheme.headlineMedium),
-        //     ],
-        //   ),
-        // ),
-        if (!isEvent && ((emails != null && emails.isNotEmpty) || (urls != null && urls.isNotEmpty))) ...[
+        if (!isEvent &&
+            ((emails != null && emails.isNotEmpty) || (urls != null && urls.isNotEmpty) || (services.isNotEmpty))) ...[
           20.verticalSpace,
           Container(
             padding: EdgeInsets.all(24.w),
@@ -43,7 +33,7 @@ class InfoSection extends StatelessWidget {
                   ...emails.map((email) {
                     return Column(
                       children: [
-                        InfoItem(
+                        _InfoItem(
                           title: email.title ?? "",
                           icon: email.svg,
                           onTap: () {
@@ -62,7 +52,7 @@ class InfoSection extends StatelessWidget {
                   ...urls.map((url) {
                     return Column(
                       children: [
-                        InfoItem(
+                        _InfoItem(
                           title: url.title ?? "",
                           icon: url.svg,
                           onTap: () {
@@ -73,9 +63,19 @@ class InfoSection extends StatelessWidget {
                       ],
                     );
                   }),
+                if (services.isNotEmpty)
+                  ...services.map((service) {
+                    return Column(
+                      children: [
+                        _InfoItem(title: service.title ?? "", icon: service.svg),
+                        10.verticalSpace,
+                      ],
+                    );
+                  }),
               ],
             ),
           ),
+          20.verticalSpace,
         ],
       ],
     ).horizontalPadding(padding: 16.w);
@@ -91,13 +91,13 @@ class InfoSection extends StatelessWidget {
   }
 }
 
-class InfoItem extends StatelessWidget {
+class _InfoItem extends StatelessWidget {
   final String title;
   final String? icon;
   final String? subTitle;
   final String? moreInfoToShow;
   final VoidCallback? onTap;
-  const InfoItem({super.key, required this.title, required this.icon, this.subTitle, this.onTap, this.moreInfoToShow});
+  const _InfoItem({required this.title, required this.icon, this.subTitle, this.onTap, this.moreInfoToShow});
 
   @override
   Widget build(BuildContext context) {
