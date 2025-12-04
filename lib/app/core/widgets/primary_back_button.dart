@@ -13,6 +13,7 @@ class PrimaryBackButton extends StatelessWidget {
   final Color? iconColor;
   final Color? backgroundColor;
   final double? fontSize;
+  final VoidCallback? onTap;
   const PrimaryBackButton({
     super.key,
     this.withShadow = false,
@@ -22,12 +23,13 @@ class PrimaryBackButton extends StatelessWidget {
     this.iconColor,
     this.backgroundColor,
     this.fontSize,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pop(),
+      onTap: onTap ?? () => context.pop(),
       child: Container(
         width: width,
         decoration: BoxDecoration(

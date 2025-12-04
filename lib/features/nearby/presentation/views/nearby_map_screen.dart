@@ -40,9 +40,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen> {
             }
 
             if (state.itemsState == RequestState.error) {
-              return Center(
-                child: ErrorView(errorMsg: state.globalError, onRetry: () => _mapCubit.initMap(), withBackButton: true),
-              );
+              return ErrorView(errorMsg: state.globalError, onRetry: () => _mapCubit.initMap(), withBackButton: true);
             }
 
             return SafeArea(

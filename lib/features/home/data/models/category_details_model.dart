@@ -27,8 +27,9 @@ class CategoryDetailsModel {
 class LocationMapModel {
   final double? latitude;
   final double? longitude;
+  final String? address;
 
-  LocationMapModel({this.latitude, this.longitude});
+  LocationMapModel({this.address, this.latitude, this.longitude});
 
   factory LocationMapModel.fromJson(Map<String, dynamic> json) => _$LocationMapModelFromJson(json);
   Map<String, dynamic> toJson() => _$LocationMapModelToJson(this);

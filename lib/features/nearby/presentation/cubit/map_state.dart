@@ -18,6 +18,9 @@ class MapState extends Equatable {
 
   final String? globalError;
 
+  final Map<String, BitmapDescriptor> googleCategoryMarkers;
+  final Map<String, apple.BitmapDescriptor> appleCategoryMarkers;
+
   const MapState({
     this.itemsState = RequestState.idle,
     this.items = const [],
@@ -31,6 +34,9 @@ class MapState extends Equatable {
     this.selectedCategoryId,
     this.isSheetExpanded = false,
     this.globalError,
+
+    this.googleCategoryMarkers = const {},
+    this.appleCategoryMarkers = const {},
   });
 
   MapState copyWith({
@@ -45,6 +51,8 @@ class MapState extends Equatable {
     String? selectedCategoryId,
     bool? isSheetExpanded,
     String? globalError,
+    Map<String, BitmapDescriptor>? googleCategoryMarkers,
+    Map<String, apple.BitmapDescriptor>? appleCategoryMarkers,
   }) {
     return MapState(
       itemsState: itemsState ?? this.itemsState,
@@ -59,6 +67,9 @@ class MapState extends Equatable {
       selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       isSheetExpanded: isSheetExpanded ?? this.isSheetExpanded,
       globalError: globalError ?? this.globalError,
+
+      googleCategoryMarkers: googleCategoryMarkers ?? this.googleCategoryMarkers,
+      appleCategoryMarkers: appleCategoryMarkers ?? this.appleCategoryMarkers,
     );
   }
 
@@ -76,5 +87,8 @@ class MapState extends Equatable {
     selectedCategoryId,
     isSheetExpanded,
     globalError,
+
+    googleCategoryMarkers,
+    appleCategoryMarkers,
   ];
 }
