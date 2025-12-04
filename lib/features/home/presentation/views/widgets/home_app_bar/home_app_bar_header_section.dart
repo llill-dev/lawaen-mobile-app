@@ -20,7 +20,7 @@ class HomeAppBarHeaderSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(ImageManager.logo),
+            Image.asset(ImageManager.logo, width: 50.w, height: 50.h),
             Row(
               children: [
                 if (showNotificationIcon)

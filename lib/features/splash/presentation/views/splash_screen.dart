@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lawaen/app/app_prefs.dart';
@@ -9,7 +7,7 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
-import '../../../../app/resources/assets_manager.dart';
+import 'package:lawaen/app/resources/assets_manager.dart';
 
 @RoutePage()
 class SplashScreen extends StatefulWidget {
@@ -19,12 +17,44 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _logoAnimation;
+
+  late AnimationController _textController;
+  late Animation<int> _textAnimation;
+
+  final String _animatedText = "Your services, connected.";
+
   @override
   void initState() {
     super.initState();
+
+    /// Logo Animation Controller
+    _controller = AnimationController(duration: const Duration(milliseconds: 1200), vsync: this);
+
+    _logoAnimation = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
+
+    _controller.forward();
+
+    /// Text Animation Controller (Typewriter Effect)
+    _textController = AnimationController(duration: const Duration(seconds: 2), vsync: this);
+
+    _textAnimation = StepTween(begin: 0, end: _animatedText.length).animate(_textController);
+
+    Future.delayed(const Duration(milliseconds: 800), () {
+      if (mounted) _textController.forward();
+    });
+
     refreshUserLocation();
     _decideNavigation();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _textController.dispose();
+    super.dispose();
   }
 
   void refreshUserLocation() async {
@@ -51,8 +81,8 @@ class _SplashScreenState extends State<SplashScreen> {
       context.router.replace(OnboardingRoute());
       return;
     }
+
     if (!hasToken) {
-      //context.router.replace(const LoginRoute());
       prefs.setBool(prefsKey: prefsGuest, value: true);
       context.router.replace(NavigationControllerRoute());
       return;
@@ -71,7 +101,6 @@ class _SplashScreenState extends State<SplashScreen> {
 
     refreshResult.fold(
       (error) async {
-        log(error.errorMessage.toString());
         await prefs.logout();
         if (mounted) {
           context.router.replace(const LoginRoute());
@@ -87,10 +116,38 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+
     return Scaffold(
       backgroundColor: ColorManager.primary,
       body: Center(
-        child: Image(image: AssetImage(ImageManager.logo), fit: BoxFit.cover),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            /// Animated Logo
+            ScaleTransition(
+              scale: _logoAnimation,
+              child: FadeTransition(
+                opacity: _logoAnimation,
+                child: Image.asset(ImageManager.logo, width: width * 0.45),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            /// Animated Text (Typewriter Effect)
+            AnimatedBuilder(
+              animation: _textAnimation,
+              builder: (context, child) {
+                final count = _textAnimation.value;
+                return Text(
+                  _animatedText.substring(0, count),
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: Colors.white),
+                );
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
