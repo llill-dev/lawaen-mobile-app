@@ -184,5 +184,9 @@
   "openInMap" : "فتح في الخريطة",
   "english" : "الإنجليزية",
   "arabic" : "العربية",
-  "openInteractiveMap" : "فتح الخريطة التفاعلية"
+  "openInteractiveMap" : "فتح الخريطة التفاعلية",
+    "more" : "المزيد", 
+  "address" : "العنوان", 
+  "minutes" : "دقائق",
+  "hours" : "ساعات"
 }

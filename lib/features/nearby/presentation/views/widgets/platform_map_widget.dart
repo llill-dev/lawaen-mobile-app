@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple;
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart' as gm_cluster;
@@ -12,6 +13,7 @@ import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
+import 'package:lawaen/features/nearby/presentation/views/widgets/map_itme_detail_bottom_sheet.dart';
 
 import 'marker_helper.dart';
 
@@ -166,7 +168,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
 
     canvas.drawCircle(center, size / 2.0, paint);
 
-    final textPainter = TextPainter(textDirection: TextDirection.ltr);
+    final textPainter = TextPainter(textDirection: ui.TextDirection.ltr);
     textPainter.text = TextSpan(
       text: text,
       style: TextStyle(fontSize: size / 3, color: Colors.white, fontWeight: FontWeight.bold),
@@ -200,7 +202,26 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
         .toSet();
   }
 
-  void _openItemDetails(BuildContext context, CategoryDetailsModel item) {
-    context.router.push(CategoryItemDetialsRoute(subCategoryId: item.main!, itemId: item.id));
+  Future<String?> _openItemDetails(BuildContext context, CategoryDetailsModel item) async {
+    final hasNoData =
+        (item.name == null || item.name!.isEmpty) &&
+        (item.image == null || item.image!.isEmpty) &&
+        (item.location?.address == null || item.location!.address!.isEmpty);
+
+    if (hasNoData) {
+      context.router.push(CategoryItemDetialsRoute(subCategoryId: item.main!, itemId: item.id));
+      return null;
+    }
+
+    return showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      backgroundColor: ColorManager.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      builder: (_) {
+        return MapItemDetailBottomSheet(item: item);
+      },
+    );
   }
 }

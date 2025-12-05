@@ -8,6 +8,7 @@ class CategoryDetailsModel {
   final String? image;
   final String? address;
   final String? main;
+  final double? travelMinutes;
   final LocationMapModel? location;
 
   CategoryDetailsModel({
@@ -17,10 +18,23 @@ class CategoryDetailsModel {
     required this.address,
     required this.main,
     required this.location,
+    this.travelMinutes,
   });
 
   factory CategoryDetailsModel.fromJson(Map<String, dynamic> json) => _$CategoryDetailsModelFromJson(json);
   Map<String, dynamic> toJson() => _$CategoryDetailsModelToJson(this);
+
+  CategoryDetailsModel copyWith({double? travelMinutes}) {
+    return CategoryDetailsModel(
+      id: id,
+      name: name,
+      image: image,
+      address: address,
+      main: main,
+      location: location,
+      travelMinutes: travelMinutes ?? this.travelMinutes,
+    );
+  }
 }
 
 @JsonSerializable(explicitToJson: true)

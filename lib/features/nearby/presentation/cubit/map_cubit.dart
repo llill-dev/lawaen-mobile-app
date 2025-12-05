@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:math' as math;
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple;
 import 'package:bloc/bloc.dart';
@@ -67,41 +68,8 @@ class MapCubit extends Cubit<MapState> {
         );
       },
       (items) {
-        emit(state.copyWith(itemsState: RequestState.success, items: items, itemsError: null));
-      },
-    );
-  }
-
-  // ===================================================
-  // LOAD CATEGORIES
-  // ===================================================
-  Future<void> expandSheet(bool expanded) async {
-    emit(state.copyWith(isSheetExpanded: expanded));
-
-    if (expanded && state.categories.isEmpty) {
-      await _loadCategories();
-    }
-  }
-
-  Future<void> _loadCategories() async {
-    emit(state.copyWith(categoriesState: RequestState.loading));
-
-    final result = await _mapRepo.getCategories();
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            categoriesState: RequestState.error,
-            categoriesError: failure.errorMessage,
-            globalError: failure.errorMessage,
-          ),
-        );
-      },
-      (categories) {
-        //_categoryLookupService.load(categories);
-        emit(state.copyWith(categoriesState: RequestState.success, categories: categories, categoriesError: null));
-        //_ensureIconsForItems(state.items);
+        final updated = _attachTravelTimes(items);
+        emit(state.copyWith(itemsState: RequestState.success, items: updated, itemsError: null));
       },
     );
   }
@@ -144,8 +112,35 @@ class MapCubit extends Cubit<MapState> {
         );
       },
       (items) {
-        emit(state.copyWith(itemsState: RequestState.success, items: items, itemsError: null));
+        final updated = _attachTravelTimes(items);
+        emit(state.copyWith(itemsState: RequestState.success, items: updated, itemsError: null));
         //_ensureIconsForItems(items);
+      },
+    );
+  }
+
+  // ===================================================
+  // LOAD CATEGORIES
+  // ===================================================
+  Future<void> _loadCategories() async {
+    emit(state.copyWith(categoriesState: RequestState.loading));
+
+    final result = await _mapRepo.getCategories();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            categoriesState: RequestState.error,
+            categoriesError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (categories) {
+        //_categoryLookupService.load(categories);
+        emit(state.copyWith(categoriesState: RequestState.success, categories: categories, categoriesError: null));
+        //_ensureIconsForItems(state.items);
       },
     );
   }
@@ -157,6 +152,63 @@ class MapCubit extends Cubit<MapState> {
     _search = text;
 
     await _loadInitialItems();
+  }
+
+  Future<void> expandSheet(bool expanded) async {
+    emit(state.copyWith(isSheetExpanded: expanded));
+
+    if (expanded && state.categories.isEmpty) {
+      await _loadCategories();
+    }
+  }
+
+  // ===================================================
+  // Travel Times helper
+  // ===================================================
+  List<CategoryDetailsModel> _attachTravelTimes(List<CategoryDetailsModel> items) {
+    final userLat = state.userLatitude;
+    final userLng = state.userLongitude;
+
+    if (userLat == null || userLng == null) return items;
+
+    return items.map((item) {
+      final lat = item.location?.latitude;
+      final lng = item.location?.longitude;
+
+      double? time;
+
+      if (lat != null && lng != null) {
+        time = _estimateTravelMinutes(userLat: userLat, userLng: userLng, itemLat: lat, itemLng: lng);
+      }
+
+      return item.copyWith(travelMinutes: time);
+    }).toList();
+  }
+
+  double _estimateTravelMinutes({
+    required double userLat,
+    required double userLng,
+    required double itemLat,
+    required double itemLng,
+    double speedKmH = 40,
+  }) {
+    const earthRadius = 6371000.0;
+
+    double degToRad(double deg) => deg * math.pi / 180.0;
+
+    final dLat = degToRad(itemLat - userLat);
+    final dLon = degToRad(itemLng - userLng);
+
+    final a =
+        math.sin(dLat / 2) * math.sin(dLat / 2) +
+        math.cos(degToRad(userLat)) * math.cos(degToRad(itemLat)) * math.sin(dLon / 2) * math.sin(dLon / 2);
+
+    final c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a));
+    final distanceMeters = earthRadius * c;
+
+    final speedMps = speedKmH * 1000 / 3600;
+
+    return (distanceMeters / speedMps) / 60;
   }
 
   Future<void> _ensureIconsForItems(List<CategoryDetailsModel> items) async {

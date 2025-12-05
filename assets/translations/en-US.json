@@ -184,5 +184,9 @@
   "back" : "Back",
   "english" : "English",
   "arabic" : "Arabic",
-  "openInteractiveMap" : "Open Interactive Map"
+  "openInteractiveMap" : "Open Interactive Map",
+  "more" : "More", 
+  "address" : "Address", 
+  "minutes" : "Minutes",
+  "hours" : "Hours"
 }

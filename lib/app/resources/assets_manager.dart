@@ -84,6 +84,8 @@ class IconManager {
   static const String terms = "${iconPath}terms.svg";
   static const String about = "${iconPath}about.svg";
   static const String logout = "${iconPath}logout.svg";
+
+  static const String car = "${iconPath}car.svg";
 }
 
 class JsonManager {
