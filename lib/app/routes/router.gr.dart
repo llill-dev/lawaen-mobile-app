@@ -12,11 +12,11 @@
 import 'package:auto_route/auto_route.dart' as _i30;
 import 'package:collection/collection.dart' as _i33;
 import 'package:flutter/material.dart' as _i31;
-import 'package:lawaen/features/add_to_app/presentation/views/add_classified_screen.dart'
-    as _i1;
 import 'package:lawaen/features/add_to_app/presentation/views/add_event_screen.dart'
-    as _i2;
+    as _i1;
 import 'package:lawaen/features/add_to_app/presentation/views/add_missing_place_screen.dart'
+    as _i2;
+import 'package:lawaen/features/add_to_app/presentation/views/add_offer_screen.dart'
     as _i3;
 import 'package:lawaen/features/add_to_app/presentation/views/add_screen.dart'
     as _i4;
@@ -73,23 +73,7 @@ import 'package:lawaen/features/splash/presentation/views/splash_screen.dart'
     as _i29;
 
 /// generated route for
-/// [_i1.AddClassifiedScreen]
-class AddClassifiedRoute extends _i30.PageRouteInfo<void> {
-  const AddClassifiedRoute({List<_i30.PageRouteInfo>? children})
-    : super(AddClassifiedRoute.name, initialChildren: children);
-
-  static const String name = 'AddClassifiedRoute';
-
-  static _i30.PageInfo page = _i30.PageInfo(
-    name,
-    builder: (data) {
-      return const _i1.AddClassifiedScreen();
-    },
-  );
-}
-
-/// generated route for
-/// [_i2.AddEventScreen]
+/// [_i1.AddEventScreen]
 class AddEventRoute extends _i30.PageRouteInfo<void> {
   const AddEventRoute({List<_i30.PageRouteInfo>? children})
     : super(AddEventRoute.name, initialChildren: children);
@@ -99,13 +83,13 @@ class AddEventRoute extends _i30.PageRouteInfo<void> {
   static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i2.AddEventScreen();
+      return const _i1.AddEventScreen();
     },
   );
 }
 
 /// generated route for
-/// [_i3.AddMissingPlaceScreen]
+/// [_i2.AddMissingPlaceScreen]
 class AddMissingPlaceRoute extends _i30.PageRouteInfo<void> {
   const AddMissingPlaceRoute({List<_i30.PageRouteInfo>? children})
     : super(AddMissingPlaceRoute.name, initialChildren: children);
@@ -115,7 +99,23 @@ class AddMissingPlaceRoute extends _i30.PageRouteInfo<void> {
   static _i30.PageInfo page = _i30.PageInfo(
     name,
     builder: (data) {
-      return const _i3.AddMissingPlaceScreen();
+      return const _i2.AddMissingPlaceScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i3.AddOfferScreen]
+class AddOfferRoute extends _i30.PageRouteInfo<void> {
+  const AddOfferRoute({List<_i30.PageRouteInfo>? children})
+    : super(AddOfferRoute.name, initialChildren: children);
+
+  static const String name = 'AddOfferRoute';
+
+  static _i30.PageInfo page = _i30.PageInfo(
+    name,
+    builder: (data) {
+      return const _i3.AddOfferScreen();
     },
   );
 }

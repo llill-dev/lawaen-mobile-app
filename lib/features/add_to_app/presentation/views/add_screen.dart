@@ -69,7 +69,7 @@ class AddScreen extends StatelessWidget {
                     title: LocaleKeys.addClassifiedActionTitle.tr(),
                     subtitle: LocaleKeys.addClassifiedActionSubtitle.tr(),
                     onTap: () {
-                      context.router.navigate(AddClassifiedRoute());
+                      context.router.navigate(AddOfferRoute());
                     },
                     gradient: ColorManager.addClassifiedGradient,
                   ),
