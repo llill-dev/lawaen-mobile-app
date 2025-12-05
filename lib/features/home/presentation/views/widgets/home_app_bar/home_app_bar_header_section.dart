@@ -52,12 +52,12 @@ class HomeAppBarHeaderSection extends StatelessWidget {
         ),
         SizedBox(height: 12.h),
         BlocBuilder<HomeCubit, HomeState>(
-          buildWhen: (prev, curr) => prev.locationState != curr.locationState || prev.userAddress != curr.userAddress,
+          buildWhen: (prev, curr) => prev.currentCity != curr.currentCity,
           builder: (context, state) {
             String text;
 
-            if (state.userAddress != null && state.userAddress!.isNotEmpty) {
-              text = state.userAddress!;
+            if (state.currentCity != null && state.currentCity!.name.isNotEmpty) {
+              text = state.currentCity!.name;
               return Row(
                 children: [
                   SvgPicture.asset(IconManager.location),

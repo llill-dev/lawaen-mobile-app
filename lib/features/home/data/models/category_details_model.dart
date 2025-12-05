@@ -5,7 +5,7 @@ part 'category_details_model.g.dart';
 class CategoryDetailsModel {
   final String id;
   final String? name;
-  final String image;
+  final String? image;
   final String? address;
   final String? main;
   final LocationMapModel? location;

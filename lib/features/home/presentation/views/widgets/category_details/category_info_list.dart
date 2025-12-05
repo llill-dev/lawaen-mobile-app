@@ -33,7 +33,9 @@ class CategoryInfoList extends StatelessWidget {
         final items = state.categories;
         return SliverList.separated(
           separatorBuilder: (context, index) {
-            if (items[index].name == null && items[index].address == null && items[index].image.isEmpty) {
+            if (items[index].name == null &&
+                items[index].address == null &&
+                (items[index].image == null || items[index].image!.isEmpty)) {
               return SizedBox.shrink();
             }
             return 10.verticalSpace;
@@ -47,7 +49,9 @@ class CategoryInfoList extends StatelessWidget {
                     )
                   : SizedBox.shrink();
             }
-            if (items[index].name == null && items[index].address == null && items[index].image.isEmpty) {
+            if (items[index].name == null &&
+                items[index].address == null &&
+                (items[index].image == null || items[index].image!.isEmpty)) {
               return SizedBox.shrink();
             }
             return CategoryDetailsItem(categoryDetailsModel: items[index]);

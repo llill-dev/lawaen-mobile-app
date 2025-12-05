@@ -14,7 +14,6 @@ class HomeState extends Equatable {
   // LOCATION
   final RequestState locationState;
   final String? locationError;
-  final String? userAddress;
   final double? userLatitude;
   final double? userLongitude;
   final CityModel? currentCity;
@@ -31,7 +30,6 @@ class HomeState extends Equatable {
     this.categoriesError,
     this.locationState = RequestState.idle,
     this.locationError,
-    this.userAddress,
     this.userLatitude,
     this.userLongitude,
     this.currentCity,
@@ -52,7 +50,6 @@ class HomeState extends Equatable {
     // location
     RequestState? locationState,
     String? locationError,
-    String? userAddress,
     double? userLatitude,
     double? userLongitude,
     CityModel? currentCity,
@@ -64,15 +61,18 @@ class HomeState extends Equatable {
       citiesState: citiesState ?? this.citiesState,
       cities: cities ?? this.cities,
       citiesError: citiesError,
+
       categoriesState: categoriesState ?? this.categoriesState,
       categories: categories ?? this.categories,
       categoriesError: categoriesError,
+
       locationState: locationState ?? this.locationState,
       locationError: locationError,
-      userAddress: userAddress ?? this.userAddress,
+
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
       currentCity: currentCity ?? this.currentCity,
+
       globalError: globalError,
     );
   }
@@ -82,15 +82,18 @@ class HomeState extends Equatable {
     citiesState,
     cities,
     citiesError,
+
     categoriesState,
     categories,
     categoriesError,
+
     locationState,
     locationError,
-    userAddress,
+
     userLatitude,
     userLongitude,
     currentCity,
+
     globalError,
   ];
 }

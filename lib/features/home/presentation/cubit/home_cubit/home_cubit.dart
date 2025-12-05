@@ -12,6 +12,13 @@ import '../../../data/repos/home_repo/home_repo.dart';
 
 part 'home_state.dart';
 
+class CityMatchResult {
+  final CityModel city;
+  final bool isFallback;
+
+  CityMatchResult({required this.city, required this.isFallback});
+}
+
 @Injectable()
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo _homeRepo;
@@ -22,7 +29,6 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> initHome() async {
     getCities();
     getCategories();
-    loadUserLocation();
   }
 
   // ────────────────────────────────────────────────
@@ -32,7 +38,6 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(citiesState: RequestState.loading, citiesError: null));
 
     final result = await _homeRepo.getCities();
-
     result.fold(
       (failure) {
         emit(
@@ -44,16 +49,8 @@ class HomeCubit extends Cubit<HomeState> {
         );
       },
       (cities) {
-        final matchedCity = _getCityForLocation(state.userLatitude, state.userLongitude, cities);
-
-        emit(
-          state.copyWith(
-            citiesState: RequestState.success,
-            cities: cities,
-            citiesError: null,
-            currentCity: matchedCity ?? state.currentCity,
-          ),
-        );
+        emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
+        loadUserLocation();
       },
     );
   }
@@ -89,23 +86,34 @@ class HomeCubit extends Cubit<HomeState> {
     emit(state.copyWith(locationState: RequestState.loading, locationError: null));
 
     try {
-      final location = await _locationService.getBestEffortLocation();
+      final rawLocation = await _locationService.getBestEffortLocation();
 
-      final address = await _locationService.getAddressFromCoordinates(
-        latitude: location.latitude,
-        longitude: location.longitude,
+      final match = _getCityForLocation(rawLocation.latitude, rawLocation.longitude, state.cities);
+
+      double finalLat = rawLocation.latitude;
+      double finalLng = rawLocation.longitude;
+
+      if (match.isFallback) {
+        finalLat = match.city.location.latitude;
+        finalLng = match.city.location.longitude;
+      }
+
+      await _locationService.saveLocation(
+        AppLocation(
+          latitude: finalLat,
+          longitude: finalLng,
+          timestamp: DateTime.now(),
+          cityId: "", //match.city.id,
+          cityName: match.city.name,
+        ),
       );
-
-      final matchedCity = _getCityForLocation(location.latitude, location.longitude, state.cities);
 
       emit(
         state.copyWith(
           locationState: RequestState.success,
-          locationError: null,
-          userLatitude: location.latitude,
-          userLongitude: location.longitude,
-          userAddress: address,
-          currentCity: matchedCity ?? state.currentCity,
+          userLatitude: finalLat,
+          userLongitude: finalLng,
+          currentCity: match.city,
         ),
       );
     } catch (e) {
@@ -118,17 +126,16 @@ class HomeCubit extends Cubit<HomeState> {
       latitude: city.location.latitude,
       longitude: city.location.longitude,
       timestamp: DateTime.now(),
+      cityId: "", //city.id,
+      cityName: city.name,
     );
 
     await _locationService.saveLocation(appLocation);
 
-    initHome();
-
     emit(
       state.copyWith(
-        userLatitude: appLocation.latitude,
-        userLongitude: appLocation.longitude,
-        userAddress: city.name,
+        userLatitude: city.location.latitude,
+        userLongitude: city.location.longitude,
         currentCity: city,
         locationState: RequestState.success,
         locationError: null,
@@ -139,8 +146,10 @@ class HomeCubit extends Cubit<HomeState> {
   // ────────────────────────────────────────────────
   // HELPERS: city matching by user location
   // ────────────────────────────────────────────────
-  CityModel? _getCityForLocation(double? latitude, double? longitude, List<CityModel> cities) {
-    if (latitude == null || longitude == null || cities.isEmpty) return null;
+  CityMatchResult _getCityForLocation(double? latitude, double? longitude, List<CityModel> cities) {
+    if (latitude == null || longitude == null || cities.isEmpty) {
+      return CityMatchResult(city: cities.first, isFallback: true);
+    }
 
     CityModel? bestMatch;
     double? bestDistance;
@@ -158,7 +167,10 @@ class HomeCubit extends Cubit<HomeState> {
       }
     }
 
-    return bestMatch;
+    if (bestMatch != null) {
+      return CityMatchResult(city: bestMatch, isFallback: false);
+    }
+    return CityMatchResult(city: cities.first, isFallback: true);
   }
 
   double _calculateDistanceInMeters(double lat1, double lon1, double lat2, double lon2) {

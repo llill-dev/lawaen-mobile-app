@@ -12,8 +12,16 @@ class AppLocation {
   final double latitude;
   final double longitude;
   final DateTime timestamp;
+  final String? cityId;
+  final String? cityName;
 
-  const AppLocation({required this.latitude, required this.longitude, required this.timestamp});
+  const AppLocation({
+    required this.latitude,
+    required this.longitude,
+    required this.timestamp,
+    this.cityId,
+    this.cityName,
+  });
 }
 
 enum AppLocationPermissionStatus { granted, denied, deniedForever, serviceDisabled }
@@ -141,6 +149,10 @@ class LocationService {
     await _prefs.setDouble(prefsKey: prefsLat, value: location.latitude);
     await _prefs.setDouble(prefsKey: prefsLng, value: location.longitude);
     await _prefs.setString(prefsKey: prefsLocationTimestamp, value: location.timestamp.toIso8601String());
+
+    if (location.cityId != null) {
+      await _prefs.saveUserCity(location.cityId!, location.cityName ?? "");
+    }
   }
 
   /// Backwards-compat wrapper if you still call this somewhere
@@ -167,8 +179,10 @@ class LocationService {
     } catch (_) {
       return null;
     }
+    final cityId = _prefs.userCityId;
+    final cityName = _prefs.userCityName;
 
-    return AppLocation(latitude: lat, longitude: lng, timestamp: ts);
+    return AppLocation(latitude: lat, longitude: lng, timestamp: ts, cityId: cityId, cityName: cityName);
   }
 
   AppLocation _tempLocation() {

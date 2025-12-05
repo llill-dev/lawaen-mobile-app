@@ -14,6 +14,8 @@ const String prefsLat = "prefs_latitude";
 const String prefsLng = "prefs_longitude";
 const String prefsLocationTimestamp = "prefs_location_timestamp";
 const String isFisrtTime = "is_fisrt_time";
+const String prefsCityId = "prefs_city_id";
+const String prefsCityName = "prefs_city_name";
 
 @Injectable()
 class AppPreferences {
@@ -68,6 +70,19 @@ class AppPreferences {
 
   double? getDouble({required String prefsKey}) {
     return _sharedPreferences.getDouble(prefsKey);
+  }
+
+  Future<void> saveUserCity(String id, String name) async {
+    await setString(prefsKey: prefsCityId, value: id);
+    await setString(prefsKey: prefsCityName, value: name);
+  }
+
+  String? get userCityId {
+    return _sharedPreferences.getString(prefsCityId);
+  }
+
+  String get userCityName {
+    return _sharedPreferences.getString(prefsCityName) ?? "";
   }
 
   // --------- AUTH HELPERS ---------
