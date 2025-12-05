@@ -29,6 +29,7 @@ class AddToAppForm extends StatelessWidget {
           12.verticalSpace,
           TextFiledItem(title: LocaleKeys.whatsappNumber.tr()),
           if (isClassified) ...[12.verticalSpace, TextFiledItem(title: LocaleKeys.price.tr())],
+
           if (isEvent) ...[
             12.verticalSpace,
             TextFiledItem(title: LocaleKeys.facebookPageLink.tr()),

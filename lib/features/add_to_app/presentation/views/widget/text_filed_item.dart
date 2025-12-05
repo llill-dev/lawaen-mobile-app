@@ -11,6 +11,9 @@ class TextFiledItem extends StatelessWidget {
   final String? hintText;
   final bool? readOnly;
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final Color? fillColor;
+
   const TextFiledItem({
     super.key,
     required this.title,
@@ -19,6 +22,8 @@ class TextFiledItem extends StatelessWidget {
     this.controller,
     this.hintText,
     this.readOnly,
+    this.onChanged,
+    this.fillColor,
   });
 
   @override
@@ -32,12 +37,13 @@ class TextFiledItem extends StatelessWidget {
         CustomTextField(
           hint: hintText ?? title,
           readOnly: readOnly ?? false,
-          fillColor: ColorManager.blackSwatch[3],
+          fillColor: fillColor ?? ColorManager.blackSwatch[2],
           horizontalContentPadding: 8.w,
           verticalContentPadding: 10.h,
           borderWidth: 2,
           maxLines: maxLines ?? 1,
           controller: controller,
+          onChanged: onChanged,
         ),
       ],
     ).horizontalPadding(padding: withTitle ? 16.w : 0);

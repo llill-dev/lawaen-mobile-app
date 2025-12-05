@@ -17,7 +17,6 @@ class AddAppBar extends StatelessWidget {
           end: Alignment.bottomCenter,
           colors: ColorManager.homeAppBarGradient,
         ),
-        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(color: ColorManager.black.withValues(alpha: .25), blurRadius: 10.r, offset: const Offset(0, 5)),
         ],

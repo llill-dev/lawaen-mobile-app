@@ -19,6 +19,7 @@ class PrimaryButton extends StatelessWidget {
     this.borederColor,
     this.withShadow = false,
     this.shadowColor,
+    this.isIconOnLeft = true,
     super.key,
   });
 
@@ -35,6 +36,7 @@ class PrimaryButton extends StatelessWidget {
   final Color? borederColor;
   final bool? withShadow;
   final Color? shadowColor;
+  final bool? isIconOnLeft;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -72,13 +74,14 @@ class PrimaryButton extends StatelessWidget {
                 spacing: 10,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if (icon != null) icon!,
+                  if (icon != null && isIconOnLeft == true) icon!,
                   AutoSizeText(
                     text ?? "",
                     style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       color: textColor ?? (isLight ? ColorManager.black : ColorManager.white),
                     ),
                   ),
+                  if (icon != null && isIconOnLeft == false) icon!,
                 ],
               ),
       ),

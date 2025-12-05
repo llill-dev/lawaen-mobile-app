@@ -28,7 +28,7 @@ class DropDownItem extends StatelessWidget {
         8.verticalSpace,
         DropdownButtonFormField(
           decoration: InputDecoration(
-            fillColor: ColorManager.blackSwatch[3],
+            fillColor: ColorManager.blackSwatch[2],
             hint: Text(
               hit ?? title,
               style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.blackSwatch[6]),
