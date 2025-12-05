@@ -22,6 +22,10 @@ class AddMissingPlaceFormState extends Equatable {
   // Image
   final File? imageFile;
 
+  // Location
+  final double? latitude;
+  final double? longitude;
+
   const AddMissingPlaceFormState({
     required this.currentStep,
     required this.mainCategory,
@@ -35,6 +39,8 @@ class AddMissingPlaceFormState extends Equatable {
     this.startTime,
     this.endTime,
     this.imageFile,
+    this.latitude,
+    this.longitude,
   });
 
   AddMissingPlaceFormState copyWith({
@@ -50,6 +56,8 @@ class AddMissingPlaceFormState extends Equatable {
     TimeOfDay? startTime,
     TimeOfDay? endTime,
     File? imageFile,
+    double? latitude,
+    double? longitude,
   }) {
     return AddMissingPlaceFormState(
       currentStep: currentStep ?? this.currentStep,
@@ -64,6 +72,8 @@ class AddMissingPlaceFormState extends Equatable {
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
       imageFile: imageFile ?? this.imageFile,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 
@@ -81,5 +91,7 @@ class AddMissingPlaceFormState extends Equatable {
     startTime,
     endTime,
     imageFile,
+    latitude,
+    longitude,
   ];
 }

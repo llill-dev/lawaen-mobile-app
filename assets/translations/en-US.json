@@ -198,5 +198,8 @@
   "more" : "More", 
   "address" : "Address", 
   "minutes" : "Minutes",
-  "hours" : "Hours"
+  "hours" : "Hours", 
+  "chooseLocation" : "Choose Location",
+  "changeLocation" : "Change Location",
+  "confirmLocation" : "Confirm Location"
 }

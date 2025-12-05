@@ -72,4 +72,7 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
   void updateEventTime(String value) => emit(state.copyWith(eventTime: value));
 
   void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
+
+  void updateLocation(double latitude, double longitude) =>
+      emit(state.copyWith(latitude: latitude, longitude: longitude));
 }

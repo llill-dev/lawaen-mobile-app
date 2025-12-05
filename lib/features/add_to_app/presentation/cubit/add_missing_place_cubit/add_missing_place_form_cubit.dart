@@ -61,4 +61,7 @@ class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
   void updateEndTime(TimeOfDay value) => emit(state.copyWith(endTime: value));
 
   void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
+
+  void updateLocation(double latitude, double longitude) =>
+      emit(state.copyWith(latitude: latitude, longitude: longitude));
 }

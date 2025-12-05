@@ -28,7 +28,7 @@ class StepsHeader extends StatelessWidget {
                   Container(
                     width: 25.w,
                     height: 2.h,
-                    color: ColorManager.lightGrey,
+                    color: isCurrent ? ColorManager.primary : ColorManager.lightGrey,
                     margin: EdgeInsets.symmetric(horizontal: 4),
                   ),
               ],

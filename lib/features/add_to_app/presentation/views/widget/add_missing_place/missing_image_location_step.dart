@@ -9,21 +9,27 @@ class MissingImageLocationStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<AddMissingPlaceFormCubit, AddMissingPlaceFormState>(
-          builder: (context, state) {
-            return UploadImage(
+    return BlocBuilder<AddMissingPlaceFormCubit, AddMissingPlaceFormState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            UploadImage(
               imageFile: state.imageFile,
               onImageSelected: (file) {
                 context.read<AddMissingPlaceFormCubit>().updateImageFile(file);
               },
-            );
-          },
-        ),
-        SizedBox(height: 24),
-        DetermineLocation(),
-      ],
+            ),
+            SizedBox(height: 24),
+            LocationPickerField(
+              latitude: state.latitude,
+              longitude: state.longitude,
+              onLocationSelected: (lat, lng) {
+                context.read<AddMissingPlaceFormCubit>().updateLocation(lat, lng);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

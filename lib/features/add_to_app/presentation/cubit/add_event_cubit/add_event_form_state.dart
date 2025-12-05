@@ -26,8 +26,13 @@ class AddEventFormState extends Equatable {
   final DateTime? startDate;
   final DateTime? endDate;
   final String eventTime;
+
+  // Image
   final File? imageFile;
-  // you can change this to a model later
+
+  // Location
+  final double? latitude;
+  final double? longitude;
 
   const AddEventFormState({
     required this.currentStep,
@@ -48,6 +53,8 @@ class AddEventFormState extends Equatable {
     this.endDate,
     this.eventTime = '',
     this.imageFile,
+    this.latitude,
+    this.longitude,
   });
 
   AddEventFormState copyWith({
@@ -69,6 +76,8 @@ class AddEventFormState extends Equatable {
     DateTime? endDate,
     String? eventTime,
     File? imageFile,
+    double? latitude,
+    double? longitude,
   }) {
     return AddEventFormState(
       currentStep: currentStep ?? this.currentStep,
@@ -89,6 +98,8 @@ class AddEventFormState extends Equatable {
       endDate: endDate ?? this.endDate,
       eventTime: eventTime ?? this.eventTime,
       imageFile: imageFile ?? this.imageFile,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
     );
   }
 
@@ -112,5 +123,7 @@ class AddEventFormState extends Equatable {
     endDate,
     eventTime,
     imageFile,
+    latitude,
+    longitude,
   ];
 }

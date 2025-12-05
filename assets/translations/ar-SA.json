@@ -198,5 +198,8 @@
     "more" : "المزيد", 
   "address" : "العنوان", 
   "minutes" : "دقائق",
-  "hours" : "ساعات"
+  "hours" : "ساعات", 
+  "chooseLocation" : "اختر الموقع",
+  "changeLocation" : "تغيير الموقع",
+  "confirmLocation" : "تأكيد الموقع"
 }

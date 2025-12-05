@@ -10,22 +10,30 @@ class EventImageLocationStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        16.verticalSpace,
-        BlocBuilder<AddEventFormCubit, AddEventFormState>(
-          builder: (context, state) {
-            return UploadImage(
+    return BlocBuilder<AddEventFormCubit, AddEventFormState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            16.verticalSpace,
+
+            UploadImage(
               imageFile: state.imageFile,
               onImageSelected: (file) {
                 context.read<AddEventFormCubit>().updateImageFile(file);
               },
-            );
-          },
-        ),
-        24.verticalSpace,
-        const DetermineLocation(),
-      ],
+            ),
+
+            24.verticalSpace,
+            LocationPickerField(
+              latitude: state.latitude,
+              longitude: state.longitude,
+              onLocationSelected: (lat, lng) {
+                context.read<AddEventFormCubit>().updateLocation(lat, lng);
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }
