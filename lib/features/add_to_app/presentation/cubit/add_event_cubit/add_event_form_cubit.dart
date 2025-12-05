@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -69,5 +71,5 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
   // Event time (like a single DateTime or text)
   void updateEventTime(String value) => emit(state.copyWith(eventTime: value));
 
-  // later: add image, location, etc.
+  void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
 }

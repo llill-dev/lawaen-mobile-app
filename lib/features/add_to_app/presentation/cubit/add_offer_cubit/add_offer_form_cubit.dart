@@ -1,3 +1,5 @@
+import 'dart:io' show File;
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,4 +29,5 @@ class AddOfferFormCubit extends Cubit<AddOfferFormState> {
   void updateDescription(String value) => emit(state.copyWith(description: value));
   void updatePhone(String value) => emit(state.copyWith(phone: value));
   void updateWhatsapp(String value) => emit(state.copyWith(whatsapp: value));
+  void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
 }

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -57,4 +59,6 @@ class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
 
   void updateStartTime(TimeOfDay value) => emit(state.copyWith(startTime: value));
   void updateEndTime(TimeOfDay value) => emit(state.copyWith(endTime: value));
+
+  void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
 }

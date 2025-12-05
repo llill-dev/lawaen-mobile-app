@@ -25,7 +25,9 @@ class AddEventFormState extends Equatable {
   final TimeOfDay? endTime;
   final DateTime? startDate;
   final DateTime? endDate;
-  final String eventTime; // you can change this to a model later
+  final String eventTime;
+  final File? imageFile;
+  // you can change this to a model later
 
   const AddEventFormState({
     required this.currentStep,
@@ -45,6 +47,7 @@ class AddEventFormState extends Equatable {
     this.startDate,
     this.endDate,
     this.eventTime = '',
+    this.imageFile,
   });
 
   AddEventFormState copyWith({
@@ -65,6 +68,7 @@ class AddEventFormState extends Equatable {
     DateTime? startDate,
     DateTime? endDate,
     String? eventTime,
+    File? imageFile,
   }) {
     return AddEventFormState(
       currentStep: currentStep ?? this.currentStep,
@@ -84,6 +88,7 @@ class AddEventFormState extends Equatable {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       eventTime: eventTime ?? this.eventTime,
+      imageFile: imageFile ?? this.imageFile,
     );
   }
 
@@ -106,5 +111,6 @@ class AddEventFormState extends Equatable {
     startDate,
     endDate,
     eventTime,
+    imageFile,
   ];
 }

@@ -11,16 +11,27 @@ class AddOfferFormState extends Equatable {
   final String phone;
   final String whatsapp;
 
+  final File? imageFile;
+
   const AddOfferFormState({
     required this.currentStep,
     required this.name,
     required this.description,
     required this.phone,
     required this.whatsapp,
+    this.imageFile,
   });
 
-  AddOfferFormState copyWith({int? currentStep, String? name, String? description, String? phone, String? whatsapp}) {
+  AddOfferFormState copyWith({
+    int? currentStep,
+    String? name,
+    String? description,
+    String? phone,
+    String? whatsapp,
+    File? imageFile,
+  }) {
     return AddOfferFormState(
+      imageFile: imageFile ?? this.imageFile,
       currentStep: currentStep ?? this.currentStep,
       name: name ?? this.name,
       description: description ?? this.description,

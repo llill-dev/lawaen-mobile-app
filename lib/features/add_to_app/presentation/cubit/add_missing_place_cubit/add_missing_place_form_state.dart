@@ -19,6 +19,9 @@ class AddMissingPlaceFormState extends Equatable {
   final TimeOfDay? startTime;
   final TimeOfDay? endTime;
 
+  // Image
+  final File? imageFile;
+
   const AddMissingPlaceFormState({
     required this.currentStep,
     required this.mainCategory,
@@ -31,6 +34,7 @@ class AddMissingPlaceFormState extends Equatable {
     required this.facebook,
     this.startTime,
     this.endTime,
+    this.imageFile,
   });
 
   AddMissingPlaceFormState copyWith({
@@ -45,6 +49,7 @@ class AddMissingPlaceFormState extends Equatable {
     String? facebook,
     TimeOfDay? startTime,
     TimeOfDay? endTime,
+    File? imageFile,
   }) {
     return AddMissingPlaceFormState(
       currentStep: currentStep ?? this.currentStep,
@@ -58,6 +63,7 @@ class AddMissingPlaceFormState extends Equatable {
       facebook: facebook ?? this.facebook,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      imageFile: imageFile ?? this.imageFile,
     );
   }
 
@@ -74,5 +80,6 @@ class AddMissingPlaceFormState extends Equatable {
     facebook,
     startTime,
     endTime,
+    imageFile,
   ];
 }

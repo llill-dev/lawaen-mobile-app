@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lawaen/features/add_to_app/presentation/views/widget/upload_file.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/add_offer_form_cubit.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/upload_image.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/conditions_widget.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/claim_and_im_not_robort_button.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/we_dont_collect_data_text.dart';
@@ -10,8 +12,17 @@ class OfferImageReviewStep extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      children: const [
-        UploadFile(),
+      children: [
+        BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
+          builder: (context, state) {
+            return UploadImage(
+              imageFile: state.imageFile,
+              onImageSelected: (file) {
+                context.read<AddOfferFormCubit>().updateImageFile(file);
+              },
+            );
+          },
+        ),
         SizedBox(height: 24),
         ConditionsWidget(),
         SizedBox(height: 24),
