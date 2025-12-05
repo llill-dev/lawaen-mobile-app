@@ -3,8 +3,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lawaen/app/core/widgets/primary_button.dart';
-import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_event_cubit/add_event_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_app_bar.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_basic_info_stpe.dart';
@@ -12,6 +10,7 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/e
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_contact_info_stpe.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_image_location_step.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_working_hours_screen.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/add_to_app_bottom_buttons.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/steps_header.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -75,36 +74,20 @@ class AddEventScreen extends StatelessWidget {
                       final isFirst = state.currentStep == 0;
                       final isLast = state.currentStep == AddEventFormCubit.totalSteps - 1;
 
-                      return Row(
-                        children: [
-                          if (!isFirst)
-                            Expanded(
-                              child: PrimaryButton(
-                                onPressed: cubit.previousStep,
-                                text: LocaleKeys.previous.tr(),
-                                backgroundColor: ColorManager.lightGrey,
-                                borederColor: ColorManager.lightGrey,
-                                textColor: ColorManager.black,
-                                icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorManager.black, size: 16.r),
-                              ),
-                            ),
-                          if (!isFirst) 12.horizontalSpace,
-                          Expanded(
-                            child: PrimaryButton(
-                              onPressed: () {
-                                if (isLast) {
-                                  // TODO: submit using cubit.state
-                                  // For now just print or show dialog
-                                } else {
-                                  cubit.nextStep();
-                                }
-                              },
-                              text: isLast ? LocaleKeys.submit.tr() : LocaleKeys.next.tr(),
-                              isIconOnLeft: false,
-                              icon: Icon(Icons.arrow_forward_ios_rounded, color: ColorManager.white, size: 16.r),
-                            ),
-                          ),
-                        ],
+                      return AddToAppBottomButtons(
+                        isFirst: isFirst,
+                        onNextPressed: () {
+                          if (isLast) {
+                            // TODO: submit using cubit.state
+                            // For now just print or show dialog
+                          } else {
+                            cubit.nextStep();
+                          }
+                        },
+                        onPreviousPressed: () {
+                          cubit.previousStep();
+                        },
+                        isLast: isLast,
                       );
                     },
                   ),
