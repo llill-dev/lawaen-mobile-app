@@ -8,6 +8,9 @@ class CategoryDetailsModel {
   final String? image;
   final String? address;
   final String? main;
+  //after i added the main category id to the category details model
+  @JsonKey(name: "main_category_id")
+  final String? mainCategoryId;
   final double? travelMinutes;
   final LocationMapModel? location;
 
@@ -18,6 +21,7 @@ class CategoryDetailsModel {
     required this.address,
     required this.main,
     required this.location,
+    required this.mainCategoryId,
     this.travelMinutes,
   });
 
@@ -32,6 +36,7 @@ class CategoryDetailsModel {
       address: address,
       main: main,
       location: location,
+      mainCategoryId: mainCategoryId,
       travelMinutes: travelMinutes ?? this.travelMinutes,
     );
   }

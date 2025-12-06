@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 
 import 'app.dart';
 import 'app/di/injection.dart';
@@ -30,9 +31,11 @@ FutureOr<void> main() async {
 
   await EasyLocalization.ensureInitialized();
 
-  configureInjection(Environment.prod);
+  await configureInjection(Environment.prod);
 
   // await FirebaseMessagingService().initialize();
+
+  getIt<MapMarkerCubit>().loadMarkers();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(

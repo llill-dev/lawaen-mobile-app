@@ -11,6 +11,7 @@ import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
 import 'package:lawaen/features/home/data/repos/category_details_repo/cetagory_details_repo.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
+import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 import 'map_repo.dart';
 
@@ -49,5 +50,19 @@ class MapRepoImpl implements MapRepo {
     GetCategoryDetailsParams params,
   ) async {
     return await categoryDetailsRepo.getCategoryDetails(categoryId, params);
+  }
+
+  @override
+  Future<Either<ErrorModel, List<MapMarkerModel>>> getMapMarkers() async {
+    try {
+      final response = await appServiceClient.getMapMarkers();
+      if (response.status && response.data != null) {
+        return Right(response.data!);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getMapMarkers error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
   }
 }

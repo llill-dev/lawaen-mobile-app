@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple;
@@ -6,8 +5,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:injectable/injectable.dart';
-import 'package:lawaen/app/core/services/category_lookup_service.dart';
-import 'package:lawaen/app/core/services/marker_icon_service.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
@@ -20,14 +17,11 @@ part 'map_state.dart';
 @Injectable()
 class MapCubit extends Cubit<MapState> {
   final MapRepo _mapRepo;
-  final CategoryLookupService _categoryLookupService;
-  final MarkerIconService _markerIconService;
   final LocationService _locationService;
 
   String? _search;
 
-  MapCubit(this._mapRepo, this._locationService, this._categoryLookupService, this._markerIconService)
-    : super(const MapState());
+  MapCubit(this._mapRepo, this._locationService) : super(const MapState());
 
   // ===================================================
   // INIT MAP
@@ -114,7 +108,6 @@ class MapCubit extends Cubit<MapState> {
       (items) {
         final updated = _attachTravelTimes(items);
         emit(state.copyWith(itemsState: RequestState.success, items: updated, itemsError: null));
-        //_ensureIconsForItems(items);
       },
     );
   }
@@ -138,9 +131,7 @@ class MapCubit extends Cubit<MapState> {
         );
       },
       (categories) {
-        //_categoryLookupService.load(categories);
         emit(state.copyWith(categoriesState: RequestState.success, categories: categories, categoriesError: null));
-        //_ensureIconsForItems(state.items);
       },
     );
   }
@@ -209,53 +200,5 @@ class MapCubit extends Cubit<MapState> {
     final speedMps = speedKmH * 1000 / 3600;
 
     return (distanceMeters / speedMps) / 60;
-  }
-
-  Future<void> _ensureIconsForItems(List<CategoryDetailsModel> items) async {
-    // Need categories to know SVG URLs
-    if (state.categories.isEmpty) return;
-
-    // Which subcategory IDs are used by these items?
-    final neededSubCategoryIds = items.map((e) => e.main).whereType<String>().toSet();
-
-    if (neededSubCategoryIds.isEmpty) return;
-
-    // Copy current icon maps so we can mutate and then emit
-    final googleMap = Map<String, BitmapDescriptor>.from(state.googleCategoryMarkers);
-    final appleMap = Map<String, apple.BitmapDescriptor>.from(state.appleCategoryMarkers);
-
-    bool changed = false;
-
-    for (final subCategoryId in neededSubCategoryIds) {
-      // Skip if already loaded
-      if (googleMap.containsKey(subCategoryId) && appleMap.containsKey(subCategoryId)) continue;
-
-      final iconUrl = _categoryLookupService.getSubCategoryIconUrl(subCategoryId);
-      if (iconUrl == null || iconUrl.isEmpty) continue;
-
-      try {
-        final googleIcon = await _markerIconService.getGoogleIconForSubCategory(
-          subCategoryId: subCategoryId,
-          svgUrl: iconUrl,
-          size: 40,
-        );
-        final appleIcon = await _markerIconService.getAppleIconForSubCategory(
-          subCategoryId: subCategoryId,
-          svgUrl: iconUrl,
-          size: 80,
-        );
-
-        googleMap[subCategoryId] = googleIcon;
-        appleMap[subCategoryId] = appleIcon;
-        changed = true;
-      } catch (e) {
-        // If an icon fails, we just skip and fall back to default marker in UI
-        // You can log e if you want
-        log(e.toString());
-      }
-    }
-    if (changed) {
-      emit(state.copyWith(googleCategoryMarkers: googleMap, appleCategoryMarkers: appleMap));
-    }
   }
 }

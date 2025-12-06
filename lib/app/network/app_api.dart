@@ -12,6 +12,7 @@ import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
@@ -55,6 +56,9 @@ abstract class AppServiceClient {
 
   @GET(Urls.getCategories)
   Future<ApiResponse<List<CategoryModel>>> getCategories();
+
+  @GET(Urls.getMapMarkers)
+  Future<ApiResponse<List<MapMarkerModel>>> getMapMarkers();
 
   //category details
   @GET(Urls.getCategoryDetails)

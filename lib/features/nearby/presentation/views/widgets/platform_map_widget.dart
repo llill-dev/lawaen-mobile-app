@@ -3,21 +3,18 @@ import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple;
 import 'package:google_maps_cluster_manager_2/google_maps_cluster_manager_2.dart' as gm_cluster;
 
-import 'package:lawaen/app/core/widgets/loading_widget.dart';
-import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
-import 'package:lawaen/features/nearby/presentation/views/widgets/map_itme_detail_bottom_sheet.dart';
+import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
+import 'map_itme_detail_bottom_sheet.dart';
 
-import 'marker_helper.dart';
-
-/// Cluster item wrapper
 class _MapClusterItem with gm_cluster.ClusterItem {
   final CategoryDetailsModel item;
 
@@ -39,12 +36,10 @@ class PlatformMapWidget extends StatefulWidget {
 }
 
 class _PlatformMapWidgetState extends State<PlatformMapWidget> {
-  BitmapDescriptor? googleMarker;
-  apple.BitmapDescriptor? appleMarker;
-
   late final gm_cluster.ClusterManager<_MapClusterItem> _clusterManager;
-  Set<Marker> _googleMarkers = {};
+
   GoogleMapController? _googleMapController;
+  Set<Marker> _googleMarkers = {};
 
   @override
   void initState() {
@@ -55,10 +50,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       _updateMarkers,
       markerBuilder: _markerBuilder,
       stopClusteringZoom: 20,
-      // maxItemsForMaxDistAlgo: 5,
     );
-
-    _loadMarkers();
   }
 
   @override
@@ -71,11 +63,15 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     }
   }
 
-  Future<void> _loadMarkers() async {
-    googleMarker = await MarkerHelper.loadGoogleMarker(ImageManager.marker);
-    appleMarker = await MarkerHelper.loadAppleMarker(ImageManager.marker);
-    setState(() {});
+  @override
+  void dispose() {
+    _googleMapController?.dispose();
+    super.dispose();
   }
+
+  // =====================================================
+  // HELPERS
+  // =====================================================
 
   List<_MapClusterItem> _createClusterItems(List<CategoryDetailsModel> items) {
     return items
@@ -85,18 +81,46 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
   }
 
   void _updateMarkers(Set<Marker> markers) {
+    if (!mounted) return;
     setState(() {
       _googleMarkers = markers;
     });
   }
 
+  bool get _markersReady {
+    final state = context.read<MapMarkerCubit>().state;
+    return state.fallbackGoogle != null && state.fallbackApple != null;
+  }
+
+  // =====================================================
+  // WIDGET BUILD
+  // =====================================================
   @override
   Widget build(BuildContext context) {
     if (widget.latitude == null || widget.longitude == null) {
-      return const LoadingWidget();
+      return const Center(child: CircularProgressIndicator());
     }
 
-    // === GOOGLE MAPS ===
+    return BlocBuilder<MapMarkerCubit, MapMarkerState>(
+      builder: (context, state) {
+        // WAIT until fallback icons are loaded
+        if (!_markersReady) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        return _buildMapContent(context, state);
+      },
+    );
+  }
+
+  // =====================================================
+  // MAP CONTENT
+  // =====================================================
+  Widget _buildMapContent(BuildContext context, MapMarkerState state) {
+    final appleMarkerCache = state.markersApple;
+    final fallbackApple = state.fallbackApple!;
+
+    // GOOGLE MAPS
     if (!Platform.isIOS) {
       return GoogleMap(
         initialCameraPosition: CameraPosition(target: LatLng(widget.latitude!, widget.longitude!), zoom: 12),
@@ -112,19 +136,21 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       );
     }
 
-    // === APPLE MAPS ===
+    // APPLE MAPS
     return apple.AppleMap(
       initialCameraPosition: apple.CameraPosition(target: apple.LatLng(widget.latitude!, widget.longitude!), zoom: 12),
       myLocationEnabled: true,
-      annotations: _buildAppleMarkers(context),
+      annotations: _buildAppleMarkers(context, appleMarkerCache, fallbackApple),
     );
   }
 
-  // ==========================================================
-  // MARKER BUILDER (cluster or single)
-  // ==========================================================
+  // =====================================================
+  // GOOGLE MARKER BUILDER (Cluster + Single)
+  // =====================================================
   Future<Marker> _markerBuilder(gm_cluster.Cluster<_MapClusterItem> cluster) async {
-    // ===== CLUSTER (MULTIPLE ITEMS) =====
+    final state = context.read<MapMarkerCubit>().state;
+
+    // CLUSTER MARKER
     if (cluster.isMultiple) {
       final icon = await _createClusterIcon(size: 120, text: cluster.count.toString());
 
@@ -143,10 +169,10 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       );
     }
 
-    // ===== SINGLE MARKER =====
+    // SINGLE MARKER
     final item = cluster.items.first.item;
 
-    final markerIcon = googleMarker ?? BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed);
+    final markerIcon = state.markersGoogle[item.mainCategoryId] ?? state.fallbackGoogle!; // Always available
 
     return Marker(
       markerId: MarkerId(item.id),
@@ -156,19 +182,22 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     );
   }
 
-  // ==========================================================
-  // SIMPLE BLUE CIRCLE CLUSTER ICON
-  // ==========================================================
+  // =====================================================
+  // CLUSTER ICON GENERATOR
+  // =====================================================
   Future<BitmapDescriptor> _createClusterIcon({required int size, required String text}) async {
     final recorder = ui.PictureRecorder();
     final canvas = ui.Canvas(recorder);
 
-    final center = ui.Offset(size / 2, size / 2);
-    final paint = ui.Paint()..color = ColorManager.primary;
+    final center = Offset(size / 2, size / 2);
+    final paint = Paint()..color = ColorManager.primary;
 
+    // Background circle
     canvas.drawCircle(center, size / 2.0, paint);
 
+    // Text
     final textPainter = TextPainter(textDirection: ui.TextDirection.ltr);
+
     textPainter.text = TextSpan(
       text: text,
       style: TextStyle(fontSize: size / 3, color: Colors.white, fontWeight: FontWeight.bold),
@@ -183,25 +212,32 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     return BitmapDescriptor.fromBytes(data!.buffer.asUint8List());
   }
 
-  // ==========================================================
+  // =====================================================
   // APPLE MARKERS
-  // ==========================================================
-  Set<apple.Annotation> _buildAppleMarkers(BuildContext context) {
-    if (appleMarker == null) return {};
-
+  // =====================================================
+  Set<apple.Annotation> _buildAppleMarkers(
+    BuildContext context,
+    Map<String, apple.BitmapDescriptor> appleCache,
+    apple.BitmapDescriptor fallbackApple,
+  ) {
     return widget.items
         .where((item) => item.location != null && item.location!.latitude != null && item.location!.longitude != null)
         .map((item) {
+          final icon = appleCache[item.mainCategoryId] ?? fallbackApple;
+
           return apple.Annotation(
             annotationId: apple.AnnotationId(item.id),
             position: apple.LatLng(item.location!.latitude!, item.location!.longitude!),
             onTap: () => _openItemDetails(context, item),
-            icon: appleMarker!,
+            icon: icon,
           );
         })
         .toSet();
   }
 
+  // =====================================================
+  // OPEN ITEM DETAIL
+  // =====================================================
   Future<String?> _openItemDetails(BuildContext context, CategoryDetailsModel item) async {
     final hasNoData =
         (item.name == null || item.name!.isEmpty) &&
@@ -217,11 +253,9 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: ColorManager.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
-      builder: (_) {
-        return MapItemDetailBottomSheet(item: item);
-      },
+      backgroundColor: Colors.white,
+      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+      builder: (_) => MapItemDetailBottomSheet(item: item),
     );
   }
 }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lawaen/app/core/services/deep_linking_service.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 
 import 'app/di/injection.dart';
 import 'app/resources/theme_manager.dart';
@@ -26,7 +27,10 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => getIt<HomeCubit>()..initHome())],
+      providers: [
+        BlocProvider(create: (context) => getIt<MapMarkerCubit>()),
+        BlocProvider(create: (context) => getIt<HomeCubit>()..initHome()),
+      ],
       child: MaterialApp.router(
         title: "Lawaen",
         debugShowCheckedModeBanner: false,
