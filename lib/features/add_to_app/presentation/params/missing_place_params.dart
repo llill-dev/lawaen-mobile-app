@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lawaen/features/add_to_app/presentation/params/accept_options.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/contact_info.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/location_info.dart';
 
@@ -8,10 +9,10 @@ part 'missing_place_params.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: false)
 class MissingPlaceParams {
-  @JsonKey(name: 'main_category')
+  @JsonKey(name: 'mainCategory')
   final String? mainCategory;
 
-  @JsonKey(name: 'sub_category')
+  @JsonKey(name: 'subCategory')
   final String? subCategory;
 
   @JsonKey(name: 'name')
@@ -23,10 +24,10 @@ class MissingPlaceParams {
   /// Contact (flattened in [toJson]).
   final ContactInfo contact;
 
-  @JsonKey(name: 'start_time')
+  @JsonKey(name: 'startTime')
   final String? startTime;
 
-  @JsonKey(name: 'end_time')
+  @JsonKey(name: 'endTime')
   final String? endTime;
 
   /// Image is handled separately (multipart).
@@ -35,6 +36,8 @@ class MissingPlaceParams {
 
   /// Location (flattened in [toJson]).
   final LocationInfo location;
+
+  final AcceptOptions acceptOptions;
 
   const MissingPlaceParams({
     this.mainCategory,
@@ -45,20 +48,22 @@ class MissingPlaceParams {
     this.startTime,
     this.endTime,
     this.imageFile,
+    required this.acceptOptions,
     required this.location,
   });
 
   factory MissingPlaceParams.initial() => MissingPlaceParams(
-        mainCategory: null,
-        subCategory: null,
-        name: null,
-        description: null,
-        contact: const ContactInfo(),
-        startTime: null,
-        endTime: null,
-        imageFile: null,
-        location: const LocationInfo(),
-      );
+    mainCategory: null,
+    subCategory: null,
+    name: null,
+    description: null,
+    contact: const ContactInfo(),
+    startTime: null,
+    endTime: null,
+    imageFile: null,
+    location: const LocationInfo(),
+    acceptOptions: const AcceptOptions(),
+  );
 
   MissingPlaceParams copyWith({
     String? mainCategory,
@@ -70,6 +75,7 @@ class MissingPlaceParams {
     String? endTime,
     File? imageFile,
     LocationInfo? location,
+    AcceptOptions? acceptOptions,
   }) {
     return MissingPlaceParams(
       mainCategory: mainCategory ?? this.mainCategory,
@@ -81,6 +87,7 @@ class MissingPlaceParams {
       endTime: endTime ?? this.endTime,
       imageFile: imageFile ?? this.imageFile,
       location: location ?? this.location,
+      acceptOptions: acceptOptions ?? this.acceptOptions,
     );
   }
 
@@ -89,12 +96,12 @@ class MissingPlaceParams {
   /// Flatten contact and location into a single JSON map.
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> base = {
-      'main_category': mainCategory,
-      'sub_category': subCategory,
+      'mainCategory': mainCategory,
+      'subCategory': subCategory,
       'name': name,
       'description': description,
-      'start_time': startTime,
-      'end_time': endTime,
+      'startTime': startTime,
+      'endTime': endTime,
     };
 
     final contactJson = contact.toJson();
@@ -106,6 +113,11 @@ class MissingPlaceParams {
     final locationJson = location.toJson();
     base['lat'] = locationJson['lat'];
     base['lng'] = locationJson['lng'];
+
+    final acceptOptionsJson = acceptOptions.toJson();
+    base['acceptOne'] = acceptOptionsJson['acceptOne'];
+    base['acceptTwo'] = acceptOptionsJson['acceptTwo'];
+    base['acceptThree'] = acceptOptionsJson['acceptThree'];
 
     return base;
   }

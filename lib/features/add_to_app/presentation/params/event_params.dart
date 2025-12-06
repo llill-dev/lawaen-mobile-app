@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:lawaen/features/add_to_app/presentation/params/accept_options.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/contact_info.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/location_info.dart';
 
@@ -54,6 +55,8 @@ class EventParams {
   /// Location (flattened in [toJson]).
   final LocationInfo location;
 
+  final AcceptOptions acceptOptions;
+
   const EventParams({
     this.eventType,
     this.name,
@@ -69,6 +72,7 @@ class EventParams {
     this.endDate,
     this.eventTime,
     required this.location,
+    required this.acceptOptions,
     this.imageFile,
   });
 
@@ -87,6 +91,7 @@ class EventParams {
         endDate: null,
         eventTime: null,
         location: const LocationInfo(),
+        acceptOptions: const AcceptOptions(),
         imageFile: null,
       );
 
@@ -105,6 +110,7 @@ class EventParams {
     String? endDate,
     String? eventTime,
     LocationInfo? location,
+    AcceptOptions? acceptOptions,
     File? imageFile,
   }) {
     return EventParams(
@@ -122,6 +128,7 @@ class EventParams {
       endDate: endDate ?? this.endDate,
       eventTime: eventTime ?? this.eventTime,
       location: location ?? this.location,
+      acceptOptions: acceptOptions ?? this.acceptOptions,
       imageFile: imageFile ?? this.imageFile,
     );
   }
@@ -154,6 +161,11 @@ class EventParams {
     final locationJson = location.toJson();
     base['lat'] = locationJson['lat'];
     base['lng'] = locationJson['lng'];
+
+    final acceptOptionsJson = acceptOptions.toJson();
+    base['acceptOne'] = acceptOptionsJson['acceptOne'];
+    base['acceptTwo'] = acceptOptionsJson['acceptTwo'];
+    base['acceptThree'] = acceptOptionsJson['acceptThree'];
 
     return base;
   }

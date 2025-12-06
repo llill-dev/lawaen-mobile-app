@@ -92,4 +92,29 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
 
   // Image
   void updateImage(File file) => emit(state.copyWith(params: state.params.copyWith(imageFile: file)));
+
+  // Accept options
+  void updateAcceptOne(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptOne: value),
+          ),
+        ),
+      );
+
+  void updateAcceptTwo(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptTwo: value),
+          ),
+        ),
+      );
+
+  void updateAcceptThree(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptThree: value),
+          ),
+        ),
+      );
 }

@@ -47,4 +47,28 @@ class AddOfferFormCubit extends Cubit<AddOfferFormState> {
       );
 
   void updateImage(File value) => emit(state.copyWith(params: state.params.copyWith(imageFile: value)));
+
+  void updateAcceptOne(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptOne: value),
+          ),
+        ),
+      );
+
+  void updateAcceptTwo(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptTwo: value),
+          ),
+        ),
+      );
+
+  void updateAcceptThree(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptThree: value),
+          ),
+        ),
+      );
 }

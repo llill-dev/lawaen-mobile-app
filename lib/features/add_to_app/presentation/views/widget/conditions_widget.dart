@@ -32,17 +32,23 @@ class CheckBoxRow extends StatelessWidget {
   }
 }
 
-class ConditionsWidget extends StatefulWidget {
-  const ConditionsWidget({super.key});
+class ConditionsWidget extends StatelessWidget {
+  final bool acceptOne;
+  final bool acceptTwo;
+  final bool acceptThree;
+  final ValueChanged<bool> onAcceptOneChanged;
+  final ValueChanged<bool> onAcceptTwoChanged;
+  final ValueChanged<bool> onAcceptThreeChanged;
 
-  @override
-  State<ConditionsWidget> createState() => _ContionsState();
-}
-
-class _ContionsState extends State<ConditionsWidget> {
-  bool acceptTerms = false;
-  bool acceptSubscriptionCost = false;
-  bool acceptInformation = false;
+  const ConditionsWidget({
+    super.key,
+    required this.acceptOne,
+    required this.acceptTwo,
+    required this.acceptThree,
+    required this.onAcceptOneChanged,
+    required this.onAcceptTwoChanged,
+    required this.onAcceptThreeChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -52,32 +58,20 @@ class _ContionsState extends State<ConditionsWidget> {
         children: [
           CheckBoxRow(
             title: LocaleKeys.acceptTerms.tr(),
-            value: acceptTerms,
-            onChanged: (value) {
-              setState(() {
-                acceptTerms = value!;
-              });
-            },
+            value: acceptOne,
+            onChanged: (value) => onAcceptOneChanged(value ?? false),
           ),
           8.verticalSpace,
           CheckBoxRow(
             title: LocaleKeys.reviewSubscriptionCost.tr(),
-            value: acceptSubscriptionCost,
-            onChanged: (value) {
-              setState(() {
-                acceptSubscriptionCost = value!;
-              });
-            },
+            value: acceptTwo,
+            onChanged: (value) => onAcceptTwoChanged(value ?? false),
           ),
           8.verticalSpace,
           CheckBoxRow(
             title: LocaleKeys.informationCorrect.tr(),
-            value: acceptInformation,
-            onChanged: (value) {
-              setState(() {
-                acceptInformation = value!;
-              });
-            },
+            value: acceptThree,
+            onChanged: (value) => onAcceptThreeChanged(value ?? false),
           ),
         ],
       ),

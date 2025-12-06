@@ -91,4 +91,28 @@ class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
           ),
         ),
       );
+
+  void updateAcceptOne(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptOne: value),
+          ),
+        ),
+      );
+
+  void updateAcceptTwo(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptTwo: value),
+          ),
+        ),
+      );
+
+  void updateAcceptThree(bool value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            acceptOptions: state.params.acceptOptions.copyWith(acceptThree: value),
+          ),
+        ),
+      );
 }

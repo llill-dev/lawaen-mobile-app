@@ -24,7 +24,20 @@ class OfferImageReviewStep extends StatelessWidget {
           },
         ),
         SizedBox(height: 24),
-        ConditionsWidget(),
+        BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
+          builder: (context, state) {
+            final acceptOptions = state.params.acceptOptions;
+            final cubit = context.read<AddOfferFormCubit>();
+            return ConditionsWidget(
+              acceptOne: acceptOptions.acceptOne ?? false,
+              acceptTwo: acceptOptions.acceptTwo ?? false,
+              acceptThree: acceptOptions.acceptThree ?? false,
+              onAcceptOneChanged: cubit.updateAcceptOne,
+              onAcceptTwoChanged: cubit.updateAcceptTwo,
+              onAcceptThreeChanged: cubit.updateAcceptThree,
+            );
+          },
+        ),
         SizedBox(height: 24),
         ClaimAndImNotRobortButtons(),
         SizedBox(height: 24),

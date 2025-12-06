@@ -9,7 +9,7 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/e
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_booking_details_stpe.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_contact_info_stpe.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_image_location_step.dart';
-import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_working_hours_screen.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_working_review_step.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_to_app_bottom_buttons.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/steps_header.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
