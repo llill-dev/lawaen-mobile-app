@@ -1,26 +1,13 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/features/add_to_app/presentation/params/missing_place_params.dart';
 
 part 'add_missing_place_form_state.dart';
 
 class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
-  AddMissingPlaceFormCubit()
-    : super(
-        const AddMissingPlaceFormState(
-          currentStep: 0,
-          mainCategory: '',
-          subCategory: '',
-          name: '',
-          description: '',
-          phone: '',
-          whatsapp: '',
-          instagram: '',
-          facebook: '',
-        ),
-      );
+  AddMissingPlaceFormCubit() : super(AddMissingPlaceFormState.initial());
 
   static const int totalSteps = 4;
 
@@ -46,22 +33,62 @@ class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
 
   // ---------------- FIELD UPDATES -------------------
 
-  void updateMainCategory(String value) => emit(state.copyWith(mainCategory: value));
-  void updateSubCategory(String value) => emit(state.copyWith(subCategory: value));
+  void updateMainCategory(String value) =>
+      emit(state.copyWith(params: state.params.copyWith(mainCategory: value)));
 
-  void updateName(String value) => emit(state.copyWith(name: value));
-  void updateDescription(String value) => emit(state.copyWith(description: value));
+  void updateSubCategory(String value) =>
+      emit(state.copyWith(params: state.params.copyWith(subCategory: value)));
 
-  void updatePhone(String value) => emit(state.copyWith(phone: value));
-  void updateWhatsapp(String value) => emit(state.copyWith(whatsapp: value));
-  void updateInstagram(String value) => emit(state.copyWith(instagram: value));
-  void updateFacebook(String value) => emit(state.copyWith(facebook: value));
+  void updateName(String value) => emit(state.copyWith(params: state.params.copyWith(name: value)));
 
-  void updateStartTime(TimeOfDay value) => emit(state.copyWith(startTime: value));
-  void updateEndTime(TimeOfDay value) => emit(state.copyWith(endTime: value));
+  void updateDescription(String value) =>
+      emit(state.copyWith(params: state.params.copyWith(description: value)));
 
-  void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
+  void updatePhone(String value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            contact: state.params.contact.copyWith(phone: value),
+          ),
+        ),
+      );
 
-  void updateLocation(double latitude, double longitude) =>
-      emit(state.copyWith(latitude: latitude, longitude: longitude));
+  void updateWhatsapp(String value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            contact: state.params.contact.copyWith(whatsapp: value),
+          ),
+        ),
+      );
+
+  void updateInstagram(String value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            contact: state.params.contact.copyWith(instagram: value),
+          ),
+        ),
+      );
+
+  void updateFacebook(String value) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            contact: state.params.contact.copyWith(facebook: value),
+          ),
+        ),
+      );
+
+  void updateStartTime(String value) =>
+      emit(state.copyWith(params: state.params.copyWith(startTime: value)));
+
+  void updateEndTime(String value) =>
+      emit(state.copyWith(params: state.params.copyWith(endTime: value)));
+
+  void updateImage(File value) => emit(state.copyWith(params: state.params.copyWith(imageFile: value)));
+
+  void updateLocation(double latitude, double longitude) => emit(
+        state.copyWith(
+          params: state.params.copyWith(
+            location: state.params.location.copyWith(lat: latitude, lng: longitude),
+          ),
+        ),
+      );
 }

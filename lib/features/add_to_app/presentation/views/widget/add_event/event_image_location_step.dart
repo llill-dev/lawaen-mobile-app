@@ -17,16 +17,16 @@ class EventImageLocationStep extends StatelessWidget {
             16.verticalSpace,
 
             UploadImage(
-              imageFile: state.imageFile,
+              imageFile: state.params.imageFile,
               onImageSelected: (file) {
-                context.read<AddEventFormCubit>().updateImageFile(file);
+                context.read<AddEventFormCubit>().updateImage(file);
               },
             ),
 
             24.verticalSpace,
             LocationPickerField(
-              latitude: state.latitude,
-              longitude: state.longitude,
+              latitude: state.params.location.lat,
+              longitude: state.params.location.lng,
               onLocationSelected: (lat, lng) {
                 context.read<AddEventFormCubit>().updateLocation(lat, lng);
               },

@@ -1,33 +1,15 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/features/add_to_app/presentation/params/event_params.dart';
 
 part 'add_event_form_state.dart';
 
 class AddEventFormCubit extends Cubit<AddEventFormState> {
-  AddEventFormCubit()
-    : super(
-        const AddEventFormState(
-          currentStep: 0,
-          // strings empty by default
-          name: '',
-          eventType: '',
-          description: '',
-          phone: '',
-          whatsapp: '',
-          instagram: '',
-          facebook: '',
-          bookingMethod: '',
-          price: '',
-          bookingFee: '',
-          organiserLink: '',
-        ),
-      );
-
-  // ---- STEP NAVIGATION ----
   static const int totalSteps = 5;
+
+  AddEventFormCubit() : super(AddEventFormState.initial());
 
   void nextStep() {
     if (state.currentStep < totalSteps - 1) {
@@ -47,32 +29,67 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
     }
   }
 
-  // ---- FIELD UPDATERS ----
-  void updateName(String value) => emit(state.copyWith(name: value));
-  void updateEventType(String value) => emit(state.copyWith(eventType: value));
-  void updateDescription(String value) => emit(state.copyWith(description: value));
+  // Basic info
+  void updateEventType(String value) => emit(state.copyWith(params: state.params.copyWith(eventType: value)));
 
-  void updatePhone(String value) => emit(state.copyWith(phone: value));
-  void updateWhatsapp(String value) => emit(state.copyWith(whatsapp: value));
-  void updateInstagram(String value) => emit(state.copyWith(instagram: value));
-  void updateFacebook(String value) => emit(state.copyWith(facebook: value));
+  void updateName(String value) => emit(state.copyWith(params: state.params.copyWith(name: value)));
 
-  void updateBookingMethod(String value) => emit(state.copyWith(bookingMethod: value));
-  void updatePrice(String value) => emit(state.copyWith(price: value));
-  void updateBookingFee(String value) => emit(state.copyWith(bookingFee: value));
-  void updateOrganiserLink(String value) => emit(state.copyWith(organiserLink: value));
+  void updateDescription(String value) => emit(state.copyWith(params: state.params.copyWith(description: value)));
 
-  void updateStartTime(TimeOfDay value) => emit(state.copyWith(startTime: value));
-  void updateEndTime(TimeOfDay value) => emit(state.copyWith(endTime: value));
+  // Contact
+  void updatePhone(String value) => emit(
+    state.copyWith(
+      params: state.params.copyWith(contact: state.params.contact.copyWith(phone: value)),
+    ),
+  );
 
-  void updateStartDate(DateTime value) => emit(state.copyWith(startDate: value));
-  void updateEndDate(DateTime value) => emit(state.copyWith(endDate: value));
+  void updateWhatsapp(String value) => emit(
+    state.copyWith(
+      params: state.params.copyWith(contact: state.params.contact.copyWith(whatsapp: value)),
+    ),
+  );
 
-  // Event time (like a single DateTime or text)
-  void updateEventTime(String value) => emit(state.copyWith(eventTime: value));
+  void updateInstagram(String value) => emit(
+    state.copyWith(
+      params: state.params.copyWith(contact: state.params.contact.copyWith(instagram: value)),
+    ),
+  );
 
-  void updateImageFile(File value) => emit(state.copyWith(imageFile: value));
+  void updateFacebook(String value) => emit(
+    state.copyWith(
+      params: state.params.copyWith(contact: state.params.contact.copyWith(facebook: value)),
+    ),
+  );
 
-  void updateLocation(double latitude, double longitude) =>
-      emit(state.copyWith(latitude: latitude, longitude: longitude));
+  // Booking
+  void updateBookingMethod(String value) => emit(state.copyWith(params: state.params.copyWith(bookingMethod: value)));
+
+  void updatePrice(String value) => emit(state.copyWith(params: state.params.copyWith(price: value)));
+
+  void updateBookingFee(String value) => emit(state.copyWith(params: state.params.copyWith(bookingFee: value)));
+
+  void updateOrganiserLink(String value) => emit(state.copyWith(params: state.params.copyWith(organiserLink: value)));
+
+  // Time & dates (strings)
+  void updateStartTime(String value) => emit(state.copyWith(params: state.params.copyWith(startTime: value)));
+
+  void updateEndTime(String value) => emit(state.copyWith(params: state.params.copyWith(endTime: value)));
+
+  void updateStartDate(String value) => emit(state.copyWith(params: state.params.copyWith(startDate: value)));
+
+  void updateEndDate(String value) => emit(state.copyWith(params: state.params.copyWith(endDate: value)));
+
+  void updateEventTime(String value) => emit(state.copyWith(params: state.params.copyWith(eventTime: value)));
+
+  // Location
+  void updateLocation(double lat, double lng) => emit(
+    state.copyWith(
+      params: state.params.copyWith(
+        location: state.params.location.copyWith(lat: lat, lng: lng),
+      ),
+    ),
+  );
+
+  // Image
+  void updateImage(File file) => emit(state.copyWith(params: state.params.copyWith(imageFile: file)));
 }

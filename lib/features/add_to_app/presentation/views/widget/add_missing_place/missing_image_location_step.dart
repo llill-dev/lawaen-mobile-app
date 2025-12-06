@@ -14,15 +14,15 @@ class MissingImageLocationStep extends StatelessWidget {
         return Column(
           children: [
             UploadImage(
-              imageFile: state.imageFile,
+              imageFile: state.params.imageFile,
               onImageSelected: (file) {
-                context.read<AddMissingPlaceFormCubit>().updateImageFile(file);
+                context.read<AddMissingPlaceFormCubit>().updateImage(file);
               },
             ),
             SizedBox(height: 24),
             LocationPickerField(
-              latitude: state.latitude,
-              longitude: state.longitude,
+              latitude: state.params.location.lat,
+              longitude: state.params.location.lng,
               onLocationSelected: (lat, lng) {
                 context.read<AddMissingPlaceFormCubit>().updateLocation(lat, lng);
               },

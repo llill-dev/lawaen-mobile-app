@@ -16,9 +16,9 @@ class OfferImageReviewStep extends StatelessWidget {
         BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
           builder: (context, state) {
             return UploadImage(
-              imageFile: state.imageFile,
+              imageFile: state.params.imageFile,
               onImageSelected: (file) {
-                context.read<AddOfferFormCubit>().updateImageFile(file);
+                context.read<AddOfferFormCubit>().updateImage(file);
               },
             );
           },
