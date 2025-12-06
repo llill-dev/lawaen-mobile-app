@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:lawaen/app/app_prefs.dart';
@@ -11,6 +12,7 @@ import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_itme.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -58,6 +60,7 @@ class SettingsSection extends StatelessWidget {
                         context.setLocale(appPreferences.getAppLanguage() == english ? englishLocale : arabicLocale);
                         setLocaleIdentifier(appPreferences.getAppLanguage() == english ? 'en_US' : 'ar_SA');
                         context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
+                        context.read<HomeCubit>().initHome();
                       },
                     );
                   },

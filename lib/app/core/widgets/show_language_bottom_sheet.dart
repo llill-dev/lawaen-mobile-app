@@ -56,8 +56,6 @@ void showLanguageBottomSheet({
                       currentSelection = option;
 
                       onSelect(option);
-
-                      getIt<RefreshCubit>().refresh();
                     },
                     child: Container(
                       margin: REdgeInsets.only(bottom: 8),
