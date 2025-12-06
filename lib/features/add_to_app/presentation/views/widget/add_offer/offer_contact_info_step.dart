@@ -5,18 +5,51 @@ import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/ad
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-class OfferContactInfoStep extends StatelessWidget {
+class OfferContactInfoStep extends StatefulWidget {
   const OfferContactInfoStep({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final cubit = context.read<AddOfferFormCubit>();
+  State<OfferContactInfoStep> createState() => _OfferContactInfoStepState();
+}
 
+class _OfferContactInfoStepState extends State<OfferContactInfoStep> {
+  late final TextEditingController _phoneController;
+  late final TextEditingController _whatsappController;
+
+  @override
+  void initState() {
+    super.initState();
+    final contact = context.read<AddOfferFormCubit>().state.params.contact;
+    _phoneController = TextEditingController(text: contact.phone ?? '');
+    _whatsappController = TextEditingController(text: contact.whatsapp ?? '');
+
+    final cubit = context.read<AddOfferFormCubit>();
+    _phoneController.addListener(() => cubit.updatePhone(_phoneController.text));
+    _whatsappController.addListener(() => cubit.updateWhatsapp(_whatsappController.text));
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _whatsappController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
-        TextFiledItem(title: LocaleKeys.phoneNumber.tr(), onChanged: cubit.updatePhone),
+        TextFiledItem(
+          title: LocaleKeys.phoneNumber.tr(),
+          controller: _phoneController,
+          keyboardType: TextInputType.phone,
+        ),
         const SizedBox(height: 12),
-        TextFiledItem(title: LocaleKeys.whatsappNumber.tr(), onChanged: cubit.updateWhatsapp),
+        TextFiledItem(
+          title: LocaleKeys.whatsappNumber.tr(),
+          controller: _whatsappController,
+          keyboardType: TextInputType.phone,
+        ),
       ],
     );
   }

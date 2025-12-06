@@ -13,6 +13,7 @@ class TextFiledItem extends StatelessWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
   final Color? fillColor;
+  final TextInputType? keyboardType;
 
   const TextFiledItem({
     super.key,
@@ -24,6 +25,7 @@ class TextFiledItem extends StatelessWidget {
     this.readOnly,
     this.onChanged,
     this.fillColor,
+    this.keyboardType,
   });
 
   @override
@@ -44,6 +46,7 @@ class TextFiledItem extends StatelessWidget {
           maxLines: maxLines ?? 1,
           controller: controller,
           onChanged: onChanged,
+          keyboardType: keyboardType,
         ),
       ],
     ).horizontalPadding(padding: withTitle ? 16.w : 0);

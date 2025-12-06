@@ -7,8 +7,35 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_i
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-class EventBookingDetailsStep extends StatelessWidget {
+class EventBookingDetailsStep extends StatefulWidget {
   const EventBookingDetailsStep({super.key});
+
+  @override
+  State<EventBookingDetailsStep> createState() => _EventBookingDetailsStepState();
+}
+
+class _EventBookingDetailsStepState extends State<EventBookingDetailsStep> {
+  late final TextEditingController _priceController;
+  late final TextEditingController _organiserLinkController;
+
+  @override
+  void initState() {
+    super.initState();
+    final params = context.read<AddEventFormCubit>().state.params;
+    _priceController = TextEditingController(text: params.price ?? '');
+    _organiserLinkController = TextEditingController(text: params.organiserLink ?? '');
+
+    final cubit = context.read<AddEventFormCubit>();
+    _priceController.addListener(() => cubit.updatePrice(_priceController.text));
+    _organiserLinkController.addListener(() => cubit.updateOrganiserLink(_organiserLinkController.text));
+  }
+
+  @override
+  void dispose() {
+    _priceController.dispose();
+    _organiserLinkController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +58,13 @@ class EventBookingDetailsStep extends StatelessWidget {
               onChanged: cubit.updateBookingMethod,
             ),
             12.verticalSpace,
-            TextFiledItem(title: LocaleKeys.price.tr(), onChanged: cubit.updatePrice),
+            TextFiledItem(
+              title: LocaleKeys.price.tr(),
+              keyboardType: TextInputType.number,
+              controller: _priceController,
+            ),
             12.verticalSpace,
-            TextFiledItem(title: LocaleKeys.organizerPageLink.tr(), onChanged: cubit.updateOrganiserLink),
+            TextFiledItem(title: LocaleKeys.organizerPageLink.tr(), controller: _organiserLinkController),
           ],
         );
       },

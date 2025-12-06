@@ -7,8 +7,35 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/note_contai
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-class MissingBasicInfoStep extends StatelessWidget {
+class MissingBasicInfoStep extends StatefulWidget {
   const MissingBasicInfoStep({super.key});
+
+  @override
+  State<MissingBasicInfoStep> createState() => _MissingBasicInfoStepState();
+}
+
+class _MissingBasicInfoStepState extends State<MissingBasicInfoStep> {
+  late final TextEditingController _nameController;
+  late final TextEditingController _descriptionController;
+
+  @override
+  void initState() {
+    super.initState();
+    final params = context.read<AddMissingPlaceFormCubit>().state.params;
+    _nameController = TextEditingController(text: params.name ?? '');
+    _descriptionController = TextEditingController(text: params.description ?? '');
+
+    final cubit = context.read<AddMissingPlaceFormCubit>();
+    _nameController.addListener(() => cubit.updateName(_nameController.text));
+    _descriptionController.addListener(() => cubit.updateDescription(_descriptionController.text));
+  }
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +57,9 @@ class MissingBasicInfoStep extends StatelessWidget {
           onChanged: cubit.updateSubCategory,
         ),
         const SizedBox(height: 12),
-        TextFiledItem(title: LocaleKeys.name.tr(), onChanged: cubit.updateName),
+        TextFiledItem(title: LocaleKeys.name.tr(), controller: _nameController),
         const SizedBox(height: 12),
-        TextFiledItem(title: LocaleKeys.description.tr(), maxLines: 4, onChanged: cubit.updateDescription),
+        TextFiledItem(title: LocaleKeys.description.tr(), maxLines: 4, controller: _descriptionController),
       ],
     );
   }
