@@ -220,5 +220,14 @@
   "startTimeMustBeBeforeEndTime": "يجب أن يكون وقت البدء قبل وقت الانتهاء",
   "startEventDateMustBeBeforeEndEventDate": "يجب أن يكون تاريخ بدء الفعالية قبل تاريخ انتهائها",
   "eventTimeMustBeValidDate": "يجب أن يكون وقت الفعالية تاريخاً صالحاً",
-  "noteMustBeAtLeast10Chars": "يجب ألا تقل الملاحظة عن 10 أحرف"
+  "noteMustBeAtLeast10Chars": "يجب ألا تقل الملاحظة عن 10 أحرف",
+  "mainCategoryRequired": "الفئة الرئيسية مطلوبة",
+  "subCategoryRequired": "الفئة الفرعية مطلوبة",
+  "descriptionRequired": "الوصف مطلوب",
+  "phoneRequired": "رقم الهاتف مطلوب",
+  "openTimeMustBeBeforeCloseTime": "يجب أن يكون وقت الفتح قبل وقت الإغلاق",
+  "youMustAcceptTheTerms": "يجب أن توافق على الشروط",
+  "youMustReviewSubscriptionCost": "يجب أن تراجع تكلفة الاشتراك",
+  "youMustConfirmInformationAccuracy": "يجب أن تؤكد دقة المعلومات",
+  "verifyYouAreNotRobot": "يرجى التحقق من أنك لست روبوتاً"
 }

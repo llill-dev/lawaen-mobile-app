@@ -220,5 +220,14 @@
   "startTimeMustBeBeforeEndTime": "Start time must be before end time",
   "startEventDateMustBeBeforeEndEventDate": "Start event date must be before end event date",
   "eventTimeMustBeValidDate": "Event time must be a valid date",
-  "noteMustBeAtLeast10Chars": "Note must be at least 10 characters"
+  "noteMustBeAtLeast10Chars": "Note must be at least 10 characters",
+  "mainCategoryRequired": "Main category is required",
+  "subCategoryRequired": "Sub-category is required",
+  "descriptionRequired": "Description is required",
+  "phoneRequired": "Phone is required",
+  "openTimeMustBeBeforeCloseTime": "Open time must be before close time",
+  "youMustAcceptTheTerms": "You must accept the terms",
+  "youMustReviewSubscriptionCost": "You must review subscription cost",
+  "youMustConfirmInformationAccuracy": "You must confirm information accuracy",
+  "verifyYouAreNotRobot": "Please verify you are not a robot"
 }

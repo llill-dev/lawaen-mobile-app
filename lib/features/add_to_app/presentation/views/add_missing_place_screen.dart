@@ -25,6 +25,7 @@ class AddMissingPlaceScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
+            clipBehavior: Clip.none,
             child: BlocBuilder<AddMissingPlaceFormCubit, AddMissingPlaceFormState>(
               builder: (context, state) {
                 final cubit = context.read<AddMissingPlaceFormCubit>();
@@ -56,6 +57,10 @@ class AddMissingPlaceScreen extends StatelessWidget {
                           cubit.previousStep();
                         },
                         onNextPressed: () {
+                          final cubit = context.read<AddMissingPlaceFormCubit>();
+
+                          if (!cubit.validateStep(state.currentStep)) return;
+
                           if (isLast) {
                             // TODO: submit using cubit.state
                             // For now just print or show dialog
