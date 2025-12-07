@@ -9,7 +9,7 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/e
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_booking_details_stpe.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_contact_info_stpe.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_image_location_step.dart';
-import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_working_review_step.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_working_details_step.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_to_app_bottom_buttons.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/steps_header.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -77,6 +77,11 @@ class AddEventScreen extends StatelessWidget {
                       return AddToAppBottomButtons(
                         isFirst: isFirst,
                         onNextPressed: () {
+                          final cubit = context.read<AddEventFormCubit>();
+                          final valid = cubit.validateStep(state.currentStep);
+
+                          if (!valid) return;
+
                           if (isLast) {
                             // TODO: submit using cubit.state
                             // For now just print or show dialog
@@ -111,7 +116,7 @@ class AddEventScreen extends StatelessWidget {
       case 3:
         return const EventImageLocationStep(key: ValueKey('image_location'));
       case 4:
-        return const EventWorkingReviewStep(key: ValueKey('working_review'));
+        return const EventWorkingDetailsStep(key: ValueKey('working_review'));
       default:
         return const SizedBox.shrink();
     }

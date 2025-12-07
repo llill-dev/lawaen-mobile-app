@@ -14,7 +14,7 @@ class TextFiledItem extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final Color? fillColor;
   final TextInputType? keyboardType;
-
+  final bool withHint;
   const TextFiledItem({
     super.key,
     required this.title,
@@ -26,6 +26,7 @@ class TextFiledItem extends StatelessWidget {
     this.onChanged,
     this.fillColor,
     this.keyboardType,
+    this.withHint = true,
   });
 
   @override
@@ -37,7 +38,7 @@ class TextFiledItem extends StatelessWidget {
           Text(title, style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.primary)),
         8.verticalSpace,
         CustomTextField(
-          hint: hintText ?? title,
+          hint: withHint ? hintText ?? title : null,
           readOnly: readOnly ?? false,
           fillColor: fillColor ?? ColorManager.blackSwatch[2],
           horizontalContentPadding: 8.w,

@@ -4,25 +4,16 @@ part 'location_info.g.dart';
 
 @JsonSerializable(explicitToJson: true, createToJson: true)
 class LocationInfo {
-  @JsonKey(name: 'lat')
+  @JsonKey(name: 'latitude')
   final double? lat;
 
-  @JsonKey(name: 'lng')
+  @JsonKey(name: 'longitude')
   final double? lng;
 
-  const LocationInfo({
-    this.lat,
-    this.lng,
-  });
+  const LocationInfo({this.lat, this.lng});
 
-  LocationInfo copyWith({
-    double? lat,
-    double? lng,
-  }) {
-    return LocationInfo(
-      lat: lat ?? this.lat,
-      lng: lng ?? this.lng,
-    );
+  LocationInfo copyWith({double? lat, double? lng}) {
+    return LocationInfo(lat: lat ?? this.lat, lng: lng ?? this.lng);
   }
 
   factory LocationInfo.fromJson(Map<String, dynamic> json) => _$LocationInfoFromJson(json);

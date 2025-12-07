@@ -23,11 +23,11 @@ class _EventBookingDetailsStepState extends State<EventBookingDetailsStep> {
     super.initState();
     final params = context.read<AddEventFormCubit>().state.params;
     _priceController = TextEditingController(text: params.price ?? '');
-    _organiserLinkController = TextEditingController(text: params.organiserLink ?? '');
+    _organiserLinkController = TextEditingController(text: params.organization ?? '');
 
     final cubit = context.read<AddEventFormCubit>();
     _priceController.addListener(() => cubit.updatePrice(_priceController.text));
-    _organiserLinkController.addListener(() => cubit.updateOrganiserLink(_organiserLinkController.text));
+    _organiserLinkController.addListener(() => cubit.updateOrganization(_organiserLinkController.text));
   }
 
   @override
