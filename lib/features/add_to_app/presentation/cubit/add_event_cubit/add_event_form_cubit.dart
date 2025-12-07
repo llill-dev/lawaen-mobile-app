@@ -1,16 +1,13 @@
 import 'dart:io';
 
 import 'package:equatable/equatable.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:lawaen/app/core/functions/toast_message.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_event_model.dart';
 import 'package:lawaen/features/add_to_app/data/repos/add_to_app_repo.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/add_event_params.dart';
-import 'package:lawaen/generated/locale_keys.g.dart';
+import 'package:lawaen/features/add_to_app/presentation/validations/add_event_validation.dart';
 
 part 'add_event_form_state.dart';
 
@@ -30,6 +27,12 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
       (failure) => emit(state.copyWith(submitState: RequestState.error, submitError: failure.errorMessage)),
       (event) => emit(state.copyWith(submitState: RequestState.success, addedEvent: event, submitError: null)),
     );
+  }
+
+  // ---------------- Validation -----------------
+
+  bool validateStep(int step) {
+    return validateAddEventStep(state.params, step);
   }
 
   // ---------------- STEP NAVIGATION -----------------
@@ -115,119 +118,4 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
   );
 
   void updateImage(File file) => emit(state.copyWith(params: state.params.copyWith(imageFile: file)));
-
-  bool validateStep(int step) {
-    final p = state.params;
-
-    switch (step) {
-      case 0:
-        if (p.name == null || p.name!.trim().isEmpty) {
-          showToast(message: LocaleKeys.nameRequired.tr(), isError: true);
-          return false;
-        }
-        return true;
-
-      case 1:
-        final phone = p.contact.phone?.trim() ?? "";
-        final whatsapp = p.contact.whatsapp?.trim() ?? "";
-        final instagram = p.contact.instagram?.trim() ?? "";
-        final facebook = p.contact.facebook?.trim() ?? "";
-
-        if (phone.isNotEmpty && !RegExp(r'^\d+$').hasMatch(phone)) {
-          showToast(message: LocaleKeys.phoneMustBeNumeric.tr(), isError: true);
-          return false;
-        }
-
-        if (whatsapp.isNotEmpty && !RegExp(r'^\d+$').hasMatch(whatsapp)) {
-          showToast(message: LocaleKeys.whatsappMustBeNumeric.tr(), isError: true);
-          return false;
-        }
-
-        if (instagram.isNotEmpty && !instagram.startsWith("http")) {
-          showToast(message: LocaleKeys.instagramMustBeValidUrl.tr(), isError: true);
-          return false;
-        }
-
-        if (facebook.isNotEmpty && !facebook.startsWith("http")) {
-          showToast(message: LocaleKeys.facebookMustBeValidUrl.tr(), isError: true);
-          return false;
-        }
-
-        return true;
-
-      case 2:
-        if (p.price != null && p.price!.isNotEmpty && !RegExp(r'^\d+(\.\d+)?$').hasMatch(p.price!)) {
-          showToast(message: LocaleKeys.priceMustBeNumber.tr(), isError: true);
-          return false;
-        }
-
-        return true;
-
-      case 3:
-        if (p.location.lat == null || p.location.lng == null) {
-          showToast(message: LocaleKeys.locationIsRequired.tr(), isError: true);
-          return false;
-        }
-        return true;
-
-      case 4:
-        if (p.startTime == null || p.startTime!.isEmpty) {
-          showToast(message: LocaleKeys.startTimeIsRequired.tr(), isError: true);
-          return false;
-        }
-
-        if (p.endTime == null || p.endTime!.isEmpty) {
-          showToast(message: LocaleKeys.endTimeIsRequired.tr(), isError: true);
-          return false;
-        }
-
-        final start = _parseTime(p.startTime!);
-        final end = _parseTime(p.endTime!);
-
-        if (start != null && end != null && !_isTimeBefore(start, end)) {
-          showToast(message: LocaleKeys.startTimeMustBeBeforeEndTime.tr(), isError: true);
-          return false;
-        }
-
-        if (p.startEventDate != null && p.endEventDate != null) {
-          final startD = DateTime.tryParse(p.startEventDate!);
-          final endD = DateTime.tryParse(p.endEventDate!);
-
-          if (startD != null && endD != null && startD.isAfter(endD)) {
-            showToast(message: LocaleKeys.startEventDateMustBeBeforeEndEventDate.tr(), isError: true);
-            return false;
-          }
-        }
-
-        if (p.eventTime != null && DateTime.tryParse(p.eventTime!) == null) {
-          showToast(message: LocaleKeys.eventTimeMustBeValidDate.tr(), isError: true);
-          return false;
-        }
-
-        if (p.note != null && p.note!.trim().isNotEmpty && p.note!.trim().length < 10) {
-          showToast(message: LocaleKeys.noteMustBeAtLeast10Chars.tr(), isError: true);
-          return false;
-        }
-
-        return true;
-
-      default:
-        return true;
-    }
-  }
-
-  TimeOfDay? _parseTime(String input) {
-    final parts = input.split(':');
-    if (parts.length != 2) return null;
-    final h = int.tryParse(parts[0]);
-    final m = int.tryParse(parts[1]);
-    if (h == null || m == null) return null;
-    return TimeOfDay(hour: h, minute: m);
-  }
-
-  bool _isTimeBefore(TimeOfDay a, TimeOfDay b) {
-    if (a.hour < b.hour) return true;
-    if (a.hour == b.hour && a.minute < b.minute) return true;
-    return false;
-  }
 }

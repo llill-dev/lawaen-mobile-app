@@ -35,3 +35,18 @@ String formattedTime(int remainingSeconds) {
 SliverToBoxAdapter buildSpace({double? height}) {
   return SliverToBoxAdapter(child: SizedBox(height: height ?? 20.h));
 }
+
+TimeOfDay? parseTime(String input) {
+  final parts = input.split(':');
+  if (parts.length != 2) return null;
+  final h = int.tryParse(parts[0]);
+  final m = int.tryParse(parts[1]);
+  if (h == null || m == null) return null;
+  return TimeOfDay(hour: h, minute: m);
+}
+
+bool isTimeBefore(TimeOfDay a, TimeOfDay b) {
+  if (a.hour < b.hour) return true;
+  if (a.hour == b.hour && a.minute < b.minute) return true;
+  return false;
+}

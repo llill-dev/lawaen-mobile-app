@@ -1,15 +1,13 @@
 import 'dart:io' show File;
 
-import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:lawaen/app/core/functions/toast_message.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/add_to_app/data/repos/add_to_app_repo.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_offer_model.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/add_offer_params.dart';
-import 'package:lawaen/generated/locale_keys.g.dart';
+import 'package:lawaen/features/add_to_app/presentation/validations/add_offer_validation.dart';
 
 part 'add_offer_form_state.dart';
 
@@ -31,6 +29,11 @@ class AddOfferFormCubit extends Cubit<AddOfferFormState> {
       (failure) => emit(state.copyWith(submitState: RequestState.error, submitError: failure.errorMessage)),
       (offer) => emit(state.copyWith(submitState: RequestState.success, addedOffer: offer, submitError: null)),
     );
+  }
+
+  // ---------------- Validation -----------------
+  bool validateStep(int step) {
+    return validateAddOfferStep(state.params, step);
   }
 
   // ---------------- STEP NAVIGATION ----------------
@@ -82,70 +85,4 @@ class AddOfferFormCubit extends Cubit<AddOfferFormState> {
       params: state.params.copyWith(acceptOptions: state.params.acceptOptions.copyWith(acceptThree: value)),
     ),
   );
-
-  bool validateStep(int step) {
-    final p = state.params;
-
-    switch (step) {
-      // -------------------------------
-      // STEP 0 → Basic Info
-      // -------------------------------
-      case 0:
-        if (p.name == null || p.name!.trim().isEmpty) {
-          showToast(message: LocaleKeys.nameRequired.tr(), isError: true);
-          return false;
-        }
-        if (p.description == null || p.description!.trim().isEmpty) {
-          showToast(message: LocaleKeys.descriptionRequired.tr(), isError: true);
-          return false;
-        }
-        return true;
-
-      // -------------------------------
-      // STEP 1 → Contact Info
-      // -------------------------------
-      case 1:
-        final phone = p.contact.phone?.trim() ?? "";
-        if (phone.isEmpty) {
-          showToast(message: LocaleKeys.phoneRequired.tr(), isError: true);
-          return false;
-        }
-        if (!RegExp(r'^\d+$').hasMatch(phone)) {
-          showToast(message: LocaleKeys.phoneMustBeNumeric.tr(), isError: true);
-          return false;
-        }
-
-        final whatsapp = p.contact.whatsapp?.trim() ?? "";
-        if (whatsapp.isNotEmpty && !RegExp(r'^\d+$').hasMatch(whatsapp)) {
-          showToast(message: LocaleKeys.whatsappMustBeNumeric.tr(), isError: true);
-          return false;
-        }
-
-        return true;
-
-      case 2:
-        if (!(p.acceptOptions.acceptOne ?? false)) {
-          showToast(message: LocaleKeys.youMustAcceptTheTerms.tr(), isError: true);
-          return false;
-        }
-        if (!(p.acceptOptions.acceptTwo ?? false)) {
-          showToast(message: LocaleKeys.youMustReviewSubscriptionCost.tr(), isError: true);
-          return false;
-        }
-        if (!(p.acceptOptions.acceptThree ?? false)) {
-          showToast(message: LocaleKeys.youMustConfirmInformationAccuracy.tr(), isError: true);
-          return false;
-        }
-
-        if (!p.recaptcha) {
-          showToast(message: LocaleKeys.verifyYouAreNotRobot.tr(), isError: true);
-          return false;
-        }
-
-        return true;
-
-      default:
-        return true;
-    }
-  }
 }
