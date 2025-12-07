@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 
 class CategoryItem extends StatelessWidget {
   final CategoryModel categoryModel;
@@ -53,9 +55,13 @@ class CategoryItem extends StatelessWidget {
 
             isLoading
                 ? ShimmerBox(width: 35.w, height: 10.h, borderRadius: BorderRadius.circular(4))
-                : Text(
-                    categoryModel.totalCategoryCount.toString(),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 12),
+                : BlocBuilder<HomeCubit, HomeState>(
+                    builder: (context, state) {
+                      return Text(
+                        context.read<HomeCubit>().getCategoryCountForCity(categoryModel).toString(),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 12),
+                      );
+                    },
                   ),
 
             SizedBox(height: 6.h),

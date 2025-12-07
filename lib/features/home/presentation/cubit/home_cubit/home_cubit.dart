@@ -103,7 +103,7 @@ class HomeCubit extends Cubit<HomeState> {
           latitude: finalLat,
           longitude: finalLng,
           timestamp: DateTime.now(),
-          cityId: "", //match.city.id,
+          cityId: match.city.id,
           cityName: match.city.name,
         ),
       );
@@ -126,7 +126,7 @@ class HomeCubit extends Cubit<HomeState> {
       latitude: city.location.latitude,
       longitude: city.location.longitude,
       timestamp: DateTime.now(),
-      cityId: "", //city.id,
+      cityId: city.id,
       cityName: city.name,
     );
 
@@ -141,6 +141,28 @@ class HomeCubit extends Cubit<HomeState> {
         locationError: null,
       ),
     );
+  }
+
+  // ────────────────────────────────────────────────
+  // NEW: CITY-BASED COUNT FILTERING
+  // ────────────────────────────────────────────────
+
+  int getSecondCategoryCountForCity(SecondCategory sc) {
+    final cityId = state.currentCity?.id;
+
+    if (cityId == null) {
+      return sc.totalCount;
+    }
+
+    return sc.counts[cityId] ?? 0;
+  }
+
+  int getCategoryCountForCity(CategoryModel category) {
+    int total = 0;
+    for (final sc in category.secondCategory) {
+      total += getSecondCategoryCountForCity(sc);
+    }
+    return total;
   }
 
   // ────────────────────────────────────────────────
