@@ -2,10 +2,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_event_cubit/add_event_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_item.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/note_container.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
+import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class EventBasicInfoStpe extends StatefulWidget {
@@ -46,7 +48,23 @@ class _EventBasicInfoStpeState extends State<EventBasicInfoStpe> {
           children: [
             NoteContainer(note: LocaleKeys.addEventNote.tr()),
             16.verticalSpace,
-            DropDownItem(title: LocaleKeys.eventType.tr(), items: [], onChanged: (v) {}),
+            BlocConsumer<EventCubit, EventState>(
+              listener: (context, state) {
+                if (state.eventTypesError != null || state.eventTypesState == RequestState.error) {
+                  context.read<EventCubit>().getEventTypes();
+                }
+              },
+              builder: (context, state) {
+                return DropDownItem(
+                  title: LocaleKeys.eventType.tr(),
+                  items: state.eventTypes.map((e) => e.name).toList(),
+                  onChanged: (v) {
+                    final eventType = state.eventTypes.firstWhere((e) => e.name == v);
+                    context.read<AddEventFormCubit>().updateEventType(eventType.id);
+                  },
+                );
+              },
+            ),
             12.verticalSpace,
             TextFiledItem(
               title: LocaleKeys.fullName.tr(),

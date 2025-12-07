@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 
 import 'app.dart';
@@ -33,9 +34,9 @@ FutureOr<void> main() async {
 
   await configureInjection(Environment.prod);
 
-  // await FirebaseMessagingService().initialize();
+  _initAppApi();
 
-  getIt<MapMarkerCubit>().loadMarkers();
+  // await FirebaseMessagingService().initialize();
 
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(
@@ -66,4 +67,9 @@ class MyHttpOverrides extends HttpOverrides {
     return super.createHttpClient(context)
       ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
+}
+
+void _initAppApi() {
+  getIt<MapMarkerCubit>().loadMarkers();
+  getIt<EventCubit>().getEventTypes();
 }

@@ -6,6 +6,7 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/events/data/models/event_type_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -59,6 +60,10 @@ abstract class AppServiceClient {
 
   @GET(Urls.getMapMarkers)
   Future<ApiResponse<List<MapMarkerModel>>> getMapMarkers();
+
+  //events
+  @GET(Urls.getEventTypes)
+  Future<ApiResponse<List<EventTypeModel>>> getEventTypes();
 
   //category details
   @GET(Urls.getCategoryDetails)
