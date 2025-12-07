@@ -9,8 +9,8 @@ import 'package:lawaen/features/add_to_app/presentation/views/widget/steps_heade
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'widget/add_app_bar.dart';
-import 'widget/add_missing_place/missing_basicInfo_step.dart';
-import 'widget/add_missing_place/missing_contactInfo_step.dart';
+import 'widget/add_missing_place/missing_basic_info_step.dart';
+import 'widget/add_missing_place/missing_contact_info_step.dart';
 import 'widget/add_missing_place/missing_image_location_step.dart';
 import 'widget/add_missing_place/missing_working_review_step.dart';
 

@@ -39,7 +39,7 @@ class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
 
   void updateMainCategory(String value) => emit(state.copyWith(params: state.params.copyWith(mainCategory: value)));
 
-  void updateSubCategory(String value) => emit(state.copyWith(params: state.params.copyWith(subCategory: value)));
+  void updateSubCategory(String? value) => emit(state.copyWith(params: state.params.copyWith(subCategory: value)));
 
   void updateName(String value) => emit(state.copyWith(params: state.params.copyWith(name: value)));
 

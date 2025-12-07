@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/app_time_picker_field.dart';
-import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_missing_place_cubit/add_missing_place_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/conditions_widget.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/we_dont_collect_data_text.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
+
+import '../recaptch_check_box.dart';
 
 class MissingWorkingReviewStep extends StatelessWidget {
   const MissingWorkingReviewStep({super.key});
@@ -24,9 +25,6 @@ class MissingWorkingReviewStep extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // --------------------------
-              // OPEN & CLOSE TIME
-              // --------------------------
               Text(LocaleKeys.workingTime.tr(), style: Theme.of(context).textTheme.headlineMedium),
               SizedBox(height: 12.h),
 
@@ -60,9 +58,6 @@ class MissingWorkingReviewStep extends StatelessWidget {
 
               SizedBox(height: 24.h),
 
-              // --------------------------
-              // ACCEPT OPTIONS
-              // --------------------------
               ConditionsWidget(
                 acceptOne: params.acceptOptions.acceptOne ?? false,
                 acceptTwo: params.acceptOptions.acceptTwo ?? false,
@@ -74,10 +69,7 @@ class MissingWorkingReviewStep extends StatelessWidget {
 
               SizedBox(height: 24.h),
 
-              // --------------------------
-              // RECAPTCHA CHECK (CUBIT)
-              // --------------------------
-              _RecaptchaCheckbox(value: params.recaptcha, onChanged: cubit.updateRecaptcha),
+              RecaptchaCheckbox(value: params.recaptcha, onChanged: cubit.updateRecaptcha),
 
               SizedBox(height: 24.h),
               const WeDontCollectDataText(),
@@ -86,39 +78,6 @@ class MissingWorkingReviewStep extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _RecaptchaCheckbox extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  const _RecaptchaCheckbox({required this.value, required this.onChanged});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.r),
-        color: ColorManager.white,
-        border: Border.all(color: ColorManager.primary, width: 2),
-        boxShadow: [
-          BoxShadow(color: ColorManager.primary.withValues(alpha: 0.3), blurRadius: 3.r, offset: const Offset(0, 2)),
-        ],
-      ),
-      child: Row(
-        children: [
-          Checkbox(
-            value: value,
-            checkColor: ColorManager.primary,
-            activeColor: ColorManager.blackSwatch[3],
-            onChanged: (v) => onChanged(v ?? false),
-          ),
-          Text(LocaleKeys.imNotRobot.tr(), style: Theme.of(context).textTheme.headlineSmall),
-        ],
-      ),
     );
   }
 }

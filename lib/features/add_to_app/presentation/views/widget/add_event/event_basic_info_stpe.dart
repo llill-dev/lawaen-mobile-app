@@ -46,7 +46,7 @@ class _EventBasicInfoStpeState extends State<EventBasicInfoStpe> {
           children: [
             NoteContainer(note: LocaleKeys.addEventNote.tr()),
             16.verticalSpace,
-            DropDownItem(title: LocaleKeys.eventType.tr(), items: []),
+            DropDownItem(title: LocaleKeys.eventType.tr(), items: [], onChanged: (v) {}),
             12.verticalSpace,
             TextFiledItem(
               title: LocaleKeys.fullName.tr(),

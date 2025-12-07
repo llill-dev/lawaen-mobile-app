@@ -2,26 +2,14 @@ part of 'add_offer_form_cubit.dart';
 
 class AddOfferFormState extends Equatable {
   final int currentStep;
-  final OfferParams params;
+  final AddOfferParams params;
 
-  const AddOfferFormState({
-    required this.currentStep,
-    required this.params,
-  });
+  const AddOfferFormState({required this.currentStep, required this.params});
 
-  factory AddOfferFormState.initial() => AddOfferFormState(
-        currentStep: 0,
-        params: OfferParams.initial(),
-      );
+  factory AddOfferFormState.initial() => AddOfferFormState(currentStep: 0, params: AddOfferParams.initial());
 
-  AddOfferFormState copyWith({
-    int? currentStep,
-    OfferParams? params,
-  }) {
-    return AddOfferFormState(
-      currentStep: currentStep ?? this.currentStep,
-      params: params ?? this.params,
-    );
+  AddOfferFormState copyWith({int? currentStep, AddOfferParams? params}) {
+    return AddOfferFormState(currentStep: currentStep ?? this.currentStep, params: params ?? this.params);
   }
 
   @override

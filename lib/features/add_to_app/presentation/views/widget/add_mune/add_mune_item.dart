@@ -39,7 +39,12 @@ class AddMuneItem extends StatelessWidget {
           12.verticalSpace,
           TextFiledItem(title: LocaleKeys.price.tr(), hintText: LocaleKeys.priceHint.tr(), controller: priceCtrl),
           12.verticalSpace,
-          DropDownItem(title: LocaleKeys.dietaryPreferences.tr(), items: [], hit: LocaleKeys.selectFromElements.tr()),
+          DropDownItem(
+            title: LocaleKeys.dietaryPreferences.tr(),
+            items: [],
+            hit: LocaleKeys.selectFromElements.tr(),
+            onChanged: (v) {},
+          ),
           12.verticalSpace,
           TextFiledItem(title: LocaleKeys.image.tr(), readOnly: true),
           24.verticalSpace,

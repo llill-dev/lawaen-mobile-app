@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/add_offer_form_cubit.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/recaptch_check_box.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/upload_image.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/conditions_widget.dart';
-import 'package:lawaen/features/add_to_app/presentation/views/widget/claim_and_im_not_robort_button.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/we_dont_collect_data_text.dart';
 
 class OfferImageReviewStep extends StatelessWidget {
@@ -11,39 +11,36 @@ class OfferImageReviewStep extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
-          builder: (context, state) {
-            return UploadImage(
-              imageFile: state.params.imageFile,
-              onImageSelected: (file) {
-                context.read<AddOfferFormCubit>().updateImage(file);
-              },
-            );
-          },
-        ),
-        SizedBox(height: 24),
-        BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
-          builder: (context, state) {
-            final acceptOptions = state.params.acceptOptions;
-            final cubit = context.read<AddOfferFormCubit>();
-            return ConditionsWidget(
-              acceptOne: acceptOptions.acceptOne ?? false,
-              acceptTwo: acceptOptions.acceptTwo ?? false,
-              acceptThree: acceptOptions.acceptThree ?? false,
+    final cubit = context.read<AddOfferFormCubit>();
+
+    return BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
+      builder: (context, state) {
+        final params = state.params;
+
+        return Column(
+          children: [
+            UploadImage(imageFile: params.imageFile, onImageSelected: cubit.updateImage),
+            const SizedBox(height: 24),
+
+            ConditionsWidget(
+              acceptOne: params.acceptOptions.acceptOne ?? false,
+              acceptTwo: params.acceptOptions.acceptTwo ?? false,
+              acceptThree: params.acceptOptions.acceptThree ?? false,
               onAcceptOneChanged: cubit.updateAcceptOne,
               onAcceptTwoChanged: cubit.updateAcceptTwo,
               onAcceptThreeChanged: cubit.updateAcceptThree,
-            );
-          },
-        ),
-        SizedBox(height: 24),
-        ClaimAndImNotRobortButtons(),
-        SizedBox(height: 24),
-        WeDontCollectDataText(),
-        SizedBox(height: 24),
-      ],
+            ),
+
+            const SizedBox(height: 24),
+
+            RecaptchaCheckbox(value: params.recaptcha, onChanged: cubit.updateRecaptcha),
+
+            const SizedBox(height: 24),
+            const WeDontCollectDataText(),
+            const SizedBox(height: 24),
+          ],
+        );
+      },
     );
   }
 }
