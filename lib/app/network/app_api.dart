@@ -16,6 +16,9 @@ import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
+import 'package:lawaen/features/offers/data/models/offer_type_model.dart';
+import 'package:lawaen/features/offers/data/models/offer_model.dart';
+import 'package:lawaen/features/offers/presentation/params/get_offers_params.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -152,4 +155,11 @@ abstract class AppServiceClient {
     @Part(name: 'recaptcha') bool? recaptcha,
     @Part(name: 'file') MultipartFile? image,
   });
+
+  //offers
+  @GET(Urls.getOfferType)
+  Future<ApiResponse<List<OfferTypeModel>>> getOfferType();
+
+  @GET(Urls.getOffers)
+  Future<ApiResponse<List<OfferModel>>> getOffers({@Queries() required GetOffersParams params});
 }

@@ -10,7 +10,11 @@ class Urls {
   static const String getCities = "cities/get";
   static const String getCategories = "category/get";
   static const String getMapMarkers = "category/get_main";
+
+  //event
   static const String getEventTypes = "event/event_type";
+
+  //add to app
   static const String addEvent = "req_data/add_event";
   static const String addMissingPlace = "req_data/add_missing_place";
   static const String addOffer = "req_data/add_offer";
@@ -22,4 +26,8 @@ class Urls {
   static const String getItemData = "/location/by_id/{second_id}/{id}";
 
   static const String searchLocation = "location/search";
+
+  //offers
+  static const String getOfferType = "offer/offer_type";
+  static const String getOffers = "offer/get_offer";
 }
