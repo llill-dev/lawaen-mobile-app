@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/add_offer_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/recaptch_check_box.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/upload_image.dart';
@@ -33,7 +35,10 @@ class OfferImageReviewStep extends StatelessWidget {
 
             const SizedBox(height: 24),
 
-            RecaptchaCheckbox(value: params.recaptcha, onChanged: cubit.updateRecaptcha),
+            RecaptchaCheckbox(
+              value: params.recaptcha,
+              onChanged: cubit.updateRecaptcha,
+            ).horizontalPadding(padding: 16.w),
 
             const SizedBox(height: 24),
             const WeDontCollectDataText(),

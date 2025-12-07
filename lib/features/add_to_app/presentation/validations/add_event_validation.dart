@@ -14,20 +14,8 @@ bool validateAddEventStep(AddEventParams params, int step) {
       return true;
 
     case 1:
-      final phone = params.contact.phone?.trim() ?? "";
-      final whatsapp = params.contact.whatsapp?.trim() ?? "";
       final instagram = params.contact.instagram?.trim() ?? "";
       final facebook = params.contact.facebook?.trim() ?? "";
-
-      if (phone.isNotEmpty && !RegExp(r'^\\d+\$').hasMatch(phone)) {
-        showToast(message: LocaleKeys.phoneMustBeNumeric.tr(), isError: true);
-        return false;
-      }
-
-      if (whatsapp.isNotEmpty && !RegExp(r'^\\d+\$').hasMatch(whatsapp)) {
-        showToast(message: LocaleKeys.whatsappMustBeNumeric.tr(), isError: true);
-        return false;
-      }
 
       if (instagram.isNotEmpty && !instagram.startsWith("http")) {
         showToast(message: LocaleKeys.instagramMustBeValidUrl.tr(), isError: true);
@@ -42,11 +30,6 @@ bool validateAddEventStep(AddEventParams params, int step) {
       return true;
 
     case 2:
-      if (params.price != null && params.price!.isNotEmpty && !RegExp(r'^\\d+(\\.\\d+)?\$').hasMatch(params.price!)) {
-        showToast(message: LocaleKeys.priceMustBeNumber.tr(), isError: true);
-        return false;
-      }
-
       return true;
 
     case 3:

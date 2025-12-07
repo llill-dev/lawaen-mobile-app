@@ -7,9 +7,9 @@ class AddOfferModel {
   @JsonKey(name: '_id')
   final String id;
   final String name;
-  final String phone;
+  final dynamic phone;
   final String message;
-  final String whatsapp;
+  final dynamic whatsapp;
   final String image;
   final bool acceptOne;
   final bool acceptTwo;

@@ -31,16 +31,6 @@ bool validateAddMissingPlaceStep(AddMissingPlaceParams params, int step) {
         showToast(message: LocaleKeys.phoneRequired.tr(), isError: true);
         return false;
       }
-      if (!RegExp(r'^\\d+\$').hasMatch(phone)) {
-        showToast(message: LocaleKeys.phoneMustBeNumeric.tr(), isError: true);
-        return false;
-      }
-
-      final whatsapp = params.contact.whatsapp?.trim() ?? "";
-      if (whatsapp.isNotEmpty && !RegExp(r'^\\d+\$').hasMatch(whatsapp)) {
-        showToast(message: LocaleKeys.whatsappMustBeNumeric.tr(), isError: true);
-        return false;
-      }
 
       final insta = params.contact.instagram?.trim() ?? "";
       final facebook = params.contact.facebook?.trim() ?? "";

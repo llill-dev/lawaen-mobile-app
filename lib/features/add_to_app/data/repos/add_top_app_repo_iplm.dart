@@ -58,11 +58,11 @@ class AddTopAppRepoImpl implements AddToAppRepo {
         image: imageFile,
       );
 
-      if (response.status && response.data != null) {
-        return Right(response.data!);
+      if (response != null) {
+        return Right(response);
       }
-      log("addEvent error: ${response.message}");
-      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+
+      return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("addEvent error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
@@ -101,11 +101,11 @@ class AddTopAppRepoImpl implements AddToAppRepo {
         image: imageFile,
       );
 
-      if (response.status && response.data != null) {
-        return Right(response.data!);
+      if (response != null) {
+        return Right(response);
       }
-      log("addMissingPlace error: ${response.message}");
-      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+
+      return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("addMissingPlace error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
@@ -136,11 +136,11 @@ class AddTopAppRepoImpl implements AddToAppRepo {
         image: imageFile,
       );
 
-      if (response.status && response.data != null) {
-        return Right(response.data!);
+      if (response != null) {
+        return Right(response);
       }
-      log("addOffer error: ${response.message}");
-      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+
+      return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("addOffer error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));

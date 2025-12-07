@@ -1,7 +1,10 @@
 import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/add_offer_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_offer/offer_basic_info_step.dart';
@@ -24,7 +27,16 @@ class AddOfferScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(
-            child: BlocBuilder<AddOfferFormCubit, AddOfferFormState>(
+            child: BlocConsumer<AddOfferFormCubit, AddOfferFormState>(
+              listener: (context, state) {
+                if (state.submitError != null || state.submitState == RequestState.error) {
+                  showToast(message: state.submitError!, isError: true);
+                }
+                if (state.submitState == RequestState.success) {
+                  showToast(message: LocaleKeys.success.tr(), isSuccess: true);
+                  context.pop();
+                }
+              },
               builder: (context, state) {
                 final cubit = context.read<AddOfferFormCubit>();
                 final isFirst = state.currentStep == 0;
@@ -51,14 +63,15 @@ class AddOfferScreen extends StatelessWidget {
                       padding: const EdgeInsets.all(16),
                       child: AddToAppBottomButtons(
                         isFirst: isFirst,
+                        isLoading: state.submitState == RequestState.loading,
                         isLast: isLast,
                         onPreviousPressed: () {
                           cubit.previousStep();
                         },
                         onNextPressed: () {
+                          if (!cubit.validateStep(state.currentStep)) return;
                           if (isLast) {
-                            // TODO: submit using cubit.state
-                            // For now just print or show dialog
+                            cubit.submit();
                           } else {
                             cubit.nextStep();
                           }

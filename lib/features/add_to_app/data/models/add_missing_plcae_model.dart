@@ -9,9 +9,9 @@ class AddMissingPlcaeModel {
   final String name;
   final String mainCategory;
   final String subCategory;
-  final String phone;
+  final dynamic phone;
   final String message;
-  final String whatsapp;
+  final dynamic whatsapp;
   @JsonKey(name: 'faceBook')
   final String facebook;
   final String insta;

@@ -7,12 +7,12 @@ class AddEventModel {
   @JsonKey(name: '_id')
   final String id;
   final String name;
-  final int price;
+  final num price;
   final String description;
   final double longitude;
   final double latitude;
-  final String phone;
-  final String whatsapp;
+  final dynamic phone;
+  final dynamic whatsapp;
   @JsonKey(name: 'event_type')
   final String eventType;
   final String instagram;

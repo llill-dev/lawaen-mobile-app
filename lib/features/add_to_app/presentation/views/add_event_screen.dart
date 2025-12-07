@@ -3,6 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_event_cubit/add_event_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_app_bar.dart';
@@ -69,7 +71,16 @@ class AddEventScreen extends StatelessWidget {
                 // BOTTOM BUTTONS
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
-                  child: BlocBuilder<AddEventFormCubit, AddEventFormState>(
+                  child: BlocConsumer<AddEventFormCubit, AddEventFormState>(
+                    listener: (context, state) {
+                      if (state.submitError != null || state.submitState == RequestState.error) {
+                        showToast(message: state.submitError!, isError: true);
+                      }
+                      if (state.submitState == RequestState.success) {
+                        showToast(message: LocaleKeys.success.tr(), isSuccess: true);
+                        context.pop();
+                      }
+                    },
                     builder: (context, state) {
                       final cubit = context.read<AddEventFormCubit>();
                       final isFirst = state.currentStep == 0;
@@ -84,8 +95,7 @@ class AddEventScreen extends StatelessWidget {
                           if (!valid) return;
 
                           if (isLast) {
-                            // TODO: submit using cubit.state
-                            // For now just print or show dialog
+                            cubit.submit();
                           } else {
                             cubit.nextStep();
                           }
@@ -93,6 +103,7 @@ class AddEventScreen extends StatelessWidget {
                         onPreviousPressed: () {
                           cubit.previousStep();
                         },
+                        isLoading: state.submitState == RequestState.loading,
                         isLast: isLast,
                       );
                     },

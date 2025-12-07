@@ -93,7 +93,7 @@ abstract class AppServiceClient {
   //add to app
   @MultiPart()
   @POST(Urls.addEvent)
-  Future<ApiResponse<AddEventModel>> addEvent({
+  Future<AddEventModel?> addEvent({
     @Part(name: 'event_type') String? eventType,
     @Part(name: 'name') String? name,
     @Part(name: 'description') String? description,
@@ -114,12 +114,12 @@ abstract class AppServiceClient {
     @Part(name: 'facebook') String? facebook,
     @Part(name: 'latitude') double? latitude,
     @Part(name: 'longitude') double? longitude,
-    @Part(name: 'image') MultipartFile? image,
+    @Part(name: 'file') MultipartFile? image,
   });
 
   @MultiPart()
   @POST(Urls.addMissingPlace)
-  Future<ApiResponse<AddMissingPlcaeModel>> addMissingPlace({
+  Future<AddMissingPlcaeModel?> addMissingPlace({
     @Part(name: 'name') String? name,
     @Part(name: 'mainCategory') String? mainCategory,
     @Part(name: 'subCategory') String? subCategory,
@@ -136,12 +136,12 @@ abstract class AppServiceClient {
     @Part(name: 'acceptTwo') bool? acceptTwo,
     @Part(name: 'acceptThree') bool? acceptThree,
     @Part(name: 'recaptcha') bool? recaptcha,
-    @Part(name: 'image') MultipartFile? image,
+    @Part(name: 'file') MultipartFile? image,
   });
 
   @MultiPart()
   @POST(Urls.addOffer)
-  Future<ApiResponse<AddOfferModel>> addOffer({
+  Future<AddOfferModel?> addOffer({
     @Part(name: 'name') String? name,
     @Part(name: 'message') String? message,
     @Part(name: 'phone') String? phone,
@@ -150,6 +150,6 @@ abstract class AppServiceClient {
     @Part(name: 'acceptTwo') bool? acceptTwo,
     @Part(name: 'acceptThree') bool? acceptThree,
     @Part(name: 'recaptcha') bool? recaptcha,
-    @Part(name: 'image') MultipartFile? image,
+    @Part(name: 'file') MultipartFile? image,
   });
 }

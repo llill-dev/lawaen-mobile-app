@@ -25,7 +25,7 @@ class AuthInterceptor extends Interceptor {
     final isAuthCall = path.contains(Urls.login) || path.contains(Urls.register) || path.contains(Urls.refreshToken);
 
     if (token.isNotEmpty && !isAuthCall) {
-      options.headers['Authorization'] = token;
+      options.headers['Authorization'] = "Bearer $token";
       log('🔑 Using persisted token', name: "AuthInterceptor");
     }
 
@@ -72,7 +72,7 @@ class AuthInterceptor extends Interceptor {
           final newToken = appPreferences.accessToken;
 
           final requestOptions = err.requestOptions;
-          requestOptions.headers['Authorization'] = newToken;
+          requestOptions.headers['Authorization'] = "Bearer $newToken";
 
           final dio = getIt<Dio>();
           try {

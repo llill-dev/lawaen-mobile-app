@@ -12,12 +12,14 @@ class AddToAppBottomButtons extends StatelessWidget {
     required this.isLast,
     required this.onPreviousPressed,
     required this.onNextPressed,
+    this.isLoading = false,
   });
 
   final bool isFirst;
   final bool isLast;
   final VoidCallback onPreviousPressed;
   final VoidCallback onNextPressed;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class AddToAppBottomButtons extends StatelessWidget {
         Expanded(
           child: PrimaryButton(
             onPressed: onNextPressed,
+            isLoading: isLoading,
             text: isLast ? LocaleKeys.submit.tr() : LocaleKeys.next.tr(),
             isIconOnLeft: false,
             icon: Icon(Icons.arrow_forward_ios_rounded, color: ColorManager.white, size: 16.r),
