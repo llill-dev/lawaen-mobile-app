@@ -2,6 +2,7 @@ import 'package:auto_route/annotations.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_offer_cubit/add_offer_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_offer/offer_basic_info_step.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_offer/offer_contact_info_step.dart';
@@ -19,7 +20,7 @@ class AddOfferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddOfferFormCubit(),
+      create: (_) => getIt<AddOfferFormCubit>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(

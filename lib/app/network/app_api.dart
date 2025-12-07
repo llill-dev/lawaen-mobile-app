@@ -6,6 +6,9 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/add_to_app/data/models/add_event_model.dart';
+import 'package:lawaen/features/add_to_app/data/models/add_missing_plcae_model.dart';
+import 'package:lawaen/features/add_to_app/data/models/add_offer_model.dart';
 import 'package:lawaen/features/events/data/models/event_type_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
@@ -86,4 +89,67 @@ abstract class AppServiceClient {
 
   @GET(Urls.searchLocation)
   Future<ApiResponse<List<CategoryDetailsModel>>> searchLocation({@Queries() required GetCategoryDetailsParams params});
+
+  //add to app
+  @MultiPart()
+  @POST(Urls.addEvent)
+  Future<ApiResponse<AddEventModel>> addEvent({
+    @Part(name: 'event_type') String? eventType,
+    @Part(name: 'name') String? name,
+    @Part(name: 'description') String? description,
+    @Part(name: 'booking_method') String? bookingMethod,
+    @Part(name: 'price') String? price,
+    @Part(name: 'organization') String? organization,
+    @Part(name: 'start_time') String? startTime,
+    @Part(name: 'end_time') String? endTime,
+    @Part(name: 'start_date') String? startDate,
+    @Part(name: 'end_date') String? endDate,
+    @Part(name: 'start_event_date') String? startEventDate,
+    @Part(name: 'end_event_date') String? endEventDate,
+    @Part(name: 'event_time') String? eventTime,
+    @Part(name: 'note') String? note,
+    @Part(name: 'phone') String? phone,
+    @Part(name: 'whatsapp') String? whatsapp,
+    @Part(name: 'instagram') String? instagram,
+    @Part(name: 'facebook') String? facebook,
+    @Part(name: 'latitude') double? latitude,
+    @Part(name: 'longitude') double? longitude,
+    @Part(name: 'image') MultipartFile? image,
+  });
+
+  @MultiPart()
+  @POST(Urls.addMissingPlace)
+  Future<ApiResponse<AddMissingPlcaeModel>> addMissingPlace({
+    @Part(name: 'name') String? name,
+    @Part(name: 'mainCategory') String? mainCategory,
+    @Part(name: 'subCategory') String? subCategory,
+    @Part(name: 'message') String? message,
+    @Part(name: 'phone') String? phone,
+    @Part(name: 'whatsapp') String? whatsapp,
+    @Part(name: 'faceBook') String? facebook,
+    @Part(name: 'insta') String? instagram,
+    @Part(name: 'opentime') String? openTime,
+    @Part(name: 'closetime') String? closeTime,
+    @Part(name: 'latitude') double? latitude,
+    @Part(name: 'longitude') double? longitude,
+    @Part(name: 'acceptOne') bool? acceptOne,
+    @Part(name: 'acceptTwo') bool? acceptTwo,
+    @Part(name: 'acceptThree') bool? acceptThree,
+    @Part(name: 'recaptcha') bool? recaptcha,
+    @Part(name: 'image') MultipartFile? image,
+  });
+
+  @MultiPart()
+  @POST(Urls.addOffer)
+  Future<ApiResponse<AddOfferModel>> addOffer({
+    @Part(name: 'name') String? name,
+    @Part(name: 'message') String? message,
+    @Part(name: 'phone') String? phone,
+    @Part(name: 'whatsapp') String? whatsapp,
+    @Part(name: 'acceptOne') bool? acceptOne,
+    @Part(name: 'acceptTwo') bool? acceptTwo,
+    @Part(name: 'acceptThree') bool? acceptThree,
+    @Part(name: 'recaptcha') bool? recaptcha,
+    @Part(name: 'image') MultipartFile? image,
+  });
 }

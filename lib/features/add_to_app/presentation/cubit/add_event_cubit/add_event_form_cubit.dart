@@ -4,16 +4,35 @@ import 'package:equatable/equatable.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/features/add_to_app/data/models/add_event_model.dart';
+import 'package:lawaen/features/add_to_app/data/repos/add_to_app_repo.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/add_event_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 part 'add_event_form_state.dart';
 
+@injectable
 class AddEventFormCubit extends Cubit<AddEventFormState> {
+  final AddToAppRepo _addToAppRepo;
   static const int totalSteps = 5;
 
-  AddEventFormCubit() : super(AddEventFormState.initial());
+  AddEventFormCubit(this._addToAppRepo) : super(AddEventFormState.initial());
+
+  Future<void> submit() async {
+    emit(state.copyWith(submitState: RequestState.loading, submitError: null));
+
+    final result = await _addToAppRepo.addEvent(state.params);
+
+    result.fold(
+      (failure) => emit(state.copyWith(submitState: RequestState.error, submitError: failure.errorMessage)),
+      (event) => emit(state.copyWith(submitState: RequestState.success, addedEvent: event, submitError: null)),
+    );
+  }
+
+  // ---------------- STEP NAVIGATION -----------------
 
   void nextStep() {
     if (state.currentStep < totalSteps - 1) {
@@ -32,6 +51,8 @@ class AddEventFormCubit extends Cubit<AddEventFormState> {
       emit(state.copyWith(currentStep: index));
     }
   }
+
+  // ---------------- FIELD UPDATES -------------------
 
   void updateEventType(String value) => emit(state.copyWith(params: state.params.copyWith(eventType: value)));
 

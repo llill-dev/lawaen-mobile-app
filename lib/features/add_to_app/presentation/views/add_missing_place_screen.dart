@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_missing_place_cubit/add_missing_place_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_to_app_bottom_buttons.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/steps_header.dart';
@@ -21,7 +22,7 @@ class AddMissingPlaceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddMissingPlaceFormCubit(),
+      create: (_) => getIt<AddMissingPlaceFormCubit>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(

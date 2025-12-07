@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/add_to_app/presentation/cubit/add_event_cubit/add_event_form_cubit.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_app_bar.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/add_event/event_basic_info_stpe.dart';
@@ -21,7 +22,7 @@ class AddEventScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => AddEventFormCubit(),
+      create: (_) => getIt<AddEventFormCubit>(),
       child: Scaffold(
         body: SafeArea(
           child: SingleChildScrollView(

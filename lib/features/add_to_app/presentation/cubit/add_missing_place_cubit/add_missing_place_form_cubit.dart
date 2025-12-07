@@ -4,16 +4,33 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/features/add_to_app/data/models/add_missing_plcae_model.dart';
+import 'package:lawaen/features/add_to_app/data/repos/add_to_app_repo.dart';
 import 'package:lawaen/features/add_to_app/presentation/params/add_missing_place_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 part 'add_missing_place_form_state.dart';
 
+@injectable
 class AddMissingPlaceFormCubit extends Cubit<AddMissingPlaceFormState> {
-  AddMissingPlaceFormCubit() : super(AddMissingPlaceFormState.initial());
+  final AddToAppRepo _addToAppRepo;
+
+  AddMissingPlaceFormCubit(this._addToAppRepo) : super(AddMissingPlaceFormState.initial());
 
   static const int totalSteps = 4;
+
+  Future<void> submit() async {
+    emit(state.copyWith(submitState: RequestState.loading, submitError: null));
+
+    final result = await _addToAppRepo.addMissingPlace(state.params);
+    result.fold(
+      (failure) => emit(state.copyWith(submitState: RequestState.error, submitError: failure.errorMessage)),
+      (place) => emit(state.copyWith(submitState: RequestState.success, addedPlace: place, submitError: null)),
+    );
+  }
 
   // ---------------- STEP NAVIGATION -----------------
 

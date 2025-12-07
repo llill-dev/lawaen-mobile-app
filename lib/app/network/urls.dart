@@ -11,6 +11,9 @@ class Urls {
   static const String getCategories = "category/get";
   static const String getMapMarkers = "category/get_main";
   static const String getEventTypes = "event/event_type";
+  static const String addEvent = "req_data/add_event";
+  static const String addMissingPlace = "req_data/add_missing_place";
+  static const String addOffer = "req_data/add_offer";
 
   //category details
   static const String getCategoryDetails = "/location/by_basic/{id}";
