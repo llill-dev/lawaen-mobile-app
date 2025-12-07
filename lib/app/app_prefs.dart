@@ -115,6 +115,5 @@ class AppPreferences {
     await _sharedPreferences.remove(prefsToken);
     await _sharedPreferences.remove(prefsGuest);
     await _sharedPreferences.remove(refreshToken);
-    await configureInjection(Environment.prod);
   }
 }

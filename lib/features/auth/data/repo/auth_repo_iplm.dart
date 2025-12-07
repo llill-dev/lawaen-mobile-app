@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
@@ -26,21 +25,26 @@ class AuthRepoImpl implements AuthRepo {
   @override
   Future<Either<ErrorModel, UserModel>> register(RegisterParams params) async {
     try {
-      // MultipartFile? file;
-      // if (params.image != null) {
-      //   file = await MultipartFile.fromFile(params.image!.path, filename: params.image!.path.split('/').last);
-      // }
+      MultipartFile? imageFile;
+
+      if (params.image != null) {
+        log("image is uploaded");
+        imageFile = await MultipartFile.fromFile(params.image!.path, filename: params.image!.path.split('/').last);
+      }
+
+      final device = params.device;
 
       final response = await appServiceClient.register(
         name: params.name,
         email: params.email,
         password: params.password,
         phone: params.phone,
-        device: jsonEncode(params.device.toJson()),
-        image: params.image,
+        brand: device.brand,
+        modelName: device.modelName,
+        isDevice: device.isDevice,
+        buildId: device.buildId,
+        image: imageFile,
       );
-
-      //final response = await appServiceClient.register(params);
 
       if (_successResponse(response)) {
         await _saveTokens(
