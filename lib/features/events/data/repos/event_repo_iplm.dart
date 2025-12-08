@@ -7,8 +7,10 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
+import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/data/models/event_type_model.dart';
-import 'package:lawaen/features/events/data/repos/event_repo/event_repo.dart';
+import 'package:lawaen/features/events/data/repos/event_repo.dart';
+import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @Injectable(as: EventRepo)
@@ -27,6 +29,23 @@ class EventRepoImpl implements EventRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("getEventTypes error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<EventModel>>> getEvents({
+    required GetEventsParams params,
+    required String eventTypeId,
+  }) async {
+    try {
+      final response = await appServiceClient.getEvents(params: params, id: eventTypeId);
+      if (response.status && response.data != null) {
+        return Right(response.data!);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getEvents error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

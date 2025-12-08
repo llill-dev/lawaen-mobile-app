@@ -13,6 +13,7 @@ class Urls {
 
   //event
   static const String getEventTypes = "event/event_type";
+  static const String getEvents = "event/event_by_category/{id}";
 
   //add to app
   static const String addEvent = "req_data/add_event";

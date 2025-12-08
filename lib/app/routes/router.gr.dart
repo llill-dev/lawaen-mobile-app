@@ -675,46 +675,18 @@ class NotificationRoute extends _i31.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i23.OffersScreen]
-class OffersRoute extends _i31.PageRouteInfo<OffersRouteArgs> {
-  OffersRoute({_i32.Key? key, List<_i31.PageRouteInfo>? children})
-    : super(
-        OffersRoute.name,
-        args: OffersRouteArgs(key: key),
-        initialChildren: children,
-      );
+class OffersRoute extends _i31.PageRouteInfo<void> {
+  const OffersRoute({List<_i31.PageRouteInfo>? children})
+    : super(OffersRoute.name, initialChildren: children);
 
   static const String name = 'OffersRoute';
 
   static _i31.PageInfo page = _i31.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<OffersRouteArgs>(
-        orElse: () => const OffersRouteArgs(),
-      );
-      return _i23.OffersScreen(key: args.key);
+      return const _i23.OffersScreen();
     },
   );
-}
-
-class OffersRouteArgs {
-  const OffersRouteArgs({this.key});
-
-  final _i32.Key? key;
-
-  @override
-  String toString() {
-    return 'OffersRouteArgs{key: $key}';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (other is! OffersRouteArgs) return false;
-    return key == other.key;
-  }
-
-  @override
-  int get hashCode => key.hashCode;
 }
 
 /// generated route for

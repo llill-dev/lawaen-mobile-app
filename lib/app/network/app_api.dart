@@ -9,7 +9,9 @@ import 'package:lawaen/features/auth/presentation/params/login_params.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_event_model.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_missing_plcae_model.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_offer_model.dart';
+import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/data/models/event_type_model.dart';
+import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -66,10 +68,6 @@ abstract class AppServiceClient {
 
   @GET(Urls.getMapMarkers)
   Future<ApiResponse<List<MapMarkerModel>>> getMapMarkers();
-
-  //events
-  @GET(Urls.getEventTypes)
-  Future<ApiResponse<List<EventTypeModel>>> getEventTypes();
 
   //category details
   @GET(Urls.getCategoryDetails)
@@ -162,4 +160,14 @@ abstract class AppServiceClient {
 
   @GET(Urls.getOffers)
   Future<ApiResponse<List<OfferModel>>> getOffers({@Queries() required GetOffersParams params});
+
+  //events
+  @GET(Urls.getEventTypes)
+  Future<ApiResponse<List<EventTypeModel>>> getEventTypes();
+
+  @GET(Urls.getEvents)
+  Future<ApiResponse<List<EventModel>>> getEvents({
+    @Queries() required GetEventsParams params,
+    @Path("id") required String id,
+  });
 }
