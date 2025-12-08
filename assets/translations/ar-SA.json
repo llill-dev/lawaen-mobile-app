@@ -228,5 +228,8 @@
   "youMustReviewSubscriptionCost": "يجب أن تراجع تكلفة الاشتراك",
   "youMustConfirmInformationAccuracy": "يجب أن تؤكد دقة المعلومات",
   "verifyYouAreNotRobot": "يرجى التحقق من أنك لست روبوتاً",
-  "copiedToClipboard" : "تم النسخ إلى الحافظة"
+  "copiedToClipboard" : "تم النسخ إلى الحافظة", 
+  "noUpcomingEvent" : "لا توجد أحداث قادمة",
+  "noUpcomingEventDescription": "قم بجدولة حدثك الأول لبدء إدارة التقويم الخاص بك",
+  "createEvent" : "قم بأنشأ حدثاً"
 }

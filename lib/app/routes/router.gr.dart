@@ -34,6 +34,7 @@ import 'package:lawaen/features/auth/presentation/views/qr_code_screen.dart'
     as _i26;
 import 'package:lawaen/features/auth/presentation/views/register_screen.dart'
     as _i28;
+import 'package:lawaen/features/events/data/models/event_model.dart' as _i35;
 import 'package:lawaen/features/events/presentation/views/events_details_screen.dart'
     as _i10;
 import 'package:lawaen/features/home/data/models/category_model.dart' as _i33;
@@ -376,18 +377,49 @@ class ContactUsRoute extends _i31.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i10.EventsDetailsScreen]
-class EventsDetailsRoute extends _i31.PageRouteInfo<void> {
-  const EventsDetailsRoute({List<_i31.PageRouteInfo>? children})
-    : super(EventsDetailsRoute.name, initialChildren: children);
+class EventsDetailsRoute extends _i31.PageRouteInfo<EventsDetailsRouteArgs> {
+  EventsDetailsRoute({
+    _i32.Key? key,
+    required _i35.EventModel event,
+    List<_i31.PageRouteInfo>? children,
+  }) : super(
+         EventsDetailsRoute.name,
+         args: EventsDetailsRouteArgs(key: key, event: event),
+         initialChildren: children,
+       );
 
   static const String name = 'EventsDetailsRoute';
 
   static _i31.PageInfo page = _i31.PageInfo(
     name,
     builder: (data) {
-      return const _i10.EventsDetailsScreen();
+      final args = data.argsAs<EventsDetailsRouteArgs>();
+      return _i10.EventsDetailsScreen(key: args.key, event: args.event);
     },
   );
+}
+
+class EventsDetailsRouteArgs {
+  const EventsDetailsRouteArgs({this.key, required this.event});
+
+  final _i32.Key? key;
+
+  final _i35.EventModel event;
+
+  @override
+  String toString() {
+    return 'EventsDetailsRouteArgs{key: $key, event: $event}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! EventsDetailsRouteArgs) return false;
+    return key == other.key && event == other.event;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ event.hashCode;
 }
 
 /// generated route for

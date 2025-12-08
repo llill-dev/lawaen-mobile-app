@@ -50,3 +50,23 @@ bool isTimeBefore(TimeOfDay a, TimeOfDay b) {
   if (a.hour == b.hour && a.minute < b.minute) return true;
   return false;
 }
+
+String safeMonthName(String? date) {
+  if (date == null || date.isEmpty) return "";
+  try {
+    final parsed = DateTime.parse(date);
+    return DateFormat('MMM').format(parsed);
+  } catch (_) {
+    return "";
+  }
+}
+
+String safeDay(String? date) {
+  if (date == null || date.isEmpty) return "";
+  try {
+    final parsed = DateTime.parse(date);
+    return parsed.day.toString();
+  } catch (_) {
+    return "";
+  }
+}

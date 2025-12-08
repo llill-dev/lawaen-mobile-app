@@ -228,5 +228,8 @@
   "youMustReviewSubscriptionCost": "You must review subscription cost",
   "youMustConfirmInformationAccuracy": "You must confirm information accuracy",
   "verifyYouAreNotRobot": "Please verify you are not a robot", 
-  "copiedToClipboard" : "Copied to clipboard"
+  "copiedToClipboard" : "Copied to clipboard", 
+  "noUpcomingEvent" : "No upcoming events",
+  "noUpcomingEventDescription" :"Schedule your first event to start managing your calendar",
+  "createEvent" : "Create Event"
 }

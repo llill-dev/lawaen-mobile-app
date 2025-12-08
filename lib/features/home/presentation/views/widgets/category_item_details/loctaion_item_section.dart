@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
+import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/color_manager.dart';
@@ -24,8 +26,8 @@ class LocationItemSection extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 50.w, height: 50.h),
-          // 15.verticalSpace,
+          SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 50.w, height: 50.h),
+          15.verticalSpace,
           // Text("Damascus Bluewaters Island", style: Theme.of(context).textTheme.headlineMedium),
           15.verticalSpace,
           PrimaryButton(

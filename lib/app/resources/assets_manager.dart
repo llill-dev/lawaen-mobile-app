@@ -86,6 +86,8 @@ class IconManager {
   static const String logout = "${iconPath}logout.svg";
 
   static const String car = "${iconPath}car.svg";
+
+  static const String emptyEvent = "${iconPath}empty_event.svg";
 }
 
 class JsonManager {

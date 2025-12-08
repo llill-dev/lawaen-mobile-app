@@ -4,43 +4,43 @@ part 'event_model.g.dart';
 
 @JsonSerializable()
 class EventModel {
-  final String id;
-  final String image;
-  final String name;
+  final String? id;
+  final String? image;
+  final String? name;
   final num? price;
   @JsonKey(name: 'event_type')
   final String? eventType;
   final String? description;
-  final double latitude;
-  final double longitude;
-  final String organization;
-  final String phone;
+  final double? latitude;
+  final double? longitude;
+  final String? organization;
+  final String? phone;
   @JsonKey(name: 'start_time')
   final String? startTime;
   @JsonKey(name: 'end_time')
   final String? endTime;
   @JsonKey(name: 'start_date')
-  final String startDate;
+  final String? startDate;
   @JsonKey(name: 'end_date')
-  final String endDate;
-  final String note;
+  final String? endDate;
+  final String? note;
 
   EventModel({
-    required this.id,
-    required this.image,
-    required this.name,
+    this.id,
+    this.image,
+    this.name,
     this.price,
     this.eventType,
     this.description,
-    required this.latitude,
-    required this.longitude,
-    required this.organization,
-    required this.phone,
+    this.latitude,
+    this.longitude,
+    this.organization,
+    this.phone,
     this.startTime,
     this.endTime,
-    required this.startDate,
-    required this.endDate,
-    required this.note,
+    this.startDate,
+    this.endDate,
+    this.note,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) => _$EventModelFromJson(json);

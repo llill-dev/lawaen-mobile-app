@@ -143,9 +143,13 @@ class _OffersShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
-      baseColor: ColorManager.grey,
+      baseColor: ColorManager.grey.withValues(alpha: 0.5),
       highlightColor: ColorManager.lightGrey,
-      child: Container(color: ColorManager.grey, width: double.infinity, height: double.infinity),
+      child: Container(
+        color: ColorManager.grey.withValues(alpha: 0.5),
+        width: double.infinity,
+        height: double.infinity,
+      ),
     );
   }
 }
