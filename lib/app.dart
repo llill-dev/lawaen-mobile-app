@@ -5,6 +5,7 @@ import 'package:lawaen/app/core/services/deep_linking_service.dart';
 import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
+import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
 
 import 'app/di/injection.dart';
 import 'app/resources/theme_manager.dart';
@@ -32,6 +33,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<MapMarkerCubit>()),
         BlocProvider(create: (context) => getIt<HomeCubit>()..initHome()),
         BlocProvider(create: (context) => getIt<EventCubit>()),
+        BlocProvider(create: (context) => getIt<OffersCubit>()),
       ],
       child: MaterialApp.router(
         title: "Lawaen",

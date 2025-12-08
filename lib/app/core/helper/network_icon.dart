@@ -11,7 +11,17 @@ class NetworkIcon extends StatelessWidget {
   final double? width;
   final double? height;
   final Color? color;
-  const NetworkIcon({super.key, required this.url, this.size, this.fit, this.width, this.height, this.color});
+  final Widget? placeholder;
+  const NetworkIcon({
+    super.key,
+    required this.url,
+    this.size,
+    this.fit,
+    this.width,
+    this.height,
+    this.color,
+    this.placeholder,
+  });
 
   bool get _isSvg => url.toLowerCase().endsWith(".svg");
 
@@ -32,7 +42,7 @@ class NetworkIcon extends StatelessWidget {
         errorBuilder: (context, url, error) => const Icon(Icons.error),
       );
     } else {
-      return CachedImage(url: url, height: size ?? height, width: size ?? width, fit: fit);
+      return CachedImage(url: url, height: size ?? height, width: size ?? width, fit: fit, placeholder: placeholder);
     }
   }
 }

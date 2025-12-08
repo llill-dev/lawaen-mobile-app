@@ -15,6 +15,8 @@ class OffersCubit extends Cubit<OffersState> {
 
   OffersCubit(this._offersRepo) : super(const OffersState());
 
+  Set<String> selectedTypes = {};
+
   Future<void> getOfferTypes() async {
     emit(state.copyWith(offerTypesState: RequestState.loading, offerTypesError: null));
 
@@ -29,6 +31,13 @@ class OffersCubit extends Cubit<OffersState> {
     );
   }
 
+  Future<void> getOffersForSelectedTypes() async {
+    if (selectedTypes.isEmpty) return;
+
+    final params = GetOffersParams(selectedTypes.toList());
+    await getOffers(params: params);
+  }
+
   Future<void> getOffers({required GetOffersParams params}) async {
     emit(state.copyWith(offersState: RequestState.loading, offersError: null));
 
@@ -41,5 +50,10 @@ class OffersCubit extends Cubit<OffersState> {
         emit(state.copyWith(offersState: RequestState.success, offers: offers, offersError: null));
       },
     );
+  }
+
+  void updateSelectedTypes(Set<String> selected) {
+    selectedTypes = selected;
+    emit(state.copyWith());
   }
 }

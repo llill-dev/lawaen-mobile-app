@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    //cubit = context.read<HomeCubit>();
+    cubit = context.read<HomeCubit>();
     //cubit.initHome();
   }
 

@@ -227,5 +227,6 @@
   "youMustAcceptTheTerms": "You must accept the terms",
   "youMustReviewSubscriptionCost": "You must review subscription cost",
   "youMustConfirmInformationAccuracy": "You must confirm information accuracy",
-  "verifyYouAreNotRobot": "Please verify you are not a robot"
+  "verifyYouAreNotRobot": "Please verify you are not a robot", 
+  "copiedToClipboard" : "Copied to clipboard"
 }

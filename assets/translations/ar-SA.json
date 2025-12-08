@@ -227,5 +227,6 @@
   "youMustAcceptTheTerms": "يجب أن توافق على الشروط",
   "youMustReviewSubscriptionCost": "يجب أن تراجع تكلفة الاشتراك",
   "youMustConfirmInformationAccuracy": "يجب أن تؤكد دقة المعلومات",
-  "verifyYouAreNotRobot": "يرجى التحقق من أنك لست روبوتاً"
+  "verifyYouAreNotRobot": "يرجى التحقق من أنك لست روبوتاً",
+  "copiedToClipboard" : "تم النسخ إلى الحافظة"
 }

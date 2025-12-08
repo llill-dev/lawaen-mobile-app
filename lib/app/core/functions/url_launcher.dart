@@ -30,7 +30,7 @@ Future<void> makePhoneCall(String phoneNumber) async {
 
 void copyToClipboard(String text) {
   Clipboard.setData(ClipboardData(text: text));
-  // showToast(message: LocaleKeys.copiedToClipboard.tr());
+  showToast(message: LocaleKeys.copiedToClipboard.tr());
 }
 
 Future<void> launchEmail(String email) async {

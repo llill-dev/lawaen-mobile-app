@@ -18,6 +18,7 @@ class CachedImage extends StatelessWidget {
   final Color? shadowColor;
   final bool? withTitle;
   final String? title;
+  final Widget? placeholder;
 
   const CachedImage({
     this.url,
@@ -31,6 +32,7 @@ class CachedImage extends StatelessWidget {
     this.title,
     super.key,
     this.fit = BoxFit.cover,
+    this.placeholder,
   });
 
   @override
@@ -45,13 +47,17 @@ class CachedImage extends StatelessWidget {
       imageWidget = CachedNetworkImage(
         imageUrl: url!,
         fit: fit,
+        fadeInDuration: const Duration(milliseconds: 400),
+        fadeOutDuration: const Duration(milliseconds: 200),
         width: width,
         height: height,
-        placeholder: (context, url) => Shimmer.fromColors(
-          baseColor: ColorManager.blackSwatch[5] ?? Colors.grey.shade300,
-          highlightColor: ColorManager.blackSwatch[3] ?? Colors.grey.shade100,
-          child: Container(color: ColorManager.blackSwatch[5] ?? Colors.grey.shade300, width: width, height: height),
-        ),
+        placeholder: (context, url) =>
+            placeholder ??
+            Shimmer.fromColors(
+              baseColor: ColorManager.grey,
+              highlightColor: ColorManager.lightGrey,
+              child: Container(color: ColorManager.grey, width: width, height: height),
+            ),
         errorWidget: (context, url, error) => const Icon(Icons.error),
       );
     } else {

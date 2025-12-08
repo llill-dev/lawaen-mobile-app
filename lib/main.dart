@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
+import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
 
 import 'app.dart';
 import 'app/di/injection.dart';
@@ -72,4 +73,5 @@ class MyHttpOverrides extends HttpOverrides {
 void _initAppApi() {
   getIt<MapMarkerCubit>().loadMarkers();
   getIt<EventCubit>().getEventTypes();
+  getIt<OffersCubit>().getOfferTypes();
 }
