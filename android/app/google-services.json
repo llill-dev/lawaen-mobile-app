@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "50978511839",
+    "project_id": "lawaen-3d0c4",
+    "storage_bucket": "lawaen-3d0c4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:50978511839:android:dbbc5a914be5b20e39826a",
+        "android_client_info": {
+          "package_name": "com.travelsevda.lawaen"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvAzaHWI42pQvVH3NM2C9OdmuhcF1MhoM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

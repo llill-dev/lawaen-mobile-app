@@ -60,6 +60,15 @@
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>This app needs access to your photo library to upload a profile image.</string>
 
+	<!-- <key>FirebaseAppDelegateProxyEnabled</key>
+	<true/>
+	<key>UIApplicationExitsOnSuspend</key>
+	<false/> -->
+	<!-- <key>NSFirebaseUsageDescription</key>
+	<string>App uses Firebase services.</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>We use notifications to keep you updated.</string> -->
+
 
 </dict>
 </plist>

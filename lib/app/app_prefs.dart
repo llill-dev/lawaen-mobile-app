@@ -16,6 +16,7 @@ const String prefsLocationTimestamp = "prefs_location_timestamp";
 const String isFisrtTime = "is_fisrt_time";
 const String prefsCityId = "prefs_city_id";
 const String prefsCityName = "prefs_city_name";
+const String prefsFcmToken = "prefs_fcm_token";
 
 @Injectable()
 class AppPreferences {
@@ -54,6 +55,12 @@ class AppPreferences {
       await _sharedPreferences.setString(prefsLang, LanguageType.arabic.getValue());
     }
   }
+
+  Future<void> saveFcmToken(String token) async {
+    await setString(prefsKey: prefsFcmToken, value: token);
+  }
+
+  String get fcmToken => getString(prefsKey: prefsFcmToken);
 
   Future<Locale> getLocale() async {
     String? currentLanguage = getAppLanguage();

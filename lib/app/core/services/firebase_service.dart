@@ -1,7 +1,10 @@
 import 'dart:developer';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/di/injection.dart';
 
 class FirebaseMessagingService {
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
@@ -11,19 +14,22 @@ class FirebaseMessagingService {
     // Request permissions (iOS only)
     await _firebaseMessaging.requestPermission(alert: true, badge: true, sound: true);
 
-    try {
-      String? token = await FirebaseMessaging.instance.getToken();
-      print("Firebase Token: $token");
-    } catch (e) {
-      log("Error fetching FCM token: $e");
-    }
+    // Fetch FCM token
+    await _saveDeviceToken();
+
+    // Listen for token refresh
+    FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+      log("FCM Token Refreshed: $newToken");
+      getIt<AppPreferences>().saveFcmToken(newToken);
+      // Optionally send new token to backend
+    });
 
     // Initialize local notifications
     _initializeLocalNotifications();
 
     // Handle foreground notifications
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print("Foreground Message: ${message.notification?.title}");
+      log("Foreground Message: ${message.notification?.title}");
       _showNotification(message);
     });
 
@@ -32,8 +38,20 @@ class FirebaseMessagingService {
 
     // Handle notifications when the app is opened via a notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("Notification Clicked: ${message.notification?.title}");
+      log("Notification Clicked: ${message.notification?.title}");
     });
+  }
+
+  Future<void> _saveDeviceToken() async {
+    try {
+      String? token = await FirebaseMessaging.instance.getToken();
+      log("Firebase FCM Token: $token");
+      if (token != null) {
+        await getIt<AppPreferences>().saveFcmToken(token);
+      }
+    } catch (e) {
+      log("Error fetching FCM token: $e");
+    }
   }
 
   Future<void> _initializeLocalNotifications() async {
@@ -69,5 +87,6 @@ class FirebaseMessagingService {
 
 // Background message handler
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Background Message: ${message.notification?.title}");
+  await Firebase.initializeApp();
+  log("Background Message: ${message.notification?.title}");
 }
