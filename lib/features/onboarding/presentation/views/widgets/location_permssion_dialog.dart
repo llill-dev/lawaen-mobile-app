@@ -21,9 +21,9 @@ class LocationPermissionDialog extends StatelessWidget {
     final cubit = getIt<LocationPermissionCubit>();
     final router = context.router;
 
-    void goToLogin() {
+    void goToHome() {
       onClose?.call();
-      router.replace(const LoginRoute());
+      router.replace(NavigationControllerRoute());
     }
 
     return Dialog(
@@ -38,7 +38,7 @@ class LocationPermissionDialog extends StatelessWidget {
                 state is LocationPermissionDenied ||
                 state is LocationPermissionForeverDenied ||
                 state is LocationPermissionServiceDisabled) {
-              goToLogin();
+              goToHome();
             }
           },
           builder: (context, state) {
@@ -71,7 +71,7 @@ class LocationPermissionDialog extends StatelessWidget {
                   ),
                 12.verticalSpace,
                 GestureDetector(
-                  onTap: goToLogin,
+                  onTap: goToHome,
                   child: Text(LocaleKeys.denyLocation.tr(), style: Theme.of(context).textTheme.headlineSmall),
                 ),
               ],

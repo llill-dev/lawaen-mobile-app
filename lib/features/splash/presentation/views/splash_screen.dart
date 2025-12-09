@@ -78,12 +78,13 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
     if (isUserFirstTime && !hasToken) {
       prefs.setBool(prefsKey: isFisrtTime, value: false);
+      prefs.setGuest(true);
       context.router.replace(OnboardingRoute());
       return;
     }
 
     if (!hasToken) {
-      prefs.setBool(prefsKey: prefsGuest, value: true);
+      prefs.setGuest(true);
       context.router.replace(NavigationControllerRoute());
       return;
     }

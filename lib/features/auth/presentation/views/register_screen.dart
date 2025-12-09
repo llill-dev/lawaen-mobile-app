@@ -53,7 +53,7 @@ class RegisterScreen extends StatelessWidget {
                         shadowColor: ColorManager.onBoardingShadowColor,
                         onPressed: () {
                           final prefs = getIt<AppPreferences>();
-                          prefs.setBool(prefsKey: prefsGuest, value: true);
+                          prefs.setGuest(true);
                           context.router.replace(NavigationControllerRoute());
                         },
                         height: 40.h,
