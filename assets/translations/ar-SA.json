@@ -231,5 +231,6 @@
   "copiedToClipboard" : "تم النسخ إلى الحافظة", 
   "noUpcomingEvent" : "لا توجد أحداث قادمة",
   "noUpcomingEventDescription": "قم بجدولة حدثك الأول لبدء إدارة التقويم الخاص بك",
-  "createEvent" : "قم بأنشأ حدثاً"
+  "createEvent" : "قم بأنشأ حدثاً",
+  "signInToContinue" : "يرجى تسجيل الدخول للمتابعة إلى حسابك الشخصي"
 }

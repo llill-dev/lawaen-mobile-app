@@ -231,5 +231,6 @@
   "copiedToClipboard" : "Copied to clipboard", 
   "noUpcomingEvent" : "No upcoming events",
   "noUpcomingEventDescription" :"Schedule your first event to start managing your calendar",
-  "createEvent" : "Create Event"
+  "createEvent" : "Create Event",
+  "signInToContinue": "Please sign in to continue to your personal account"
 }
