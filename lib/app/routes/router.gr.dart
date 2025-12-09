@@ -145,9 +145,9 @@ class CategoryDetailsRoute
     extends _i31.PageRouteInfo<CategoryDetailsRouteArgs> {
   CategoryDetailsRoute({
     _i32.Key? key,
-    required String categoryId,
-    required List<_i33.SecondCategory> secondCategory,
-    required String categoryName,
+    String? categoryId,
+    List<_i33.SecondCategory>? secondCategory,
+    String? categoryName,
     List<_i31.PageRouteInfo>? children,
   }) : super(
          CategoryDetailsRoute.name,
@@ -165,7 +165,9 @@ class CategoryDetailsRoute
   static _i31.PageInfo page = _i31.PageInfo(
     name,
     builder: (data) {
-      final args = data.argsAs<CategoryDetailsRouteArgs>();
+      final args = data.argsAs<CategoryDetailsRouteArgs>(
+        orElse: () => const CategoryDetailsRouteArgs(),
+      );
       return _i5.CategoryDetailsScreen(
         key: args.key,
         categoryId: args.categoryId,
@@ -179,18 +181,18 @@ class CategoryDetailsRoute
 class CategoryDetailsRouteArgs {
   const CategoryDetailsRouteArgs({
     this.key,
-    required this.categoryId,
-    required this.secondCategory,
-    required this.categoryName,
+    this.categoryId,
+    this.secondCategory,
+    this.categoryName,
   });
 
   final _i32.Key? key;
 
-  final String categoryId;
+  final String? categoryId;
 
-  final List<_i33.SecondCategory> secondCategory;
+  final List<_i33.SecondCategory>? secondCategory;
 
-  final String categoryName;
+  final String? categoryName;
 
   @override
   String toString() {

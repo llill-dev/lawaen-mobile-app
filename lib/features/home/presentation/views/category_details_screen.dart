@@ -18,15 +18,11 @@ import 'widgets/category_details/category_info_list.dart';
 
 @RoutePage()
 class CategoryDetailsScreen extends StatefulWidget {
-  final String categoryName;
-  final String categoryId;
-  final List<SecondCategory> secondCategory;
-  const CategoryDetailsScreen({
-    super.key,
-    required this.categoryId,
-    required this.secondCategory,
-    required this.categoryName,
-  });
+  final String? categoryName;
+  final String? categoryId;
+  final List<SecondCategory>? secondCategory;
+
+  const CategoryDetailsScreen({super.key, this.categoryId, this.secondCategory, this.categoryName});
 
   @override
   State<CategoryDetailsScreen> createState() => _CategoryDetailsScreenState();
@@ -40,7 +36,10 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   void initState() {
     super.initState();
     cubit = getIt<CategoryDetailsCubit>();
-    cubit.initCategoryDetails(mainCategoryId: widget.categoryId);
+
+    final bool isGetAll = widget.categoryId == null;
+
+    cubit.initCategoryDetails(mainCategoryId: widget.categoryId, isGetAll: isGetAll);
 
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
@@ -62,14 +61,16 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 message: state.globalError!,
                 isError: true,
                 context: context,
-                onConfirm: () => cubit.initCategoryDetails(mainCategoryId: widget.categoryId),
+                onConfirm: () =>
+                    cubit.initCategoryDetails(mainCategoryId: widget.categoryId, isGetAll: widget.categoryId == null),
                 onCancel: () => cubit.clearGlobalError(),
               );
             }
           },
           child: SafeArea(
             child: CustomRefreshIndcator(
-              onRefresh: () => cubit.initCategoryDetails(mainCategoryId: widget.categoryId),
+              onRefresh: () =>
+                  cubit.initCategoryDetails(mainCategoryId: widget.categoryId, isGetAll: widget.categoryId == null),
               child: CustomScrollView(
                 controller: _scrollController,
                 clipBehavior: Clip.none,
@@ -85,17 +86,21 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   ),
 
                   buildSpace(),
-                  SliverToBoxAdapter(
-                    child: Text(
-                      widget.categoryName,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ).horizontalPadding(padding: 16.w),
-                  ),
+                  if (widget.categoryName != null) ...[
+                    SliverToBoxAdapter(
+                      child: Text(
+                        widget.categoryName!,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ).horizontalPadding(padding: 16.w),
+                    ),
+                    buildSpace(),
+                  ],
 
-                  buildSpace(),
-                  AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory),
+                  if (widget.secondCategory != null) ...[
+                    AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory!),
+                    buildSpace(),
+                  ],
 
-                  buildSpace(),
                   CategoryInfoList(),
                 ],
               ),

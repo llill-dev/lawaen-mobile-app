@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
@@ -19,12 +21,14 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
 
   String? _mainCategoryId;
   String? _search;
+  bool _isGetAll = false;
 
   Timer? _debounceTimer;
 
-  Future<void> initCategoryDetails({required String mainCategoryId, String? search}) async {
+  Future<void> initCategoryDetails({required String? mainCategoryId, String? search, bool isGetAll = false}) async {
     _mainCategoryId = mainCategoryId;
     _search = search;
+    _isGetAll = isGetAll;
 
     emit(
       state.copyWith(
@@ -58,11 +62,13 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   }
 
   Future<void> _fetchCategoryDetails({required bool isLoadMore}) async {
-    if (_mainCategoryId == null) return;
+    if (!_isGetAll && _mainCategoryId == null) return;
 
     if (!isLoadMore) {
       emit(state.copyWith(categoryDetailsState: RequestState.loading, categoriesError: null, globalError: null));
     }
+
+    Either<ErrorModel, List<CategoryDetailsModel>> result;
 
     final location = await getIt<LocationService>().getBestEffortLocation();
 
@@ -74,11 +80,13 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       search: _search,
     );
 
-    final bool useSecond = state.selectedSecondCategoryId != null;
-
-    final String idToSend = useSecond ? state.selectedSecondCategoryId! : _mainCategoryId!;
-
-    final result = await _categoryDetailsRepo.getCategoryDetails(idToSend, params, useSecondCategory: useSecond);
+    if (_isGetAll) {
+      result = await _categoryDetailsRepo.getAllCategoryDetails(params);
+    } else {
+      final useSecond = state.selectedSecondCategoryId != null;
+      final idToSend = useSecond ? state.selectedSecondCategoryId! : _mainCategoryId!;
+      result = await _categoryDetailsRepo.getCategoryDetails(idToSend, params, useSecondCategory: useSecond);
+    }
 
     result.fold(
       (failure) {
@@ -117,7 +125,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   }
 
   Future<void> loadMore() async {
-    if (_mainCategoryId == null) return;
+    if (_mainCategoryId == null && !_isGetAll) return;
 
     if (!state.hasMore || state.isLoadingMore) return;
 
@@ -127,7 +135,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
   }
 
   Future<void> refresh() async {
-    if (_mainCategoryId == null) return;
+    if (_mainCategoryId == null && !_isGetAll) return;
 
     emit(
       state.copyWith(

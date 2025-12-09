@@ -37,4 +37,19 @@ class CategoryDetailsRepoImpl implements CategoryDetailsRepo {
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
+
+  @override
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getAllCategoryDetails(GetCategoryDetailsParams params) async {
+    try {
+      final response = await appServiceClient.searchLocation(params: params);
+
+      if (response.status && response.data != null) {
+        return Right(response.data!);
+      }
+
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
 }

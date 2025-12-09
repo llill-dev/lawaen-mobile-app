@@ -28,25 +28,25 @@ class PrimaryBackButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap ?? () => context.pop(),
-      child: Container(
-        width: width,
-        decoration: BoxDecoration(
-          color: backgroundColor ?? Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          boxShadow: [
-            if (withShadow)
-              BoxShadow(
-                color: ColorManager.black.withValues(alpha: .25),
-                spreadRadius: 0,
-                blurRadius: 4,
-                offset: Offset(0, 4),
-              ),
-          ],
-        ),
-        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+    return Container(
+      width: width,
+      decoration: BoxDecoration(
+        color: backgroundColor ?? Colors.white,
+        borderRadius: BorderRadius.circular(14),
+        boxShadow: [
+          if (withShadow)
+            BoxShadow(
+              color: ColorManager.black.withValues(alpha: .25),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: Offset(0, 4),
+            ),
+        ],
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 10),
 
+      child: GestureDetector(
+        onTap: onTap ?? () => context.pop(),
         child: Row(
           children: [
             Icon(Icons.arrow_back, color: iconColor ?? ColorManager.primary, size: iconSize ?? 16),

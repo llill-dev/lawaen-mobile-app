@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_container.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_header_section.dart';
@@ -15,7 +14,7 @@ import '../../../../../../generated/locale_keys.g.dart';
 class CategoryDetailsAppBar extends StatelessWidget {
   const CategoryDetailsAppBar({super.key, required this.categoryId});
 
-  final String categoryId;
+  final String? categoryId;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +30,30 @@ class CategoryDetailsAppBar extends StatelessWidget {
               controller: controller,
               hint: LocaleKeys.homeSearchBarHit.tr(),
               hitStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.grey),
-              prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 12),
+              //prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 12),
+              suffixIcon: GestureDetector(
+                onTap: () {
+                  final text = controller.text.trim();
+                  if (text.isNotEmpty) {
+                    cubit.initCategoryDetails(mainCategoryId: categoryId, search: text, isGetAll: categoryId == null);
+                  }
+                },
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.w),
+                  child: SvgPicture.asset(IconManager.search),
+                ),
+              ),
               fillColor: Colors.white,
               horizontalContentPadding: 16,
               verticalContentPadding: 12,
               borderRadius: 16.0,
               onFieldSubmitted: (value) {
                 if (value.trim().isNotEmpty && controller.text.trim().isNotEmpty) {
-                  cubit.initCategoryDetails(mainCategoryId: categoryId, search: controller.text.trim());
+                  cubit.initCategoryDetails(
+                    mainCategoryId: categoryId,
+                    search: controller.text.trim(),
+                    isGetAll: categoryId == null,
+                  );
                 }
               },
             ),

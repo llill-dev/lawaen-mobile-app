@@ -8,7 +8,6 @@ class CategoryDetailsModel {
   final String? image;
   final String? address;
   final String? main;
-  //after i added the main category id to the category details model
   @JsonKey(name: "main_category_id")
   final String? mainCategoryId;
   final double? travelMinutes;

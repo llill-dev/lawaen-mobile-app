@@ -9,4 +9,5 @@ abstract class CategoryDetailsRepo {
     GetCategoryDetailsParams params, {
     bool useSecondCategory = false,
   });
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getAllCategoryDetails(GetCategoryDetailsParams params);
 }
