@@ -18,6 +18,11 @@ class HomeState extends Equatable {
   final double? userLongitude;
   final CityModel? currentCity;
 
+  // EVENTS
+  final RequestState evetnsState;
+  final List<EventModel> events;
+  final String? eventsError;
+
   // GLOBAL
   final String? globalError;
 
@@ -33,6 +38,9 @@ class HomeState extends Equatable {
     this.userLatitude,
     this.userLongitude,
     this.currentCity,
+    this.evetnsState = RequestState.idle,
+    this.events = const [],
+    this.eventsError,
     this.globalError,
   });
 
@@ -54,6 +62,11 @@ class HomeState extends Equatable {
     double? userLongitude,
     CityModel? currentCity,
 
+    // events
+    final RequestState? evetnsState,
+    final List<EventModel>? events,
+    final String? eventsError,
+
     // global
     String? globalError,
   }) {
@@ -72,6 +85,10 @@ class HomeState extends Equatable {
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
       currentCity: currentCity ?? this.currentCity,
+
+      evetnsState: citiesState ?? this.evetnsState,
+      events: events ?? this.events,
+      eventsError: eventsError ?? this.eventsError,
 
       globalError: globalError,
     );
@@ -93,6 +110,10 @@ class HomeState extends Equatable {
     userLatitude,
     userLongitude,
     currentCity,
+
+    evetnsState,
+    events,
+    eventsError,
 
     globalError,
   ];

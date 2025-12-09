@@ -10,6 +10,7 @@ class Urls {
   static const String getCities = "cities/get";
   static const String getCategories = "category/get";
   static const String getMapMarkers = "category/get_main";
+  static const String getHomeEvents = "event/event_home";
 
   //event
   static const String getEventTypes = "event/event_type";

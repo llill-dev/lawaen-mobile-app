@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
+import 'package:lawaen/features/events/data/models/event_model.dart';
 
 import '../../../data/models/category_model.dart';
 import '../../../data/models/city_model.dart';
@@ -75,6 +76,30 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (categories) {
         emit(state.copyWith(categoriesState: RequestState.success, categories: categories, categoriesError: null));
+      },
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // EVENTS
+  // ────────────────────────────────────────────────
+  Future<void> getHomeEvents() async {
+    emit(state.copyWith(evetnsState: RequestState.loading, eventsError: null));
+
+    final result = await _homeRepo.getHomeEvents();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            evetnsState: RequestState.error,
+            eventsError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (events) {
+        emit(state.copyWith(evetnsState: RequestState.success, events: events, eventsError: null));
       },
     );
   }

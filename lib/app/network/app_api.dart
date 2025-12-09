@@ -69,6 +69,9 @@ abstract class AppServiceClient {
   @GET(Urls.getMapMarkers)
   Future<ApiResponse<List<MapMarkerModel>>> getMapMarkers();
 
+  @GET(Urls.getHomeEvents)
+  Future<ApiResponse<List<EventModel>>> getHomeEvents();
+
   //category details
   @GET(Urls.getCategoryDetails)
   Future<ApiResponse<List<CategoryDetailsModel>>> getCategoryDetails({

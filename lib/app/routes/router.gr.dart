@@ -381,10 +381,11 @@ class EventsDetailsRoute extends _i31.PageRouteInfo<EventsDetailsRouteArgs> {
   EventsDetailsRoute({
     _i32.Key? key,
     required _i35.EventModel event,
+    String? address,
     List<_i31.PageRouteInfo>? children,
   }) : super(
          EventsDetailsRoute.name,
-         args: EventsDetailsRouteArgs(key: key, event: event),
+         args: EventsDetailsRouteArgs(key: key, event: event, address: address),
          initialChildren: children,
        );
 
@@ -394,32 +395,38 @@ class EventsDetailsRoute extends _i31.PageRouteInfo<EventsDetailsRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<EventsDetailsRouteArgs>();
-      return _i10.EventsDetailsScreen(key: args.key, event: args.event);
+      return _i10.EventsDetailsScreen(
+        key: args.key,
+        event: args.event,
+        address: args.address,
+      );
     },
   );
 }
 
 class EventsDetailsRouteArgs {
-  const EventsDetailsRouteArgs({this.key, required this.event});
+  const EventsDetailsRouteArgs({this.key, required this.event, this.address});
 
   final _i32.Key? key;
 
   final _i35.EventModel event;
 
+  final String? address;
+
   @override
   String toString() {
-    return 'EventsDetailsRouteArgs{key: $key, event: $event}';
+    return 'EventsDetailsRouteArgs{key: $key, event: $event, address: $address}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! EventsDetailsRouteArgs) return false;
-    return key == other.key && event == other.event;
+    return key == other.key && event == other.event && address == other.address;
   }
 
   @override
-  int get hashCode => key.hashCode ^ event.hashCode;
+  int get hashCode => key.hashCode ^ event.hashCode ^ address.hashCode;
 }
 
 /// generated route for
