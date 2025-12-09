@@ -11,7 +11,7 @@ class WeatherWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: AspectRatio(
-        aspectRatio: 0.8,
+        aspectRatio: 0.75,
         child: Stack(
           alignment: Alignment.center,
           children: [
