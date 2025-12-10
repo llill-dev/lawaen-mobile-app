@@ -8,6 +8,8 @@ class GetCategoryDetailsParams {
   final String? search;
   final int limit;
   final int page;
+  @JsonKey(name: "city_id")
+  final String cityId;
 
   GetCategoryDetailsParams({
     required this.latitude,
@@ -15,6 +17,7 @@ class GetCategoryDetailsParams {
     this.search,
     required this.limit,
     required this.page,
+    required this.cityId,
   });
 
   Map<String, dynamic> toJson() => _$GetCategoryDetailsParamsToJson(this);

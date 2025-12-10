@@ -78,6 +78,7 @@ class CategoryDetailsCubit extends Cubit<CategoryDetailsState> {
       limit: state.limit,
       page: state.categoriesCurrentPage,
       search: _search,
+      cityId: location.cityId ?? "",
     );
 
     if (_isGetAll) {

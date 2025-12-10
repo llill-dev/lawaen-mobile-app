@@ -58,6 +58,7 @@ class MapCubit extends Cubit<MapState> {
       limit: 25,
       page: 1,
       search: _search,
+      cityId: location.cityId ?? "",
     );
 
     final result = await _mapRepo.getInitialItems(params);
@@ -138,6 +139,7 @@ class MapCubit extends Cubit<MapState> {
       limit: 25,
       page: 1,
       search: null,
+      cityId: location.cityId ?? "",
     );
 
     Either<ErrorModel, List<CategoryDetailsModel>> result;
