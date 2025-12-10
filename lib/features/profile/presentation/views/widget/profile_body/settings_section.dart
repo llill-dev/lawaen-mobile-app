@@ -43,6 +43,13 @@ class SettingsSection extends StatelessWidget {
           _SettingsContainer(
             child: Column(
               children: [
+                if (getIt<AppPreferences>().isGuest)
+                  SettingsItme(
+                    title: LocaleKeys.signIn.tr(),
+                    isLogin: true,
+                    icon: "",
+                    onTap: () => context.router.push(LoginRoute()),
+                  ),
                 SettingsItme(
                   title: LocaleKeys.language.tr(),
                   icon: IconManager.languages,
@@ -87,27 +94,27 @@ class SettingsSection extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-
-          _SettingsContainer(
-            child: Column(
-              children: [
-                SettingsItme(
-                  title: LocaleKeys.logout.tr(),
-                  icon: IconManager.logout,
-                  onTap: () {
-                    getIt<AppPreferences>().logout();
-                    context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => false);
-                  },
-                ),
-                SettingsItme(
-                  title: LocaleKeys.deleteAccount.tr(),
-                  icon: IconManager.deleteAccount,
-                  onTap: () {},
-                  hasDivider: false,
-                ),
-              ],
+          if (!getIt<AppPreferences>().isGuest)
+            _SettingsContainer(
+              child: Column(
+                children: [
+                  SettingsItme(
+                    title: LocaleKeys.logout.tr(),
+                    icon: IconManager.logout,
+                    onTap: () {
+                      getIt<AppPreferences>().logout();
+                      context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => false);
+                    },
+                  ),
+                  SettingsItme(
+                    title: LocaleKeys.deleteAccount.tr(),
+                    icon: IconManager.deleteAccount,
+                    onTap: () {},
+                    hasDivider: false,
+                  ),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );

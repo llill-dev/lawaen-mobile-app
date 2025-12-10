@@ -2,6 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 
@@ -15,7 +18,20 @@ class AddYourBusiness extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
       child: GestureDetector(
-        onTap: () => context.pushRoute(AddRoute()),
+        onTap: () {
+          if (getIt<AppPreferences>().isGuest) {
+            alertDialog(
+              context: context,
+              message: LocaleKeys.signInToContinue.tr(),
+              onConfirm: () => context.router.push(LoginRoute()),
+              onCancel: () => (),
+              approveButtonTitle: LocaleKeys.signIn.tr(),
+              rejectButtonTitle: LocaleKeys.cancel.tr(),
+            );
+          } else {
+            context.pushRoute(AddRoute());
+          }
+        },
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 20.h),
           decoration: BoxDecoration(

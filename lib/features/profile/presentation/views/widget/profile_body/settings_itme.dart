@@ -6,6 +6,7 @@ class SettingsItme extends StatelessWidget {
   final String title;
   final String icon;
   final Color? iconColor;
+  final bool isLogin;
   final VoidCallback? onTap;
   final bool hasDivider;
   final double? iconSize;
@@ -17,6 +18,7 @@ class SettingsItme extends StatelessWidget {
     this.hasDivider = true,
     this.iconColor,
     this.iconSize,
+    this.isLogin = false,
   });
 
   @override
@@ -31,12 +33,14 @@ class SettingsItme extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundColor: ColorManager.lightGrey,
-                  child: SvgPicture.asset(
-                    icon,
-                    width: iconSize,
-                    height: iconSize,
-                    colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
-                  ),
+                  child: isLogin
+                      ? Icon(Icons.login, color: ColorManager.red, size: iconSize)
+                      : SvgPicture.asset(
+                          icon,
+                          width: iconSize,
+                          height: iconSize,
+                          colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
+                        ),
                 ),
                 const SizedBox(width: 16),
                 Text(title, style: Theme.of(context).textTheme.headlineMedium),

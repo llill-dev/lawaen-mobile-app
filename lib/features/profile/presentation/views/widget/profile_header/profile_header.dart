@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_container.dart';
@@ -12,6 +14,7 @@ class ProfileHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = getIt<AppPreferences>().isGuest;
     return SliverToBoxAdapter(
       child: SizedBox(
         height: 280.h,
@@ -23,7 +26,7 @@ class ProfileHeader extends StatelessWidget {
               bottom: 120.h,
               child: HomeAppBarContainer(
                 padding: EdgeInsets.only(left: 24.w, right: 24.w, top: 24.h, bottom: 75.h),
-                child: const ProfileUserInfo(),
+                child: isGuest ? SizedBox.shrink() : const ProfileUserInfo(),
               ),
             ),
             Positioned(
