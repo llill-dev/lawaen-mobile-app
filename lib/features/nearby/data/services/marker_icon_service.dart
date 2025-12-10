@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:dio/dio.dart';
@@ -8,6 +9,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:apple_maps_flutter/apple_maps_flutter.dart' as apple;
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
+import 'package:lawaen/app/resources/color_manager.dart';
 
 @lazySingleton
 class MarkerIconService {
@@ -20,6 +22,10 @@ class MarkerIconService {
   final Map<String, BitmapDescriptor> googleCache = {};
   final Map<String, apple.BitmapDescriptor> appleCache = {};
 
+  // Medium marker size (circle size in px)
+  static const int _markerSize = 80;
+  static const double _iconScale = 0.6; // icon size relative to circle
+
   late final Future<BitmapDescriptor> googleFallback = _loadFallbackGoogle();
   late final Future<apple.BitmapDescriptor> appleFallback = _loadFallbackApple();
 
@@ -28,13 +34,24 @@ class MarkerIconService {
   // ---------------------------------------------------------------------------
 
   Future<BitmapDescriptor> _loadFallbackGoogle() async {
-    // adjust devicePixelRatio to control size (2.5 - 4.0 recommended)
-    return BitmapDescriptor.fromAssetImage(const ImageConfiguration(devicePixelRatio: 3.0), fallBackMarker);
+    // Load asset bytes
+    final data = await rootBundle.load(fallBackMarker);
+    final wrapped = await _wrapWithCircleBackground(
+      data.buffer.asUint8List(),
+      size: _markerSize,
+      iconScale: _iconScale,
+    );
+    return BitmapDescriptor.fromBytes(wrapped);
   }
 
   Future<apple.BitmapDescriptor> _loadFallbackApple() async {
     final data = await rootBundle.load(fallBackMarker);
-    return apple.BitmapDescriptor.fromBytes(data.buffer.asUint8List());
+    final wrapped = await _wrapWithCircleBackground(
+      data.buffer.asUint8List(),
+      size: _markerSize,
+      iconScale: _iconScale,
+    );
+    return apple.BitmapDescriptor.fromBytes(wrapped);
   }
 
   // ---------------------------------------------------------------------------
@@ -69,7 +86,6 @@ class MarkerIconService {
 
   Future<Uint8List> _resizeBytes(Uint8List bytes, {required int targetWidth}) async {
     final codec = await ui.instantiateImageCodec(bytes, targetWidth: targetWidth);
-
     final frame = await codec.getNextFrame();
     final image = frame.image;
 
@@ -78,10 +94,49 @@ class MarkerIconService {
   }
 
   // ---------------------------------------------------------------------------
+  // CIRCLE + ICON COMPOSITOR
+  // ---------------------------------------------------------------------------
+
+  Future<Uint8List> _wrapWithCircleBackground(
+    Uint8List iconBytes, {
+    required int size,
+    required double iconScale,
+  }) async {
+    // Decode original icon
+    final codec = await ui.instantiateImageCodec(iconBytes);
+    final frame = await codec.getNextFrame();
+    final ui.Image iconImage = frame.image;
+
+    final ui.PictureRecorder recorder = ui.PictureRecorder();
+    final canvas = ui.Canvas(recorder);
+
+    final double s = size.toDouble();
+    final center = Offset(s / 2, s / 2);
+
+    // Draw circle background
+    final bgPaint = Paint()..color = ColorManager.primary;
+    canvas.drawCircle(center, s / 2, bgPaint);
+
+    // Calculate destination rect for icon
+    final double iconSize = s * iconScale;
+    final dst = Rect.fromLTWH((s - iconSize) / 2, (s - iconSize) / 2, iconSize, iconSize);
+
+    final src = Rect.fromLTWH(0, 0, iconImage.width.toDouble(), iconImage.height.toDouble());
+
+    // Draw icon into circle
+    canvas.drawImageRect(iconImage, src, dst, Paint());
+
+    final ui.Image finalImage = await recorder.endRecording().toImage(size, size);
+    final byteData = await finalImage.toByteData(format: ui.ImageByteFormat.png);
+
+    return byteData!.buffer.asUint8List();
+  }
+
+  // ---------------------------------------------------------------------------
   // GOOGLE MARKER LOADER
   // ---------------------------------------------------------------------------
 
-  Future<BitmapDescriptor> loadGoogleMarker(String id, String url, {int targetWidth = 96}) async {
+  Future<BitmapDescriptor> loadGoogleMarker(String id, String url, {int targetWidth = _markerSize}) async {
     if (googleCache.containsKey(id)) {
       return googleCache[id]!;
     }
@@ -89,12 +144,14 @@ class MarkerIconService {
     try {
       Uint8List bytes = await _safeDownload(url);
 
-      // Resize only if wanted
+      // Resize to base size
       bytes = await _resizeBytes(bytes, targetWidth: targetWidth);
 
-      final marker = BitmapDescriptor.fromBytes(bytes);
-      googleCache[id] = marker;
+      // Wrap with circular background
+      final wrapped = await _wrapWithCircleBackground(bytes, size: targetWidth, iconScale: _iconScale);
 
+      final marker = BitmapDescriptor.fromBytes(wrapped);
+      googleCache[id] = marker;
       return marker;
     } catch (_) {
       final fallback = await googleFallback;
@@ -107,7 +164,7 @@ class MarkerIconService {
   // APPLE MARKER LOADER
   // ---------------------------------------------------------------------------
 
-  Future<apple.BitmapDescriptor> loadAppleMarker(String id, String url, {int targetWidth = 96}) async {
+  Future<apple.BitmapDescriptor> loadAppleMarker(String id, String url, {int targetWidth = _markerSize}) async {
     if (appleCache.containsKey(id)) {
       return appleCache[id]!;
     }
@@ -115,12 +172,14 @@ class MarkerIconService {
     try {
       Uint8List bytes = await _safeDownload(url);
 
-      // Resize PNG
+      // Resize to base size
       bytes = await _resizeBytes(bytes, targetWidth: targetWidth);
 
-      final marker = apple.BitmapDescriptor.fromBytes(bytes);
-      appleCache[id] = marker;
+      // Wrap with circular background
+      final wrapped = await _wrapWithCircleBackground(bytes, size: targetWidth, iconScale: _iconScale);
 
+      final marker = apple.BitmapDescriptor.fromBytes(wrapped);
+      appleCache[id] = marker;
       return marker;
     } catch (_) {
       final fallback = await appleFallback;

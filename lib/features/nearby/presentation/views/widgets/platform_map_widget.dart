@@ -49,7 +49,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       _createClusterItems(widget.items),
       _updateMarkers,
       markerBuilder: _markerBuilder,
-      stopClusteringZoom: 20,
+      stopClusteringZoom: 50,
     );
   }
 
@@ -171,8 +171,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
 
     // SINGLE MARKER
     final item = cluster.items.first.item;
-
-    final markerIcon = state.markersGoogle[item.mainCategoryId] ?? state.fallbackGoogle!; // Always available
+    final markerIcon = state.markersGoogle[item.mainCategoryId] ?? state.fallbackGoogle!;
 
     return Marker(
       markerId: MarkerId(item.id),

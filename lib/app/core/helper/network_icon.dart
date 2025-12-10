@@ -39,7 +39,7 @@ class NetworkIcon extends StatelessWidget {
           highlightColor: ColorManager.blackSwatch[3] ?? Colors.grey.shade100,
           child: Container(color: ColorManager.blackSwatch[5] ?? Colors.grey.shade300, width: size, height: size),
         ),
-        errorBuilder: (context, url, error) => const Icon(Icons.error),
+        errorBuilder: (context, url, error) => const Icon(Icons.error, color: Colors.red),
       );
     } else {
       return CachedImage(url: url, height: size ?? height, width: size ?? width, fit: fit, placeholder: placeholder);
