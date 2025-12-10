@@ -8,6 +8,7 @@ import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
+import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
@@ -47,9 +48,9 @@ class HomeRepoImpl implements HomeRepo {
   }
 
   @override
-  Future<Either<ErrorModel, List<EventModel>>> getHomeEvents() async {
+  Future<Either<ErrorModel, List<EventModel>>> getHomeEvents(GetEventsParams params) async {
     try {
-      final response = await appServiceClient.getHomeEvents();
+      final response = await appServiceClient.getHomeEvents(params: params);
       if (response.status && response.data != null) {
         return Right(response.data!);
       }

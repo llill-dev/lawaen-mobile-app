@@ -71,7 +71,7 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void _initAppApi() {
-  getIt<MapMarkerCubit>().loadMarkers();
-  getIt<EventCubit>().getEventTypes();
-  getIt<OffersCubit>().getOfferTypes();
+  // getIt<MapMarkerCubit>().loadMarkers();
+  // getIt<EventCubit>().getEventTypes();
+  // getIt<OffersCubit>().getOfferTypes();
 }

@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
+import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 
 import '../../../data/models/category_model.dart';
 import '../../../data/models/city_model.dart';
@@ -28,8 +29,8 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this._homeRepo, this._locationService) : super(const HomeState());
 
   Future<void> initHome() async {
-    getCities();
     getCategories();
+    getCities();
   }
 
   // ────────────────────────────────────────────────
@@ -49,9 +50,10 @@ class HomeCubit extends Cubit<HomeState> {
           ),
         );
       },
-      (cities) {
+      (cities) async {
         emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
-        loadUserLocation();
+        await loadUserLocation();
+        getHomeEvents();
       },
     );
   }
@@ -84,9 +86,13 @@ class HomeCubit extends Cubit<HomeState> {
   // EVENTS
   // ────────────────────────────────────────────────
   Future<void> getHomeEvents() async {
+    if (state.currentCity == null) {
+      return;
+    }
+
     emit(state.copyWith(evetnsState: RequestState.loading, eventsError: null));
 
-    final result = await _homeRepo.getHomeEvents();
+    final result = await _homeRepo.getHomeEvents(GetEventsParams(city: state.currentCity!.id));
 
     result.fold(
       (failure) {
