@@ -57,6 +57,8 @@ class AuthRepoImpl implements AuthRepo {
         final emailOrPhone = user.email ?? user.phoneNumber;
 
         await prefs.saveUserInfo(BasicUserInfo(name: user.name, emailOrPhone: emailOrPhone, image: user.image));
+        prefs.setFirstTime(false);
+        prefs.setGuest(false);
         return Right(response.data!.user);
       }
       log("register error: ${response.message}");
@@ -72,17 +74,16 @@ class AuthRepoImpl implements AuthRepo {
     try {
       final response = await appServiceClient.login(params);
       if (_successResponse(response)) {
-        prefs.setBool(prefsKey: isFisrtTime, value: false);
         await _saveTokens(
           accessToken: response.data!.tokens.accessToken,
           refreshToken: response.data!.tokens.refreshToken,
         );
         final user = response.data!.user;
-
+        prefs.setFirstTime(false);
+        prefs.setGuest(false);
         await prefs.saveUserInfo(
           BasicUserInfo(name: user.name, emailOrPhone: user.email ?? user.phoneNumber, image: user.image),
         );
-
         return Right(response.data!.user);
       }
 

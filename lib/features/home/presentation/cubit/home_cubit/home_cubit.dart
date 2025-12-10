@@ -1,12 +1,16 @@
+import 'dart:developer';
 import 'dart:math' as math;
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 
 import '../../../data/models/category_model.dart';
 import '../../../data/models/city_model.dart';
@@ -52,8 +56,9 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (cities) async {
         emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
-        await loadUserLocation();
+        await _loadUserLocation();
         getHomeEvents();
+        await _tryRegisterFcmToken();
       },
     );
   }
@@ -113,7 +118,7 @@ class HomeCubit extends Cubit<HomeState> {
   // ────────────────────────────────────────────────
   // LOCATION
   // ────────────────────────────────────────────────
-  Future<void> loadUserLocation() async {
+  Future<void> _loadUserLocation() async {
     emit(state.copyWith(locationState: RequestState.loading, locationError: null));
 
     try {
@@ -173,6 +178,38 @@ class HomeCubit extends Cubit<HomeState> {
         locationState: RequestState.success,
         locationError: null,
       ),
+    );
+  }
+
+  Future<void> _tryRegisterFcmToken() async {
+    final prefs = getIt<AppPreferences>();
+    if (prefs.isGuest) return;
+
+    if (prefs.isFcmRegistered) return;
+
+    if (state.currentCity == null) return;
+
+    final String fcmToken = prefs.fcmToken;
+    if (fcmToken.isEmpty) return;
+
+    final lat = state.userLatitude?.toString() ?? "";
+    final lng = state.userLongitude?.toString() ?? "";
+    final cityId = state.currentCity!.id;
+
+    final params = RegisterFcmTokenParams(fcmToken: fcmToken, latitude: lat, longitude: lng, cityId: cityId);
+
+    final result = await _homeRepo.registerFcmToken(params);
+
+    result.fold(
+      (error) {
+        // ❌ API failed → do NOT save flag, allow retry next launch
+        log("FCM register error: ${error.errorMessage}");
+      },
+      (successModel) async {
+        // ✅ API success → save flag
+        await prefs.setFcmRegistered(true);
+        log("FCM Token Registered Successfully!");
+      },
     );
   }
 

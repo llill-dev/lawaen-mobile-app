@@ -20,6 +20,7 @@ const String prefsCityId = "prefs_city_id";
 const String prefsCityName = "prefs_city_name";
 const String prefsFcmToken = "prefs_fcm_token";
 const String prefsUserInfo = "prefs_user_info";
+const String prefsFcmRegistered = "prefs_fcm_registered";
 
 @Injectable()
 class AppPreferences {
@@ -126,6 +127,7 @@ class AppPreferences {
     await _sharedPreferences.remove(prefsGuest);
     await _sharedPreferences.remove(refreshToken);
     await _sharedPreferences.remove(prefsUserInfo);
+    await _sharedPreferences.remove(prefsFcmRegistered);
   }
 }
 
@@ -144,4 +146,12 @@ extension UserInfoPrefs on AppPreferences {
   Future<void> clearUserInfo() async {
     await _sharedPreferences.remove(prefsUserInfo);
   }
+}
+
+extension FcmPrefs on AppPreferences {
+  Future<void> setFcmRegistered(bool value) async {
+    await setBool(prefsKey: prefsFcmRegistered, value: value);
+  }
+
+  bool get isFcmRegistered => getBool(prefsKey: prefsFcmRegistered);
 }

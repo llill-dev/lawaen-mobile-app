@@ -11,7 +11,7 @@ class Urls {
   static const String getCategories = "category/get";
   static const String getMapMarkers = "category/get_main";
   static const String getHomeEvents = "event/event_home";
-
+  static const String registerFcmToken = "fcm/save_fcm";
   //event
   static const String getEventTypes = "event/event_type";
   static const String getEvents = "event/event_by_category/{id}";

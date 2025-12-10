@@ -16,6 +16,8 @@ import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
+import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:lawaen/features/offers/data/models/offer_type_model.dart';
@@ -71,6 +73,9 @@ abstract class AppServiceClient {
 
   @GET(Urls.getHomeEvents)
   Future<ApiResponse<List<EventModel>>> getHomeEvents({@Queries() required GetEventsParams params});
+
+  @POST(Urls.registerFcmToken)
+  Future<RegisterFcmTokenModel> registerFcmToken({@Body() required RegisterFcmTokenParams params});
 
   //category details
   @GET(Urls.getCategoryDetails)

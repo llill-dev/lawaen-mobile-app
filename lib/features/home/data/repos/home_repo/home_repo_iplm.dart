@@ -11,7 +11,9 @@ import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
+import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @Injectable(as: HomeRepo)
@@ -57,6 +59,20 @@ class HomeRepoImpl implements HomeRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("getCategories error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, RegisterFcmTokenModel>> registerFcmToken(RegisterFcmTokenParams params) async {
+    try {
+      final response = await appServiceClient.registerFcmToken(params: params);
+      if (response.success == true) {
+        return Right(response);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("register fcm error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
