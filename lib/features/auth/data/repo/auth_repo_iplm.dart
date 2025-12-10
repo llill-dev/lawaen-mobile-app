@@ -10,6 +10,7 @@ import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
+import 'package:lawaen/features/auth/data/models/basic_user_info_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
@@ -47,10 +48,15 @@ class AuthRepoImpl implements AuthRepo {
       );
 
       if (_successResponse(response)) {
+        final user = response.data!.user;
         await _saveTokens(
           accessToken: response.data!.tokens.accessToken,
           refreshToken: response.data!.tokens.refreshToken,
         );
+
+        final emailOrPhone = user.email ?? user.phoneNumber;
+
+        await prefs.saveUserInfo(BasicUserInfo(name: user.name, emailOrPhone: emailOrPhone, image: user.image));
         return Right(response.data!.user);
       }
       log("register error: ${response.message}");
@@ -71,6 +77,12 @@ class AuthRepoImpl implements AuthRepo {
           accessToken: response.data!.tokens.accessToken,
           refreshToken: response.data!.tokens.refreshToken,
         );
+        final user = response.data!.user;
+
+        await prefs.saveUserInfo(
+          BasicUserInfo(name: user.name, emailOrPhone: user.email ?? user.phoneNumber, image: user.image),
+        );
+
         return Right(response.data!.user);
       }
 

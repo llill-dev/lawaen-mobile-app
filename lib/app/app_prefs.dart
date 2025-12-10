@@ -1,6 +1,8 @@
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/features/auth/data/models/basic_user_info_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'di/injection.dart';
@@ -17,6 +19,7 @@ const String isFisrtTime = "is_fisrt_time";
 const String prefsCityId = "prefs_city_id";
 const String prefsCityName = "prefs_city_name";
 const String prefsFcmToken = "prefs_fcm_token";
+const String prefsUserInfo = "prefs_user_info";
 
 @Injectable()
 class AppPreferences {
@@ -122,5 +125,23 @@ class AppPreferences {
     await _sharedPreferences.remove(prefsToken);
     await _sharedPreferences.remove(prefsGuest);
     await _sharedPreferences.remove(refreshToken);
+    await _sharedPreferences.remove(prefsUserInfo);
+  }
+}
+
+extension UserInfoPrefs on AppPreferences {
+  Future<void> saveUserInfo(BasicUserInfo user) async {
+    final jsonString = jsonEncode(user.toJson());
+    await setString(prefsKey: prefsUserInfo, value: jsonString);
+  }
+
+  BasicUserInfo? getUserInfo() {
+    final jsonString = getString(prefsKey: prefsUserInfo);
+    if (jsonString.isEmpty) return null;
+    return BasicUserInfo.fromJson(jsonDecode(jsonString));
+  }
+
+  Future<void> clearUserInfo() async {
+    await _sharedPreferences.remove(prefsUserInfo);
   }
 }

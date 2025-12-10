@@ -50,7 +50,7 @@ abstract class AppServiceClient {
     @Part(name: "model_name") required String modelName,
     @Part(name: "is_device") required bool isDevice,
     @Part(name: "build_id") required String buildId,
-    @Part(name: "image") MultipartFile? image,
+    @Part(name: "file") MultipartFile? image,
   });
 
   @POST(Urls.changePassword)
