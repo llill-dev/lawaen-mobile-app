@@ -12,7 +12,12 @@ class MapState extends Equatable {
   final double? userLatitude;
   final double? userLongitude;
 
-  final String? selectedCategoryId;
+  //final String? selectedCategoryId;
+
+  final String? selectedMainCategoryId;
+  final String? selectedSubCategoryId;
+  final List<SecondCategory> currentSubCategories;
+  final bool showApplyButton;
 
   final bool isSheetExpanded;
 
@@ -31,9 +36,14 @@ class MapState extends Equatable {
     this.userLatitude,
     this.userLongitude,
 
-    this.selectedCategoryId,
+    //this.selectedCategoryId,
     this.isSheetExpanded = false,
     this.globalError,
+
+    this.selectedMainCategoryId,
+    this.selectedSubCategoryId,
+    this.currentSubCategories = const [],
+    this.showApplyButton = false,
 
     this.googleCategoryMarkers = const {},
     this.appleCategoryMarkers = const {},
@@ -53,6 +63,10 @@ class MapState extends Equatable {
     String? globalError,
     Map<String, BitmapDescriptor>? googleCategoryMarkers,
     Map<String, apple.BitmapDescriptor>? appleCategoryMarkers,
+    String? selectedMainCategoryId,
+    String? selectedSubCategoryId,
+    List<SecondCategory>? currentSubCategories,
+    bool? showApplyButton,
   }) {
     return MapState(
       itemsState: itemsState ?? this.itemsState,
@@ -64,10 +78,13 @@ class MapState extends Equatable {
       userLatitude: userLatitude ?? this.userLatitude,
       userLongitude: userLongitude ?? this.userLongitude,
 
-      selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
+      //selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       isSheetExpanded: isSheetExpanded ?? this.isSheetExpanded,
       globalError: globalError ?? this.globalError,
-
+      selectedMainCategoryId: selectedMainCategoryId ?? this.selectedMainCategoryId,
+      selectedSubCategoryId: selectedSubCategoryId ?? this.selectedSubCategoryId,
+      currentSubCategories: currentSubCategories ?? this.currentSubCategories,
+      showApplyButton: showApplyButton ?? this.showApplyButton,
       googleCategoryMarkers: googleCategoryMarkers ?? this.googleCategoryMarkers,
       appleCategoryMarkers: appleCategoryMarkers ?? this.appleCategoryMarkers,
     );
@@ -84,9 +101,14 @@ class MapState extends Equatable {
     userLatitude,
     userLongitude,
 
-    selectedCategoryId,
+    //selectedCategoryId,
     isSheetExpanded,
     globalError,
+
+    selectedMainCategoryId,
+    selectedSubCategoryId,
+    currentSubCategories,
+    showApplyButton,
 
     googleCategoryMarkers,
     appleCategoryMarkers,

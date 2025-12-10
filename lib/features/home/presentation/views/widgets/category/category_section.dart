@@ -34,7 +34,7 @@ class CategorySection extends StatelessWidget {
                   crossAxisCount: 3,
                   mainAxisSpacing: 10,
                   crossAxisSpacing: 10,
-                  childAspectRatio: .8,
+                  childAspectRatio: .9,
                 ),
                 itemCount: isLoading ? 6 : state.categories.length.clamp(0, 6),
                 itemBuilder: (_, index) {

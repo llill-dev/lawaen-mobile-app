@@ -54,10 +54,10 @@ class _HeaderSectionState extends State<HeaderSection> {
     return OverlayEntry(
       builder: (_) => Positioned(
         left: 20.w,
-        top: MediaQuery.of(context).padding.top + 220.h,
+        top: MediaQuery.of(context).padding.top + 180.h,
         child: CompositedTransformFollower(
           link: _layerLink,
-          offset: Offset(0, 10.h),
+          offset: Offset(0, 30.h),
           child: Material(
             elevation: 6,
             borderRadius: BorderRadius.circular(10),

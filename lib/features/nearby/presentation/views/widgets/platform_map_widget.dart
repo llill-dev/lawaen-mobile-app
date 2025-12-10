@@ -105,7 +105,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       builder: (context, state) {
         // WAIT until fallback icons are loaded
         if (!_markersReady) {
-          return const Center(child: CircularProgressIndicator());
+          return const SizedBox();
         }
 
         return _buildMapContent(context, state);

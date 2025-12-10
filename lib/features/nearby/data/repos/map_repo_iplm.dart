@@ -65,4 +65,12 @@ class MapRepoImpl implements MapRepo {
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
+
+  @override
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getItemsBySecondCategory(
+    String secondCategoryId,
+    GetCategoryDetailsParams params,
+  ) async {
+    return await categoryDetailsRepo.getCategoryDetails(secondCategoryId, params, useSecondCategory: true);
+  }
 }

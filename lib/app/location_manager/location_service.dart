@@ -115,7 +115,7 @@ class LocationService {
   /// otherwise tries geolocator's last known position (no GPS call).
   Future<AppLocation?> getLastKnownLocation() async {
     // 1) From shared preferences
-    final cached = _getLocationFromPrefs();
+    final cached = getLocationFromPrefs();
     if (cached != null) return cached;
 
     // 2) From geolocator's last known position
@@ -131,7 +131,7 @@ class LocationService {
   /// Strategy you described: use last cached if exists (fast),
   /// then VM/UI can decide to call getCurrentLocation() for a fresh one.
   Future<AppLocation> getBestEffortLocation() async {
-    final cached = _getLocationFromPrefs();
+    final cached = getLocationFromPrefs();
     if (cached != null) {
       return cached;
     }
@@ -164,7 +164,7 @@ class LocationService {
   // Private helpers
   // =========================
 
-  AppLocation? _getLocationFromPrefs() {
+  AppLocation? getLocationFromPrefs() {
     final lat = _prefs.getDouble(prefsKey: prefsLat);
     final lng = _prefs.getDouble(prefsKey: prefsLng);
     final tsStr = _prefs.getString(prefsKey: prefsLocationTimestamp);

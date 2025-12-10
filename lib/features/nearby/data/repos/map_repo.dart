@@ -15,4 +15,9 @@ abstract class MapRepo {
     GetCategoryDetailsParams params,
   );
   Future<Either<ErrorModel, List<MapMarkerModel>>> getMapMarkers();
+
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getItemsBySecondCategory(
+    String secondCategoryId,
+    GetCategoryDetailsParams params,
+  );
 }

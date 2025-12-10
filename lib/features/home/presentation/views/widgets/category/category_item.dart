@@ -48,10 +48,10 @@ class CategoryItem extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             isLoading
-                ? ShimmerBox(width: 50.w, height: 50.w, borderRadius: BorderRadius.circular(50))
-                : NetworkIcon(url: categoryModel.image, size: 50.w, color: ColorManager.primary),
+                ? ShimmerBox(width: 40.w, height: 40.w, borderRadius: BorderRadius.circular(50))
+                : NetworkIcon(url: categoryModel.image, size: 34.w, color: ColorManager.primary),
 
-            SizedBox(height: 8.h),
+            SizedBox(height: 4.h),
 
             isLoading
                 ? ShimmerBox(width: 35.w, height: 10.h, borderRadius: BorderRadius.circular(4))
@@ -64,7 +64,7 @@ class CategoryItem extends StatelessWidget {
                     },
                   ),
 
-            SizedBox(height: 6.h),
+            SizedBox(height: 4.h),
 
             isLoading
                 ? ShimmerBox(width: 50.w, height: 10.h, borderRadius: BorderRadius.circular(4))

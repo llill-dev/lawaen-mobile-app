@@ -17,24 +17,29 @@ class OpenMapWidget extends StatelessWidget {
       flex: 2,
       child: AspectRatio(
         aspectRatio: 1.5,
-        child: Stack(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.circular(25.r),
-              child: Image.asset(ImageManager.map, fit: BoxFit.cover, width: double.infinity, height: double.infinity),
-            ),
-            Positioned(
-              bottom: 10.h,
-              left: 10.w,
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-                decoration: BoxDecoration(
-                  color: ColorManager.white,
-                  borderRadius: BorderRadius.circular(10.r),
-                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, offset: const Offset(0, 2))],
+        child: GestureDetector(
+          onTap: () => context.router.push(NearbyMapRoute()),
+          child: Stack(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(25.r),
+                child: Image.asset(
+                  ImageManager.map,
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
                 ),
-                child: GestureDetector(
-                  onTap: () => context.router.push(NearbyMapRoute()),
+              ),
+              Positioned(
+                bottom: 10.h,
+                left: 10.w,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+                  decoration: BoxDecoration(
+                    color: ColorManager.white,
+                    borderRadius: BorderRadius.circular(10.r),
+                    boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5, offset: const Offset(0, 2))],
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -50,8 +55,8 @@ class OpenMapWidget extends StatelessWidget {
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

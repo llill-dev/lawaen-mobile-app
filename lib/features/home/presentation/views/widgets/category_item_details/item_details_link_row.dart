@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/functions/url_launcher.dart';
@@ -5,6 +6,7 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/links_item_detials.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class ItemDetialsLinksRow extends StatelessWidget {
   const ItemDetialsLinksRow({super.key, required this.itemData});
@@ -22,7 +24,7 @@ class ItemDetialsLinksRow extends StatelessWidget {
           Row(
             children: [
               LinksItemDetials(
-                info: "Go to the site",
+                info: LocaleKeys.goToSite.tr(),
                 isTextOnly: true,
                 onTap: () async {
                   if (itemData.item?.location?.latitude != null && itemData.item?.location?.longitude != null) {
@@ -40,13 +42,18 @@ class ItemDetialsLinksRow extends StatelessWidget {
             ...itemData.ui!.contacts!.numbers!.map((number) {
               return Row(
                 children: [
-                  LinksItemDetials(
-                    info: number.title ?? "",
-                    svg: number.svg,
-                    onTap: () {
-                      makePhoneCall(number.value.toString());
-                    },
-                  ),
+                  if (number.value != null)
+                    LinksItemDetials(
+                      info: number.title ?? "",
+                      svg: number.svg,
+                      onTap: () {
+                        if (number.type == "WhatsApp number" || number.type == "whatsapp") {
+                          launchURL(link: "whatsapp://send?phone=${number.value.toString()}");
+                        } else {
+                          makePhoneCall("0${number.value.toString()}");
+                        }
+                      },
+                    ),
                   10.horizontalSpace,
                 ],
               );
@@ -56,7 +63,7 @@ class ItemDetialsLinksRow extends StatelessWidget {
             Row(
               children: [
                 LinksItemDetials(
-                  info: "Facebook",
+                  info: LocaleKeys.facebook.tr(),
                   onTap: () => launchURL(link: itemData.item!.social!.facebook!),
                 ),
                 10.horizontalSpace,
@@ -67,7 +74,7 @@ class ItemDetialsLinksRow extends StatelessWidget {
             Row(
               children: [
                 LinksItemDetials(
-                  info: "Instagram",
+                  info: LocaleKeys.instagram.tr(),
                   onTap: () => launchURL(link: itemData.item!.social!.instagram!),
                 ),
                 10.horizontalSpace,

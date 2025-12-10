@@ -47,7 +47,7 @@ class MapCategoryItem extends StatelessWidget {
           children: [
             isLoading
                 ? ShimmerBox(width: 40.w, height: 40.w, borderRadius: BorderRadius.circular(40))
-                : NetworkIcon(url: category.image, size: 40.w, color: ColorManager.primary),
+                : NetworkIcon(url: category.image, size: 30.w, color: ColorManager.primary),
 
             SizedBox(height: 6.h),
 
