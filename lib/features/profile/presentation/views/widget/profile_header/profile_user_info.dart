@@ -17,7 +17,7 @@ class ProfileUserInfo extends StatelessWidget {
     final user = prefs.getUserInfo();
 
     final String name = user?.name ?? "";
-    final String emailOrPhone = user?.emailOrPhone ?? "";
+    final String emailOrPhone = user?.email ?? user?.phone ?? "";
     final String? imageUrl = user?.image;
 
     final bool hasImage = imageUrl != null && imageUrl.isNotEmpty;

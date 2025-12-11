@@ -60,6 +60,7 @@ abstract class AppServiceClient {
   Future<ApiResponse<UserDataModel>> updateProfile({
     @Part(name: "name") String? name,
     @Part(name: "phone") String? phone,
+    @Part(name: "email") String? email,
     @Part(name: "gender") String? gender,
     @Part(name: "birthday") String? birthDate,
     @Part(name: "file") MultipartFile? image,

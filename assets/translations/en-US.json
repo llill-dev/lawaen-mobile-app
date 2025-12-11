@@ -160,6 +160,7 @@
   "onBoardingTitle":"Let's get started",
   "alreadyHaveAccount":"Already have an account?",
   "uploadProfileImage":"Upload Profile Image",
+  "uploadProfilePhoto": "Upload profile photo",
   "yourQR":"Your QR",
   "thankYou":"Thank You",
   "nearby":"Nearby",
@@ -179,6 +180,10 @@
   "popularPlaces" : "Popular Places",
   "filter" : "Filter",
   "all" : "All",
+  "selectYourGender": "Select your gender",
+  "genderMale": "Male",
+  "genderFemale": "Female",
+  "yourBirthDate": "Your birth date",
   "openInMap" : "Open in Map",
   "report" : "Report",
   "feedback" : "Feedback",
@@ -235,6 +240,8 @@
   "signInToContinue": "Please sign in to continue",
   "goToSite" : "Go to the site", 
   "facebook" : "Facebook", 
-  "instagram" : "Instagram"
+  "instagram" : "Instagram",
+  "changePassword": "Change password",
+  "updateProfile": "Update profile"
 
-}
+} 

@@ -37,6 +37,7 @@ class UpdateProfileScreen extends StatefulWidget {
 class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStateMixin {
   static const int _fullNameIndex = 0;
   static const int _phoneIndex = 1;
+  static const int _emailIndex = 2;
 
   final AppPreferences _prefs = getIt<AppPreferences>();
   final ImagePicker _imagePicker = ImagePicker();
@@ -48,6 +49,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
   String? _phoneNumber;
   String? _selectedGender;
   String? _birthDate;
+  String? _email;
 
   @override
   void initState() {
@@ -55,13 +57,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
     _user = _prefs.getUserInfo();
     _fullName = _user?.name;
     _phoneNumber = _user?.phone;
+    _email = _user?.email;
 
     form.controllers[_fullNameIndex].text = _fullName ?? "";
     form.controllers[_phoneIndex].text = _phoneNumber ?? "";
+    form.controllers[_emailIndex].text = _email ?? "";
   }
 
   @override
-  int numberOfFields() => 2;
+  int numberOfFields() => 3;
 
   void _onImageSelected(File file) {
     setState(() {
@@ -84,6 +88,10 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
     final String name = _fullName ?? "";
     final String? imageUrl = _user?.image;
     final bool hasImage = imageUrl != null && imageUrl.isNotEmpty;
+    final Map<String, String> genderLabels = {
+      "male": LocaleKeys.genderMale.tr(),
+      "female": LocaleKeys.genderFemale.tr(),
+    };
     return BlocListener<UpdateProfileCubit, UpdateProfileState>(
       bloc: cubit,
       listener: (context, state) {
@@ -150,6 +158,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                     onChanged: (value) => setState(() => _fullName = value),
                   ),
                   12.verticalSpace,
+
                   TextFiledItem(
                     title: LocaleKeys.phoneNumber.tr(),
                     controller: form.controllers[_phoneIndex],
@@ -157,15 +166,25 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                     onChanged: (value) => _phoneNumber = value,
                   ),
                   12.verticalSpace,
+
+                  TextFiledItem(
+                    title: LocaleKeys.emailAddress.tr(),
+                    controller: form.controllers[_emailIndex],
+                    onChanged: (value) => _email = value,
+                  ),
+                  12.verticalSpace,
+
                   DropDownItem(
-                    title: "selcet your gender",
-                    items: const ["male", "femal"],
+                    title: LocaleKeys.selectYourGender.tr(),
+                    items: const ["male", "female"],
+                    itemLabelBuilder: (value) => genderLabels[value] ?? value,
                     initialValue: _selectedGender,
                     onChanged: (value) => setState(() => _selectedGender = value),
                   ),
                   12.verticalSpace,
+
                   AppDatePickerField(
-                    title: "your Birth Date",
+                    title: LocaleKeys.yourBirthDate.tr(),
                     value: _birthDate,
                     onDateSelected: (date) {
                       final formattedDate =
@@ -175,22 +194,24 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                       });
                     },
                   ),
+
                   12.verticalSpace,
-                  TextFiledItem(title: "upload profile photo", readOnly: true, onTap: _pickProfileImage),
+                  TextFiledItem(title: LocaleKeys.uploadProfilePhoto.tr(), readOnly: true, onTap: _pickProfileImage),
 
                   24.verticalSpace,
                   PrimaryButton(
                     isLight: true,
                     withShadow: true,
-                    text: "chagne password",
+                    text: LocaleKeys.changePassword.tr(),
                     borederColor: ColorManager.primary,
                   ),
+
                   12.verticalSpace,
                   BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
                     bloc: cubit,
                     builder: (context, state) {
                       return PrimaryButton(
-                        text: "update Profile",
+                        text: LocaleKeys.updateProfile.tr(),
                         withShadow: true,
                         isLoading: state.updateState == RequestState.loading,
                         onPressed: () {
@@ -201,6 +222,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                               gender: _selectedGender,
                               birthDate: _birthDate,
                               profileImage: _profileImage,
+                              email: _email,
                             ),
                           );
                         },

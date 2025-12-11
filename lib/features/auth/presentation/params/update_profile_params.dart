@@ -15,7 +15,9 @@ class UpdateProfileParams {
   @JsonKey(includeToJson: false, includeFromJson: false)
   final File? profileImage;
 
-  UpdateProfileParams({this.name, this.phoneNumber, this.gender, this.birthDate, this.profileImage});
+  final String? email;
+
+  UpdateProfileParams({this.name, this.phoneNumber, this.gender, this.birthDate, this.profileImage, this.email});
 
   Map<String, dynamic> toJson() => _$UpdateProfileParamsToJson(this);
 }

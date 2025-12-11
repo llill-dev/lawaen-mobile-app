@@ -160,6 +160,7 @@
   "next":"التالي",
   "alreadyHaveAccount":"لديك حساب بالفعل؟",
   "uploadProfileImage" : "قم بتحميل صورة ملفك الشخصي",
+  "uploadProfilePhoto": "حمّل صورة الملف الشخصي",
   "yourQR":" الكود الخاص بك",
   "thankYou":"شكراً لك",
   "nearby":"قريب",
@@ -179,6 +180,10 @@
   "popularPlaces" : "أماكن مشهورة",
   "filter" : "تصفية",
   "all" : "الكل",
+  "selectYourGender": "اختر جنسك",
+  "genderMale": "ذكر",
+  "genderFemale": "أنثى",
+  "yourBirthDate": "تاريخ ميلادك",
   "back" : "العودة",
   "upcomingEvents" : "الفعاليات القادمة",
   "report" : "الإبلاغ",
@@ -233,8 +238,9 @@
   "noUpcomingEventDescription": "قم بجدولة حدثك الأول لبدء إدارة التقويم الخاص بك",
   "createEvent" : "قم بأنشأ حدثاً",
   "signInToContinue" : "يرجى تسجيل الدخول للمتابعة",
-    "goToSite" : "اذهب الى الموقع", 
+  "goToSite" : "اذهب الى الموقع", 
   "facebook" : "Facebook", 
-  "instagram" : "Instagram"
-
+  "instagram" : "Instagram",
+  "changePassword": "تغيير كلمة المرور",
+  "updateProfile": "تحديث الملف الشخصي"
 }

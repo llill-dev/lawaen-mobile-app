@@ -10,6 +10,7 @@ class DropDownItem extends StatelessWidget {
   final ValueChanged<String> onChanged;
   final bool withTitle;
   final String? initialValue;
+  final String Function(String value)? itemLabelBuilder;
   const DropDownItem({
     super.key,
     required this.title,
@@ -18,6 +19,7 @@ class DropDownItem extends StatelessWidget {
     this.withTitle = true,
     this.hit,
     this.initialValue,
+    this.itemLabelBuilder,
   });
 
   @override
@@ -67,7 +69,7 @@ class DropDownItem extends StatelessWidget {
             ),
 
             initialValue: initialValue,
-            items: items.map((e) => DropdownMenuItem(value: e, child: Text(e))).toList(),
+            items: items.map((e) => DropdownMenuItem(value: e, child: Text(itemLabelBuilder?.call(e) ?? e))).toList(),
             onChanged: (value) {
               if (value != null) onChanged(value);
             },

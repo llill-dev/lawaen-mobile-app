@@ -55,9 +55,9 @@ class AuthRepoImpl implements AuthRepo {
           refreshToken: response.data!.tokens.refreshToken,
         );
 
-        final emailOrPhone = user.email ?? user.phoneNumber;
-
-        await prefs.saveUserInfo(BasicUserInfo(name: user.name, emailOrPhone: emailOrPhone, image: user.image));
+        await prefs.saveUserInfo(
+          BasicUserInfo(name: user.name, email: user.email, image: user.image, phone: user.phoneNumber),
+        );
         prefs.setFirstTime(false);
         prefs.setGuest(false);
         return Right(response.data!.user);
@@ -83,7 +83,7 @@ class AuthRepoImpl implements AuthRepo {
         prefs.setFirstTime(false);
         prefs.setGuest(false);
         await prefs.saveUserInfo(
-          BasicUserInfo(name: user.name, emailOrPhone: user.email ?? user.phoneNumber, image: user.image),
+          BasicUserInfo(name: user.name, email: user.email, image: user.image, phone: user.phoneNumber),
         );
         return Right(response.data!.user);
       }
@@ -159,6 +159,7 @@ class AuthRepoImpl implements AuthRepo {
         gender: params.gender,
         image: imageFile,
         phone: params.phoneNumber,
+        email: params.email,
       );
 
       if (_successResponse(response)) {
@@ -170,12 +171,7 @@ class AuthRepoImpl implements AuthRepo {
         final user = response.data!.user;
 
         await prefs.saveUserInfo(
-          BasicUserInfo(
-            name: user.name,
-            emailOrPhone: user.email ?? user.phoneNumber,
-            image: user.image,
-            phone: user.phoneNumber,
-          ),
+          BasicUserInfo(name: user.name, email: user.email, image: user.image, phone: user.phoneNumber),
         );
         return Right(response.data!.user);
       }
