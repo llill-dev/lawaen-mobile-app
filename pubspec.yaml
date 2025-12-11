@@ -49,6 +49,7 @@ dependencies:
   json_annotation: ^4.9.0
   lottie: ^3.3.2
   otp_text_field_v2: ^1.0.3
+  package_info_plus: ^8.3.1
   permission_handler: ^12.0.1
   photo_view: ^0.15.0
   pretty_dio_logger: ^1.4.0
@@ -77,7 +78,6 @@ dev_dependencies:
 
 dependency_overrides:
   analyzer: ^8.1.1
-
 
 flutter:
   uses-material-design: true

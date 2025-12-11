@@ -1,14 +1,15 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/network/urls.dart';
 import 'package:lawaen/app/routes/router.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
-import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
 import 'package:lawaen/features/auth/data/repo/auth_repo_iplm.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 @lazySingleton
 class AuthInterceptor extends Interceptor {
@@ -17,12 +18,38 @@ class AuthInterceptor extends Interceptor {
 
   AuthInterceptor(this.appPreferences);
 
+  Future<String> _getBuildNumber() async {
+    final info = await PackageInfo.fromPlatform();
+    return info.buildNumber;
+  }
+
+  String _generateTimestamp() {
+    return DateTime.now().millisecondsSinceEpoch.toString();
+  }
+
+  String _generateSignature() {
+    final String secretKey = dotenv.env['X_Signature'] ?? "";
+    return secretKey;
+  }
+
   @override
   void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
     final token = appPreferences.accessToken;
-
     final path = options.path;
+
     final isAuthCall = path.contains(Urls.login) || path.contains(Urls.register) || path.contains(Urls.refreshToken);
+
+    final timestamp = _generateTimestamp();
+    final buildNumber = await _getBuildNumber();
+
+    final signature = _generateSignature();
+
+    options.headers.addAll({
+      "x-timestamp": timestamp,
+      "x-signature": signature,
+      "User-Agent": "lawaenApp/$buildNumber",
+      "Content-Type": "application/json",
+    });
 
     if (token.isNotEmpty && !isAuthCall) {
       options.headers['Authorization'] = "Bearer $token";
@@ -41,13 +68,11 @@ class AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final statusCode = err.response?.statusCode ?? 400;
 
-    // If not 401 → normal behavior
     if (statusCode != 401) {
       handler.next(err);
       return;
     }
 
-    // Prevent infinite loop
     if (_isRefreshing) {
       handler.next(err);
       return;
@@ -57,35 +82,30 @@ class AuthInterceptor extends Interceptor {
 
     try {
       final authRepo = getIt<AuthRepoImpl>();
-
       final refreshResult = await authRepo.refreshToken();
 
       await refreshResult.fold(
         (error) async {
-          // refresh failed → logout and go to Login
           await appPreferences.logout();
           getIt<AppRouter>().replace(const LoginRoute());
           handler.next(err);
         },
         (_) async {
-          // refresh success → retry original request with new token
           final newToken = appPreferences.accessToken;
 
           final requestOptions = err.requestOptions;
           requestOptions.headers['Authorization'] = "Bearer $newToken";
 
           final dio = getIt<Dio>();
+
           try {
             final response = await dio.fetch(requestOptions);
             handler.resolve(response);
-          } catch (e) {
+          } catch (_) {
             handler.next(err);
           }
         },
       );
-    } catch (e, st) {
-      log('Error during token refresh: $e\n$st');
-      handler.next(err);
     } finally {
       _isRefreshing = false;
     }

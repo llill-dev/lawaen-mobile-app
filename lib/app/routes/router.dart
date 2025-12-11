@@ -9,7 +9,7 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(page: SplashRoute.page, initial: false),
+    AutoRoute(page: SplashRoute.page, initial: true),
 
     // Home
     AutoRoute(page: HomeRoute.page),
@@ -49,7 +49,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: RatingsRoute.page),
     AutoRoute(page: FavoritesRoute.page),
     AutoRoute(page: ContactUsRoute.page),
-    AutoRoute(page: UpdateProfileRoute.page, initial: true),
+    AutoRoute(page: UpdateProfileRoute.page),
 
     //map
     AutoRoute(page: NearbyMapRoute.page),
