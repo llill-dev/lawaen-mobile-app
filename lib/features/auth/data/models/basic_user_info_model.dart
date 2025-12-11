@@ -7,8 +7,9 @@ class BasicUserInfo {
   final String name;
   final String? emailOrPhone;
   final String? image;
+  final String? phone;
 
-  BasicUserInfo({required this.name, this.emailOrPhone, this.image});
+  BasicUserInfo({required this.name, this.emailOrPhone, this.image, this.phone});
 
   factory BasicUserInfo.fromJson(Map<String, dynamic> json) => _$BasicUserInfoFromJson(json);
 

@@ -25,7 +25,7 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<ErrorModel, List<CityModel>>> getCities() async {
     try {
       final response = await appServiceClient.getCities();
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
@@ -39,7 +39,7 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<ErrorModel, List<CategoryModel>>> getCategories() async {
     try {
       final response = await appServiceClient.getCategories();
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
@@ -53,7 +53,7 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<ErrorModel, List<EventModel>>> getHomeEvents(GetEventsParams params) async {
     try {
       final response = await appServiceClient.getHomeEvents(params: params);
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

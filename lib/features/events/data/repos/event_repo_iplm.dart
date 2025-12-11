@@ -23,7 +23,7 @@ class EventRepoImpl implements EventRepo {
   Future<Either<ErrorModel, List<EventTypeModel>>> getEventTypes() async {
     try {
       final response = await appServiceClient.getEventTypes();
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
@@ -40,7 +40,7 @@ class EventRepoImpl implements EventRepo {
   }) async {
     try {
       final response = await appServiceClient.getEvents(params: params, id: eventTypeId);
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

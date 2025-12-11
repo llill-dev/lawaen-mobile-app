@@ -23,7 +23,7 @@ class CategoryItemDetailsRepoImpl implements CategoryItemDetailsRepo {
   }) async {
     try {
       final response = await appServiceClient.getItemData(secondId: secondCategoryId, id: itemId);
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

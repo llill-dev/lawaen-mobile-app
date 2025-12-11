@@ -28,7 +28,7 @@ class MapRepoImpl implements MapRepo {
     try {
       final response = await appServiceClient.searchLocation(params: params);
 
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
 
@@ -56,7 +56,7 @@ class MapRepoImpl implements MapRepo {
   Future<Either<ErrorModel, List<MapMarkerModel>>> getMapMarkers() async {
     try {
       final response = await appServiceClient.getMapMarkers();
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

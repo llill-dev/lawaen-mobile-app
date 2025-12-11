@@ -28,7 +28,7 @@ class CategoryDetailsRepoImpl implements CategoryDetailsRepo {
       final response = useSecondCategory
           ? await appServiceClient.getCategoryDetailsBySecond(id: id, params: params)
           : await appServiceClient.getCategoryDetails(id: id, params: params);
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
@@ -43,7 +43,7 @@ class CategoryDetailsRepoImpl implements CategoryDetailsRepo {
     try {
       final response = await appServiceClient.searchLocation(params: params);
 
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
 

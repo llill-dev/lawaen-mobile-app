@@ -23,7 +23,7 @@ class OffersRepoImpl implements OffersRepo {
   Future<Either<ErrorModel, List<OfferTypeModel>>> getOfferTypes() async {
     try {
       final response = await appServiceClient.getOfferType();
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
@@ -37,7 +37,7 @@ class OffersRepoImpl implements OffersRepo {
   Future<Either<ErrorModel, List<OfferModel>>> getOffers({required GetOffersParams params}) async {
     try {
       final response = await appServiceClient.getOffers(params: params);
-      if (response.status && response.data != null) {
+      if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

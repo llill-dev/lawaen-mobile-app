@@ -170,7 +170,12 @@ class AuthRepoImpl implements AuthRepo {
         final user = response.data!.user;
 
         await prefs.saveUserInfo(
-          BasicUserInfo(name: user.name, emailOrPhone: user.email ?? user.phoneNumber, image: user.image),
+          BasicUserInfo(
+            name: user.name,
+            emailOrPhone: user.email ?? user.phoneNumber,
+            image: user.image,
+            phone: user.phoneNumber,
+          ),
         );
         return Right(response.data!.user);
       }
@@ -187,6 +192,6 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   bool _successResponse(ApiResponse response) {
-    return response.data != null && response.status;
+    return response.data != null && response.status == true;
   }
 }

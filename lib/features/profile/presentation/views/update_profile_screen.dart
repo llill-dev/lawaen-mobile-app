@@ -17,6 +17,7 @@ import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_item.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
 import 'package:lawaen/features/auth/data/models/basic_user_info_model.dart';
@@ -53,7 +54,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
     super.initState();
     _user = _prefs.getUserInfo();
     _fullName = _user?.name;
-    _phoneNumber = _user?.emailOrPhone;
+    _phoneNumber = _user?.phone;
 
     form.controllers[_fullNameIndex].text = _fullName ?? "";
     form.controllers[_phoneIndex].text = _phoneNumber ?? "";
@@ -91,25 +92,8 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
         }
 
         if (state.updateState == RequestState.success) {
-          final updatedUser = state.user;
-
-          if (updatedUser != null) {
-            setState(() {
-              _user = BasicUserInfo(
-                name: updatedUser.name,
-                emailOrPhone: updatedUser.email ?? updatedUser.phoneNumber,
-                image: updatedUser.image,
-              );
-              _fullName = updatedUser.name;
-              _phoneNumber = updatedUser.phoneNumber ?? _phoneNumber;
-
-              form.controllers[_fullNameIndex].text = _fullName ?? "";
-              form.controllers[_phoneIndex].text = _phoneNumber ?? "";
-            });
-          }
-
           showToast(message: LocaleKeys.success.tr(), isSuccess: true);
-          context.router.pop();
+          context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
         }
       },
       child: Scaffold(
@@ -210,7 +194,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                         withShadow: true,
                         isLoading: state.updateState == RequestState.loading,
                         onPressed: () {
-                          print("update profile, $_phoneNumber");
                           cubit.updateProfile(
                             params: UpdateProfileParams(
                               name: _fullName,

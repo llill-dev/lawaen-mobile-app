@@ -57,7 +57,7 @@ class HomeCubit extends Cubit<HomeState> {
       (cities) async {
         emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
         await _loadUserLocation();
-        //getHomeEvents();
+        getHomeEvents();
         await _tryRegisterFcmToken();
       },
     );

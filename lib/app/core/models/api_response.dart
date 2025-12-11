@@ -5,7 +5,7 @@ part 'api_response.g.dart';
 
 @JsonSerializable(genericArgumentFactories: true)
 class ApiResponse<T> extends Equatable {
-  final bool status;
+  final bool? status;
   final String? message;
   final T? data;
 
