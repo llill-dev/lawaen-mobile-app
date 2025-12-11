@@ -28,6 +28,9 @@
   "enterDetailsToAccessAccount": "أدخل معلوماتك للوصول إلى حسابك",
   "invalidEmailAddress": "بريد الكتروني غير صحيح",
   "password": "كلمة المرور",
+  "oldPassword": "كلمة المرور القديمة",
+  "newPassword": "كلمة المرور الجديدة",
+  "emailOrPhone": "البريد الإلكتروني أو الهاتف",
   "signIn": "تسجيل الدخول",
   "signUp": "إنشاء حساب",
   "skip": "تخطي",
@@ -242,5 +245,8 @@
   "facebook" : "Facebook", 
   "instagram" : "Instagram",
   "changePassword": "تغيير كلمة المرور",
-  "updateProfile": "تحديث الملف الشخصي"
+  "updateProfile": "تحديث الملف الشخصي",
+  "oldPasswordRequired" : "كلمة المرور القديمة مطلوبة",
+  "newPasswordRequired": "كلمة المرور الجديدة مطلوبة", 
+  "emailOrPhoneRequired" :"البريد الالكتروني او رقم الهاتف مطلوب"
 }

@@ -24,6 +24,7 @@ import 'package:lawaen/features/auth/data/models/basic_user_info_model.dart';
 import 'package:lawaen/features/auth/presentation/params/update_profile_params.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_container.dart';
 import 'package:lawaen/features/profile/presentation/cubit/update_profile_cubit_cubit.dart';
+import 'package:lawaen/features/profile/presentation/views/widget/update_profile/change_password_bottom_sheet.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @RoutePage()
@@ -109,6 +110,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
           child: Form(
             key: form.key,
             child: SingleChildScrollView(
+              clipBehavior: Clip.none,
               child: Column(
                 children: [
                   HomeAppBarContainer(
@@ -198,14 +200,6 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                   12.verticalSpace,
                   TextFiledItem(title: LocaleKeys.uploadProfilePhoto.tr(), readOnly: true, onTap: _pickProfileImage),
 
-                  24.verticalSpace,
-                  PrimaryButton(
-                    isLight: true,
-                    withShadow: true,
-                    text: LocaleKeys.changePassword.tr(),
-                    borederColor: ColorManager.primary,
-                  ),
-
                   12.verticalSpace,
                   BlocBuilder<UpdateProfileCubit, UpdateProfileState>(
                     bloc: cubit,
@@ -228,6 +222,15 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                         },
                       );
                     },
+                  ),
+
+                  24.verticalSpace,
+                  PrimaryButton(
+                    isLight: true,
+                    withShadow: true,
+                    text: LocaleKeys.changePassword.tr(),
+                    borederColor: ColorManager.primary,
+                    onPressed: () => showChangePasswordBottomSheet(context),
                   ),
                 ],
               ),

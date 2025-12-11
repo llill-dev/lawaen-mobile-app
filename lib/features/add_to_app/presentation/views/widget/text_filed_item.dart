@@ -12,10 +12,12 @@ class TextFiledItem extends StatelessWidget {
   final bool? readOnly;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
+  final String? Function(String?)? validator;
   final Color? fillColor;
   final TextInputType? keyboardType;
   final bool withHint;
   final VoidCallback? onTap;
+  final bool isFieldObscure;
   const TextFiledItem({
     super.key,
     required this.title,
@@ -25,10 +27,12 @@ class TextFiledItem extends StatelessWidget {
     this.hintText,
     this.readOnly,
     this.onChanged,
+    this.validator,
     this.fillColor,
     this.keyboardType,
     this.onTap,
     this.withHint = true,
+    this.isFieldObscure = false,
   });
 
   @override
@@ -41,6 +45,7 @@ class TextFiledItem extends StatelessWidget {
         8.verticalSpace,
         CustomTextField(
           hint: withHint ? hintText ?? title : null,
+          isFieldObscure: isFieldObscure,
           readOnly: readOnly ?? false,
           fillColor: fillColor ?? ColorManager.blackSwatch[2],
           horizontalContentPadding: 8.w,
@@ -51,6 +56,7 @@ class TextFiledItem extends StatelessWidget {
           onChanged: onChanged,
           keyboardType: keyboardType,
           onTap: onTap,
+          validator: validator,
         ),
       ],
     ).horizontalPadding(padding: withTitle ? 16.w : 0);
