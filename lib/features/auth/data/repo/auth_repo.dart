@@ -4,6 +4,7 @@ import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
 import 'package:lawaen/features/auth/presentation/params/register_params.dart';
+import 'package:lawaen/features/auth/presentation/params/update_profile_params.dart';
 
 abstract class AuthRepo {
   Future<Either<ErrorModel, UserModel>> register(RegisterParams params);
@@ -13,4 +14,6 @@ abstract class AuthRepo {
   Future<Either<ErrorModel, UserModel>> chagnePassword(ChangePasswordParams params);
 
   Future<Either<ErrorModel, Unit>> refreshToken();
+
+  Future<Either<ErrorModel, UserModel>> updateProfile(UpdateProfileParams params);
 }

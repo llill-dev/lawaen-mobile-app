@@ -55,6 +55,16 @@ abstract class AppServiceClient {
     @Part(name: "file") MultipartFile? image,
   });
 
+  @MultiPart()
+  @POST(Urls.updateProfile)
+  Future<ApiResponse<UserDataModel>> updateProfile({
+    @Part(name: "name") String? name,
+    @Part(name: "phone") String? phone,
+    @Part(name: "gender") String? gender,
+    @Part(name: "birthday") String? birthDate,
+    @Part(name: "file") MultipartFile? image,
+  });
+
   @POST(Urls.changePassword)
   Future<ApiResponse<UserDataModel>> changePassword(@Body() ChangePasswordParams params);
 

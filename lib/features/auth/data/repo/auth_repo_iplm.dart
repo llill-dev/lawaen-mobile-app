@@ -16,6 +16,7 @@ import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
 import 'package:lawaen/features/auth/presentation/params/register_params.dart';
+import 'package:lawaen/features/auth/presentation/params/update_profile_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @Injectable(as: AuthRepo)
@@ -136,6 +137,47 @@ class AuthRepoImpl implements AuthRepo {
     } catch (e) {
       log("Unexpected refreshToken error: $e");
       return Left(ErrorModel(errorMessage: "Unexpected error refreshing token"));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, UserModel>> updateProfile(UpdateProfileParams params) async {
+    try {
+      MultipartFile? imageFile;
+
+      if (params.profileImage != null) {
+        log("image is uploaded");
+        imageFile = await MultipartFile.fromFile(
+          params.profileImage!.path,
+          filename: params.profileImage!.path.split('/').last,
+        );
+      }
+
+      final response = await appServiceClient.updateProfile(
+        name: params.name,
+        birthDate: params.birthDate,
+        gender: params.gender,
+        image: imageFile,
+      );
+
+      if (_successResponse(response)) {
+        await _saveTokens(
+          accessToken: response.data!.tokens.accessToken,
+          refreshToken: response.data!.tokens.refreshToken,
+        );
+
+        final user = response.data!.user;
+
+        await prefs.saveUserInfo(
+          BasicUserInfo(name: user.name, emailOrPhone: user.email ?? user.phoneNumber, image: user.image),
+        );
+        return Right(response.data!.user);
+      }
+
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("login error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
 

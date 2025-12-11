@@ -1,0 +1,154 @@
+{
+  "routes": [
+    {
+      "route": "splash",
+      "screen": "SplashRoute",
+      "params": []
+    },
+    {
+      "route": "home",
+      "screen": "HomeRoute",
+      "params": []
+    },
+    {
+      "route": "navigation_controller",
+      "screen": "NavigationControllerRoute",
+      "params": []
+    },
+    {
+      "route": "notifications",
+      "screen": "NotificationRoute",
+      "params": []
+    },
+    {
+      "route": "notification_details",
+      "screen": "NotificationDetailsRoute",
+      "params": ["id"]
+    },
+    {
+      "route": "category",
+      "screen": "CategoryRoute",
+      "params": []
+    },
+    {
+      "route": "category_details",
+      "screen": "CategoryDetailsRoute",
+      "params": ["categoryId"]
+    },
+    {
+      "route": "category_item_details",
+      "screen": "CategoryItemDetialsRoute",
+      "params": ["subCategoryId", "itemId"]
+    },
+    {
+      "route": "menu",
+      "screen": "MuneRoute",
+      "params": []
+    },
+    {
+      "route": "feedback",
+      "screen": "FeedbackRoute",
+      "params": []
+    },
+    {
+      "route": "feedback_chat",
+      "screen": "FeedbackChatRoute",
+      "params": ["chatId"]
+    },
+    {
+      "route": "add",
+      "screen": "AddRoute",
+      "params": []
+    },
+    {
+      "route": "add_event",
+      "screen": "AddEventRoute",
+      "params": []
+    },
+    {
+      "route": "add_offer",
+      "screen": "AddOfferRoute",
+      "params": []
+    },
+    {
+      "route": "add_missing_place",
+      "screen": "AddMissingPlaceRoute",
+      "params": []
+    },
+    {
+      "route": "services_manager",
+      "screen": "ServicesManagerRoute",
+      "params": []
+    },
+    {
+      "route": "menu_manager",
+      "screen": "MuneManagerRoute",
+      "params": []
+    },
+    {
+      "route": "claim",
+      "screen": "ClaimRoute",
+      "params": []
+    },
+    {
+      "route": "map_picker",
+      "screen": "MapPickerRoute",
+      "params": []
+    },
+    {
+      "route": "event_details",
+      "screen": "EventsDetailsRoute",
+      "params": ["eventId"]
+    },
+    {
+      "route": "onboarding",
+      "screen": "OnboardingRoute",
+      "params": []
+    },
+    {
+      "route": "login",
+      "screen": "LoginRoute",
+      "params": []
+    },
+    {
+      "route": "register",
+      "screen": "RegisterRoute",
+      "params": []
+    },
+    {
+      "route": "qr_code",
+      "screen": "QrCodeRoute",
+      "params": []
+    },
+    {
+      "route": "profile",
+      "screen": "ProfileRoute",
+      "params": []
+    },
+    {
+      "route": "ratings",
+      "screen": "RatingsRoute",
+      "params": []
+    },
+    {
+      "route": "favorites",
+      "screen": "FavoritesRoute",
+      "params": []
+    },
+    {
+      "route": "contact_us",
+      "screen": "ContactUsRoute",
+      "params": []
+    },
+    {
+      "route": "update_profile",
+      "screen": "UpdateProfileRoute",
+      "params": []
+    },
+    {
+      "route": "map_nearby",
+      "screen": "NearbyMapRoute",
+      "params": []
+    }
+  ]
+}

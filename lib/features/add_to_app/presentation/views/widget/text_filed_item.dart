@@ -15,6 +15,7 @@ class TextFiledItem extends StatelessWidget {
   final Color? fillColor;
   final TextInputType? keyboardType;
   final bool withHint;
+  final VoidCallback? onTap;
   const TextFiledItem({
     super.key,
     required this.title,
@@ -26,6 +27,7 @@ class TextFiledItem extends StatelessWidget {
     this.onChanged,
     this.fillColor,
     this.keyboardType,
+    this.onTap,
     this.withHint = true,
   });
 
@@ -48,6 +50,7 @@ class TextFiledItem extends StatelessWidget {
           controller: controller,
           onChanged: onChanged,
           keyboardType: keyboardType,
+          onTap: onTap,
         ),
       ],
     ).horizontalPadding(padding: withTitle ? 16.w : 0);
