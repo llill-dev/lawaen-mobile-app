@@ -158,6 +158,7 @@ class AuthRepoImpl implements AuthRepo {
         birthDate: params.birthDate,
         gender: params.gender,
         image: imageFile,
+        phone: params.phoneNumber,
       );
 
       if (_successResponse(response)) {

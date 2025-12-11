@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/app_prefs.dart';
@@ -5,6 +6,7 @@ import 'package:lawaen/app/core/widgets/cached_image.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 
 class ProfileUserInfo extends StatelessWidget {
   const ProfileUserInfo({super.key});
@@ -61,10 +63,13 @@ class ProfileUserInfo extends StatelessWidget {
 
         SizedBox(width: 12.w),
 
-        CircleAvatar(
-          radius: 20.r,
-          backgroundColor: ColorManager.white.withValues(alpha: 0.2),
-          child: const Icon(Icons.edit, color: ColorManager.white),
+        GestureDetector(
+          onTap: () => context.router.push(UpdateProfileRoute()),
+          child: CircleAvatar(
+            radius: 20.r,
+            backgroundColor: ColorManager.white.withValues(alpha: 0.2),
+            child: const Icon(Icons.edit, color: ColorManager.white),
+          ),
         ),
       ],
     );

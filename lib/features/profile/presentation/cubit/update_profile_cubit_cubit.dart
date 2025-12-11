@@ -16,7 +16,7 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
 
   UpdateProfileCubit(this._authRepo) : super(const UpdateProfileState());
 
-  Future<void> updateProfile(UpdateProfileParams params) async {
+  Future<void> updateProfile({required UpdateProfileParams params}) async {
     emit(state.copyWith(updateState: RequestState.loading, updateError: null));
 
     final result = await _authRepo.updateProfile(params);
