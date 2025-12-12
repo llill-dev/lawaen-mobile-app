@@ -88,6 +88,9 @@ abstract class AppServiceClient {
   @POST(Urls.registerFcmToken)
   Future<RegisterFcmTokenModel> registerFcmToken({@Body() required RegisterFcmTokenParams params});
 
+  @GET(Urls.homeData)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getHomeData({@Queries() required GetCategoryDetailsParams params});
+
   //category details
   @GET(Urls.getCategoryDetails)
   Future<ApiResponse<List<CategoryDetailsModel>>> getCategoryDetails({

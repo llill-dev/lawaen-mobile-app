@@ -10,6 +10,8 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/data/models/category_details_model.dart';
+import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 
 import '../../../data/models/category_model.dart';
@@ -57,8 +59,9 @@ class HomeCubit extends Cubit<HomeState> {
       (cities) async {
         emit(state.copyWith(citiesState: RequestState.success, cities: cities, citiesError: null));
         await _loadUserLocation();
-        getHomeEvents();
-        await _tryRegisterFcmToken();
+        await getHomeEvents();
+        await getHomeData();
+        _tryRegisterFcmToken();
       },
     );
   }
@@ -111,6 +114,69 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (events) {
         emit(state.copyWith(evetnsState: RequestState.success, events: events, eventsError: null));
+      },
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // CATEGORY DETAILS
+  // ────────────────────────────────────────────────
+  Future<void> getHomeData({bool isLoadMore = false}) async {
+    if (state.currentCity == null) return;
+
+    if (isLoadMore) {
+      if (!state.homeDataHasMore || state.isLoadMore) return;
+      emit(state.copyWith(isLoadMore: true));
+    } else {
+      emit(
+        state.copyWith(
+          categoryDetailsState: RequestState.loading,
+          categoryDetailsError: null,
+          globalError: null,
+          categoryDetails: [],
+          isLoadMore: false,
+          homeDataCurrentPage: 1,
+          homeDataHasMore: true,
+        ),
+      );
+    }
+
+    final location = await _locationService.getBestEffortLocation();
+
+    final params = GetCategoryDetailsParams(
+      cityId: state.currentCity?.id ?? location.cityId ?? "",
+      latitude: state.userLatitude ?? location.latitude,
+      longitude: state.userLongitude ?? location.longitude,
+      limit: state.homeDataLimit,
+      page: state.homeDataCurrentPage,
+    );
+
+    final result = await _homeRepo.getHomeData(params);
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            categoryDetailsState: RequestState.error,
+            categoryDetailsError: failure.errorMessage,
+            globalError: failure.errorMessage,
+            isLoadMore: false,
+          ),
+        );
+      },
+      (newItems) {
+        final updatedList = isLoadMore ? [...state.categoryDetails, ...newItems] : newItems;
+
+        emit(
+          state.copyWith(
+            categoryDetailsState: RequestState.success,
+            categoryDetails: updatedList,
+            categoryDetailsError: null,
+            isLoadMore: false,
+            homeDataCurrentPage: newItems.isEmpty ? state.homeDataCurrentPage : state.homeDataCurrentPage + 1,
+            homeDataHasMore: newItems.isNotEmpty,
+          ),
+        );
       },
     );
   }

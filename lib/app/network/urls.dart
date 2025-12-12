@@ -13,6 +13,7 @@ class Urls {
   static const String getMapMarkers = "category/get_main";
   static const String getHomeEvents = "event/event_home";
   static const String registerFcmToken = "fcm/save_fcm";
+  static const String homeData = "location/home_data";
   //event
   static const String getEventTypes = "event/event_type";
   static const String getEvents = "event/event_by_category/{id}";
@@ -23,10 +24,10 @@ class Urls {
   static const String addOffer = "req_data/add_offer";
 
   //category details
-  static const String getCategoryDetails = "/location/by_basic/{id}";
-  static const String getCategoryDetailsBySecond = "/location/by_second/{id}";
+  static const String getCategoryDetails = "location/by_basic/{id}";
+  static const String getCategoryDetailsBySecond = "location/by_second/{id}";
 
-  static const String getItemData = "/location/by_id/{second_id}/{id}";
+  static const String getItemData = "location/by_id/{second_id}/{id}";
 
   static const String searchLocation = "location/search";
 

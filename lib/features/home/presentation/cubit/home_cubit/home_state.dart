@@ -23,6 +23,15 @@ class HomeState extends Equatable {
   final List<EventModel> events;
   final String? eventsError;
 
+  // CATEGORY DETAILS
+  final RequestState categoryDetailsState;
+  final List<CategoryDetailsModel> categoryDetails;
+  final String? categoryDetailsError;
+  final bool isLoadMore;
+  final int homeDataCurrentPage;
+  final int homeDataLimit;
+  final bool homeDataHasMore;
+
   // GLOBAL
   final String? globalError;
 
@@ -41,6 +50,13 @@ class HomeState extends Equatable {
     this.evetnsState = RequestState.idle,
     this.events = const [],
     this.eventsError,
+    this.categoryDetailsState = RequestState.idle,
+    this.categoryDetails = const [],
+    this.categoryDetailsError,
+    this.isLoadMore = false,
+    this.homeDataCurrentPage = 1,
+    this.homeDataLimit = 10,
+    this.homeDataHasMore = true,
     this.globalError,
   });
 
@@ -67,6 +83,15 @@ class HomeState extends Equatable {
     final List<EventModel>? events,
     final String? eventsError,
 
+    // category details
+    final RequestState? categoryDetailsState,
+    final List<CategoryDetailsModel>? categoryDetails,
+    final String? categoryDetailsError,
+    final bool? isLoadMore,
+    final int? homeDataCurrentPage,
+    final int? homeDataLimit,
+    final bool? homeDataHasMore,
+
     // global
     String? globalError,
   }) {
@@ -86,9 +111,17 @@ class HomeState extends Equatable {
       userLongitude: userLongitude ?? this.userLongitude,
       currentCity: currentCity ?? this.currentCity,
 
-      evetnsState: citiesState ?? this.evetnsState,
+      evetnsState: evetnsState ?? this.evetnsState,
       events: events ?? this.events,
-      eventsError: eventsError ?? this.eventsError,
+      eventsError: eventsError,
+
+      categoryDetailsState: categoryDetailsState ?? this.categoryDetailsState,
+      categoryDetails: categoryDetails ?? this.categoryDetails,
+      categoryDetailsError: categoryDetailsError,
+      isLoadMore: isLoadMore ?? this.isLoadMore,
+      homeDataCurrentPage: homeDataCurrentPage ?? this.homeDataCurrentPage,
+      homeDataLimit: homeDataLimit ?? this.homeDataLimit,
+      homeDataHasMore: homeDataHasMore ?? this.homeDataHasMore,
 
       globalError: globalError,
     );
@@ -114,6 +147,14 @@ class HomeState extends Equatable {
     evetnsState,
     events,
     eventsError,
+
+    categoryDetailsState,
+    categoryDetails,
+    categoryDetailsError,
+    isLoadMore,
+    homeDataCurrentPage,
+    homeDataLimit,
+    homeDataHasMore,
 
     globalError,
   ];

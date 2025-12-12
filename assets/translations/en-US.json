@@ -247,6 +247,7 @@
   "changePassword": "Change password",
   "updateProfile": "Update profile",
   "passwordUpdatedSuccessfully": "Password updated successfully",
-  "profileUpdatedSuccessfully": "Profile updated successfully"
+  "profileUpdatedSuccessfully": "Profile updated successfully",
+  "directions": "Directions"
 
 } 

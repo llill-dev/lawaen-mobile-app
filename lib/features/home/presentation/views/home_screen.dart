@@ -6,7 +6,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
-import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_social_links.dart';
@@ -31,12 +30,28 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeCubit cubit;
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     cubit = context.read<HomeCubit>();
     //cubit.initHome();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    if (_scrollController.position.extentAfter < 200) {
+      cubit.getHomeData(isLoadMore: true);
+    }
   }
 
   @override
@@ -57,6 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: CustomRefreshIndcator(
           onRefresh: () async => cubit.initHome(),
           child: CustomScrollView(
+            controller: _scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(child: const HomeAppBar()),
@@ -84,15 +100,9 @@ class _HomeScreenState extends State<HomeScreen> {
               buildSpace(),
 
               SliverToBoxAdapter(
-                child: Row(
-                  children: [
-                    Text(LocaleKeys.popularPlaces.tr(), style: Theme.of(context).textTheme.headlineMedium),
-                    const Spacer(),
-                    Text(
-                      LocaleKeys.viewAll.tr(),
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
-                    ),
-                  ],
+                child: Text(
+                  LocaleKeys.popularPlaces.tr(),
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ).horizontalPadding(padding: 16.w),
               ),
 

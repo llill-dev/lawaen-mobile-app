@@ -250,5 +250,6 @@
   "newPasswordRequired": "كلمة المرور الجديدة مطلوبة", 
   "emailOrPhoneRequired" :"البريد الالكتروني او رقم الهاتف مطلوب",
   "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح",
-  "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح"
+  "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح",
+  "directions": "العنوان"
 }

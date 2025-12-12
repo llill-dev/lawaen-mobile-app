@@ -9,10 +9,12 @@ import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
+import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -73,6 +75,21 @@ class HomeRepoImpl implements HomeRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("register fcm error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getHomeData(GetCategoryDetailsParams params) async {
+    try {
+      final response = await appServiceClient.getHomeData(params: params);
+
+      if (response.status == true && response.data != null) {
+        return Right(response.data!);
+      }
+
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
