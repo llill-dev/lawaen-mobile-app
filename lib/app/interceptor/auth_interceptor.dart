@@ -25,19 +25,13 @@ class AuthInterceptor extends Interceptor {
     return info.buildNumber;
   }
 
-  // Backend DOES NOT include /user/v2 in signatures
   String _normalizePath(String path) {
-    // 1. If already correct → return
     if (path.startsWith("/user/v2")) {
       return path;
     }
-
-    // 2. If starts with "/" but missing /user/v2
     if (path.startsWith("/")) {
-      return "/user/v2$path"; // append after leading slash
+      return "/user/v2$path";
     }
-
-    // 3. If missing "/" entirely → Retrofit gives "event/event_home"
     return "/user/v2/$path";
   }
 
@@ -47,15 +41,17 @@ class AuthInterceptor extends Interceptor {
   Map<String, dynamic> _mergeRequestData(RequestOptions options) {
     final Map<String, dynamic> data = {};
 
-    // Query parameters always included in signature
     options.queryParameters.forEach((key, value) {
-      data[key] = value.toString();
+      if (value != null) {
+        data[key] = value.toString();
+      }
     });
 
-    // Body (JSON only)
     if (options.data is Map) {
       (options.data as Map).forEach((key, value) {
-        data[key] = value.toString();
+        if (value != null) {
+          data[key] = value; // keep real type
+        }
       });
     }
 

@@ -6,6 +6,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
+import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/update_profile_params.dart';
 
 part 'update_profile_cubit_state.dart';
@@ -29,6 +30,21 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
       (user) {
         emit(state.copyWith(updateState: RequestState.success, user: user, updateError: null));
       },
+    );
+  }
+
+  Future<void> changePassword({
+    required String oldPassword,
+    required String newPassword,
+    required String phoneNumberOrEmail,
+  }) async {
+    emit(state.copyWith(changePasswordState: RequestState.loading, changePasswordError: null));
+    final result = await _authRepo.chagnePassword(
+      ChangePasswordParams(oldPassword: oldPassword, newPassword: newPassword, login: phoneNumberOrEmail),
+    );
+    result.fold(
+      (error) => emit(state.copyWith(changePasswordState: RequestState.error, changePasswordError: error.errorMessage)),
+      (_) => emit(state.copyWith(changePasswordState: RequestState.success, changePasswordError: null)),
     );
   }
 }

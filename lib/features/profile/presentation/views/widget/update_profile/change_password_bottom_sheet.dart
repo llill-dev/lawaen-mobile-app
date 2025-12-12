@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/utils/form_state_mixin.dart';
 import 'package:lawaen/app/core/utils/form_utils.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/features/add_to_app/presentation/views/widget/text_filed_item.dart';
-import 'package:lawaen/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:lawaen/features/profile/presentation/cubit/update_profile_cubit_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 const int _oldPasswordIndex = 0;
@@ -40,16 +41,16 @@ class _ChangePasswordBottomSheetState extends State<_ChangePasswordBottomSheet> 
 
   @override
   Widget build(BuildContext context) {
-    final authCubit = getIt<AuthCubit>();
-    return BlocConsumer<AuthCubit, AuthState>(
+    final authCubit = getIt<UpdateProfileCubit>();
+    return BlocConsumer<UpdateProfileCubit, UpdateProfileState>(
       bloc: authCubit,
       listener: (context, state) {
-        if (state is AuthSuccess) {
-          showToast(message: LocaleKeys.success.tr(), isSuccess: true);
+        if (state.changePasswordState == RequestState.success) {
+          showToast(message: LocaleKeys.passwordUpdatedSuccessfully.tr(), isSuccess: true);
           context.router.pop();
         }
-        if (state is AuthFailure) {
-          showToast(message: state.errorMessage, isError: true);
+        if (state.changePasswordState == RequestState.error) {
+          showToast(message: state.changePasswordError ?? LocaleKeys.defaultError.tr(), isError: true);
         }
       },
       builder: (context, state) {
@@ -119,7 +120,7 @@ class _ChangePasswordBottomSheetState extends State<_ChangePasswordBottomSheet> 
                     PrimaryButton(
                       text: LocaleKeys.submit.tr(),
                       withShadow: true,
-                      isLoading: state is AuthLoading,
+                      isLoading: state.changePasswordState == RequestState.loading,
                       onPressed: () {
                         if (form.key.currentState?.validate() == true) {
                           authCubit.changePassword(

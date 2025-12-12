@@ -248,5 +248,7 @@
   "updateProfile": "تحديث الملف الشخصي",
   "oldPasswordRequired" : "كلمة المرور القديمة مطلوبة",
   "newPasswordRequired": "كلمة المرور الجديدة مطلوبة", 
-  "emailOrPhoneRequired" :"البريد الالكتروني او رقم الهاتف مطلوب"
+  "emailOrPhoneRequired" :"البريد الالكتروني او رقم الهاتف مطلوب",
+  "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح",
+  "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح"
 }

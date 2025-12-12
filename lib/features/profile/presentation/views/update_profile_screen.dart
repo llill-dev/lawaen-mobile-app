@@ -101,7 +101,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
         }
 
         if (state.updateState == RequestState.success) {
-          showToast(message: LocaleKeys.success.tr(), isSuccess: true);
+          showToast(message: LocaleKeys.profileUpdatedSuccessfully.tr(), isSuccess: true);
           context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
         }
       },

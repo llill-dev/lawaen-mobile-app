@@ -67,7 +67,7 @@ abstract class AppServiceClient {
   });
 
   @POST(Urls.changePassword)
-  Future<ApiResponse<UserDataModel>> changePassword(@Body() ChangePasswordParams params);
+  Future<ApiResponse> changePassword(@Body() ChangePasswordParams params);
 
   @POST(Urls.refreshToken)
   Future<TokenModel> refreshToken(@Body() Map<String, dynamic> body);

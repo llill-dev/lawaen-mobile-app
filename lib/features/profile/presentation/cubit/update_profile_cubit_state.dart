@@ -5,16 +5,33 @@ class UpdateProfileState extends Equatable {
   final UserModel? user;
   final String? updateError;
 
-  const UpdateProfileState({this.updateState = RequestState.idle, this.user, this.updateError});
+  final RequestState changePasswordState;
+  final String? changePasswordError;
 
-  UpdateProfileState copyWith({RequestState? updateState, UserModel? user, String? updateError}) {
+  const UpdateProfileState({
+    this.updateState = RequestState.idle,
+    this.user,
+    this.updateError,
+    this.changePasswordState = RequestState.idle,
+    this.changePasswordError,
+  });
+
+  UpdateProfileState copyWith({
+    RequestState? updateState,
+    UserModel? user,
+    String? updateError,
+    RequestState? changePasswordState,
+    String? changePasswordError,
+  }) {
     return UpdateProfileState(
       updateState: updateState ?? this.updateState,
       user: user ?? this.user,
       updateError: updateError,
+      changePasswordState: changePasswordState ?? this.changePasswordState,
+      changePasswordError: changePasswordError ?? this.changePasswordError,
     );
   }
 
   @override
-  List<Object?> get props => [updateState, user, updateError];
+  List<Object?> get props => [updateState, user, updateError, changePasswordState, changePasswordError];
 }

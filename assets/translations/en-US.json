@@ -245,6 +245,8 @@
   "facebook" : "Facebook", 
   "instagram" : "Instagram",
   "changePassword": "Change password",
-  "updateProfile": "Update profile"
+  "updateProfile": "Update profile",
+  "passwordUpdatedSuccessfully": "Password updated successfully",
+  "profileUpdatedSuccessfully": "Profile updated successfully"
 
 } 

@@ -96,11 +96,11 @@ class AuthRepoImpl implements AuthRepo {
   }
 
   @override
-  Future<Either<ErrorModel, UserModel>> chagnePassword(ChangePasswordParams params) async {
+  Future<Either<ErrorModel, Unit>> chagnePassword(ChangePasswordParams params) async {
     try {
       final response = await appServiceClient.changePassword(params);
       if (_successResponse(response)) {
-        return Right(response.data!.user);
+        return Right(unit);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {

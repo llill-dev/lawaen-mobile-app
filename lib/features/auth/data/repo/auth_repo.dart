@@ -11,7 +11,7 @@ abstract class AuthRepo {
 
   Future<Either<ErrorModel, UserModel>> login(LoginParams params);
 
-  Future<Either<ErrorModel, UserModel>> chagnePassword(ChangePasswordParams params);
+  Future<Either<ErrorModel, Unit>> chagnePassword(ChangePasswordParams params);
 
   Future<Either<ErrorModel, Unit>> refreshToken();
 
