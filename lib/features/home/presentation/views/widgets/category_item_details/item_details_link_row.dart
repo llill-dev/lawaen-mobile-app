@@ -42,19 +42,15 @@ class ItemDetialsLinksRow extends StatelessWidget {
             ...itemData.ui!.contacts!.numbers!.map((number) {
               return Row(
                 children: [
-                  if (number.value != null)
+                  if (number.link != null && number.link!.isNotEmpty)
                     LinksItemDetials(
                       info: number.title ?? "",
                       svg: number.svg,
                       onTap: () {
-                        if (number.type == "WhatsApp number" || number.type == "whatsapp") {
-                          launchURL(link: "whatsapp://send?phone=${number.value.toString()}");
-                        } else {
-                          makePhoneCall("0${number.value.toString()}");
-                        }
+                        launchURL(link: number.link!);
                       },
                     ),
-                  10.horizontalSpace,
+                  if (number.link != null && number.link!.isNotEmpty) 10.horizontalSpace,
                 ],
               );
             }),
@@ -66,7 +62,7 @@ class ItemDetialsLinksRow extends StatelessWidget {
                   info: LocaleKeys.facebook.tr(),
                   onTap: () => launchURL(link: itemData.item!.social!.facebook!),
                 ),
-                10.horizontalSpace,
+                if (itemData.item?.social?.facebook != null) 10.horizontalSpace,
               ],
             ),
 
@@ -77,7 +73,7 @@ class ItemDetialsLinksRow extends StatelessWidget {
                   info: LocaleKeys.instagram.tr(),
                   onTap: () => launchURL(link: itemData.item!.social!.instagram!),
                 ),
-                10.horizontalSpace,
+                if (itemData.item?.social?.instagram != null) 10.horizontalSpace,
               ],
             ),
         ],

@@ -33,6 +33,7 @@ class AddMissingPlaceScreen extends StatelessWidget {
               listener: (context, state) {
                 if (state.submitError != null || state.submitState == RequestState.error) {
                   showToast(message: state.submitError!, isError: true);
+                  context.pop();
                 }
                 if (state.submitState == RequestState.success) {
                   showToast(message: LocaleKeys.addedSuccessfully.tr(), isSuccess: true);

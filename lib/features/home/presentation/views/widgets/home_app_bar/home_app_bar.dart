@@ -30,6 +30,7 @@ class HomeAppBar extends StatelessWidget {
             horizontalContentPadding: 16,
             verticalContentPadding: 12,
             borderRadius: 16.0,
+            readOnly: true,
             onTap: () => context.router.push(CategoryDetailsRoute()),
           ),
         ],

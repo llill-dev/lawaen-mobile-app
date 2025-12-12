@@ -136,10 +136,11 @@ class Contacts {
 class ContactNumber {
   final String? type;
   final String? svg;
-  final dynamic value;
   final String? title;
+  final String? number;
+  final String? link;
 
-  ContactNumber({this.type, this.svg, this.value, this.title});
+  ContactNumber({this.type, this.svg, this.title, this.number, this.link});
 
   factory ContactNumber.fromJson(Map<String, dynamic> json) => _$ContactNumberFromJson(json);
   Map<String, dynamic> toJson() => _$ContactNumberToJson(this);
