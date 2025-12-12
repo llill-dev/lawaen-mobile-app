@@ -5,18 +5,18 @@ part 'add_offer_model.g.dart';
 @JsonSerializable()
 class AddOfferModel {
   @JsonKey(name: '_id')
-  final String id;
-  final String name;
+  final String? id;
+  final String? name;
   final dynamic phone;
-  final String message;
+  final String? message;
   final dynamic whatsapp;
-  final String image;
-  final bool acceptOne;
-  final bool acceptTwo;
-  final bool acceptThree;
-  final bool recaptcha;
+  final String? image;
+  final bool? acceptOne;
+  final bool? acceptTwo;
+  final bool? acceptThree;
+  final bool? recaptcha;
   @JsonKey(name: 'is_show')
-  final bool isShow;
+  final bool? isShow;
 
   AddOfferModel({
     required this.id,

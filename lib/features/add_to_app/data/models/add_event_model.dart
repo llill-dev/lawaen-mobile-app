@@ -5,36 +5,36 @@ part 'add_event_model.g.dart';
 @JsonSerializable()
 class AddEventModel {
   @JsonKey(name: '_id')
-  final String id;
-  final String name;
-  final num price;
-  final String description;
-  final double longitude;
-  final double latitude;
+  final String? id;
+  final String? name;
+  final num? price;
+  final String? description;
+  final double? longitude;
+  final double? latitude;
   final dynamic phone;
   final dynamic whatsapp;
   @JsonKey(name: 'event_type')
-  final String eventType;
-  final String instagram;
-  final String facebook;
+  final String? eventType;
+  final String? instagram;
+  final String? facebook;
   @JsonKey(name: 'booking_method')
-  final String bookingMethod;
-  final String organization;
+  final String? bookingMethod;
+  final String? organization;
   @JsonKey(name: 'start_time')
-  final String startTime;
+  final String? startTime;
   @JsonKey(name: 'end_time')
-  final String endTime;
+  final String? endTime;
   @JsonKey(name: 'start_date')
-  final String startDate;
+  final String? startDate;
   @JsonKey(name: 'end_date')
-  final String endDate;
+  final String? endDate;
   @JsonKey(name: 'start_event_date')
-  final String startEventDate;
+  final String? startEventDate;
   @JsonKey(name: 'end_event_date')
-  final String endEventDate;
+  final String? endEventDate;
   @JsonKey(name: 'event_time')
-  final String eventTime;
-  final String note;
+  final String? eventTime;
+  final String? note;
 
   AddEventModel({
     required this.id,

@@ -5,27 +5,27 @@ part 'add_missing_plcae_model.g.dart';
 @JsonSerializable()
 class AddMissingPlcaeModel {
   @JsonKey(name: '_id')
-  final String id;
-  final String name;
-  final String mainCategory;
-  final String subCategory;
+  final String? id;
+  final String? name;
+  final String? mainCategory;
+  final String? subCategory;
   final dynamic phone;
-  final String message;
+  final String? message;
   final dynamic whatsapp;
   @JsonKey(name: 'faceBook')
-  final String facebook;
-  final String insta;
-  final String image;
-  final String opentime;
-  final String closetime;
-  final double longitude;
-  final double latitude;
-  final bool acceptOne;
-  final bool acceptTwo;
-  final bool acceptThree;
-  final bool recaptcha;
+  final String? facebook;
+  final String? insta;
+  final String? image;
+  final String? opentime;
+  final String? closetime;
+  final double? longitude;
+  final double? latitude;
+  final bool? acceptOne;
+  final bool? acceptTwo;
+  final bool? acceptThree;
+  final bool? recaptcha;
   @JsonKey(name: 'is_show')
-  final bool isShow;
+  final bool? isShow;
 
   AddMissingPlcaeModel({
     required this.id,

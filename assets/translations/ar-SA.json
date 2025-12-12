@@ -253,5 +253,6 @@
   "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح",
   "directions": "العنوان",
   "mainCategory": "الفئات الرئيسية",
-  "subCategory": "الفئات الفرعية"
+  "subCategory": "الفئات الفرعية",
+  "addedSuccessfully": "تم الاضافة بنجاح"
 }
