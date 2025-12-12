@@ -17,68 +17,75 @@ class InfoSection extends StatelessWidget {
     final emails = itemData.ui?.contacts?.emails;
     final urls = itemData.ui?.contacts?.urls;
     final services = itemData.ui?.options ?? [];
-    return Column(
-      children: [
-        if (!isEvent &&
-            ((emails != null && emails.isNotEmpty) || (urls != null && urls.isNotEmpty) || (services.isNotEmpty))) ...[
-          20.verticalSpace,
-          Container(
-            padding: EdgeInsets.all(24.w),
-            decoration: _buildBoxDecoration(),
-            child: Column(
-              children: [
-                12.verticalSpace,
+    return SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16.w),
+        child: Column(
+          children: [
+            if (!isEvent &&
+                ((emails != null && emails.isNotEmpty) ||
+                    (urls != null && urls.isNotEmpty) ||
+                    (services.isNotEmpty))) ...[
+              20.verticalSpace,
+              Container(
+                padding: EdgeInsets.all(24.w),
+                decoration: _buildBoxDecoration(),
+                child: Column(
+                  children: [
+                    12.verticalSpace,
 
-                if (emails != null && emails.isNotEmpty)
-                  ...emails.map((email) {
-                    return Column(
-                      children: [
-                        _InfoItem(
-                          title: email.title ?? "",
-                          icon: email.svg,
-                          onTap: () {
-                            final emailAddress = email.value?.trim() ?? "";
-                            if (emailAddress.isNotEmpty) {
-                              launchEmail(emailAddress);
-                            }
-                          },
-                        ),
-                        12.verticalSpace,
-                      ],
-                    );
-                  }),
+                    if (emails != null && emails.isNotEmpty)
+                      ...emails.map((email) {
+                        return Column(
+                          children: [
+                            _InfoItem(
+                              title: email.title ?? "",
+                              icon: email.svg,
+                              onTap: () {
+                                final emailAddress = email.value?.trim() ?? "";
+                                if (emailAddress.isNotEmpty) {
+                                  launchEmail(emailAddress);
+                                }
+                              },
+                            ),
+                            12.verticalSpace,
+                          ],
+                        );
+                      }),
 
-                if (urls != null && urls.isNotEmpty)
-                  ...urls.map((url) {
-                    return Column(
-                      children: [
-                        _InfoItem(
-                          title: url.title ?? "",
-                          icon: url.svg,
-                          onTap: () {
-                            launchURL(link: url.value.toString());
-                          },
-                        ),
-                        10.verticalSpace,
-                      ],
-                    );
-                  }),
-                if (services.isNotEmpty)
-                  ...services.map((service) {
-                    return Column(
-                      children: [
-                        _InfoItem(title: service.title ?? "", icon: service.svg),
-                        10.verticalSpace,
-                      ],
-                    );
-                  }),
-              ],
-            ),
-          ),
-          20.verticalSpace,
-        ],
-      ],
-    ).horizontalPadding(padding: 16.w);
+                    if (urls != null && urls.isNotEmpty)
+                      ...urls.map((url) {
+                        return Column(
+                          children: [
+                            _InfoItem(
+                              title: url.title ?? "",
+                              icon: url.svg,
+                              onTap: () {
+                                launchURL(link: url.value.toString());
+                              },
+                            ),
+                            10.verticalSpace,
+                          ],
+                        );
+                      }),
+                    if (services.isNotEmpty)
+                      ...services.map((service) {
+                        return Column(
+                          children: [
+                            _InfoItem(title: service.title ?? "", icon: service.svg),
+                            10.verticalSpace,
+                          ],
+                        );
+                      }),
+                  ],
+                ),
+              ),
+              20.verticalSpace,
+            ],
+          ],
+        ).horizontalPadding(padding: 16.w),
+      ),
+    );
   }
 
   BoxDecoration _buildBoxDecoration() {

@@ -8,6 +8,8 @@ import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/error_view.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/di/injection.dart';
+import 'package:lawaen/app/extensions.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_item_details_cubit/category_item_detials_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -36,13 +38,16 @@ class CategoryItemDetialsScreen extends StatefulWidget {
 
 class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
   int selectedIndex = 0;
+
+  late final CategoryItemDetialsCubit cubit;
+
   final List<String> sections = [
     LocaleKeys.photos.tr(),
     LocaleKeys.information.tr(),
     LocaleKeys.location.tr(),
     LocaleKeys.services.tr(),
   ];
-  late final CategoryItemDetialsCubit cubit;
+
   @override
   void initState() {
     cubit = getIt<CategoryItemDetialsCubit>();
@@ -59,8 +64,9 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
         body: BlocBuilder<CategoryItemDetialsCubit, CategoryItemDetialsState>(
           builder: (context, state) {
             if (state.categoryItemState == RequestState.loading) {
-              return LoadingWidget();
+              return const LoadingWidget();
             }
+
             if (state.categoryItemState == RequestState.error) {
               return ErrorView(
                 withBackButton: true,
@@ -68,40 +74,34 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
                 onRetry: () => cubit.getCategoryItems(itemId: widget.itemId, secondCategoryId: widget.subCategoryId),
               );
             }
+
             return SafeArea(
               child: CustomScrollView(
                 clipBehavior: Clip.none,
                 slivers: [
                   SliverToBoxAdapter(child: HeaderSection(itemData: state.categoryItems!)),
+
                   buildSpace(height: 8.h),
 
-                  BasicInfoSection(itemData: state.categoryItems!),
+                  SliverToBoxAdapter(child: BasicInfoSection(itemData: state.categoryItems!)),
+
                   buildSpace(),
 
                   SectionSelector(
                     sections: sections,
                     selectedIndex: selectedIndex,
-                    onSectionSelected: (index) => setState(() => selectedIndex = index),
+                    onSectionSelected: (index) {
+                      if (index == 3 && state.categoryItems!.isHaveMune == true) {
+                        context.router.push(MuneRoute());
+                      } else {
+                        setState(() => selectedIndex = index);
+                      }
+                    },
                   ),
 
                   buildSpace(),
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                      child: IndexedStack(
-                        index: selectedIndex,
-                        children: [
-                          PhotosSection(photos: state.categoryItems!.item?.images ?? [], maxDisplayPhotos: 3),
-                          InfoSection(itemData: state.categoryItems!),
-                          LocationItemSection(
-                            latitude: state.categoryItems!.item?.location?.latitude,
-                            longitude: state.categoryItems!.item?.location?.longitude,
-                          ),
-                          ServicesSection(itemData: state.categoryItems!),
-                        ],
-                      ),
-                    ),
-                  ),
+
+                  SliverToBoxAdapter(child: _buildSelectedSection(state)),
                 ],
               ),
             );
@@ -109,5 +109,30 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
         ),
       ),
     );
+  }
+
+  Widget _buildSelectedSection(CategoryItemDetialsState state) {
+    switch (selectedIndex) {
+      case 0:
+        return PhotosSection(
+          photos: state.categoryItems!.item?.images ?? [],
+          maxDisplayPhotos: 3,
+        ).horizontalPadding(padding: 16.w);
+
+      case 1:
+        return InfoSection(itemData: state.categoryItems!);
+
+      case 2:
+        return LocationItemSection(
+          latitude: state.categoryItems!.item?.location?.latitude,
+          longitude: state.categoryItems!.item?.location?.longitude,
+        ).horizontalPadding(padding: 16.w);
+
+      case 3:
+        return ServicesSection(itemData: state.categoryItems!).horizontalPadding(padding: 16.w);
+
+      default:
+        return const SizedBox();
+    }
   }
 }

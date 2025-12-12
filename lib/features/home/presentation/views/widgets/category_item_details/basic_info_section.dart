@@ -24,62 +24,60 @@ class BasicInfoSection extends StatelessWidget {
       return Icon(Icons.star_rounded, size: 32.r, color: isActive ? ColorManager.orange : ColorManager.darkGrey);
     });
 
-    return SliverToBoxAdapter(
-      child: Column(
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SvgPicture.asset(IconManager.location, color: ColorManager.black),
-              8.horizontalSpace,
-              Flexible(child: Text(itemData.item?.address ?? "", style: Theme.of(context).textTheme.headlineMedium)),
-            ],
-          ),
+    return Column(
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SvgPicture.asset(IconManager.location, color: ColorManager.black),
+            8.horizontalSpace,
+            Flexible(child: Text(itemData.item?.address ?? "", style: Theme.of(context).textTheme.headlineMedium)),
+          ],
+        ),
 
-          12.verticalSpace,
-          ItemDetialsLinksRow(itemData: itemData),
+        12.verticalSpace,
+        ItemDetialsLinksRow(itemData: itemData),
 
-          12.verticalSpace,
-          Text(itemData.item?.description ?? "", style: Theme.of(context).textTheme.labelMedium),
+        12.verticalSpace,
+        Text(itemData.item?.description ?? "", style: Theme.of(context).textTheme.labelMedium),
 
-          12.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(children: List.generate(stars.length, (index) => stars[index])),
-              GestureDetector(
-                onTap: () => _showFeedBackBttomSheet(context),
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                  decoration: BoxDecoration(
-                    color: ColorManager.white,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: ColorManager.primary, width: 2),
-                  ),
-                  child: Text(
-                    LocaleKeys.feedback.tr(),
-                    style: Theme.of(
-                      context,
-                    ).textTheme.headlineMedium?.copyWith(color: ColorManager.primary, fontSize: 12),
-                  ),
+        12.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(children: List.generate(stars.length, (index) => stars[index])),
+            GestureDetector(
+              onTap: () => _showFeedBackBttomSheet(context),
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                decoration: BoxDecoration(
+                  color: ColorManager.white,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: ColorManager.primary, width: 2),
+                ),
+                child: Text(
+                  LocaleKeys.feedback.tr(),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.headlineMedium?.copyWith(color: ColorManager.primary, fontSize: 12),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
+        ),
 
-          12.verticalSpace,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _buildUserActionContainer(context: context, title: LocaleKeys.claim.tr(), onTap: () {}),
-              4.horizontalSpace,
-              _buildUserActionContainer(context: context, title: LocaleKeys.report.tr(), onTap: () {}, read: true),
-            ],
-          ),
-        ],
-      ).horizontalPadding(padding: 16.w),
-    );
+        12.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _buildUserActionContainer(context: context, title: LocaleKeys.claim.tr(), onTap: () {}),
+            4.horizontalSpace,
+            _buildUserActionContainer(context: context, title: LocaleKeys.report.tr(), onTap: () {}, read: true),
+          ],
+        ),
+      ],
+    ).horizontalPadding(padding: 16.w);
   }
 
   void _showFeedBackBttomSheet(BuildContext context) {

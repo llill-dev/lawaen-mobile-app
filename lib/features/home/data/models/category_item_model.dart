@@ -10,9 +10,12 @@ part 'category_item_model.g.dart';
 class ItemData {
   final Item? item;
   final UI? ui;
+  @JsonKey(name: 'is_claim')
+  final bool? isClaim;
+  @JsonKey(name: 'is_have_menu')
+  final bool? isHaveMune;
 
-  ItemData({this.item, this.ui});
-
+  ItemData({this.item, this.ui, this.isClaim, this.isHaveMune});
   factory ItemData.fromJson(Map<String, dynamic> json) => _$ItemDataFromJson(json);
   Map<String, dynamic> toJson() => _$ItemDataToJson(this);
 }
@@ -31,7 +34,7 @@ class Item {
   final Rating? rating;
   final List<String>? images;
   final SocialLinks? social;
-
+  final Flags? flags;
   Item({
     required this.id,
     required this.name,
@@ -41,6 +44,7 @@ class Item {
     this.rating,
     this.images,
     this.social,
+    this.flags,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
@@ -238,4 +242,21 @@ class WorkingRaw {
 
   factory WorkingRaw.fromJson(Map<String, dynamic> json) => _$WorkingRawFromJson(json);
   Map<String, dynamic> toJson() => _$WorkingRawToJson(this);
+}
+
+/// =========================
+/// flags
+/// =========================
+
+@JsonSerializable()
+class Flags {
+  @JsonKey(name: "is_saved")
+  final bool isSaved;
+  @JsonKey(name: "is_rated")
+  final bool isRated;
+
+  Flags({required this.isSaved, required this.isRated});
+
+  factory Flags.fromJson(Map<String, dynamic> json) => _$FlagsFromJson(json);
+  Map<String, dynamic> toJson() => _$FlagsToJson(this);
 }
