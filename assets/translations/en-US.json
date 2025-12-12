@@ -248,6 +248,8 @@
   "updateProfile": "Update profile",
   "passwordUpdatedSuccessfully": "Password updated successfully",
   "profileUpdatedSuccessfully": "Profile updated successfully",
-  "directions": "Directions"
+  "directions": "Directions",
+  "mainCategory": "Main Categories",
+  "subCategory": "Sub Categories"
 
 } 

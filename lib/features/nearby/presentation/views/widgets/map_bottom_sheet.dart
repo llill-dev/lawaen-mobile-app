@@ -13,7 +13,7 @@ import 'package:lawaen/features/nearby/presentation/cubit/map_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/views/widgets/map_category_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-import 'package:lawaen/app/core/widgets/primary_button.dart'; // <-- make sure path is correct
+import 'package:lawaen/app/core/widgets/primary_button.dart';
 
 class MapBottomSheet extends StatefulWidget {
   const MapBottomSheet({super.key});
@@ -107,12 +107,19 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
 
         SizedBox(height: 12.h),
 
-        if (state.isSheetExpanded) _buildMainCategories(context, state),
+        if (state.isSheetExpanded) ...[
+          Text(LocaleKeys.mainCategory.tr(), style: Theme.of(context).textTheme.headlineMedium),
+          SizedBox(height: 8.h),
+          _buildMainCategories(context, state),
+          SizedBox(height: 8.h),
+        ],
 
-        SizedBox(height: 8.h),
-
-        if (state.selectedMainCategoryId != null && state.currentSubCategories.isNotEmpty)
+        if (state.selectedMainCategoryId != null && state.currentSubCategories.isNotEmpty) ...[
+          Text(LocaleKeys.subCategory.tr(), style: Theme.of(context).textTheme.headlineMedium),
+          SizedBox(height: 8.h),
           _buildSubCategories(context, state),
+          SizedBox(height: 8.h),
+        ],
 
         if (state.showApplyButton) ...[
           SizedBox(height: 12.h),
@@ -136,10 +143,10 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
   Widget _buildDragHandle() {
     return Center(
       child: Container(
-        width: 40.w,
+        width: 60.w,
         height: 4.h,
         margin: EdgeInsets.only(bottom: 12.h),
-        decoration: BoxDecoration(color: ColorManager.lightGrey, borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -155,7 +162,8 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
               padding: EdgeInsets.symmetric(horizontal: 12.w),
               child: SvgPicture.asset(IconManager.search),
             ),
-            fillColor: Colors.white,
+            fillColor: ColorManager.lightGrey,
+            borderColor: ColorManager.lightGrey,
             horizontalContentPadding: 16,
             verticalContentPadding: 12,
             borderRadius: 16.0,
@@ -182,9 +190,9 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
             }
           },
           child: Container(
-            padding: EdgeInsets.all(12.w),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
-            child: Icon(Icons.search, color: Colors.white, size: 26.sp),
+            child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
           ),
         ),
       ],

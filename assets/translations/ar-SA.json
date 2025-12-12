@@ -251,5 +251,7 @@
   "emailOrPhoneRequired" :"البريد الالكتروني او رقم الهاتف مطلوب",
   "profileUpdatedSuccessfully": "تم تحديث الملف الشخصي بنجاح",
   "passwordUpdatedSuccessfully": "تم تحديث كلمة المرور بنجاح",
-  "directions": "العنوان"
+  "directions": "العنوان",
+  "mainCategory": "الفئات الرئيسية",
+  "subCategory": "الفئات الفرعية"
 }
