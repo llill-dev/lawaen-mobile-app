@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class ContactUsHeader extends StatelessWidget {
   const ContactUsHeader({super.key});
@@ -46,9 +48,9 @@ class ContactUsHeader extends StatelessWidget {
             ),
           ),
           24.verticalSpace,
-          Text("Contact us", style: Theme.of(context).textTheme.displayLarge),
+          Text(LocaleKeys.contactUs.tr(), style: Theme.of(context).textTheme.displayLarge),
           32.verticalSpace,
-          Text("You can contact us via the following form", style: Theme.of(context).textTheme.headlineMedium),
+          Text(LocaleKeys.contactUsFormDescription.tr(), style: Theme.of(context).textTheme.headlineMedium),
         ],
       ),
     );

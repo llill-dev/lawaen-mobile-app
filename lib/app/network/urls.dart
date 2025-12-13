@@ -38,4 +38,7 @@ class Urls {
 
   //explore
   static const String getExplore = "location/by_explore/";
+
+  //profile
+  static const String contactUS = "req_data/send_message";
 }

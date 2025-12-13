@@ -37,6 +37,7 @@ class DropDownItem extends StatelessWidget {
             splashColor: Colors.transparent,
           ),
           child: DropdownButtonFormField(
+            dropdownColor: ColorManager.blackSwatch[2],
             borderRadius: BorderRadius.circular(24.r),
             decoration: InputDecoration(
               fillColor: ColorManager.blackSwatch[2],

@@ -25,6 +25,8 @@ import 'package:lawaen/features/home/presentation/params/get_category_details_pa
 import 'package:lawaen/features/offers/data/models/offer_type_model.dart';
 import 'package:lawaen/features/offers/data/models/offer_model.dart';
 import 'package:lawaen/features/offers/presentation/params/get_offers_params.dart';
+import 'package:lawaen/features/profile/data/models/contact_us_model.dart';
+import 'package:lawaen/features/profile/presentation/params/contact_us_params.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
 
@@ -201,4 +203,8 @@ abstract class AppServiceClient {
     @Queries() required GetEventsParams params,
     @Path("id") required String id,
   });
+
+  //profile
+  @POST(Urls.contactUS)
+  Future<ContactUsModel> contactUS(@Body() ContactUsParams params);
 }

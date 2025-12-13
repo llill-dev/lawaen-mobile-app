@@ -28,7 +28,7 @@ class ProfileSectionsGrid extends StatelessWidget {
       ),
       _ProfileSectionData(
         title: LocaleKeys.contactUs.tr(),
-        subtitle: "8 Items",
+        subtitle: "",
         icon: IconManager.contactUs,
         onTap: () => context.pushRoute(ContactUsRoute()),
       ),
