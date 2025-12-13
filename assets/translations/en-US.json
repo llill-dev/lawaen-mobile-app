@@ -255,6 +255,7 @@
   "openingHours": "Opening Hours",
   "SP":"SYP",
   "trending" : "Trending",
-  "mostPopular" : "Most Popular"
+  "mostPopular" : "Most Popular",
+  "noOffersFound" : "No Offers Found"
 
 } 

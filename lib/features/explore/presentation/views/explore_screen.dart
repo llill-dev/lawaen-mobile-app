@@ -6,6 +6,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/core/widgets/empty_view.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/core/widgets/skeletons/redacted_box.dart';
 import 'package:lawaen/app/extensions.dart';
@@ -98,7 +99,9 @@ class _ExploreScreenState extends State<ExploreScreen> with AutomaticKeepAliveCl
       return [
         SliverFillRemaining(
           hasScrollBody: false,
-          child: Center(child: Text(LocaleKeys.notFound.tr(), style: Theme.of(context).textTheme.headlineMedium)),
+          child: Center(
+            child: EmptyView(message: LocaleKeys.notFound.tr(), icon: IconManager.emptySearch),
+          ),
         ),
       ];
     }

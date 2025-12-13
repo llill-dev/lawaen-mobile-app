@@ -1,15 +1,18 @@
 import 'package:auto_route/annotations.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/core/widgets/empty_view.dart';
 import 'package:lawaen/app/core/widgets/error_view.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/offers/data/models/offer_model.dart';
 import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
 import 'package:lawaen/features/offers/presentation/views/widgets/offers_filter_bottom_sheet.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 import 'package:shimmer/shimmer.dart';
 
 import 'widgets/offers_circular_action_button.dart';
@@ -71,7 +74,9 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
         final offers = state.offers;
 
         if (offers.isEmpty) {
-          return const Center(child: Text("No offers found"));
+          return Center(
+            child: EmptyView(message: LocaleKeys.noOffersFound.tr(), icon: IconManager.emptySearch),
+          );
         }
 
         return Scaffold(

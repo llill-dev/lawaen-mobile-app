@@ -258,5 +258,6 @@
   "openingHours": "ساعات العمل",
   "SP":"ل.س",
   "trending" : "رائج",
-  "mostPopular" : "الاكثر شهرة"
+  "mostPopular" : "الاكثر شهرة",
+  "noOffersFound" : "لايوجود عروض حاليا"
 }

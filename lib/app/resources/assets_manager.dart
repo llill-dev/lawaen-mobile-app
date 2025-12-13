@@ -87,7 +87,11 @@ class IconManager {
 
   static const String car = "${iconPath}car.svg";
 
+  //Empty States
   static const String emptyEvent = "${iconPath}empty_event.svg";
+  static const String emptySearch = "${iconPath}empty_saerch.svg";
+  static const String emptyRatings = "${iconPath}empty_reviews.svg";
+  static const String emptyFavorites = "${iconPath}empty_favorites.svg";
 }
 
 class JsonManager {

@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/core/widgets/empty_view.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
+import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/category_details_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -20,16 +22,13 @@ class CategoryInfoList extends StatelessWidget {
           return const _CategoryDetailsSkeleton();
         }
         if (state.categories.isEmpty && !state.isLoadingMore) {
-          return SliverToBoxAdapter(
+          return SliverFillRemaining(
             child: Center(
-              child: Text(
-                LocaleKeys.notFound.tr(),
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
+              child: EmptyView(message: LocaleKeys.notFound.tr(), icon: IconManager.emptySearch),
             ),
           );
         }
+
         final items = state.categories;
         return SliverList.separated(
           separatorBuilder: (context, index) {

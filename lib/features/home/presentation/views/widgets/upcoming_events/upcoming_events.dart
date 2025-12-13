@@ -98,6 +98,9 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
         if (state.eventsError != null && state.evetnsState == RequestState.error) {
           SliverToBoxAdapter(child: SizedBox.shrink());
         }
+        if (state.events.isEmpty && state.evetnsState == RequestState.success) {
+          return SliverToBoxAdapter(child: SizedBox.shrink());
+        }
         return SliverToBoxAdapter(
           child: RedactedBox(
             child: Container(
