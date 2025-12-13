@@ -4,20 +4,24 @@ class ExploreState extends Equatable {
   final RequestState exploreState;
   final List<CategoryDetailsModel> exploreItems;
   final String? exploreError;
+  final String? selectedCategoryId;
+
   final RequestState preferencesState;
   final List<UserPreferencesModel> userPreferences;
   final String? preferencesError;
-  final String? globalError;
   final bool isLoadMore;
   final int currentPage;
   final int limit;
   final bool hasMore;
   final String? search;
 
+  final String? globalError;
+
   const ExploreState({
     this.exploreState = RequestState.idle,
     this.exploreItems = const [],
     this.exploreError,
+    this.selectedCategoryId,
     this.preferencesState = RequestState.idle,
     this.userPreferences = const [],
     this.preferencesError,
@@ -33,6 +37,7 @@ class ExploreState extends Equatable {
     RequestState? exploreState,
     List<CategoryDetailsModel>? exploreItems,
     String? exploreError,
+    String? selectedCategoryId,
     RequestState? preferencesState,
     List<UserPreferencesModel>? userPreferences,
     String? preferencesError,
@@ -47,6 +52,7 @@ class ExploreState extends Equatable {
       exploreState: exploreState ?? this.exploreState,
       exploreItems: exploreItems ?? this.exploreItems,
       exploreError: exploreError,
+      selectedCategoryId: selectedCategoryId ?? this.selectedCategoryId,
       preferencesState: preferencesState ?? this.preferencesState,
       userPreferences: userPreferences ?? this.userPreferences,
       preferencesError: preferencesError,
@@ -61,17 +67,18 @@ class ExploreState extends Equatable {
 
   @override
   List<Object?> get props => [
-        exploreState,
-        exploreItems,
-        exploreError,
-        preferencesState,
-        userPreferences,
-        preferencesError,
-        globalError,
-        isLoadMore,
-        currentPage,
-        limit,
-        hasMore,
-        search,
-      ];
+    exploreState,
+    exploreItems,
+    exploreError,
+    selectedCategoryId,
+    preferencesState,
+    userPreferences,
+    preferencesError,
+    globalError,
+    isLoadMore,
+    currentPage,
+    limit,
+    hasMore,
+    search,
+  ];
 }

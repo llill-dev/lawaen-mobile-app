@@ -37,7 +37,7 @@ class Urls {
   static const String getOffers = "offer/get_offer";
 
   //explore
-  static const String getExplore = "location/by_explore/";
+  static const String getExplore = "location/by_explore/{id}";
   static const String getUserPreferences = "category/get_explore_category";
 
   //profile

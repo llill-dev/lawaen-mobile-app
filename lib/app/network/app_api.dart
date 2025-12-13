@@ -123,7 +123,10 @@ abstract class AppServiceClient {
 
   //explore
   @GET(Urls.getExplore)
-  Future<ApiResponse<List<CategoryDetailsModel>>> getExplore({@Queries() required GetCategoryDetailsParams params});
+  Future<ApiResponse<List<CategoryDetailsModel>>> getExplore({
+    @Path("id") required String id,
+    @Queries() required GetCategoryDetailsParams params,
+  });
 
   @GET(Urls.getUserPreferences)
   Future<ApiResponse<List<UserPreferencesModel>>> getUserPreferences();

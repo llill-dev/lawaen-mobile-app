@@ -20,9 +20,9 @@ class ExploreRepoImpl implements ExploreRepo {
   ExploreRepoImpl(this.appServiceClient);
 
   @override
-  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getExplore(GetCategoryDetailsParams params) async {
+  Future<Either<ErrorModel, List<CategoryDetailsModel>>> getExplore(GetCategoryDetailsParams params, String id) async {
     try {
-      final response = await appServiceClient.getExplore(params: params);
+      final response = await appServiceClient.getExplore(params: params, id: id);
       if (response.status == true && response.data != null) {
         return Right(response.data!);
       }

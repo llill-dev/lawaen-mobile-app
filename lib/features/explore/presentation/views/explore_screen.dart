@@ -153,6 +153,7 @@ class _ExploreScreenState extends State<ExploreScreen> with AutomaticKeepAliveCl
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
           mainAxisSpacing: 12.h,
+          childAspectRatio: 0.87,
           crossAxisSpacing: 12.w,
         ),
         delegate: SliverChildBuilderDelegate(

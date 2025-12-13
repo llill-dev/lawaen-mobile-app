@@ -18,6 +18,13 @@ class ExploreCubit extends Cubit<ExploreState> {
   ExploreCubit(this._exploreRepo, this._locationService) : super(const ExploreState());
 
   Future<void> getExplore({bool isLoadMore = false, String? search}) async {
+    if (state.preferencesState == RequestState.idle) {
+      await getUserPreferences();
+    }
+    if (state.userPreferences.isEmpty) return;
+
+    final categoryId = state.selectedCategoryId ?? state.userPreferences.first.id;
+
     if (isLoadMore) {
       if (!state.hasMore || state.isLoadMore) return;
       emit(state.copyWith(isLoadMore: true));
@@ -25,12 +32,12 @@ class ExploreCubit extends Cubit<ExploreState> {
       emit(
         state.copyWith(
           exploreState: RequestState.loading,
+          exploreItems: [],
           exploreError: null,
           globalError: null,
-          exploreItems: [],
-          isLoadMore: false,
           currentPage: 1,
           hasMore: true,
+          isLoadMore: false,
           search: search,
         ),
       );
@@ -47,26 +54,17 @@ class ExploreCubit extends Cubit<ExploreState> {
       search: search ?? state.search,
     );
 
-    final result = await _exploreRepo.getExplore(params);
+    final result = await _exploreRepo.getExplore(params, categoryId);
 
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            exploreState: RequestState.error,
-            exploreError: failure.errorMessage,
-            globalError: failure.errorMessage,
-            isLoadMore: false,
-          ),
-        );
+        emit(state.copyWith(exploreState: RequestState.error, exploreError: failure.errorMessage, isLoadMore: false));
       },
       (newItems) {
-        final updatedList = isLoadMore ? [...state.exploreItems, ...newItems] : newItems;
         emit(
           state.copyWith(
             exploreState: RequestState.success,
-            exploreItems: updatedList,
-            exploreError: null,
+            exploreItems: isLoadMore ? [...state.exploreItems, ...newItems] : newItems,
             isLoadMore: false,
             currentPage: newItems.isEmpty ? state.currentPage : state.currentPage + 1,
             hasMore: newItems.isNotEmpty,
@@ -77,36 +75,35 @@ class ExploreCubit extends Cubit<ExploreState> {
   }
 
   Future<void> getUserPreferences() async {
-    emit(
-      state.copyWith(
-        preferencesState: RequestState.loading,
-        preferencesError: null,
-        globalError: null,
-      ),
-    );
+    emit(state.copyWith(preferencesState: RequestState.loading, preferencesError: null, globalError: null));
 
     final result = await _exploreRepo.getUserPreferences();
 
     result.fold(
       (failure) {
-        emit(
-          state.copyWith(
-            preferencesState: RequestState.error,
-            preferencesError: failure.errorMessage,
-            globalError: failure.errorMessage,
-          ),
-        );
+        emit(state.copyWith(preferencesState: RequestState.error, preferencesError: failure.errorMessage));
       },
       (preferences) {
+        final shouldSetCategory = state.selectedCategoryId == null && preferences.isNotEmpty;
+
         emit(
           state.copyWith(
             preferencesState: RequestState.success,
             userPreferences: preferences,
             preferencesError: null,
+            selectedCategoryId: shouldSetCategory ? preferences.first.id : state.selectedCategoryId,
           ),
         );
       },
     );
+  }
+
+  void selectCategory(String categoryId) {
+    if (state.selectedCategoryId == categoryId) return;
+
+    emit(state.copyWith(selectedCategoryId: categoryId, currentPage: 1, hasMore: true, exploreItems: []));
+
+    getExplore();
   }
 
   void clearGlobalError() {

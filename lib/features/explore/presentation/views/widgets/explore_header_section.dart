@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
@@ -8,6 +9,7 @@ import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
+import 'package:lawaen/features/explore/presentation/cubit/explore_cubit.dart';
 import 'package:lawaen/features/explore/presentation/views/widgets/user_preferences.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -80,17 +82,21 @@ class ExploreHeaderSection extends StatelessWidget {
   }
 
   Widget _buildPreferences(BuildContext context) {
-    final preferenceNames = preferences.map((e) => e.name).toList();
-
-    if (preferencesState == RequestState.success && preferenceNames.isEmpty) {
+    if (preferencesState == RequestState.success && preferences.isEmpty) {
       return Text(LocaleKeys.thereAreNoPreferencesYet.tr(), style: Theme.of(context).textTheme.headlineSmall);
     }
 
-    if (preferenceNames.isEmpty || preferencesState == RequestState.error) {
+    if (preferences.isEmpty || preferencesState == RequestState.error) {
       return const SizedBox.shrink();
     }
 
-    return UserPreferences(userPreferences: preferenceNames);
+    return UserPreferences(
+      preferences: preferences,
+      selectedCategoryId: context.watch<ExploreCubit>().state.selectedCategoryId,
+      onSelect: (id) {
+        context.read<ExploreCubit>().selectCategory(id);
+      },
+    );
   }
 
   Widget _buildRecentSearch(List<String> recentSearch) {
