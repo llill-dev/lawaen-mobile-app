@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
 import 'package:lawaen/app/core/widgets/grid_and_list_buttons_with_title.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
@@ -15,7 +18,7 @@ import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'recent_search.dart';
 
-class ExploreHeaderSection extends StatelessWidget {
+class ExploreHeaderSection extends StatefulWidget {
   const ExploreHeaderSection({
     super.key,
     required this.isGridView,
@@ -28,6 +31,32 @@ class ExploreHeaderSection extends StatelessWidget {
   final ValueChanged<bool> onViewModeChanged;
   final List<UserPreferencesModel> preferences;
   final RequestState preferencesState;
+
+  @override
+  State<ExploreHeaderSection> createState() => _ExploreHeaderSectionState();
+}
+
+class _ExploreHeaderSectionState extends State<ExploreHeaderSection> {
+  Timer? _debounce;
+  final TextEditingController _searchConttroller = TextEditingController();
+
+  void _onSearchChanged(String value) {
+    _debounce?.cancel();
+
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      final trimmed = value.trim();
+      if (trimmed.isEmpty) return;
+
+      context.read<ExploreCubit>().getExplore(search: trimmed);
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    _searchConttroller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,20 +80,34 @@ class ExploreHeaderSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GridAndListButtonsWithTitle(
-              isGridView: isGridView,
-              onViewModeChanged: onViewModeChanged,
+              isGridView: widget.isGridView,
+              onViewModeChanged: widget.onViewModeChanged,
               title: LocaleKeys.explore.tr(),
             ),
             16.verticalSpace,
-            CustomTextField(
-              hint: LocaleKeys.search_for_places_and_services.tr(),
-              fillColor: ColorManager.blackSwatch[3],
-              borderColor: ColorManager.blackSwatch[3],
-              verticalContentPadding: 14,
-              prefixIcon: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.h),
-                child: SvgPicture.asset(IconManager.search),
-              ),
+            Row(
+              children: [
+                Expanded(
+                  child: CustomTextField(
+                    controller: _searchConttroller,
+                    hint: LocaleKeys.search_for_places_and_services.tr(),
+                    fillColor: ColorManager.blackSwatch[3],
+                    borderColor: ColorManager.blackSwatch[3],
+                    verticalContentPadding: 14,
+                    prefixIcon: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 12.h),
+                      child: SvgPicture.asset(IconManager.search),
+                    ),
+                    onFieldSubmitted: _onSearchChanged,
+                  ),
+                ),
+                8.horizontalSpace,
+                PrimaryButton(
+                  text: LocaleKeys.search.tr(),
+                  width: 50.w,
+                  onPressed: () => _onSearchChanged(_searchConttroller.text),
+                ),
+              ],
             ),
             16.verticalSpace,
             Text(
@@ -82,16 +125,16 @@ class ExploreHeaderSection extends StatelessWidget {
   }
 
   Widget _buildPreferences(BuildContext context) {
-    if (preferencesState == RequestState.success && preferences.isEmpty) {
+    if (widget.preferencesState == RequestState.success && widget.preferences.isEmpty) {
       return Text(LocaleKeys.thereAreNoPreferencesYet.tr(), style: Theme.of(context).textTheme.headlineSmall);
     }
 
-    if (preferences.isEmpty || preferencesState == RequestState.error) {
+    if (widget.preferences.isEmpty || widget.preferencesState == RequestState.error) {
       return const SizedBox.shrink();
     }
 
     return UserPreferences(
-      preferences: preferences,
+      preferences: widget.preferences,
       selectedCategoryId: context.watch<ExploreCubit>().state.selectedCategoryId,
       onSelect: (id) {
         context.read<ExploreCubit>().selectCategory(id);

@@ -51,7 +51,7 @@ class ExploreCubit extends Cubit<ExploreState> {
       longitude: location.longitude,
       limit: state.limit,
       page: state.currentPage,
-      search: search ?? state.search,
+      search: search,
     );
 
     final result = await _exploreRepo.getExplore(params, categoryId);
@@ -101,9 +101,9 @@ class ExploreCubit extends Cubit<ExploreState> {
   void selectCategory(String categoryId) {
     if (state.selectedCategoryId == categoryId) return;
 
-    emit(state.copyWith(selectedCategoryId: categoryId, currentPage: 1, hasMore: true, exploreItems: []));
+    emit(state.copyWith(selectedCategoryId: categoryId, currentPage: 1, hasMore: true, exploreItems: [], search: null));
 
-    getExplore();
+    getExplore(isLoadMore: false, search: null);
   }
 
   void clearGlobalError() {
