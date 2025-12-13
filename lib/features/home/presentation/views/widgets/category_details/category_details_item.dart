@@ -50,14 +50,15 @@ class CategoryDetailsItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   8.verticalSpace,
-                  if (categoryDetailsModel.address != null)
+                  if (categoryDetailsModel.location?.address != null &&
+                      categoryDetailsModel.location!.address!.isNotEmpty)
                     Row(
                       children: [
                         SvgPicture.asset(IconManager.location, color: ColorManager.green),
                         2.horizontalSpace,
                         Flexible(
                           child: Text(
-                            categoryDetailsModel.address!,
+                            categoryDetailsModel.location!.address!,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.green),
