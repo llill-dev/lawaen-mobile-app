@@ -81,12 +81,14 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
                   buildSpace(),
 
                   SectionSelector(
-                    sections: [
-                      LocaleKeys.photos.tr(),
-                      LocaleKeys.information.tr(),
-                      LocaleKeys.location.tr(),
-                      state.categoryItems!.isHaveMune == true ? LocaleKeys.menu.tr() : LocaleKeys.services.tr(),
-                    ],
+                    sections: state.categoryItems!.isHaveMune == true
+                        ? [
+                            LocaleKeys.photos.tr(),
+                            LocaleKeys.information.tr(),
+                            LocaleKeys.location.tr(),
+                            LocaleKeys.menu.tr(),
+                          ]
+                        : [LocaleKeys.photos.tr(), LocaleKeys.information.tr(), LocaleKeys.location.tr()],
                     selectedIndex: selectedIndex,
                     onSectionSelected: (index) {
                       if (index == 3 && state.categoryItems!.isHaveMune == true) {

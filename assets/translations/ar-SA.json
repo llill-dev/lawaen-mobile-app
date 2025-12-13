@@ -109,7 +109,7 @@
   "replaceYourImage": "تغيير الصورة",
   "addServiceOrMenuTitle": "أضف خدمات أو قائمة",
   "services": "خدمات",
-  "menu": "قائمة",
+  "menu": "قائمة الطعام",
   "acceptTerms": "أوافق على الشروط والأحكام",
   "reviewSubscriptionCost": "لقد اطلعت على تكلفة الاشتراك",
   "informationCorrect": "جميع المعلومات التي أدخلتها صحيحة وعلى مسؤوليتي",
@@ -255,5 +255,6 @@
   "mainCategory": "الفئات الرئيسية",
   "subCategory": "الفئات الفرعية",
   "addedSuccessfully": "تم الاضافة بنجاح",
-  "openingHours": "ساعات العمل"
+  "openingHours": "ساعات العمل",
+  "SP":"ل.س"
 }

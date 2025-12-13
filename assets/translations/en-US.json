@@ -108,7 +108,7 @@
   "submit": "Submit",
   "addServiceOrMenuTitle": "Add services or menu",
   "services": "services",
-  "menu": "menu",
+  "menu": "Menu",
   "acceptTerms": "I accept the terms and conditions",
   "reviewSubscriptionCost": "I have reviewed the subscription cost",
   "informationCorrect": "All the information that I have filled in is correct and at my own risk",
@@ -252,6 +252,7 @@
   "mainCategory": "Main Categories",
   "subCategory": "Sub Categories",
   "addedSuccessfully": "Added successfully",
-  "openingHours": "Opening Hours"
+  "openingHours": "Opening Hours",
+  "SP":"SYP"
 
 } 
