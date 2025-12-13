@@ -1,19 +1,24 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/helper/network_icon.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
+import 'package:lawaen/features/home/presentation/cubit/category_item_details_cubit/category_item_detials_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class HeaderSection extends StatefulWidget {
   final ItemData itemData;
-  const HeaderSection({super.key, required this.itemData});
+  final String categoryId;
+  final String itemId;
+  const HeaderSection({super.key, required this.itemData, required this.categoryId, required this.itemId});
 
   @override
   State<HeaderSection> createState() => _HeaderSectionState();
@@ -133,14 +138,39 @@ class _HeaderSectionState extends State<HeaderSection> {
               Positioned(
                 right: 15.w,
                 top: 20.h,
-                child: GestureDetector(
-                  onTap: () => {},
-                  child: CircleAvatar(
-                    backgroundColor: ColorManager.black.withValues(alpha: 0.5),
-                    child: widget.itemData.item?.flags?.isSaved == true
-                        ? Icon(Icons.favorite, color: ColorManager.red, size: 18.r)
-                        : Icon(Icons.favorite_border_rounded, color: ColorManager.white, size: 18.r),
-                  ),
+                child: BlocBuilder<CategoryItemDetialsCubit, CategoryItemDetialsState>(
+                  buildWhen: (prev, curr) =>
+                      prev.saved != curr.saved || prev.toggleFavoriteState != curr.toggleFavoriteState,
+                  builder: (context, state) {
+                    final bool isFavorite = state.toggleFavoriteState == RequestState.success
+                        ? state.saved
+                        : (widget.itemData.item?.flags?.isSaved ?? false);
+
+                    return GestureDetector(
+                      onTap: state.toggleFavoriteState == RequestState.loading
+                          ? null
+                          : () {
+                              context.read<CategoryItemDetialsCubit>().d(
+                                itemId: widget.itemId,
+                                secondCategoryId: widget.categoryId,
+                              );
+                            },
+                      child: CircleAvatar(
+                        backgroundColor: ColorManager.black.withValues(alpha: 0.5),
+                        child: state.toggleFavoriteState == RequestState.loading
+                            ? SizedBox(
+                                width: 16.r,
+                                height: 16.r,
+                                child: CircularProgressIndicator(strokeWidth: 2, color: ColorManager.white),
+                              )
+                            : Icon(
+                                isFavorite ? Icons.favorite : Icons.favorite_border_rounded,
+                                color: isFavorite ? ColorManager.red : ColorManager.white,
+                                size: 18.r,
+                              ),
+                      ),
+                    );
+                  },
                 ),
               ),
 

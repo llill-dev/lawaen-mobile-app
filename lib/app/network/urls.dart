@@ -28,8 +28,11 @@ class Urls {
   static const String getCategoryDetails = "location/by_basic/{id}";
   static const String getCategoryDetailsBySecond = "location/by_second/{id}";
 
+  // category item details
   static const String getItemData = "location/by_id/{second_id}/{id}";
+  static const String toggleFavorite = "user_activity/toggle_save//{second_id}/{id}";
 
+  //map
   static const String searchLocation = "location/search";
 
   //offers

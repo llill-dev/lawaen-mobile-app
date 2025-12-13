@@ -32,6 +32,34 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
             categoryItemState: RequestState.success,
             categoryItems: categoryItems,
             categoryItemsError: null,
+            globalError: null,
+          ),
+        );
+      },
+    );
+  }
+
+  void d({required String itemId, required String secondCategoryId}) async {
+    emit(state.copyWith(toggleFavoriteState: RequestState.loading));
+
+    final result = await _categoryItemDetailsRepo.toggleFavorite(itemId: itemId, secondCategoryId: secondCategoryId);
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            toggleFavoriteState: RequestState.error,
+            toggleFavoriteError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (toggleModel) {
+        emit(
+          state.copyWith(
+            toggleFavoriteState: RequestState.success,
+            saved: toggleModel.saved,
+            toggleFavoriteError: null,
+            globalError: null,
           ),
         );
       },

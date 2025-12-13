@@ -19,6 +19,7 @@ import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
+import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_menu_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
@@ -112,12 +113,20 @@ abstract class AppServiceClient {
     @Path("id") required String id,
   });
 
+  // getagory item details
   @GET(Urls.getItemData)
   Future<ApiResponse<ItemData>> getItemData({
     @Path("second_id") required String secondId,
     @Path("id") required String id,
   });
 
+  @POST(Urls.toggleFavorite)
+  Future<ApiResponse<ToggleModel>> toggleFavorite({
+    @Path("second_id") required String secondId,
+    @Path("id") required String id,
+  });
+
+  //map
   @GET(Urls.searchLocation)
   Future<ApiResponse<List<CategoryDetailsModel>>> searchLocation({@Queries() required GetCategoryDetailsParams params});
 
