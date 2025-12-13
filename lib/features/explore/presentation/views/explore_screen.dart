@@ -76,7 +76,12 @@ class _ExploreScreenState extends State<ExploreScreen> with AutomaticKeepAliveCl
               controller: _scrollController,
               clipBehavior: Clip.none,
               slivers: [
-                ExploreHeaderSection(isGridView: _isGridView, onViewModeChanged: _onViewModeChanged),
+                ExploreHeaderSection(
+                  isGridView: _isGridView,
+                  onViewModeChanged: _onViewModeChanged,
+                  preferences: state.userPreferences,
+                  preferencesState: state.preferencesState,
+                ),
                 buildSpace(),
                 _buildTitle(context),
                 buildSpace(),

@@ -3,13 +3,14 @@ import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
+import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
 import 'package:lawaen/features/explore/data/repos/explore_repo.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 
 part 'explore_state.dart';
 
-@Injectable()
+@singleton
 class ExploreCubit extends Cubit<ExploreState> {
   final ExploreRepo _exploreRepo;
   final LocationService _locationService;
@@ -69,6 +70,39 @@ class ExploreCubit extends Cubit<ExploreState> {
             isLoadMore: false,
             currentPage: newItems.isEmpty ? state.currentPage : state.currentPage + 1,
             hasMore: newItems.isNotEmpty,
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> getUserPreferences() async {
+    emit(
+      state.copyWith(
+        preferencesState: RequestState.loading,
+        preferencesError: null,
+        globalError: null,
+      ),
+    );
+
+    final result = await _exploreRepo.getUserPreferences();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            preferencesState: RequestState.error,
+            preferencesError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (preferences) {
+        emit(
+          state.copyWith(
+            preferencesState: RequestState.success,
+            userPreferences: preferences,
+            preferencesError: null,
           ),
         );
       },

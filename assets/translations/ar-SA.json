@@ -272,5 +272,7 @@
   "SP":"ل.س",
   "trending" : "رائج",
   "mostPopular" : "الاكثر شهرة",
-  "noOffersFound" : "لايوجود عروض حاليا"
+  "noOffersFound" : "لايوجود عروض حاليا",
+  "userPreferences" : "اهتماماتك",
+  "thereAreNoPreferencesYet" : "لا يوجد اهتمامات حاليا، ابدأ البحث لبناء اهتماماتك"
 }

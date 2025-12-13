@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/services/firebase_service.dart';
 import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
+import 'package:lawaen/features/explore/presentation/cubit/explore_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
 
@@ -74,4 +75,5 @@ void _initAppApi() {
   getIt<MapMarkerCubit>().loadMarkers();
   getIt<EventCubit>().getEventTypes();
   getIt<OffersCubit>().getOfferTypes();
+  getIt<ExploreCubit>().getUserPreferences();
 }

@@ -12,6 +12,7 @@ import 'package:lawaen/features/add_to_app/data/models/add_offer_model.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/data/models/event_type_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -123,6 +124,9 @@ abstract class AppServiceClient {
   //explore
   @GET(Urls.getExplore)
   Future<ApiResponse<List<CategoryDetailsModel>>> getExplore({@Queries() required GetCategoryDetailsParams params});
+
+  @GET(Urls.getUserPreferences)
+  Future<ApiResponse<List<UserPreferencesModel>>> getUserPreferences();
 
   //add to app
   @MultiPart()

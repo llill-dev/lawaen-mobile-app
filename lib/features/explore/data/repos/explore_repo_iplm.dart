@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
+import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
 import 'package:lawaen/features/explore/data/repos/explore_repo.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
@@ -28,6 +29,20 @@ class ExploreRepoImpl implements ExploreRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("getExplore error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<UserPreferencesModel>>> getUserPreferences() async {
+    try {
+      final response = await appServiceClient.getUserPreferences();
+      if (response.status == true && response.data != null) {
+        return Right(response.data!);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getUserPreferences error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

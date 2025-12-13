@@ -38,6 +38,7 @@ class Urls {
 
   //explore
   static const String getExplore = "location/by_explore/";
+  static const String getUserPreferences = "category/get_explore_category";
 
   //profile
   static const String contactUS = "req_data/send_message";

@@ -5,10 +5,13 @@ import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class RecentSearch extends StatelessWidget {
-  const RecentSearch({super.key});
+  final List<String> recentSearch;
+  const RecentSearch({super.key, required this.recentSearch});
 
   @override
   Widget build(BuildContext context) {
+    if (recentSearch.isEmpty) return const SizedBox.shrink();
+
     return Column(
       children: [
         Row(
@@ -22,8 +25,14 @@ class RecentSearch extends StatelessWidget {
           ],
         ),
         16.verticalSpace,
-        Row(
-          children: List.generate(3, (index) => buildRecentSearchItem(searchText: 'Luxury hotels', context: context)),
+        SizedBox(
+          height: 32.h,
+          child: ListView.separated(
+            scrollDirection: Axis.horizontal,
+            itemCount: recentSearch.length,
+            separatorBuilder: (_, __) => 8.horizontalSpace,
+            itemBuilder: (context, index) => buildRecentSearchItem(searchText: recentSearch[index], context: context),
+          ),
         ),
       ],
     );
@@ -31,8 +40,7 @@ class RecentSearch extends StatelessWidget {
 
   Widget buildRecentSearchItem({required String searchText, required BuildContext context}) {
     return Container(
-      padding: const EdgeInsets.all(6),
-      margin: const EdgeInsets.only(right: 8),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
       decoration: BoxDecoration(color: ColorManager.blackSwatch[3], borderRadius: BorderRadius.circular(8)),
       child: Text(searchText, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.black)),
     );

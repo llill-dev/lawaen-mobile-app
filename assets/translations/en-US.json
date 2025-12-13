@@ -269,6 +269,7 @@
   "SP":"SYP",
   "trending" : "Trending",
   "mostPopular" : "Most Popular",
-  "noOffersFound" : "No Offers Found"
-
+  "noOffersFound" : "No Offers Found",
+  "userPreferences" : "Your Preferences",
+  "thereAreNoPreferencesYet" : "There are no preferences yet, start searching to build your preferences"
 } 
