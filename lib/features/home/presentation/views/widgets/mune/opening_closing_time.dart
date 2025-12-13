@@ -1,10 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class OpeningClosingTime extends StatelessWidget {
-  const OpeningClosingTime({super.key});
+  final String openColseTimes;
+  const OpeningClosingTime({super.key, required this.openColseTimes});
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +20,9 @@ class OpeningClosingTime extends StatelessWidget {
         ),
         child: Column(
           children: [
-            _buildTimeText(time: "Open Tuesday - Sunday | 5:00 PM - 10:00 PM", context: context),
+            _buildTimeText(time: "${LocaleKeys.openingHours.tr()} | $openColseTimes", context: context),
             10.verticalSpace,
-            _buildTimeText(time: "Reservations recommended | (555) 123-4567", context: context),
+            // _buildTimeText(time: "Reservations recommended | (555) 123-4567", context: context),
           ],
         ),
       ).horizontalPadding(padding: 16.w),

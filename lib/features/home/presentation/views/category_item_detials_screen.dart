@@ -41,13 +41,6 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
 
   late final CategoryItemDetialsCubit cubit;
 
-  final List<String> sections = [
-    LocaleKeys.photos.tr(),
-    LocaleKeys.information.tr(),
-    LocaleKeys.location.tr(),
-    LocaleKeys.services.tr(),
-  ];
-
   @override
   void initState() {
     cubit = getIt<CategoryItemDetialsCubit>();
@@ -88,11 +81,22 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
                   buildSpace(),
 
                   SectionSelector(
-                    sections: sections,
+                    sections: [
+                      LocaleKeys.photos.tr(),
+                      LocaleKeys.information.tr(),
+                      LocaleKeys.location.tr(),
+                      state.categoryItems!.isHaveMune == true ? LocaleKeys.menu.tr() : LocaleKeys.services.tr(),
+                    ],
                     selectedIndex: selectedIndex,
                     onSectionSelected: (index) {
                       if (index == 3 && state.categoryItems!.isHaveMune == true) {
-                        context.router.push(MuneRoute());
+                        context.router.push(
+                          MuneRoute(
+                            secondId: widget.subCategoryId,
+                            itemId: widget.itemId,
+                            openColseTimes: state.categoryItems?.ui?.workingHours?.label,
+                          ),
+                        );
                       } else {
                         setState(() => selectedIndex = index);
                       }

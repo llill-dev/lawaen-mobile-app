@@ -4,15 +4,15 @@ import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 
 class SectionSelector extends StatelessWidget {
-  final List<String> sections;
   final int selectedIndex;
+  final List<String> sections;
   final ValueChanged<int> onSectionSelected;
 
   const SectionSelector({
     super.key,
-    required this.sections,
     required this.selectedIndex,
     required this.onSectionSelected,
+    required this.sections,
   });
 
   @override

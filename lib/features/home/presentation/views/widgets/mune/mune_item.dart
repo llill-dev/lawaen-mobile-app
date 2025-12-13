@@ -1,30 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lawaen/app/core/widgets/cached_image.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/features/home/data/models/mune_model.dart';
 
-class MuneItemModel {
-  final String title;
-  final String price;
-  final String description;
-  final String tag;
-  final Color tagColor;
-  final String image;
-
-  MuneItemModel({
-    required this.title,
-    required this.price,
-    required this.description,
-    required this.tag,
-    required this.tagColor,
-    required this.image,
-  });
-}
-
-class MuneItme extends StatelessWidget {
-  final MuneItemModel item;
-  const MuneItme({super.key, required this.item});
+class MuneItemWidget extends StatelessWidget {
+  final String muneCategoryTitle;
+  final MenuItem item;
+  const MuneItemWidget({super.key, required this.item, required this.muneCategoryTitle});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +34,9 @@ class MuneItme extends StatelessWidget {
             borderRadius: const BorderRadius.vertical(top: Radius.circular(14)),
             child: AspectRatio(
               aspectRatio: 16 / 8,
-              child: Image.asset(item.image, fit: BoxFit.cover, width: double.infinity),
+              child: item.image != null && item.image!.isNotEmpty
+                  ? CachedImage(url: item.image!, fit: BoxFit.cover, width: double.infinity)
+                  : Image.asset(ImageManager.emptyPhoto, fit: BoxFit.cover, width: double.infinity),
             ),
           ),
           24.verticalSpace,
@@ -62,26 +49,27 @@ class MuneItme extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(item.title, style: Theme.of(context).textTheme.headlineLarge),
-                    Text(item.price, style: Theme.of(context).textTheme.headlineLarge),
+                    Text(item.title ?? "", style: Theme.of(context).textTheme.headlineLarge),
+                    if (item.price != null)
+                      Text(item.price.toString(), style: Theme.of(context).textTheme.headlineLarge),
                   ],
                 ),
                 12.verticalSpace,
                 Text(
-                  item.description,
+                  item.description ?? "",
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.darkGrey),
                 ),
                 12.verticalSpace,
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
-                  decoration: BoxDecoration(color: item.tagColor, borderRadius: BorderRadius.circular(10)),
+                  decoration: BoxDecoration(color: ColorManager.muneGreen, borderRadius: BorderRadius.circular(10)),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(IconManager.mune, width: 12.w, height: 12.w),
                       4.horizontalSpace,
                       Text(
-                        item.tag,
+                        muneCategoryTitle,
                         style: Theme.of(
                           context,
                         ).textTheme.headlineSmall?.copyWith(color: ColorManager.black, fontSize: 12),

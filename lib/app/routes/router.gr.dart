@@ -598,18 +598,77 @@ class MuneManagerRoute extends _i32.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i18.MuneScreen]
-class MuneRoute extends _i32.PageRouteInfo<void> {
-  const MuneRoute({List<_i32.PageRouteInfo>? children})
-    : super(MuneRoute.name, initialChildren: children);
+class MuneRoute extends _i32.PageRouteInfo<MuneRouteArgs> {
+  MuneRoute({
+    _i33.Key? key,
+    required String secondId,
+    required String itemId,
+    String? openColseTimes,
+    List<_i32.PageRouteInfo>? children,
+  }) : super(
+         MuneRoute.name,
+         args: MuneRouteArgs(
+           key: key,
+           secondId: secondId,
+           itemId: itemId,
+           openColseTimes: openColseTimes,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'MuneRoute';
 
   static _i32.PageInfo page = _i32.PageInfo(
     name,
     builder: (data) {
-      return const _i18.MuneScreen();
+      final args = data.argsAs<MuneRouteArgs>();
+      return _i18.MuneScreen(
+        key: args.key,
+        secondId: args.secondId,
+        itemId: args.itemId,
+        openColseTimes: args.openColseTimes,
+      );
     },
   );
+}
+
+class MuneRouteArgs {
+  const MuneRouteArgs({
+    this.key,
+    required this.secondId,
+    required this.itemId,
+    this.openColseTimes,
+  });
+
+  final _i33.Key? key;
+
+  final String secondId;
+
+  final String itemId;
+
+  final String? openColseTimes;
+
+  @override
+  String toString() {
+    return 'MuneRouteArgs{key: $key, secondId: $secondId, itemId: $itemId, openColseTimes: $openColseTimes}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MuneRouteArgs) return false;
+    return key == other.key &&
+        secondId == other.secondId &&
+        itemId == other.itemId &&
+        openColseTimes == other.openColseTimes;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^
+      secondId.hashCode ^
+      itemId.hashCode ^
+      openColseTimes.hashCode;
 }
 
 /// generated route for
