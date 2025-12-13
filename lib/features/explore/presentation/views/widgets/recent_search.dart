@@ -6,7 +6,8 @@ import 'package:lawaen/generated/locale_keys.g.dart';
 
 class RecentSearch extends StatelessWidget {
   final List<String> recentSearch;
-  const RecentSearch({super.key, required this.recentSearch});
+  final ValueChanged<String> onTap;
+  const RecentSearch({super.key, required this.recentSearch, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -18,9 +19,11 @@ class RecentSearch extends StatelessWidget {
           children: [
             Icon(Icons.watch_later_outlined, color: ColorManager.grey, size: 16.r),
             8.horizontalSpace,
-            Text(
-              LocaleKeys.recent_search.tr(),
-              style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.grey),
+            Expanded(
+              child: Text(
+                LocaleKeys.recent_search.tr(),
+                style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.grey),
+              ),
             ),
           ],
         ),
@@ -39,10 +42,13 @@ class RecentSearch extends StatelessWidget {
   }
 
   Widget buildRecentSearchItem({required String searchText, required BuildContext context}) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-      decoration: BoxDecoration(color: ColorManager.blackSwatch[3], borderRadius: BorderRadius.circular(8)),
-      child: Text(searchText, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.black)),
+    return GestureDetector(
+      onTap: () => onTap(searchText),
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
+        decoration: BoxDecoration(color: ColorManager.blackSwatch[3], borderRadius: BorderRadius.circular(8)),
+        child: Text(searchText, style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.black)),
+      ),
     );
   }
 }

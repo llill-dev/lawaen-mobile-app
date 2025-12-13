@@ -21,6 +21,7 @@ const String prefsCityName = "prefs_city_name";
 const String prefsFcmToken = "prefs_fcm_token";
 const String prefsUserInfo = "prefs_user_info";
 const String prefsFcmRegistered = "prefs_fcm_registered";
+const String prefsExploreRecentSearch = "prefs_explore_recent_search";
 
 @Injectable()
 class AppPreferences {
@@ -154,4 +155,16 @@ extension FcmPrefs on AppPreferences {
   }
 
   bool get isFcmRegistered => getBool(prefsKey: prefsFcmRegistered);
+}
+
+extension ExploreSearchPrefs on AppPreferences {
+  Future<void> saveExploreRecentSearch(List<String> searches) async {
+    await setString(prefsKey: prefsExploreRecentSearch, value: jsonEncode(searches));
+  }
+
+  List<String> getExploreRecentSearch() {
+    final raw = getString(prefsKey: prefsExploreRecentSearch);
+    if (raw.isEmpty) return [];
+    return List<String>.from(jsonDecode(raw));
+  }
 }

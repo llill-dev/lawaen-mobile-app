@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
@@ -14,12 +15,25 @@ part 'explore_state.dart';
 class ExploreCubit extends Cubit<ExploreState> {
   final ExploreRepo _exploreRepo;
   final LocationService _locationService;
+  final AppPreferences _appPreferences;
 
-  ExploreCubit(this._exploreRepo, this._locationService) : super(const ExploreState());
+  ExploreCubit(this._exploreRepo, this._locationService, this._appPreferences) : super(const ExploreState()) {
+    _loadRecentSearch();
+  }
+
+  void _loadRecentSearch() {
+    final cached = _appPreferences.getExploreRecentSearch();
+    if (cached.isNotEmpty) {
+      emit(state.copyWith(recentSearches: cached));
+    }
+  }
 
   Future<void> getExplore({bool isLoadMore = false, String? search}) async {
     if (state.preferencesState == RequestState.idle) {
       await getUserPreferences();
+    }
+    if (!isLoadMore && search != null && search.trim().isNotEmpty) {
+      addRecentSearch(search);
     }
     if (state.userPreferences.isEmpty) return;
 
@@ -104,6 +118,19 @@ class ExploreCubit extends Cubit<ExploreState> {
     emit(state.copyWith(selectedCategoryId: categoryId, currentPage: 1, hasMore: true, exploreItems: [], search: null));
 
     getExplore(isLoadMore: false, search: null);
+  }
+
+  void addRecentSearch(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return;
+
+    final updated = [
+      trimmed,
+      ...state.recentSearches.where((e) => e.toLowerCase() != trimmed.toLowerCase()),
+    ].take(5).toList();
+
+    emit(state.copyWith(recentSearches: updated));
+    _appPreferences.saveExploreRecentSearch(updated);
   }
 
   void clearGlobalError() {

@@ -60,7 +60,8 @@ class _ExploreHeaderSectionState extends State<ExploreHeaderSection> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> recentSearch = [];
+    final recentSearch = context.watch<ExploreCubit>().state.recentSearches;
+
     return SliverToBoxAdapter(
       child: Container(
         padding: EdgeInsets.all(16.w),
@@ -147,7 +148,13 @@ class _ExploreHeaderSectionState extends State<ExploreHeaderSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         16.verticalSpace,
-        RecentSearch(recentSearch: recentSearch),
+        RecentSearch(
+          recentSearch: recentSearch,
+          onTap: (value) {
+            _searchConttroller.text = value;
+            context.read<ExploreCubit>().getExplore(search: value, isLoadMore: false);
+          },
+        ),
       ],
     );
   }

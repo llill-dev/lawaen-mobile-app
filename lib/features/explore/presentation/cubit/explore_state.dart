@@ -15,6 +15,8 @@ class ExploreState extends Equatable {
   final bool hasMore;
   final String? search;
 
+  final List<String> recentSearches;
+
   final String? globalError;
 
   const ExploreState({
@@ -31,6 +33,7 @@ class ExploreState extends Equatable {
     this.limit = 10,
     this.hasMore = true,
     this.search,
+    this.recentSearches = const [],
   });
 
   ExploreState copyWith({
@@ -47,6 +50,7 @@ class ExploreState extends Equatable {
     int? limit,
     bool? hasMore,
     String? search,
+    List<String>? recentSearches,
   }) {
     return ExploreState(
       exploreState: exploreState ?? this.exploreState,
@@ -61,6 +65,9 @@ class ExploreState extends Equatable {
       currentPage: currentPage ?? this.currentPage,
       limit: limit ?? this.limit,
       hasMore: hasMore ?? this.hasMore,
+
+      recentSearches: recentSearches ?? this.recentSearches,
+
       search: search ?? this.search,
     );
   }
@@ -80,5 +87,6 @@ class ExploreState extends Equatable {
     limit,
     hasMore,
     search,
+    recentSearches,
   ];
 }
