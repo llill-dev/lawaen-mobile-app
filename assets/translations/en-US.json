@@ -6,7 +6,7 @@
   "forbidden": "Forbidden request",
   "unauthorized": "User is UnAuthorized, Try again later",
   "internalServerError": "Something went wrong, Try again later",
-  "notFound": "Data not found",
+  "notFound": "There is no Data to Show",
   "connectionTimeout": "Time out, Try again later",
   "requestCanceled": "Request was cancelled, Try again later",
   "receiveTimeout": "Timeout error, Try again later",
@@ -253,6 +253,8 @@
   "subCategory": "Sub Categories",
   "addedSuccessfully": "Added successfully",
   "openingHours": "Opening Hours",
-  "SP":"SYP"
+  "SP":"SYP",
+  "trending" : "Trending",
+  "mostPopular" : "Most Popular"
 
 } 
