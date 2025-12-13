@@ -150,7 +150,7 @@ class _HeaderSectionState extends State<HeaderSection> {
                       onTap: state.toggleFavoriteState == RequestState.loading
                           ? null
                           : () {
-                              context.read<CategoryItemDetialsCubit>().d(
+                              context.read<CategoryItemDetialsCubit>().toggleFavorite(
                                 itemId: widget.itemId,
                                 secondCategoryId: widget.categoryId,
                               );

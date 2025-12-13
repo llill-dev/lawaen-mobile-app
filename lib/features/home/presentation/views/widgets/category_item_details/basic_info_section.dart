@@ -12,8 +12,10 @@ import '../../../../../../app/resources/assets_manager.dart';
 import 'feedback_bottom_sheet.dart';
 
 class BasicInfoSection extends StatelessWidget {
+  final String categoryId;
+  final String itemId;
   final ItemData itemData;
-  const BasicInfoSection({super.key, required this.itemData});
+  const BasicInfoSection({super.key, required this.itemData, required this.categoryId, required this.itemId});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +89,7 @@ class BasicInfoSection extends StatelessWidget {
       showDragHandle: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {
-        return const FeedbackBottomSheet();
+        return FeedbackBottomSheet(categoryId: categoryId, itemId: itemId);
       },
     );
   }

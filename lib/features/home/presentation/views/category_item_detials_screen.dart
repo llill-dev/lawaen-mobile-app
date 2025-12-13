@@ -82,7 +82,13 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
 
                   buildSpace(height: 8.h),
 
-                  SliverToBoxAdapter(child: BasicInfoSection(itemData: state.categoryItems!)),
+                  SliverToBoxAdapter(
+                    child: BasicInfoSection(
+                      itemData: state.categoryItems!,
+                      categoryId: widget.subCategoryId,
+                      itemId: widget.itemId,
+                    ),
+                  ),
 
                   buildSpace(),
 

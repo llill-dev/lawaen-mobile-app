@@ -21,6 +21,7 @@ import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_menu_params.dart';
+import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
@@ -124,6 +125,13 @@ abstract class AppServiceClient {
   Future<ApiResponse<ToggleModel>> toggleFavorite({
     @Path("second_id") required String secondId,
     @Path("id") required String id,
+  });
+
+  @POST(Urls.rateItem)
+  Future<ApiResponse> rateItem({
+    @Path("second_id") required String secondId,
+    @Path("id") required String id,
+    @Body() required RateItemParams params,
   });
 
   //map

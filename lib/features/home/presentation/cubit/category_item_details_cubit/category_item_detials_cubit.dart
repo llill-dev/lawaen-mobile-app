@@ -4,6 +4,7 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
+import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 
 part 'category_item_detials_state.dart';
 
@@ -39,7 +40,7 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
     );
   }
 
-  void d({required String itemId, required String secondCategoryId}) async {
+  void toggleFavorite({required String itemId, required String secondCategoryId}) async {
     emit(state.copyWith(toggleFavoriteState: RequestState.loading));
 
     final result = await _categoryItemDetailsRepo.toggleFavorite(itemId: itemId, secondCategoryId: secondCategoryId);
@@ -62,6 +63,30 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
             globalError: null,
           ),
         );
+      },
+    );
+  }
+
+  void rateItem({required String itemId, required String secondCategoryId, required RateItemParams params}) async {
+    emit(state.copyWith(rateItemState: RequestState.loading));
+
+    final result = await _categoryItemDetailsRepo.reateItem(
+      itemId: itemId,
+      secondCategoryId: secondCategoryId,
+      params: params,
+    );
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            rateItemState: RequestState.error,
+            rateItemError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (_) {
+        emit(state.copyWith(rateItemState: RequestState.success, rateItemError: null, globalError: null));
       },
     );
   }

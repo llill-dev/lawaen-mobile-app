@@ -11,6 +11,7 @@ import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
+import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 @Injectable(as: CategoryItemDetailsRepo)
@@ -50,7 +51,28 @@ class CategoryItemDetailsRepoImpl implements CategoryItemDetailsRepo {
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
-      log("getCategoryItems error: ${e.toString()}");
+      log("Toglee error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> reateItem({
+    required String secondCategoryId,
+    required String itemId,
+    required RateItemParams params,
+  }) async {
+    try {
+      final response = await appServiceClient.rateItem(secondId: secondCategoryId, id: itemId, params: params);
+      if (response.success == true) {
+        if (response.message != null) {
+          showToast(message: response.message!);
+        }
+        return Right(unit);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("reate item error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
