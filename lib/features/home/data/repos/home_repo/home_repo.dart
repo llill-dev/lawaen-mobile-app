@@ -7,6 +7,7 @@ import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
+import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:lawaen/features/home/presentation/params/get_menu_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
@@ -18,4 +19,5 @@ abstract class HomeRepo {
   Future<Either<ErrorModel, RegisterFcmTokenModel>> registerFcmToken(RegisterFcmTokenParams params);
   Future<Either<ErrorModel, List<CategoryDetailsModel>>> getHomeData(GetCategoryDetailsParams params);
   Future<Either<ErrorModel, MuneModel>> getMune(GetMenuParams params);
+  Future<Either<ErrorModel, List<ContactModel>>> getContact();
 }

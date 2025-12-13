@@ -11,6 +11,7 @@ import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
+import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
 
@@ -37,6 +38,7 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> initHome() async {
     getCategories();
     getCities();
+    getContact();
   }
 
   // ────────────────────────────────────────────────
@@ -177,6 +179,30 @@ class HomeCubit extends Cubit<HomeState> {
             homeDataHasMore: newItems.isNotEmpty,
           ),
         );
+      },
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // CONTACT
+  // ────────────────────────────────────────────────
+  Future<void> getContact() async {
+    emit(state.copyWith(contactState: RequestState.loading, contactError: null));
+
+    final result = await _homeRepo.getContact();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            contactState: RequestState.error,
+            contactError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (contact) {
+        emit(state.copyWith(contactState: RequestState.success, contact: contact, contactError: null));
       },
     );
   }

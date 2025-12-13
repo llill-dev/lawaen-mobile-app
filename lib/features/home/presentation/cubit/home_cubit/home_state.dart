@@ -32,6 +32,11 @@ class HomeState extends Equatable {
   final int homeDataLimit;
   final bool homeDataHasMore;
 
+  // CONTACT
+  final RequestState contactState;
+  final List<ContactModel> contact;
+  final String? contactError;
+
   // GLOBAL
   final String? globalError;
 
@@ -57,6 +62,9 @@ class HomeState extends Equatable {
     this.homeDataCurrentPage = 1,
     this.homeDataLimit = 10,
     this.homeDataHasMore = true,
+    this.contactState = RequestState.idle,
+    this.contact = const [],
+    this.contactError,
     this.globalError,
   });
 
@@ -92,6 +100,11 @@ class HomeState extends Equatable {
     final int? homeDataLimit,
     final bool? homeDataHasMore,
 
+    // contact
+    final RequestState? contactState,
+    final List<ContactModel>? contact,
+    final String? contactError,
+
     // global
     String? globalError,
   }) {
@@ -119,9 +132,14 @@ class HomeState extends Equatable {
       categoryDetails: categoryDetails ?? this.categoryDetails,
       categoryDetailsError: categoryDetailsError,
       isLoadMore: isLoadMore ?? this.isLoadMore,
+
       homeDataCurrentPage: homeDataCurrentPage ?? this.homeDataCurrentPage,
       homeDataLimit: homeDataLimit ?? this.homeDataLimit,
       homeDataHasMore: homeDataHasMore ?? this.homeDataHasMore,
+
+      contactState: contactState ?? this.contactState,
+      contact: contact ?? this.contact,
+      contactError: contactError,
 
       globalError: globalError,
     );
@@ -155,6 +173,11 @@ class HomeState extends Equatable {
     homeDataCurrentPage,
     homeDataLimit,
     homeDataHasMore,
+
+    // contact
+    contactState,
+    contact,
+    contactError,
 
     globalError,
   ];

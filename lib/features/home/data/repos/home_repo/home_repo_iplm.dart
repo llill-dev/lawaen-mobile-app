@@ -12,6 +12,7 @@ import 'package:lawaen/features/events/presentation/params/get_events_params.dar
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/repos/home_repo/home_repo.dart';
@@ -100,6 +101,21 @@ class HomeRepoImpl implements HomeRepo {
   Future<Either<ErrorModel, MuneModel>> getMune(GetMenuParams params) async {
     try {
       final response = await appServiceClient.getMune(params: params);
+
+      if (response.status == true && response.data != null) {
+        return Right(response.data!);
+      }
+
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<ContactModel>>> getContact() async {
+    try {
+      final response = await appServiceClient.getContact();
 
       if (response.status == true && response.data != null) {
         return Right(response.data!);

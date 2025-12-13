@@ -17,6 +17,7 @@ import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
@@ -102,6 +103,9 @@ abstract class AppServiceClient {
 
   @GET(Urls.getMune)
   Future<ApiResponse<MuneModel>> getMune({@Queries() required GetMenuParams params});
+
+  @GET(Urls.getContact)
+  Future<ApiResponse<List<ContactModel>>> getContact();
 
   //category details
   @GET(Urls.getCategoryDetails)
