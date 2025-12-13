@@ -271,5 +271,12 @@
   "mostPopular" : "Most Popular",
   "noOffersFound" : "No Offers Found",
   "userPreferences" : "Your Preferences",
-  "thereAreNoPreferencesYet" : "There are no preferences yet, start searching to build your preferences"
+  "thereAreNoPreferencesYet" : "There are no preferences yet, start searching to build your preferences",
+  "rate": "Rate",
+  "send": "Send",
+  "seeAll": "See All",
+  "writeYourFeedback": "Write your feedback:",
+  "writeYourFeedbackHint": "Write your feedback here...",
+  "feedbackMessageRequired": "Please write your feedback message",
+  "feedbackSubmittedSuccessfully": "Your feedback submitted successfully"
 } 

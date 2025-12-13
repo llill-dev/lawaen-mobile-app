@@ -12,6 +12,9 @@ class CategoryItemDetialsState extends Equatable {
   final RequestState rateItemState;
   final String? rateItemError;
 
+  final RequestState sendFeedBackState;
+  final String? sendFeedBackError;
+
   final String? globalError;
 
   const CategoryItemDetialsState({
@@ -23,6 +26,8 @@ class CategoryItemDetialsState extends Equatable {
     this.toggleFavoriteError,
     this.rateItemState = RequestState.idle,
     this.rateItemError,
+    this.sendFeedBackState = RequestState.idle,
+    this.sendFeedBackError,
     this.globalError,
   });
 
@@ -38,6 +43,9 @@ class CategoryItemDetialsState extends Equatable {
     RequestState? rateItemState,
     String? rateItemError,
 
+    RequestState? sendFeedBackState,
+    String? sendFeedBackError,
+
     String? globalError,
   }) {
     return CategoryItemDetialsState(
@@ -49,6 +57,8 @@ class CategoryItemDetialsState extends Equatable {
       toggleFavoriteError: toggleFavoriteError ?? this.toggleFavoriteError,
       rateItemState: rateItemState ?? this.rateItemState,
       rateItemError: rateItemError ?? this.rateItemError,
+      sendFeedBackState: sendFeedBackState ?? this.sendFeedBackState,
+      sendFeedBackError: sendFeedBackError ?? this.sendFeedBackError,
       globalError: globalError ?? this.globalError,
     );
   }
@@ -63,6 +73,8 @@ class CategoryItemDetialsState extends Equatable {
     saved,
     rateItemState,
     rateItemError,
+    sendFeedBackState,
+    sendFeedBackError,
     globalError,
   ];
 }

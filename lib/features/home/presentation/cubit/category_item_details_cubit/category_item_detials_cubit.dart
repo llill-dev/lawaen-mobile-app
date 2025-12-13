@@ -5,6 +5,7 @@ import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
+import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 
 part 'category_item_detials_state.dart';
 
@@ -87,6 +88,34 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
       },
       (_) {
         emit(state.copyWith(rateItemState: RequestState.success, rateItemError: null, globalError: null));
+      },
+    );
+  }
+
+  void sendFeedBack({
+    required String itemId,
+    required String secondCategoryId,
+    required SendFeedBackParams params,
+  }) async {
+    emit(state.copyWith(sendFeedBackState: RequestState.loading));
+
+    final result = await _categoryItemDetailsRepo.sendFeedBack(
+      itemId: itemId,
+      secondCategoryId: secondCategoryId,
+      params: params,
+    );
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            sendFeedBackState: RequestState.error,
+            sendFeedBackError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (_) {
+        emit(state.copyWith(sendFeedBackState: RequestState.success, sendFeedBackError: null, globalError: null));
       },
     );
   }

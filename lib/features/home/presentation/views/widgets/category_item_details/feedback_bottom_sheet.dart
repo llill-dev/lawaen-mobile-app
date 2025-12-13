@@ -10,6 +10,7 @@ import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_item_details_cubit/category_item_detials_cubit.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
+import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/core/widgets/primary_button.dart';
@@ -17,6 +18,7 @@ import '../../../../../../app/core/widgets/primary_button.dart';
 class FeedbackBottomSheet extends StatefulWidget {
   final String categoryId;
   final String itemId;
+
   const FeedbackBottomSheet({super.key, required this.categoryId, required this.itemId});
 
   @override
@@ -26,10 +28,16 @@ class FeedbackBottomSheet extends StatefulWidget {
 class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
   int selectedRating = 0;
   final TextEditingController _controller = TextEditingController();
+  final cubit = getIt<CategoryItemDetialsCubit>();
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final cubit = getIt<CategoryItemDetialsCubit>();
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom, left: 16.w, right: 16.w),
@@ -68,22 +76,21 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                         );
                       }),
                     ),
-
-                    12.horizontalSpace,
-
                     PrimaryButton(
-                      width: 50.w,
+                      width: 60.w,
                       height: 45.w,
                       borderRadius: 12,
-                      text: "Rate",
-                      onPressed: () {
-                        cubit.rateItem(
-                          itemId: widget.itemId,
-                          secondCategoryId: widget.categoryId,
-                          params: RateItemParams(rating: selectedRating),
-                        );
-                      },
+                      text: LocaleKeys.rate.tr(),
                       isLoading: state.rateItemState == RequestState.loading,
+                      onPressed: selectedRating == 0
+                          ? null
+                          : () {
+                              cubit.rateItem(
+                                itemId: widget.itemId,
+                                secondCategoryId: widget.categoryId,
+                                params: RateItemParams(rating: selectedRating),
+                              );
+                            },
                     ),
                   ],
                 );
@@ -91,23 +98,26 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
             ),
 
             16.verticalSpace,
+
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "Writ your feedback :",
+                  LocaleKeys.writeYourFeedback.tr(),
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.orange),
                 ),
                 GestureDetector(
                   onTap: () => context.router.push(FeedbackRoute()),
                   child: Text(
-                    "See All",
+                    LocaleKeys.seeAll.tr(),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
                   ),
                 ),
               ],
             ),
+
             16.verticalSpace,
+
             Container(
               height: 120.h,
               padding: EdgeInsets.all(10.w),
@@ -129,7 +139,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                 expands: true,
                 style: Theme.of(context).textTheme.headlineMedium,
                 decoration: InputDecoration(
-                  hintText: "Write your feedback...",
+                  hintText: LocaleKeys.writeYourFeedbackHint.tr(),
                   hintStyle: Theme.of(context).textTheme.headlineSmall,
                   border: InputBorder.none,
                   enabledBorder: InputBorder.none,
@@ -137,23 +147,48 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                 ),
               ),
             ),
+
             24.verticalSpace,
-            Center(
-              child: PrimaryButton(
-                text: "Send",
-                width: 150.w,
-                onPressed: () {
-                  final feedback = _controller.text.trim();
-                  final rating = selectedRating;
-                  if (feedback.isEmpty || rating == 0) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text("Please provide both rating and feedback.")));
-                    return;
-                  }
-                },
-              ),
+
+            BlocConsumer<CategoryItemDetialsCubit, CategoryItemDetialsState>(
+              bloc: cubit,
+              listenWhen: (prev, curr) => prev.sendFeedBackState != curr.sendFeedBackState,
+              listener: (context, state) {
+                if (state.sendFeedBackState == RequestState.success) {
+                  showToast(message: LocaleKeys.feedbackSubmittedSuccessfully.tr(), isSuccess: true);
+                  Navigator.pop(context);
+                  _controller.clear();
+                }
+
+                if (state.sendFeedBackState == RequestState.error) {
+                  showToast(message: state.sendFeedBackError ?? LocaleKeys.defaultError.tr(), isError: true);
+                }
+              },
+              builder: (context, state) {
+                return Center(
+                  child: PrimaryButton(
+                    text: LocaleKeys.send.tr(),
+                    width: 150.w,
+                    isLoading: state.sendFeedBackState == RequestState.loading,
+                    onPressed: () {
+                      final feedback = _controller.text.trim();
+
+                      if (feedback.isEmpty) {
+                        showToast(message: LocaleKeys.feedbackMessageRequired.tr(), isError: true);
+                        return;
+                      }
+
+                      cubit.sendFeedBack(
+                        itemId: widget.itemId,
+                        secondCategoryId: widget.categoryId,
+                        params: SendFeedBackParams(message: feedback),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
+
             24.verticalSpace,
           ],
         ),

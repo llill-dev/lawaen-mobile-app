@@ -1,8 +1,10 @@
 import 'package:dartz/dartz.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
+import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
+import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 
 abstract class CategoryItemDetailsRepo {
   Future<Either<ErrorModel, ItemData>> getCategoryItems({required String secondCategoryId, required String itemId});
@@ -11,5 +13,10 @@ abstract class CategoryItemDetailsRepo {
     required String secondCategoryId,
     required String itemId,
     required RateItemParams params,
+  });
+  Future<Either<ErrorModel, SendFeedBackModel>> sendFeedBack({
+    required String secondCategoryId,
+    required String itemId,
+    required SendFeedBackParams params,
   });
 }

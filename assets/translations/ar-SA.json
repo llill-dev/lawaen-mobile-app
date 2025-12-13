@@ -274,5 +274,12 @@
   "mostPopular" : "الاكثر شهرة",
   "noOffersFound" : "لايوجود عروض حاليا",
   "userPreferences" : "اهتماماتك",
-  "thereAreNoPreferencesYet" : "لا يوجد اهتمامات حاليا، ابدأ البحث لبناء اهتماماتك"
+  "thereAreNoPreferencesYet" : "لا يوجد اهتمامات حاليا، ابدأ البحث لبناء اهتماماتك",
+  "rate": "تقييم",
+  "send": "إرسال",
+  "seeAll": "عرض الكل",
+  "writeYourFeedback": "اكتب ملاحظتك:",
+  "writeYourFeedbackHint": "اكتب ملاحظتك هنا...",
+  "feedbackMessageRequired": "يرجى كتابة رسالة التقييم",
+  "feedbackSubmittedSuccessfully": "تم إرسال ملاحظتك بنجاح"
 }

@@ -32,6 +32,7 @@ class Urls {
   static const String getItemData = "location/by_id/{second_id}/{id}";
   static const String toggleFavorite = "user_activity/toggle_save/{second_id}/{id}";
   static const String rateItem = "user_activity/rate_item/{second_id}/{id}";
+  static const String sendFeedBack = "user_activity/add_message/{second_id}/{id}";
 
   //map
   static const String searchLocation = "location/search";
