@@ -118,6 +118,10 @@ abstract class AppServiceClient {
   @GET(Urls.searchLocation)
   Future<ApiResponse<List<CategoryDetailsModel>>> searchLocation({@Queries() required GetCategoryDetailsParams params});
 
+  //explore
+  @GET(Urls.getExplore)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getExplore({@Queries() required GetCategoryDetailsParams params});
+
   //add to app
   @MultiPart()
   @POST(Urls.addEvent)

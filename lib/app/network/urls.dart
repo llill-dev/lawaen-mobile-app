@@ -35,4 +35,7 @@ class Urls {
   //offers
   static const String getOfferType = "offer/offer_type";
   static const String getOffers = "offer/get_offer";
+
+  //explore
+  static const String getExplore = "location/by_explore/";
 }
