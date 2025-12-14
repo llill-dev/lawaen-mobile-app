@@ -6,6 +6,7 @@ import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/item_details_link_row.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/rating_distribution_sheet.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
@@ -48,7 +49,13 @@ class BasicInfoSection extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(children: List.generate(stars.length, (index) => stars[index])),
+            GestureDetector(
+              onTap: itemData.item?.rating?.distribution?.isNotEmpty ?? false
+                  ? () => _showRatingDistribution(context)
+                  : null,
+              child: Row(children: List.generate(stars.length, (index) => stars[index])),
+            ),
+
             GestureDetector(
               onTap: () => _showFeedBackBttomSheet(context),
               child: Container(
@@ -89,7 +96,25 @@ class BasicInfoSection extends StatelessWidget {
       showDragHandle: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {
-        return FeedbackBottomSheet(categoryId: categoryId, itemId: itemId);
+        return FeedbackBottomSheet(
+          categoryId: categoryId,
+          itemId: itemId,
+          isRated: itemData.item?.flags?.isRated ?? false,
+        );
+      },
+    );
+  }
+
+  void _showRatingDistribution(BuildContext context) {
+    final distribution = itemData.item?.rating?.distribution ?? {};
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ColorManager.white,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      builder: (_) {
+        return RatingDistributionSheet(distribution: distribution);
       },
     );
   }

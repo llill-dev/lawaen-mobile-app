@@ -18,8 +18,9 @@ import '../../../../../../app/core/widgets/primary_button.dart';
 class FeedbackBottomSheet extends StatefulWidget {
   final String categoryId;
   final String itemId;
+  final bool isRated;
 
-  const FeedbackBottomSheet({super.key, required this.categoryId, required this.itemId});
+  const FeedbackBottomSheet({super.key, required this.categoryId, required this.itemId, required this.isRated});
 
   @override
   State<FeedbackBottomSheet> createState() => _FeedbackBottomSheetState();
@@ -27,6 +28,7 @@ class FeedbackBottomSheet extends StatefulWidget {
 
 class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
   int selectedRating = 0;
+
   final TextEditingController _controller = TextEditingController();
   final cubit = getIt<CategoryItemDetialsCubit>();
 
@@ -45,59 +47,64 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            BlocConsumer<CategoryItemDetialsCubit, CategoryItemDetialsState>(
-              bloc: cubit,
-              listenWhen: (prev, curr) => prev.rateItemState != curr.rateItemState,
-              listener: (context, state) {
-                if (state.rateItemState == RequestState.error) {
-                  showToast(message: state.rateItemError ?? LocaleKeys.defaultError.tr(), isError: true);
-                }
-              },
-              builder: (context, state) {
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: List.generate(5, (index) {
-                        final isSelected = index < selectedRating;
-                        return GestureDetector(
-                          onTap: state.rateItemState == RequestState.loading
-                              ? null
-                              : () {
-                                  setState(() {
-                                    selectedRating = index + 1;
-                                  });
-                                },
-                          child: Icon(
-                            Icons.star_rounded,
-                            size: 28.r,
-                            color: isSelected ? ColorManager.orange : ColorManager.darkGrey,
-                          ),
-                        );
-                      }),
-                    ),
-                    PrimaryButton(
-                      width: 60.w,
-                      height: 45.w,
-                      borderRadius: 12,
-                      text: LocaleKeys.rate.tr(),
-                      isLoading: state.rateItemState == RequestState.loading,
-                      onPressed: selectedRating == 0
-                          ? null
-                          : () {
-                              cubit.rateItem(
-                                itemId: widget.itemId,
-                                secondCategoryId: widget.categoryId,
-                                params: RateItemParams(rating: selectedRating),
-                              );
-                            },
-                    ),
-                  ],
-                );
-              },
-            ),
+            if (!widget.isRated)
+              BlocConsumer<CategoryItemDetialsCubit, CategoryItemDetialsState>(
+                bloc: cubit,
+                listenWhen: (prev, curr) => prev.rateItemState != curr.rateItemState,
+                listener: (context, state) {
+                  if (state.rateItemState == RequestState.error) {
+                    showToast(message: state.rateItemError ?? LocaleKeys.defaultError.tr(), isError: true);
+                  }
+                  if (state.rateItemState == RequestState.success) {
+                    Navigator.pop(context);
+                    _controller.clear();
+                  }
+                },
+                builder: (context, state) {
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: List.generate(5, (index) {
+                          final isSelected = index < selectedRating;
+                          return GestureDetector(
+                            onTap: state.rateItemState == RequestState.loading
+                                ? null
+                                : () {
+                                    setState(() {
+                                      selectedRating = index + 1;
+                                    });
+                                  },
+                            child: Icon(
+                              Icons.star_rounded,
+                              size: 28.r,
+                              color: isSelected ? ColorManager.orange : ColorManager.darkGrey,
+                            ),
+                          );
+                        }),
+                      ),
+                      PrimaryButton(
+                        width: 60.w,
+                        height: 45.w,
+                        borderRadius: 12,
+                        text: LocaleKeys.rate.tr(),
+                        isLoading: state.rateItemState == RequestState.loading,
+                        onPressed: selectedRating == 0
+                            ? null
+                            : () {
+                                cubit.rateItem(
+                                  itemId: widget.itemId,
+                                  secondCategoryId: widget.categoryId,
+                                  params: RateItemParams(rating: selectedRating),
+                                );
+                              },
+                      ),
+                    ],
+                  );
+                },
+              ),
 
-            16.verticalSpace,
+            if (!widget.isRated) 16.verticalSpace,
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
