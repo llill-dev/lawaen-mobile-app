@@ -6,10 +6,12 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
+import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/claim_item_model.dart';
+import 'package:lawaen/features/home/data/models/message_api_reponse.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
@@ -155,6 +157,24 @@ class CategoryItemDetailsRepoImpl implements CategoryItemDetailsRepo {
       return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("reportItem error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, MessageApiResponse>> getMessages({
+    required String secondCategoryId,
+    required String itemId,
+    required PaginationParams params,
+  }) async {
+    try {
+      final response = await appServiceClient.getMessages(secondId: secondCategoryId, id: itemId, params: params);
+      if (response.status == true && response.data != null) {
+        return Right(response);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getMessages error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

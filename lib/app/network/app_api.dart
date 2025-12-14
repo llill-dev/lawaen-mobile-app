@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/api_response.dart';
+import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/app/network/urls.dart';
 import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
@@ -19,6 +20,7 @@ import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/models/contact_model.dart';
+import 'package:lawaen/features/home/data/models/message_api_reponse.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
@@ -168,6 +170,13 @@ abstract class AppServiceClient {
     @Part(name: "phone") String? phone,
 
     @PartMap() Map<String, MultipartFile>? images,
+  });
+
+  @GET(Urls.getMessages)
+  Future<MessageApiResponse> getMessages({
+    @Path("second_id") required String secondId,
+    @Path("id") required String id,
+    @Queries() required PaginationParams params,
   });
 
   //map

@@ -1,7 +1,9 @@
 import 'package:dartz/dartz.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
+import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/claim_item_model.dart';
+import 'package:lawaen/features/home/data/models/message_api_reponse.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/presentation/params/claim_item.params.dart';
@@ -33,5 +35,11 @@ abstract class CategoryItemDetailsRepo {
     required String secondCategoryId,
     required String itemId,
     required ReportItemParams params,
+  });
+
+  Future<Either<ErrorModel, MessageApiResponse>> getMessages({
+    required String secondCategoryId,
+    required String itemId,
+    required PaginationParams params,
   });
 }

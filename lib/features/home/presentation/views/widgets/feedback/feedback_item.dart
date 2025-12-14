@@ -12,7 +12,7 @@ class FeedBackItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushRoute(FeedbackChatRoute()),
+      //onTap: () => context.pushRoute(FeedbackChatRoute()),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 12.w),
         decoration: BoxDecoration(

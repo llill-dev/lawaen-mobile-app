@@ -502,18 +502,67 @@ class FavoritesRoute extends _i33.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i12.FeedbackChatScreen]
-class FeedbackChatRoute extends _i33.PageRouteInfo<void> {
-  const FeedbackChatRoute({List<_i33.PageRouteInfo>? children})
-    : super(FeedbackChatRoute.name, initialChildren: children);
+class FeedbackChatRoute extends _i33.PageRouteInfo<FeedbackChatRouteArgs> {
+  FeedbackChatRoute({
+    _i34.Key? key,
+    required String itemId,
+    required String secondCategoryId,
+    List<_i33.PageRouteInfo>? children,
+  }) : super(
+         FeedbackChatRoute.name,
+         args: FeedbackChatRouteArgs(
+           key: key,
+           itemId: itemId,
+           secondCategoryId: secondCategoryId,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'FeedbackChatRoute';
 
   static _i33.PageInfo page = _i33.PageInfo(
     name,
     builder: (data) {
-      return const _i12.FeedbackChatScreen();
+      final args = data.argsAs<FeedbackChatRouteArgs>();
+      return _i12.FeedbackChatScreen(
+        key: args.key,
+        itemId: args.itemId,
+        secondCategoryId: args.secondCategoryId,
+      );
     },
   );
+}
+
+class FeedbackChatRouteArgs {
+  const FeedbackChatRouteArgs({
+    this.key,
+    required this.itemId,
+    required this.secondCategoryId,
+  });
+
+  final _i34.Key? key;
+
+  final String itemId;
+
+  final String secondCategoryId;
+
+  @override
+  String toString() {
+    return 'FeedbackChatRouteArgs{key: $key, itemId: $itemId, secondCategoryId: $secondCategoryId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! FeedbackChatRouteArgs) return false;
+    return key == other.key &&
+        itemId == other.itemId &&
+        secondCategoryId == other.secondCategoryId;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ itemId.hashCode ^ secondCategoryId.hashCode;
 }
 
 /// generated route for

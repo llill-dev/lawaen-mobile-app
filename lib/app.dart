@@ -5,6 +5,7 @@ import 'package:lawaen/app/core/services/deep_linking_service.dart';
 import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/features/explore/presentation/cubit/explore_cubit.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/messages_cubit/messages_cubit.dart';
 import 'package:lawaen/features/home/presentation/cubit/mune_cubit/mune_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
@@ -40,6 +41,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<MuneCubit>()),
         BlocProvider(create: (context) => getIt<ExploreCubit>()),
         BlocProvider(create: (context) => getIt<ProfileCubit>()),
+        BlocProvider(create: (context) => getIt<MessagesCubit>()),
       ],
       child: MaterialApp.router(
         title: "Lawaen",

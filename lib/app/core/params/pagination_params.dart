@@ -2,12 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'pagination_params.g.dart';
 
-@JsonSerializable(fieldRename: FieldRename.snake)
+@JsonSerializable()
 class PaginationParams {
   final int page;
-  final int perPage;
+  final int limit;
 
-  PaginationParams({required this.page, required this.perPage});
+  PaginationParams({required this.page, required this.limit});
 
   Map<String, dynamic> toJson() => _$PaginationParamsToJson(this);
 }

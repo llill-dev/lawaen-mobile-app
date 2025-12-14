@@ -114,7 +114,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.orange),
                 ),
                 GestureDetector(
-                  onTap: () => context.router.push(FeedbackRoute()),
+                  onTap: () =>
+                      context.pushRoute(FeedbackChatRoute(itemId: widget.itemId, secondCategoryId: widget.categoryId)),
                   child: Text(
                     LocaleKeys.seeAll.tr(),
                     style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
