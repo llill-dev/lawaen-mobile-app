@@ -12,9 +12,10 @@ import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class LocationPermissionDialog extends StatelessWidget {
-  const LocationPermissionDialog({super.key, this.onClose});
+  const LocationPermissionDialog({super.key, this.onClose, this.onApprove});
 
   final VoidCallback? onClose;
+  final VoidCallback? onApprove;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +64,9 @@ class LocationPermissionDialog extends StatelessWidget {
                   const LoadingWidget()
                 else
                   PrimaryButton(
-                    onPressed: () {
-                      cubit.requestLocation();
+                    onPressed: () async {
+                      await cubit.requestLocation();
+                      onApprove?.call();
                     },
                     text: LocaleKeys.enableLocation.tr(),
                     height: 45.h,
