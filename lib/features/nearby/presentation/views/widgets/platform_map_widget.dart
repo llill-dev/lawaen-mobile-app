@@ -123,7 +123,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     // GOOGLE MAPS
     if (!Platform.isIOS) {
       return GoogleMap(
-        initialCameraPosition: CameraPosition(target: LatLng(widget.latitude!, widget.longitude!), zoom: 12),
+        initialCameraPosition: CameraPosition(target: LatLng(widget.latitude!, widget.longitude!), zoom: 18),
         myLocationEnabled: true,
         markers: _googleMarkers,
         onMapCreated: (controller) {
@@ -138,7 +138,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
 
     // APPLE MAPS
     return apple.AppleMap(
-      initialCameraPosition: apple.CameraPosition(target: apple.LatLng(widget.latitude!, widget.longitude!), zoom: 12),
+      initialCameraPosition: apple.CameraPosition(target: apple.LatLng(widget.latitude!, widget.longitude!), zoom: 18),
       myLocationEnabled: true,
       annotations: _buildAppleMarkers(context, appleMarkerCache, fallbackApple),
     );
