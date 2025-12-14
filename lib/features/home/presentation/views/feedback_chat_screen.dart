@@ -20,6 +20,7 @@ import 'widgets/feedback/chat_bubble.dart';
 class FeedbackChatScreen extends StatefulWidget {
   final String itemId;
   final String secondCategoryId;
+
   const FeedbackChatScreen({super.key, required this.itemId, required this.secondCategoryId});
 
   @override
@@ -28,6 +29,11 @@ class FeedbackChatScreen extends StatefulWidget {
 
 class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
   final _scrollController = ScrollController();
+  final _messageController = TextEditingController();
+  final _focusNode = FocusNode();
+
+  String? get _currentUserId => getIt<AppPreferences>().getUserInfo()?.id;
+
   @override
   void initState() {
     super.initState();
@@ -43,64 +49,95 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
     }
   }
 
+  void _sendMessage() {
+    final text = _messageController.text.trim();
+    if (text.isEmpty || _currentUserId == null) return;
+
+    context.read<MessagesCubit>().sendMessage(
+      itemId: widget.itemId,
+      secondCategoryId: widget.secondCategoryId,
+      message: text,
+      currentUserId: _currentUserId!,
+    );
+
+    _messageController.clear();
+    _focusNode.requestFocus();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(0, duration: const Duration(milliseconds: 300), curve: Curves.easeOut);
+      }
+    });
+  }
+
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _messageController.dispose();
+    _focusNode.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final currentUserId = getIt<AppPreferences>().getUserInfo()?.id;
-
     return Scaffold(
-      extendBody: true,
+      resizeToAvoidBottomInset: true,
       bottomNavigationBar: _buildInputBar(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(16.w),
-          child: BlocBuilder<MessagesCubit, MessagesState>(
-            builder: (context, state) {
-              if (state.isLoading) {
-                return _buildSkeleton();
-              }
+          child: Column(
+            children: [
+              const PrimaryBackButton(iconOnlay: true),
+              12.verticalSpace,
+              Expanded(
+                child: BlocBuilder<MessagesCubit, MessagesState>(
+                  builder: (context, state) {
+                    if (state.isLoading) {
+                      return _buildSkeleton();
+                    }
 
-              if (state.error != null) {
-                return ErrorView(
-                  errorMsg: state.error,
-                  onRetry: () {
-                    context.read<MessagesCubit>().fetchMessages(
-                      secondCategoryId: widget.secondCategoryId,
-                      itemId: widget.itemId,
+                    if (state.error != null) {
+                      return ErrorView(
+                        errorMsg: state.error,
+                        onRetry: () {
+                          context.read<MessagesCubit>().fetchMessages(
+                            secondCategoryId: widget.secondCategoryId,
+                            itemId: widget.itemId,
+                          );
+                        },
+                      );
+                    }
+
+                    if (state.messages.isEmpty) {
+                      return const Center(child: Text('No messages yet'));
+                    }
+
+                    return CustomScrollView(
+                      controller: _scrollController,
+                      reverse: true,
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate((context, index) {
+                            final message = state.messages[index];
+                            final isSender = message.userId == _currentUserId;
+
+                            return Padding(
+                              padding: EdgeInsets.only(bottom: 12.h),
+                              child: ChatBubble(isSender: isSender, message: message.message),
+                            );
+                          }, childCount: state.messages.length),
+                        ),
+                        if (state.isLoadingMore)
+                          const SliverToBoxAdapter(
+                            child: Padding(padding: EdgeInsets.all(12), child: LoadingWidget()),
+                          ),
+                      ],
                     );
                   },
-                );
-              }
-
-              if (state.messages.isEmpty) {
-                return const Center(child: Text("No messages yet"));
-              }
-
-              return CustomScrollView(
-                controller: _scrollController,
-                reverse: true,
-                slivers: [
-                  SliverToBoxAdapter(child: PrimaryBackButton(iconOnlay: true)),
-
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                      final message = state.messages[index];
-                      final isSender = message.userId == currentUserId;
-
-                      return Padding(
-                        padding: EdgeInsets.only(bottom: 12.h),
-                        child: ChatBubble(isSender: isSender, message: message.message),
-                      );
-                    }, childCount: state.messages.length),
-                  ),
-
-                  if (state.isLoadingMore)
-                    const SliverToBoxAdapter(
-                      child: Padding(padding: EdgeInsets.all(12), child: LoadingWidget()),
-                    ),
-                ],
-              );
-            },
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -120,25 +157,53 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
   }
 
   Widget _buildInputBar() {
-    return Container(
-      padding: EdgeInsets.all(16.w),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(topLeft: Radius.circular(28), topRight: Radius.circular(28)),
-        boxShadow: [BoxShadow(color: ColorManager.black.withValues(alpha: .25), blurRadius: 14, spreadRadius: 3)],
-      ),
-      child: Row(
-        children: [
-          Expanded(child: CustomTextField(hint: "type any thing... ", withBorder: false)),
-          8.horizontalSpace,
-          CircleAvatar(
-            backgroundColor: ColorManager.primary,
-            child: SvgPicture.asset(
-              IconManager.sendFeedback,
-              colorFilter: ColorFilter.mode(ColorManager.white, BlendMode.srcIn),
-            ),
+    return SafeArea(
+      top: false,
+      bottom: false,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+        child: Container(
+          padding: EdgeInsets.all(16.w),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: const BorderRadius.only(topLeft: Radius.circular(28), topRight: Radius.circular(28)),
+            boxShadow: [BoxShadow(color: ColorManager.black.withValues(alpha: .25), blurRadius: 14, spreadRadius: 3)],
           ),
-        ],
+          child: Row(
+            children: [
+              Expanded(
+                child: CustomTextField(
+                  controller: _messageController,
+                  focusNode: _focusNode,
+                  hint: 'type any thing...',
+                  withBorder: false,
+                  onFieldSubmitted: (_) => _sendMessage(),
+                ),
+              ),
+              8.horizontalSpace,
+              BlocBuilder<MessagesCubit, MessagesState>(
+                builder: (context, state) {
+                  return GestureDetector(
+                    onTap: state.isSending ? null : _sendMessage,
+                    child: CircleAvatar(
+                      backgroundColor: state.isSending ? ColorManager.lightGrey : ColorManager.primary,
+                      child: state.isSending
+                          ? const SizedBox(
+                              width: 18,
+                              height: 18,
+                              child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                            )
+                          : SvgPicture.asset(
+                              IconManager.sendFeedback,
+                              colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+                            ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

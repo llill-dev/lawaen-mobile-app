@@ -5,6 +5,7 @@ import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/features/home/data/models/message_api_reponse.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
+import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 
 part 'messages_state.dart';
 
@@ -83,6 +84,41 @@ class MessagesCubit extends Cubit<MessagesState> {
     final updated = List<MessageModel>.from(state.messages)..insert(0, message);
 
     emit(state.copyWith(messages: updated));
+  }
+
+  Future<void> sendMessage({
+    required String itemId,
+    required String secondCategoryId,
+    required String message,
+    required String currentUserId,
+  }) async {
+    if (message.trim().isEmpty) return;
+
+    final tempMessage = MessageModel(
+      userId: currentUserId,
+      modelId: itemId,
+      second: secondCategoryId,
+      message: message,
+    );
+
+    addLocalMessage(tempMessage);
+
+    emit(state.copyWith(isSending: true, sendError: null));
+
+    final result = await repo.sendFeedBack(
+      itemId: itemId,
+      secondCategoryId: secondCategoryId,
+      params: SendFeedBackParams(message: message),
+    );
+
+    result.fold(
+      (failure) {
+        emit(state.copyWith(isSending: false, sendError: failure.errorMessage));
+      },
+      (_) {
+        emit(state.copyWith(isSending: false));
+      },
+    );
   }
 
   void reset() {

@@ -8,6 +8,9 @@ class MessagesState extends Equatable {
   final bool hasReachedMax;
   final String? error;
 
+  final bool isSending;
+  final String? sendError;
+
   const MessagesState({
     this.messages = const [],
     this.isLoading = false,
@@ -15,6 +18,8 @@ class MessagesState extends Equatable {
     this.page = 1,
     this.hasReachedMax = false,
     this.error,
+    this.isSending = false,
+    this.sendError,
   });
 
   MessagesState copyWith({
@@ -24,6 +29,8 @@ class MessagesState extends Equatable {
     int? page,
     bool? hasReachedMax,
     String? error,
+    bool? isSending,
+    String? sendError,
   }) {
     return MessagesState(
       messages: messages ?? this.messages,
@@ -32,9 +39,11 @@ class MessagesState extends Equatable {
       page: page ?? this.page,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
       error: error,
+      isSending: isSending ?? this.isSending,
+      sendError: sendError,
     );
   }
 
   @override
-  List<Object?> get props => [messages, isLoading, isLoadingMore, page, hasReachedMax, error];
+  List<Object?> get props => [messages, isLoading, isLoadingMore, page, hasReachedMax, error, isSending, sendError];
 }
