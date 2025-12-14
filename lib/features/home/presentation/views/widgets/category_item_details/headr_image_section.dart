@@ -6,10 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/resources/language_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_item_details_cubit/category_item_detials_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -104,6 +106,7 @@ class _HeaderSectionState extends State<HeaderSection> {
   Widget build(BuildContext context) {
     final item = widget.itemData.item;
     bool isOpenNow = widget.itemData.ui?.workingHours?.isOpenNow == true;
+    bool isGuest = getIt<AppPreferences>().isGuest;
 
     return Column(
       children: [
@@ -150,6 +153,17 @@ class _HeaderSectionState extends State<HeaderSection> {
                       onTap: state.toggleFavoriteState == RequestState.loading
                           ? null
                           : () {
+                              if (isGuest) {
+                                alertDialog(
+                                  context: context,
+                                  message: LocaleKeys.signInToContinue.tr(),
+                                  onConfirm: () => context.router.push(LoginRoute()),
+                                  onCancel: () => (),
+                                  approveButtonTitle: LocaleKeys.signIn.tr(),
+                                  rejectButtonTitle: LocaleKeys.cancel.tr(),
+                                );
+                                return;
+                              }
                               context.read<CategoryItemDetialsCubit>().toggleFavorite(
                                 itemId: widget.itemId,
                                 secondCategoryId: widget.categoryId,

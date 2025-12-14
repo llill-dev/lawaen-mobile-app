@@ -121,9 +121,6 @@ class AppPreferences {
   }
 
   Future<void> logout() async {
-    await _sharedPreferences.remove(prefsLat);
-    await _sharedPreferences.remove(prefsLng);
-    await _sharedPreferences.remove(prefsLocationTimestamp);
     await _sharedPreferences.remove(prefsToken);
     await _sharedPreferences.remove(prefsGuest);
     await _sharedPreferences.remove(refreshToken);

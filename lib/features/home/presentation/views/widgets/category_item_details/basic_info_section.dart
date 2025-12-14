@@ -3,6 +3,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
@@ -22,12 +25,24 @@ class BasicInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = getIt<AppPreferences>().isGuest;
     final int average = itemData.item?.rating?.average ?? 0;
 
     final stars = List.generate(5, (index) {
       final isActive = index < average;
       return Icon(Icons.star_rounded, size: 32.r, color: isActive ? ColorManager.orange : ColorManager.darkGrey);
     });
+
+    void guestMessage() {
+      alertDialog(
+        context: context,
+        message: LocaleKeys.signInToContinue.tr(),
+        onConfirm: () => context.router.push(LoginRoute()),
+        onCancel: () => (),
+        approveButtonTitle: LocaleKeys.signIn.tr(),
+        rejectButtonTitle: LocaleKeys.cancel.tr(),
+      );
+    }
 
     return Column(
       children: [
@@ -59,7 +74,7 @@ class BasicInfoSection extends StatelessWidget {
             ),
 
             GestureDetector(
-              onTap: () => _showFeedBackBttomSheet(context),
+              onTap: isGuest ? guestMessage : () => _showFeedBackBttomSheet(context),
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                 decoration: BoxDecoration(
@@ -86,10 +101,17 @@ class BasicInfoSection extends StatelessWidget {
               _buildUserActionContainer(
                 context: context,
                 title: LocaleKeys.claim.tr(),
-                onTap: () => context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: categoryId)),
+                onTap: isGuest
+                    ? guestMessage
+                    : () => context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: categoryId)),
               ),
             4.horizontalSpace,
-            _buildUserActionContainer(context: context, title: LocaleKeys.report.tr(), onTap: () {}, read: true),
+            _buildUserActionContainer(
+              context: context,
+              title: LocaleKeys.report.tr(),
+              onTap: isGuest ? guestMessage : () {},
+              read: true,
+            ),
           ],
         ),
       ],
