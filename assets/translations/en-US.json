@@ -279,6 +279,10 @@
   "writeYourFeedbackHint": "Write your feedback here...",
   "feedbackMessageRequired": "Please write your feedback message",
   "feedbackSubmittedSuccessfully": "Your feedback submitted successfully",
+  "writeYourReportMessage": "Write your report:",
+  "writeYourReportMessageHint": "Describe the issue here...",
+  "reportMessageRequired": "Please write your report message",
+  "reportSubmittedSurccessfully": "Your report submitted successfully",
   "followUsOnSocialMedia": "Follow us on social media",
   "searchFor": "Search for"
 } 

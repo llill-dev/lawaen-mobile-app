@@ -15,6 +15,7 @@ import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
 import 'package:lawaen/features/home/presentation/params/claim_item.params.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
+import 'package:lawaen/features/home/presentation/params/report_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -136,6 +137,24 @@ class CategoryItemDetailsRepoImpl implements CategoryItemDetailsRepo {
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("claimItem error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> reportItem({
+    required String secondCategoryId,
+    required String itemId,
+    required ReportItemParams params,
+  }) async {
+    try {
+      final response = await appServiceClient.reportItem(secondId: secondCategoryId, id: itemId, params: params);
+      if (response.created == true) {
+        return Right(unit);
+      }
+      return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("reportItem error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

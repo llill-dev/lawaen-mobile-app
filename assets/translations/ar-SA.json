@@ -282,6 +282,10 @@
   "writeYourFeedbackHint": "اكتب ملاحظتك هنا...",
   "feedbackMessageRequired": "يرجى كتابة رسالة التقييم",
   "feedbackSubmittedSuccessfully": "تم إرسال ملاحظتك بنجاح",
+  "writeYourReportMessage": "اكتب بلاغك:",
+  "writeYourReportMessageHint": "اشرح المشكلة هنا...",
+  "reportMessageRequired": "يرجى كتابة رسالة البلاغ",
+  "reportSubmittedSurccessfully": "تم إرسال البلاغ بنجاح",
   "followUsOnSocialMedia" : "تابعنا على صفحات التواصل الاجتماعي",
   "searchFor": "ابحث عن"
 }

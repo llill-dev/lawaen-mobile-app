@@ -19,6 +19,9 @@ class CategoryItemDetialsState extends Equatable {
   final ClaimItemModel? claimItem;
   final String? claimItemError;
 
+  final RequestState reportItemState;
+  final String? reportItemError;
+
   final String? globalError;
 
   const CategoryItemDetialsState({
@@ -35,6 +38,8 @@ class CategoryItemDetialsState extends Equatable {
     this.claimItemState = RequestState.idle,
     this.claimItem,
     this.claimItemError,
+    this.reportItemState = RequestState.idle,
+    this.reportItemError,
     this.globalError,
   });
 
@@ -57,6 +62,9 @@ class CategoryItemDetialsState extends Equatable {
     ClaimItemModel? claimItem,
     String? claimItemError,
 
+    RequestState? reportItemState,
+    String? reportItemError,
+
     String? globalError,
   }) {
     return CategoryItemDetialsState(
@@ -78,6 +86,9 @@ class CategoryItemDetialsState extends Equatable {
       claimItem: claimItem ?? this.claimItem,
       claimItemError: claimItemError ?? this.claimItemError,
 
+      reportItemState: reportItemState ?? this.reportItemState,
+      reportItemError: reportItemError ?? this.reportItemError,
+
       globalError: globalError ?? this.globalError,
     );
   }
@@ -97,6 +108,8 @@ class CategoryItemDetialsState extends Equatable {
     claimItemState,
     claimItem,
     claimItemError,
+    reportItemState,
+    reportItemError,
     globalError,
   ];
 }

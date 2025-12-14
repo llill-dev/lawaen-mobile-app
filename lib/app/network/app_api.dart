@@ -26,6 +26,7 @@ import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_menu_params.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/register_fcm_token_params.dart';
+import 'package:lawaen/features/home/presentation/params/report_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 import 'package:lawaen/features/nearby/data/models/map_marker_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
@@ -148,6 +149,13 @@ abstract class AppServiceClient {
     @Path("second_id") required String secondId,
     @Path("id") required String id,
     @Body() required SendFeedBackParams params,
+  });
+
+  @POST(Urls.reportItem)
+  Future<SendFeedBackModel> reportItem({
+    @Path("second_id") required String secondId,
+    @Path("id") required String id,
+    @Body() required ReportItemParams params,
   });
 
   @MultiPart()

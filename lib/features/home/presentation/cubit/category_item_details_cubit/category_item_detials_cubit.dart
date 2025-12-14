@@ -9,6 +9,7 @@ import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
 import 'package:lawaen/features/home/presentation/params/claim_item.params.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
+import 'package:lawaen/features/home/presentation/params/report_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 
 part 'category_item_detials_state.dart';
@@ -158,6 +159,30 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
             globalError: null,
           ),
         );
+      },
+    );
+  }
+
+  void reportItem({required String itemId, required String secondCategoryId, required ReportItemParams params}) async {
+    emit(state.copyWith(reportItemState: RequestState.loading));
+
+    final result = await _categoryItemDetailsRepo.reportItem(
+      itemId: itemId,
+      secondCategoryId: secondCategoryId,
+      params: params,
+    );
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            reportItemState: RequestState.error,
+            reportItemError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (_) {
+        emit(state.copyWith(reportItemState: RequestState.success, reportItemError: null, globalError: null));
       },
     );
   }

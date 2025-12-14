@@ -12,6 +12,7 @@ import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/item_details_link_row.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/rating_distribution_sheet.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/report_bottom_sheet.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
@@ -109,7 +110,7 @@ class BasicInfoSection extends StatelessWidget {
             _buildUserActionContainer(
               context: context,
               title: LocaleKeys.report.tr(),
-              onTap: isGuest ? guestMessage : () {},
+              onTap: isGuest ? guestMessage : () => _showReportBottomSheet(context),
               read: true,
             ),
           ],
@@ -144,6 +145,18 @@ class BasicInfoSection extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {
         return RatingDistributionSheet(distribution: distribution);
+      },
+    );
+  }
+
+  void _showReportBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ColorManager.white,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      builder: (_) {
+        return ReportBottomSheet(categoryId: categoryId, itemId: itemId);
       },
     );
   }

@@ -35,6 +35,7 @@ class Urls {
   static const String rateItem = "user_activity/rate_item/{second_id}/{id}";
   static const String sendFeedBack = "user_activity/add_message/{second_id}/{id}";
   static const String claimItem = "user_activity/claim/{second_id}/{id}";
+  static const String reportItem = "user_activity/add_report/{second_id}/{id}";
 
   //map
   static const String searchLocation = "location/search";

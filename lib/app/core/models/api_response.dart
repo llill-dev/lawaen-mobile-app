@@ -7,10 +7,11 @@ part 'api_response.g.dart';
 class ApiResponse<T> extends Equatable {
   final bool? status;
   final bool? success;
+  final bool? created;
   final String? message;
   final T? data;
 
-  const ApiResponse({this.success, required this.status, required this.message, required this.data});
+  const ApiResponse({this.created, this.success, required this.status, required this.message, required this.data});
 
   factory ApiResponse.fromJson(Map<String, dynamic> json, T Function(Object? json) fromJsonT) =>
       _$ApiResponseFromJson(json, fromJsonT);
