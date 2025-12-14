@@ -50,6 +50,7 @@ class AppRouter extends RootStackRouter {
     AutoRoute(page: FavoritesRoute.page),
     AutoRoute(page: ContactUsRoute.page),
     AutoRoute(page: UpdateProfileRoute.page),
+    AutoRoute(page: ProfileStaticRoute.page),
 
     //map
     AutoRoute(page: NearbyMapRoute.page),

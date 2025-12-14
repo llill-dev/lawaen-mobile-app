@@ -14,6 +14,7 @@ import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubi
 import 'package:lawaen/features/explore/presentation/cubit/explore_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
+import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
 
 import 'app.dart';
 import 'app/di/injection.dart';
@@ -76,4 +77,5 @@ void _initAppApi() {
   getIt<EventCubit>().getEventTypes();
   getIt<OffersCubit>().getOfferTypes();
   getIt<ExploreCubit>().getUserPreferences();
+  getIt<ProfileCubit>().prefetchProfilePages();
 }

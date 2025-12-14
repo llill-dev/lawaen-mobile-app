@@ -13,6 +13,7 @@ import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/profile/presentation/views/widget/profile_body/profile_pages_section.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_itme.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -80,15 +81,8 @@ class SettingsSection extends StatelessWidget {
                   onTap: () {},
                 ),
                 SettingsItme(title: LocaleKeys.claim.tr(), icon: IconManager.claimProfile, onTap: () {}),
-                SettingsItme(title: LocaleKeys.helpSupport.tr(), icon: IconManager.help, onTap: () {}),
-                SettingsItme(title: LocaleKeys.aboutApp.tr(), icon: IconManager.about, onTap: () {}),
-                SettingsItme(title: LocaleKeys.termsAndConditions.tr(), icon: IconManager.terms, onTap: () {}),
-                SettingsItme(
-                  title: LocaleKeys.privacyPolicy.tr(),
-                  icon: IconManager.privacy,
-                  onTap: () {},
-                  hasDivider: false,
-                ),
+
+                ProfilePagesSection(),
               ],
             ),
           ),

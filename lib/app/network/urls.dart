@@ -48,4 +48,6 @@ class Urls {
 
   //profile
   static const String contactUS = "req_data/send_message";
+  static const String getProfilePages = "pages/get";
+  static const String getProfilePage = "pages/get_by_id/{id}";
 }

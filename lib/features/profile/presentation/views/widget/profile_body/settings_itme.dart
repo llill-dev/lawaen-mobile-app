@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 
 class SettingsItme extends StatelessWidget {
@@ -10,6 +12,7 @@ class SettingsItme extends StatelessWidget {
   final VoidCallback? onTap;
   final bool hasDivider;
   final double? iconSize;
+  final bool fromServer;
   const SettingsItme({
     super.key,
     required this.title,
@@ -19,6 +22,7 @@ class SettingsItme extends StatelessWidget {
     this.iconColor,
     this.iconSize,
     this.isLogin = false,
+    this.fromServer = false,
   });
 
   @override
@@ -33,7 +37,9 @@ class SettingsItme extends StatelessWidget {
               children: [
                 CircleAvatar(
                   backgroundColor: ColorManager.lightGrey,
-                  child: isLogin
+                  child: fromServer
+                      ? NetworkIcon(url: icon, color: iconColor, size: 22.r)
+                      : isLogin
                       ? Icon(Icons.login, color: ColorManager.red, size: iconSize)
                       : SvgPicture.asset(
                           icon,
