@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
+import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/item_details_link_row.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_item_details/rating_distribution_sheet.dart';
@@ -80,7 +82,12 @@ class BasicInfoSection extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _buildUserActionContainer(context: context, title: LocaleKeys.claim.tr(), onTap: () {}),
+            if (itemData.isClaim == true)
+              _buildUserActionContainer(
+                context: context,
+                title: LocaleKeys.claim.tr(),
+                onTap: () => context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: categoryId)),
+              ),
             4.horizontalSpace,
             _buildUserActionContainer(context: context, title: LocaleKeys.report.tr(), onTap: () {}, read: true),
           ],

@@ -15,6 +15,10 @@ class CategoryItemDetialsState extends Equatable {
   final RequestState sendFeedBackState;
   final String? sendFeedBackError;
 
+  final RequestState claimItemState;
+  final ClaimItemModel? claimItem;
+  final String? claimItemError;
+
   final String? globalError;
 
   const CategoryItemDetialsState({
@@ -28,6 +32,9 @@ class CategoryItemDetialsState extends Equatable {
     this.rateItemError,
     this.sendFeedBackState = RequestState.idle,
     this.sendFeedBackError,
+    this.claimItemState = RequestState.idle,
+    this.claimItem,
+    this.claimItemError,
     this.globalError,
   });
 
@@ -46,19 +53,31 @@ class CategoryItemDetialsState extends Equatable {
     RequestState? sendFeedBackState,
     String? sendFeedBackError,
 
+    RequestState? claimItemState,
+    ClaimItemModel? claimItem,
+    String? claimItemError,
+
     String? globalError,
   }) {
     return CategoryItemDetialsState(
       categoryItemState: categoryItemState ?? this.categoryItemState,
       categoryItems: categoryItems ?? this.categoryItems,
       categoryItemsError: categoryItemsError ?? this.categoryItemsError,
+
       saved: saved ?? this.saved,
       toggleFavoriteState: toggleFavoriteState ?? this.toggleFavoriteState,
       toggleFavoriteError: toggleFavoriteError ?? this.toggleFavoriteError,
+
       rateItemState: rateItemState ?? this.rateItemState,
       rateItemError: rateItemError ?? this.rateItemError,
+
       sendFeedBackState: sendFeedBackState ?? this.sendFeedBackState,
       sendFeedBackError: sendFeedBackError ?? this.sendFeedBackError,
+
+      claimItemState: claimItemState ?? this.claimItemState,
+      claimItem: claimItem ?? this.claimItem,
+      claimItemError: claimItemError ?? this.claimItemError,
+
       globalError: globalError ?? this.globalError,
     );
   }
@@ -75,6 +94,9 @@ class CategoryItemDetialsState extends Equatable {
     rateItemError,
     sendFeedBackState,
     sendFeedBackError,
+    claimItemState,
+    claimItem,
+    claimItemError,
     globalError,
   ];
 }

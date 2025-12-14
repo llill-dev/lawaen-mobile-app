@@ -48,7 +48,7 @@ class _ClaimAndImNotRobortButtonsState extends State<ClaimAndImNotRobortButtons>
         Expanded(
           child: GestureDetector(
             onTap: () {
-              context.pushRoute(ClaimRoute());
+              //context.pushRoute(ClaimRoute());
             },
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),

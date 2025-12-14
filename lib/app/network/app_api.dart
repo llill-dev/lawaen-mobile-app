@@ -17,6 +17,7 @@ import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
+import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
@@ -147,6 +148,18 @@ abstract class AppServiceClient {
     @Path("second_id") required String secondId,
     @Path("id") required String id,
     @Body() required SendFeedBackParams params,
+  });
+
+  @MultiPart()
+  @POST(Urls.claimItem)
+  Future<ApiResponse<ClaimItemModel>> claimItem({
+    @Path("second_id") required String secondId,
+    @Path("id") required String id,
+
+    @Part(name: "note") String? note,
+    @Part(name: "phone") String? phone,
+
+    @PartMap() Map<String, MultipartFile>? images,
   });
 
   //map

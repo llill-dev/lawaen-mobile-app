@@ -351,18 +351,67 @@ class CategoryRouteArgs {
 
 /// generated route for
 /// [_i8.ClaimScreen]
-class ClaimRoute extends _i33.PageRouteInfo<void> {
-  const ClaimRoute({List<_i33.PageRouteInfo>? children})
-    : super(ClaimRoute.name, initialChildren: children);
+class ClaimRoute extends _i33.PageRouteInfo<ClaimRouteArgs> {
+  ClaimRoute({
+    _i34.Key? key,
+    required String itemId,
+    required String secondCategoryId,
+    List<_i33.PageRouteInfo>? children,
+  }) : super(
+         ClaimRoute.name,
+         args: ClaimRouteArgs(
+           key: key,
+           itemId: itemId,
+           secondCategoryId: secondCategoryId,
+         ),
+         initialChildren: children,
+       );
 
   static const String name = 'ClaimRoute';
 
   static _i33.PageInfo page = _i33.PageInfo(
     name,
     builder: (data) {
-      return const _i8.ClaimScreen();
+      final args = data.argsAs<ClaimRouteArgs>();
+      return _i8.ClaimScreen(
+        key: args.key,
+        itemId: args.itemId,
+        secondCategoryId: args.secondCategoryId,
+      );
     },
   );
+}
+
+class ClaimRouteArgs {
+  const ClaimRouteArgs({
+    this.key,
+    required this.itemId,
+    required this.secondCategoryId,
+  });
+
+  final _i34.Key? key;
+
+  final String itemId;
+
+  final String secondCategoryId;
+
+  @override
+  String toString() {
+    return 'ClaimRouteArgs{key: $key, itemId: $itemId, secondCategoryId: $secondCategoryId}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! ClaimRouteArgs) return false;
+    return key == other.key &&
+        itemId == other.itemId &&
+        secondCategoryId == other.secondCategoryId;
+  }
+
+  @override
+  int get hashCode =>
+      key.hashCode ^ itemId.hashCode ^ secondCategoryId.hashCode;
 }
 
 /// generated route for

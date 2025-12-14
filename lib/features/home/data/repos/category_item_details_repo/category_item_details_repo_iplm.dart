@@ -9,9 +9,11 @@ import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
+import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
+import 'package:lawaen/features/home/presentation/params/claim_item.params.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -93,6 +95,47 @@ class CategoryItemDetailsRepoImpl implements CategoryItemDetailsRepo {
       return Left(ErrorModel(errorMessage: LocaleKeys.defaultError.tr()));
     } on DioException catch (e) {
       log("sendFeedBack error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, ClaimItemModel?>> claimItem({
+    required String secondCategoryId,
+    required String itemId,
+    required ClaimItemParams params,
+  }) async {
+    final note = params.note;
+    final phone = params.phone;
+    final images = params.images;
+    try {
+      final Map<String, MultipartFile> imagesMap = {};
+      if (images != null && images.isNotEmpty) {
+        for (int i = 0; i < images.length; i++) {
+          imagesMap['image${i + 1}'] = await MultipartFile.fromFile(
+            images[i].path,
+            filename: images[i].path.split('/').last,
+          );
+        }
+      }
+      final response = await appServiceClient.claimItem(
+        secondId: secondCategoryId,
+        id: itemId,
+        note: note,
+        phone: phone,
+        images: imagesMap.isNotEmpty ? imagesMap : null,
+      );
+
+      if (response.status == true) {
+        if (response.message != null) {
+          showToast(message: response.message!, isSuccess: true);
+        }
+        return Right(response.data);
+      }
+
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("claimItem error: ${e.toString()}");
       return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }

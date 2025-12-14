@@ -1,9 +1,13 @@
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
+import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/repos/category_item_details_repo/category_item_details_repo.dart';
+import 'package:lawaen/features/home/presentation/params/claim_item.params.dart';
 import 'package:lawaen/features/home/presentation/params/rate_item_params.dart';
 import 'package:lawaen/features/home/presentation/params/send_feed_back_params.dart';
 
@@ -116,6 +120,44 @@ class CategoryItemDetialsCubit extends Cubit<CategoryItemDetialsState> {
       },
       (_) {
         emit(state.copyWith(sendFeedBackState: RequestState.success, sendFeedBackError: null, globalError: null));
+      },
+    );
+  }
+
+  void claimItem({
+    required String itemId,
+    required String secondCategoryId,
+    String? note,
+    String? phone,
+    List<File>? images,
+  }) async {
+    emit(state.copyWith(claimItemState: RequestState.loading));
+
+    final result = await _categoryItemDetailsRepo.claimItem(
+      itemId: itemId,
+      secondCategoryId: secondCategoryId,
+      params: ClaimItemParams(note: note, phone: phone, images: images),
+    );
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            claimItemState: RequestState.error,
+            claimItemError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (claimItem) {
+        emit(
+          state.copyWith(
+            claimItemState: RequestState.success,
+            claimItem: claimItem,
+            claimItemError: null,
+            globalError: null,
+          ),
+        );
       },
     );
   }
