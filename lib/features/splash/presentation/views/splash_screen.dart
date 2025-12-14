@@ -92,7 +92,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     final isValid = JwtHelper.isValid(token, leeway: const Duration(seconds: 10));
 
     if (isValid) {
-      context.router.replace(LoginRoute());
+      context.router.replace(NavigationControllerRoute());
       return;
     }
 

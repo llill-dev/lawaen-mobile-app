@@ -33,6 +33,7 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
   final _focusNode = FocusNode();
 
   String? get _currentUserId => getIt<AppPreferences>().getUserInfo()?.id;
+  String? get _currentUserImage => getIt<AppPreferences>().getUserInfo()?.image;
 
   @override
   void initState() {
@@ -124,7 +125,7 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
 
                             return Padding(
                               padding: EdgeInsets.only(bottom: 12.h),
-                              child: ChatBubble(isSender: isSender, message: message.message),
+                              child: ChatBubble(isSender: isSender, message: message.message, image: null),
                             );
                           }, childCount: state.messages.length),
                         ),
