@@ -31,11 +31,21 @@ class CategoryDetailsScreen extends StatefulWidget {
 class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
   late CategoryDetailsCubit cubit;
   final ScrollController _scrollController = ScrollController();
+  String? secondCatoryNames;
 
   @override
   void initState() {
     super.initState();
     cubit = getIt<CategoryDetailsCubit>();
+    secondCatoryNames =
+        widget.secondCategory
+            ?.map((e) {
+              if (e.name.isNotEmpty) {
+                return e.name;
+              }
+            })
+            .join(", ") ??
+        "";
 
     final bool isGetAll = widget.categoryId == null;
 
@@ -75,7 +85,11 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                 controller: _scrollController,
                 clipBehavior: Clip.none,
                 slivers: [
-                  CategoryDetailsAppBar(categoryId: widget.categoryId),
+                  CategoryDetailsAppBar(
+                    categoryId: widget.categoryId,
+                    secondCategoryNames: secondCatoryNames,
+                    formCategory: widget.categoryId != null,
+                  ),
 
                   buildSpace(),
                   SliverToBoxAdapter(

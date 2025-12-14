@@ -17,19 +17,18 @@ class HomeSocialLinks extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeCubit, HomeState>(
-      builder: (context, state) {
-        if (state.contactState == RequestState.loading) {
-          return SliverToBoxAdapter(child: _buildSkeletonLoader());
-        }
+    return SliverToBoxAdapter(
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          if (state.contactState == RequestState.loading) {
+            return _SocialLinksSkeleton();
+          }
 
-        if (state.contactState == RequestState.error ||
-            (state.contact.isEmpty && state.contactState == RequestState.success)) {
-          return const SliverToBoxAdapter(child: SizedBox.shrink());
-        }
+          if (state.contactState == RequestState.error || state.contact.isEmpty) {
+            return const SizedBox.shrink();
+          }
 
-        return SliverToBoxAdapter(
-          child: Column(
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(LocaleKeys.followUsOnSocialMedia.tr(), style: Theme.of(context).textTheme.headlineMedium),
@@ -39,9 +38,9 @@ class HomeSocialLinks extends StatelessWidget {
                 children: state.contact.map((item) => _buildLinkItem(item: item)).toList(),
               ),
             ],
-          ).horizontalPadding(padding: 16.w),
-        );
-      },
+          ).horizontalPadding(padding: 16.w);
+        },
+      ),
     );
   }
 
@@ -51,29 +50,25 @@ class HomeSocialLinks extends StatelessWidget {
       child: CachedImage(url: item.image, width: 32.r, height: 32.r),
     );
   }
+}
 
-  Widget _buildSkeletonLoader() {
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 16.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Skeletonizer(
-              enabled: true,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: List.generate(
-                  4,
-                  (_) => Container(
-                    width: 25.r,
-                    height: 25.r,
-                    decoration: const BoxDecoration(shape: BoxShape.circle, color: ColorManager.lightGrey),
-                  ),
-                ),
-              ),
+class _SocialLinksSkeleton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      child: Skeletonizer(
+        enabled: true,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: List.generate(
+            4,
+            (_) => Container(
+              width: 25.r,
+              height: 25.r,
+              decoration: const BoxDecoration(shape: BoxShape.circle, color: ColorManager.lightGrey),
             ),
-          ],
+          ),
         ),
       ),
     );

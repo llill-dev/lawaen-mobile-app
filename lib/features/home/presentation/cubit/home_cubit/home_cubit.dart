@@ -218,10 +218,10 @@ class HomeCubit extends Cubit<HomeState> {
 
       final match = _getCityForLocation(rawLocation.latitude, rawLocation.longitude, state.cities);
 
-      // double finalLat = rawLocation.latitude;
-      // double finalLng = rawLocation.longitude;
-      double finalLat = match.city.location.latitude;
-      double finalLng = match.city.location.longitude;
+      double finalLat = rawLocation.latitude;
+      double finalLng = rawLocation.longitude;
+      // double finalLat = match.city.location.latitude;
+      // double finalLng = match.city.location.longitude;
 
       if (match.isFallback) {
         finalLat = match.city.location.latitude;
@@ -271,6 +271,8 @@ class HomeCubit extends Cubit<HomeState> {
         locationError: null,
       ),
     );
+
+    initHome();
   }
 
   Future<void> _tryRegisterFcmToken() async {

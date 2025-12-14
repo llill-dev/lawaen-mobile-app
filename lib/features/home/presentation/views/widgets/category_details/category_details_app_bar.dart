@@ -12,9 +12,16 @@ import '../../../../../../app/resources/assets_manager.dart';
 import '../../../../../../generated/locale_keys.g.dart';
 
 class CategoryDetailsAppBar extends StatelessWidget {
-  const CategoryDetailsAppBar({super.key, required this.categoryId});
+  const CategoryDetailsAppBar({
+    super.key,
+    required this.categoryId,
+    this.secondCategoryNames,
+    this.formCategory = false,
+  });
 
   final String? categoryId;
+  final bool formCategory;
+  final String? secondCategoryNames;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +33,12 @@ class CategoryDetailsAppBar extends StatelessWidget {
           children: [
             const HomeAppBarHeaderSection(),
             SizedBox(height: 12.h),
+
             CustomTextField(
               controller: controller,
-              hint: LocaleKeys.homeSearchBarHit.tr(),
+              hint: secondCategoryNames != null && formCategory
+                  ? "${LocaleKeys.searchFor.tr()} ${secondCategoryNames!}..."
+                  : LocaleKeys.homeSearchBarHit.tr(),
               hitStyle: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.grey),
               //prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 12),
               suffixIcon: GestureDetector(
