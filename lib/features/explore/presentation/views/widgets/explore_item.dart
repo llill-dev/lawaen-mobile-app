@@ -43,24 +43,6 @@ class ExploreItem extends StatelessWidget {
           children: [
             Stack(
               children: [
-                Positioned(
-                  left: 8,
-                  top: 8,
-                  child: Container(
-                    padding: const EdgeInsets.all(4),
-                    decoration: BoxDecoration(color: ColorManager.red, borderRadius: BorderRadius.circular(12)),
-                    child: Row(
-                      children: [
-                        SvgPicture.asset(IconManager.trending),
-                        4.horizontalSpace,
-                        Text(
-                          LocaleKeys.trending.tr(),
-                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.white),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -113,6 +95,24 @@ class ExploreItem extends StatelessWidget {
                       ],
                     ).horizontalPadding(padding: 16.w),
                   ],
+                ),
+                Positioned(
+                  left: 8,
+                  top: 8,
+                  child: Container(
+                    padding: const EdgeInsets.all(4),
+                    decoration: BoxDecoration(color: ColorManager.red, borderRadius: BorderRadius.circular(12)),
+                    child: Row(
+                      children: [
+                        SvgPicture.asset(IconManager.trending),
+                        4.horizontalSpace,
+                        Text(
+                          LocaleKeys.trending.tr(),
+                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: ColorManager.white),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),

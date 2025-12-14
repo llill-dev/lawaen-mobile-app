@@ -8,7 +8,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
 import 'package:lawaen/app/core/widgets/grid_and_list_buttons_with_title.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
-import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
@@ -103,10 +102,15 @@ class _ExploreHeaderSectionState extends State<ExploreHeaderSection> {
                   ),
                 ),
                 8.horizontalSpace,
-                PrimaryButton(
-                  text: LocaleKeys.search.tr(),
-                  width: 50.w,
-                  onPressed: () => _onSearchChanged(_searchConttroller.text),
+                GestureDetector(
+                  onTap: () {
+                    _onSearchChanged(_searchConttroller.text);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+                    decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
+                    child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
+                  ),
                 ),
               ],
             ),
