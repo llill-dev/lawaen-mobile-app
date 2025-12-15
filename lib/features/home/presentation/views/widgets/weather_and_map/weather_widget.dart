@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/helper/weather_image_helper.dart';
 import 'package:lawaen/app/core/widgets/skeletons/redacted_box.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
@@ -31,8 +32,9 @@ class WeatherWidget extends StatelessWidget {
 
           if (state.weatherState == RequestState.success && state.weather != null) {
             final temperature = state.weather!.currentWeather.temperature.round();
+            final weatherCode = state.weather!.currentWeather.weathercode;
 
-            return _WeatherContent(temperature: temperature);
+            return _WeatherContent(temperature: temperature, weatherCode: weatherCode);
           }
 
           return const SizedBox.shrink();
@@ -67,8 +69,8 @@ class _WeatherLoadingSkeleton extends StatelessWidget {
 
 class _WeatherContent extends StatelessWidget {
   final int temperature;
-
-  const _WeatherContent({required this.temperature});
+  final int weatherCode;
+  const _WeatherContent({required this.temperature, required this.weatherCode});
 
   @override
   Widget build(BuildContext context) {
@@ -96,16 +98,6 @@ class _WeatherContent extends StatelessWidget {
             ),
           ),
 
-          // ⚠️ ICON WILL BE ADDED LATER
-          /*
-          Padding(
-            padding: EdgeInsets.all(15.w),
-            child: SvgPicture.asset(
-              IconManager.weather,
-              fit: BoxFit.contain,
-            ),
-          ),
-          */
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
@@ -130,6 +122,8 @@ class _WeatherContent extends StatelessWidget {
               ),
             ),
           ),
+
+          WeatherImageHelper.getWeatherImage(weatherCode: weatherCode, temperature: temperature),
         ],
       ),
     );

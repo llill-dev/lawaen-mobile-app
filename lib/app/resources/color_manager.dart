@@ -17,7 +17,7 @@ abstract class ColorManager {
   static const reatingAvaterColor = Color(0xFFFFFCDA);
   static const homeAppBarGradient = [Color(0xFF1A50A4), Color(0xFF155DFC)];
   static const wheatherUpGradient = [Color(0xFF1754E8), Color(0xFFD9D9D9)];
-  static const wheatherDownGradient = [Color(0xFF373333), Color(0xFFffffff)];
+  static final wheatherDownGradient = [Color(0xFF373333), Color(0xFF373333).withValues(alpha: 0.0)];
   static const addEventGradient = [Color(0xFF2B7FFF), Color(0xFF155DFC)];
   static const addClassifiedGradient = [Color(0xFF615FFF), Color(0xFF4f39f6)];
   static const addMissingPlaceGradient = [Color(0xFFAD46FF), Color(0xFF9810FA)];

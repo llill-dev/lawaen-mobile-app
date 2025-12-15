@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     super.initState();
     final profileCubit = context.read<ProfileCubit>();
     profileCubit.ensureProfilePagesLoaded();
-    if (!getIt<AppPreferences>().isGuest && context.read<ProfileCubit>().state.getCounts == null) {
+    if (!getIt<AppPreferences>().isGuest) {
       profileCubit.getCounts();
     }
   }

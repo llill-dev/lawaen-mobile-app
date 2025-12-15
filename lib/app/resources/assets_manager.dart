@@ -22,6 +22,14 @@ class ImageManager {
   static const String ratings = "${imagePath}ratings.png";
   static const String emptyPhoto = "${imagePath}dubailogo.png";
   static const String marker = "${imagePath}marker.png";
+
+  //weather
+  static const String weatherCloudy = "${imagePath}weather_cloudy.png";
+  static const String weatherPartlyCloudy = "${imagePath}weather_partly_cloudy.png";
+  static const String weatherRainy = "${imagePath}weather_rainy.png";
+  static const String weatherSunny = "${imagePath}weather_sun.png";
+  static const String weatherThunder = "${imagePath}weather_thundery.png";
+  static const String weatherSnowy = "${imagePath}weather_snowy.png";
 }
 
 class IconManager {
@@ -30,7 +38,6 @@ class IconManager {
   static const String search = "${iconPath}search.svg";
   static const String chair = "${iconPath}chair.svg";
   static const String forward = "${iconPath}forward.svg";
-  static const String weather = "${iconPath}weather.svg";
   static const String send = "${iconPath}send.svg";
   static const String phone = "${iconPath}phone.svg";
   static const String star = "${iconPath}star.svg";
