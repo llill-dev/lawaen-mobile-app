@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/api_response.dart';
 import 'package:lawaen/app/core/params/pagination_params.dart';
+import 'package:lawaen/app/external/models/weather_api_response_model.dart';
+import 'package:lawaen/app/external/params/get_weather_params.dart';
 import 'package:lawaen/app/network/urls.dart';
 import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
@@ -113,6 +115,9 @@ abstract class AppServiceClient {
 
   @GET(Urls.getContact)
   Future<ApiResponse<List<ContactModel>>> getContact();
+
+  @GET(Urls.getWeather)
+  Future<WeatherApiResponseModel> getWeather({@Queries() required GetWeatherParams params});
 
   //category details
   @GET(Urls.getCategoryDetails)

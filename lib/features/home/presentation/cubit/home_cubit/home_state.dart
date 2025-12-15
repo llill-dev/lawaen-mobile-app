@@ -37,6 +37,11 @@ class HomeState extends Equatable {
   final List<ContactModel> contact;
   final String? contactError;
 
+  // WEATHER
+  final RequestState weatherState;
+  final WeatherModel? weather;
+  final String? weatherError;
+
   // GLOBAL
   final String? globalError;
 
@@ -65,6 +70,9 @@ class HomeState extends Equatable {
     this.contactState = RequestState.idle,
     this.contact = const [],
     this.contactError,
+    this.weatherState = RequestState.idle,
+    this.weather,
+    this.weatherError,
     this.globalError,
   });
 
@@ -105,6 +113,11 @@ class HomeState extends Equatable {
     final List<ContactModel>? contact,
     final String? contactError,
 
+    // weather
+    final RequestState? weatherState,
+    final WeatherModel? weather,
+    final String? weatherError,
+
     // global
     String? globalError,
   }) {
@@ -141,31 +154,39 @@ class HomeState extends Equatable {
       contact: contact ?? this.contact,
       contactError: contactError,
 
+      weatherState: weatherState ?? this.weatherState,
+      weather: weather ?? this.weather,
+      weatherError: weatherError,
+
       globalError: globalError,
     );
   }
 
   @override
   List<Object?> get props => [
+    // cities
     citiesState,
     cities,
     citiesError,
 
+    // categories
     categoriesState,
     categories,
     categoriesError,
 
+    // location
     locationState,
     locationError,
-
     userLatitude,
     userLongitude,
     currentCity,
 
+    // events
     evetnsState,
     events,
     eventsError,
 
+    // category details
     categoryDetailsState,
     categoryDetails,
     categoryDetailsError,
@@ -178,6 +199,11 @@ class HomeState extends Equatable {
     contactState,
     contact,
     contactError,
+
+    // weather
+    weatherState,
+    weather,
+    weatherError,
 
     globalError,
   ];

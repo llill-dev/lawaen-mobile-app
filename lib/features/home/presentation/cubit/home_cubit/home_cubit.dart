@@ -7,6 +7,8 @@ import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
+import 'package:lawaen/app/external/models/weather_model.dart';
+import 'package:lawaen/app/external/params/get_weather_params.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
@@ -63,6 +65,7 @@ class HomeCubit extends Cubit<HomeState> {
         await _loadUserLocation();
         await getHomeEvents();
         await getHomeData();
+        await getWeather();
         _tryRegisterFcmToken();
       },
     );
@@ -203,6 +206,28 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (contact) {
         emit(state.copyWith(contactState: RequestState.success, contact: contact, contactError: null));
+      },
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // WEATHER
+  // ────────────────────────────────────────────────
+  Future<void> getWeather() async {
+    if (state.userLatitude == null || state.userLongitude == null) return;
+
+    emit(state.copyWith(weatherState: RequestState.loading, weatherError: null));
+
+    final params = GetWeatherParams(latitude: state.userLatitude!, longitude: state.userLongitude!);
+
+    final result = await _homeRepo.getWeather(params);
+
+    result.fold(
+      (error) {
+        emit(state.copyWith(weatherState: RequestState.error, weatherError: error.message));
+      },
+      (weather) {
+        emit(state.copyWith(weatherState: RequestState.success, weather: weather, weatherError: null));
       },
     );
   }
