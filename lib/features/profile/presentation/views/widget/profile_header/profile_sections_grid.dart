@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
@@ -16,6 +19,17 @@ class ProfileSectionsGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final counts = context.select((ProfileCubit cubit) => cubit.state.getCounts);
+    final isGuest = getIt<AppPreferences>().isGuest;
+    void isGeusMsg() {
+      alertDialog(
+        context: context,
+        message: LocaleKeys.signInToContinue.tr(),
+        onConfirm: () => context.router.push(LoginRoute()),
+        onCancel: () => (),
+        approveButtonTitle: LocaleKeys.signIn.tr(),
+        rejectButtonTitle: LocaleKeys.cancel.tr(),
+      );
+    }
 
     String countSubtitle(int? count) {
       if (count == null) return "";
@@ -27,13 +41,13 @@ class ProfileSectionsGrid extends StatelessWidget {
         title: LocaleKeys.savedPlace.tr(),
         subtitle: countSubtitle(counts?.saved),
         icon: IconManager.saved,
-        onTap: () => context.pushRoute(FavoritesRoute()),
+        onTap: isGuest ? isGeusMsg : () => context.pushRoute(FavoritesRoute()),
       ),
       _ProfileSectionData(
         title: LocaleKeys.reatings.tr(),
         subtitle: countSubtitle(counts?.rated),
         icon: IconManager.retings,
-        onTap: () => context.pushRoute(RatingsRoute()),
+        onTap: isGuest ? isGeusMsg : () => context.pushRoute(RatingsRoute()),
       ),
       _ProfileSectionData(
         title: LocaleKeys.contactUs.tr(),

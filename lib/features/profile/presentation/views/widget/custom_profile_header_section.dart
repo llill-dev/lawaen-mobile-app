@@ -13,12 +13,14 @@ class CustomProfileHeaderSections extends StatelessWidget {
   final bool isGridView;
   final bool withBackButton;
   final ValueChanged<bool> onViewModeChanged;
+  final bool showSearch;
   const CustomProfileHeaderSections({
     super.key,
     required this.tilte,
     required this.isGridView,
     required this.onViewModeChanged,
     this.withBackButton = false,
+    this.showSearch = true,
   });
 
   @override
@@ -46,17 +48,19 @@ class CustomProfileHeaderSections extends StatelessWidget {
               title: tilte,
               withBackButton: withBackButton,
             ),
-            16.verticalSpace,
-            CustomTextField(
-              hint: LocaleKeys.search_for_places_and_services.tr(),
-              fillColor: ColorManager.blackSwatch[3],
-              borderColor: ColorManager.blackSwatch[3],
-              verticalContentPadding: 14,
-              prefixIcon: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 12.h),
-                child: SvgPicture.asset(IconManager.search),
+            if (showSearch) ...[
+              16.verticalSpace,
+              CustomTextField(
+                hint: LocaleKeys.search_for_places_and_services.tr(),
+                fillColor: ColorManager.blackSwatch[3],
+                borderColor: ColorManager.blackSwatch[3],
+                verticalContentPadding: 14,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 12.h),
+                  child: SvgPicture.asset(IconManager.search),
+                ),
               ),
-            ),
+            ],
           ],
         ),
       ),
