@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/services/firebase_service.dart';
 import 'package:lawaen/features/events/presentation/cubit/event_cubit/event_cubit.dart';
 import 'package:lawaen/features/explore/presentation/cubit/explore_cubit.dart';
@@ -77,6 +78,10 @@ void _initAppApi() {
   getIt<EventCubit>().getEventTypes();
   getIt<OffersCubit>().getOfferTypes();
   getIt<ExploreCubit>().getUserPreferences();
-  getIt<ProfileCubit>().prefetchProfilePages();
-  getIt<ProfileCubit>().getCounts();
+  final profileCubit = getIt<ProfileCubit>();
+  profileCubit.prefetchProfilePages();
+  final isGuest = getIt<AppPreferences>().isGuest;
+  if (!isGuest) {
+    profileCubit.getCounts();
+  }
 }

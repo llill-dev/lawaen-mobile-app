@@ -85,6 +85,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   Future<void> getCounts() async {
+    if (state.getCountsState == RequestState.loading) return;
+
     emit(state.copyWith(getCountsState: RequestState.loading, getCountsError: null));
 
     final result = await _profileRepo.getCounts();

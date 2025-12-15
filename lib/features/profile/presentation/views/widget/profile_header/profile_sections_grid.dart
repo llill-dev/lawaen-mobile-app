@@ -1,11 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 class ProfileSectionsGrid extends StatelessWidget {
@@ -13,16 +15,23 @@ class ProfileSectionsGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final counts = context.select((ProfileCubit cubit) => cubit.state.getCounts);
+
+    String countSubtitle(int? count) {
+      if (count == null) return "";
+      return "$count ${LocaleKeys.items.tr()}";
+    }
+
     final sections = [
       _ProfileSectionData(
         title: LocaleKeys.savedPlace.tr(),
-        subtitle: "12 Items",
+        subtitle: countSubtitle(counts?.saved),
         icon: IconManager.saved,
         onTap: () => context.pushRoute(FavoritesRoute()),
       ),
       _ProfileSectionData(
         title: LocaleKeys.reatings.tr(),
-        subtitle: "4 Items",
+        subtitle: countSubtitle(counts?.rated),
         icon: IconManager.retings,
         onTap: () => context.pushRoute(RatingsRoute()),
       ),

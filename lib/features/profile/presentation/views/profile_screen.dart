@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_section.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_header/profile_header.dart';
@@ -16,8 +18,12 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
   void initState() {
-    context.read<ProfileCubit>().ensureProfilePagesLoaded();
     super.initState();
+    final profileCubit = context.read<ProfileCubit>();
+    profileCubit.ensureProfilePagesLoaded();
+    if (!getIt<AppPreferences>().isGuest) {
+      profileCubit.getCounts();
+    }
   }
 
   @override
