@@ -283,6 +283,8 @@
   "writeYourReportMessageHint": "Describe the issue here...",
   "reportMessageRequired": "Please write your report message",
   "reportSubmittedSurccessfully": "Your report submitted successfully",
+  "noMessagesYet": "No messages yet",
+  "typeAnything": "Type anything...",
   "followUsOnSocialMedia": "Follow us on social media",
   "searchFor": "Search for"
 } 

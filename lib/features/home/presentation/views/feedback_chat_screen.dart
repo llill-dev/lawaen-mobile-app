@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lawaen/app/app_prefs.dart';
+import 'dart:ui' as ui;
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
 import 'package:lawaen/app/core/widgets/error_view.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
@@ -12,6 +14,7 @@ import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/messages_cubit/messages_cubit.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../app/resources/color_manager.dart';
 import 'widgets/feedback/chat_bubble.dart';
@@ -111,7 +114,7 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
                     }
 
                     if (state.messages.isEmpty) {
-                      return const Center(child: Text('No messages yet'));
+                      return Center(child: Text(LocaleKeys.noMessagesYet.tr()));
                     }
 
                     return CustomScrollView(
@@ -176,7 +179,7 @@ class _FeedbackChatScreenState extends State<FeedbackChatScreen> {
                 child: CustomTextField(
                   controller: _messageController,
                   focusNode: _focusNode,
-                  hint: 'type any thing...',
+                  hint: LocaleKeys.typeAnything.tr(),
                   withBorder: false,
                   onFieldSubmitted: (_) => _sendMessage(),
                 ),
@@ -217,7 +220,7 @@ class ChatBubbleSkeleton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: isSender ? TextDirection.ltr : TextDirection.rtl,
+      textDirection: isSender ? ui.TextDirection.ltr : ui.TextDirection.rtl,
       child: Row(
         children: [
           const ShimmerBox(width: 32, height: 32),

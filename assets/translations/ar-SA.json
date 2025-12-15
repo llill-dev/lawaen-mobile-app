@@ -286,6 +286,8 @@
   "writeYourReportMessageHint": "اشرح المشكلة هنا...",
   "reportMessageRequired": "يرجى كتابة رسالة البلاغ",
   "reportSubmittedSurccessfully": "تم إرسال البلاغ بنجاح",
+  "noMessagesYet": "لا توجد رسائل بعد",
+  "typeAnything": "اكتب أي شيء...",
   "followUsOnSocialMedia" : "تابعنا على صفحات التواصل الاجتماعي",
   "searchFor": "ابحث عن"
 }
