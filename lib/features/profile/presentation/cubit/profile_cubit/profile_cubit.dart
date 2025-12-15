@@ -2,6 +2,8 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/features/home/data/models/category_details_model.dart';
+import 'package:lawaen/features/profile/data/models/counts_model.dart';
 import 'package:lawaen/features/profile/data/models/profile_page_model.dart';
 import 'package:lawaen/features/profile/data/models/profile_pages_model.dart';
 import 'package:lawaen/features/profile/data/repos/profile_repo.dart';
@@ -79,6 +81,42 @@ class ProfileCubit extends Cubit<ProfileState> {
       (page) => emit(
         state.copyWith(getProfilePageState: RequestState.success, getProfilePage: page, getProfilePageError: null),
       ),
+    );
+  }
+
+  Future<void> getCounts() async {
+    emit(state.copyWith(getCountsState: RequestState.loading, getCountsError: null));
+
+    final result = await _profileRepo.getCounts();
+    result.fold(
+      (error) => emit(state.copyWith(getCountsState: RequestState.error, getCountsError: error.errorMessage)),
+      (counts) => emit(
+        state.copyWith(getCountsState: RequestState.success, getCounts: counts, getCountsError: null),
+      ),
+    );
+  }
+
+  Future<void> getRated() async {
+    if (state.getRatedState == RequestState.loading) return;
+
+    emit(state.copyWith(getRatedState: RequestState.loading, getRatedError: null));
+
+    final result = await _profileRepo.getRated();
+    result.fold(
+      (error) => emit(state.copyWith(getRatedState: RequestState.error, getRatedError: error.errorMessage)),
+      (rated) => emit(state.copyWith(getRatedState: RequestState.success, getRated: rated, getRatedError: null)),
+    );
+  }
+
+  Future<void> getSaved() async {
+    if (state.getSavedState == RequestState.loading) return;
+
+    emit(state.copyWith(getSavedState: RequestState.loading, getSavedError: null));
+
+    final result = await _profileRepo.getSaved();
+    result.fold(
+      (error) => emit(state.copyWith(getSavedState: RequestState.error, getSavedError: error.errorMessage)),
+      (saved) => emit(state.copyWith(getSavedState: RequestState.success, getSaved: saved, getSavedError: null)),
     );
   }
 }

@@ -78,4 +78,5 @@ void _initAppApi() {
   getIt<OffersCubit>().getOfferTypes();
   getIt<ExploreCubit>().getUserPreferences();
   getIt<ProfileCubit>().prefetchProfilePages();
+  getIt<ProfileCubit>().getCounts();
 }

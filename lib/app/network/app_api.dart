@@ -36,6 +36,7 @@ import 'package:lawaen/features/offers/data/models/offer_type_model.dart';
 import 'package:lawaen/features/offers/data/models/offer_model.dart';
 import 'package:lawaen/features/offers/presentation/params/get_offers_params.dart';
 import 'package:lawaen/features/profile/data/models/contact_us_model.dart';
+import 'package:lawaen/features/profile/data/models/counts_model.dart';
 import 'package:lawaen/features/profile/data/models/profile_page_model.dart';
 import 'package:lawaen/features/profile/data/models/profile_pages_model.dart';
 import 'package:lawaen/features/profile/presentation/params/contact_us_params.dart';
@@ -282,4 +283,13 @@ abstract class AppServiceClient {
 
   @GET(Urls.getProfilePage)
   Future<ApiResponse<ProfilePageModel>> getProfilePage({@Path("id") required String id});
+
+  @GET(Urls.getCounts)
+  Future<ApiResponse<CountsModel>> getCounts();
+
+  @GET(Urls.getRated)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getRated();
+
+  @GET(Urls.getSaved)
+  Future<ApiResponse<List<CategoryDetailsModel>>> getSaved();
 }
