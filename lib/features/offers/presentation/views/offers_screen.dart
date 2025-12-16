@@ -125,7 +125,7 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
-      backgroundColor: ColorManager.white,
+      backgroundColor: ColorManager.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) => OffersDetailsBottomSheet(offer: offer),
     );
@@ -135,7 +135,7 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
     showModalBottomSheet(
       showDragHandle: true,
       context: context,
-      backgroundColor: ColorManager.white,
+      backgroundColor: ColorManager.primary,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(32))),
       builder: (_) => const OffersFilterBottomSheet(),
     );

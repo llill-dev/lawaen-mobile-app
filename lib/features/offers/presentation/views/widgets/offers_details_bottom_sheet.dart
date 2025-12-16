@@ -26,7 +26,10 @@ class OffersDetailsBottomSheet extends StatelessWidget {
 
           SizedBox(height: 16.h),
 
-          Text(offer.description, style: Theme.of(context).textTheme.headlineMedium?.copyWith(height: 1.5)),
+          Text(
+            offer.description,
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(height: 1.5, color: ColorManager.white),
+          ),
 
           SizedBox(height: 16.h),
 
@@ -77,9 +80,9 @@ class OffersDetailsBottomSheet extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(10.r)),
+        decoration: BoxDecoration(color: ColorManager.white, borderRadius: BorderRadius.circular(10.r)),
         padding: EdgeInsets.all(8.w),
-        child: Icon(icon, color: ColorManager.white, size: 20.r),
+        child: Icon(icon, color: ColorManager.primary, size: 20.r),
       ),
     );
   }

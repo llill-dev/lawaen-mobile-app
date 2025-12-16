@@ -13,9 +13,9 @@ class OffersCircularActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(color: ColorManager.primary, shape: BoxShape.circle),
+        decoration: BoxDecoration(color: ColorManager.green, shape: BoxShape.circle),
         padding: EdgeInsets.all(16.w),
-        child: SvgPicture.asset(icon),
+        child: SvgPicture.asset(icon, colorFilter: ColorFilter.mode(ColorManager.black, BlendMode.srcIn)),
       ),
     );
   }

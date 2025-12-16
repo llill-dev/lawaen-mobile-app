@@ -69,7 +69,12 @@ class _OffersFilterBottomSheetState extends State<OffersFilterBottomSheet> {
                             ),
                           ),
                           10.horizontalSpace,
-                          Expanded(child: Text(type.name)),
+                          Expanded(
+                            child: Text(
+                              type.name,
+                              style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
+                            ),
+                          ),
                         ],
                       ),
                     ),
@@ -83,6 +88,8 @@ class _OffersFilterBottomSheetState extends State<OffersFilterBottomSheet> {
 
           PrimaryButton(
             text: LocaleKeys.apply.tr(),
+            isLight: true,
+            borederColor: ColorManager.white,
             onPressed: () {
               final cubit = context.read<OffersCubit>();
               cubit.updateSelectedTypes(selected);
