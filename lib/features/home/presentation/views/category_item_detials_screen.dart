@@ -93,6 +93,7 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
                   buildSpace(),
 
                   SectionSelector(
+                    haveMuneTap: state.categoryItems!.isHaveMune == true,
                     sections: state.categoryItems!.isHaveMune == true
                         ? [
                             LocaleKeys.photos.tr(),

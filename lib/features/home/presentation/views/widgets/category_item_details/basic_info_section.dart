@@ -122,7 +122,7 @@ class BasicInfoSection extends StatelessWidget {
   void _showFeedBackBttomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: ColorManager.white,
+      backgroundColor: ColorManager.primary,
       showDragHandle: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {
@@ -152,7 +152,7 @@ class BasicInfoSection extends StatelessWidget {
   void _showReportBottomSheet(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: ColorManager.white,
+      backgroundColor: ColorManager.primary,
       showDragHandle: true,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {

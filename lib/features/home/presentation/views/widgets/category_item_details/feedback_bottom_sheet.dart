@@ -78,7 +78,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                             child: Icon(
                               Icons.star_rounded,
                               size: 28.r,
-                              color: isSelected ? ColorManager.orange : ColorManager.darkGrey,
+                              color: isSelected ? ColorManager.orange : ColorManager.lightGrey,
                             ),
                           );
                         }),
@@ -86,6 +86,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                       PrimaryButton(
                         width: 60.w,
                         height: 45.w,
+                        isLight: true,
+                        borederColor: ColorManager.white,
                         borderRadius: 12,
                         text: LocaleKeys.rate.tr(),
                         isLoading: state.rateItemState == RequestState.loading,
@@ -118,7 +120,7 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
                       context.pushRoute(FeedbackChatRoute(itemId: widget.itemId, secondCategoryId: widget.categoryId)),
                   child: Text(
                     LocaleKeys.seeAll.tr(),
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
                   ),
                 ),
               ],
@@ -175,6 +177,8 @@ class _FeedbackBottomSheetState extends State<FeedbackBottomSheet> {
               builder: (context, state) {
                 return Center(
                   child: PrimaryButton(
+                    isLight: true,
+                    borederColor: ColorManager.white,
                     text: LocaleKeys.send.tr(),
                     width: 150.w,
                     isLoading: state.sendFeedBackState == RequestState.loading,

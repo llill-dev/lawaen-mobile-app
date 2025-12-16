@@ -26,7 +26,10 @@ class ReportBottomSheet extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(LocaleKeys.writeYourReportMessage.tr(), style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            LocaleKeys.writeYourReportMessage.tr(),
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
+          ),
 
           16.verticalSpace,
 
@@ -78,6 +81,7 @@ class ReportBottomSheet extends StatelessWidget {
             builder: (context, state) {
               return Center(
                 child: PrimaryButton(
+                  isLight: true,
                   text: LocaleKeys.send.tr(),
                   width: 150.w,
                   isLoading: state.reportItemState == RequestState.loading,
