@@ -29,6 +29,7 @@ class EventInfoSection extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.all(16.w),
+      margin: EdgeInsets.only(bottom: 12.w),
       decoration: _buildBoxDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
