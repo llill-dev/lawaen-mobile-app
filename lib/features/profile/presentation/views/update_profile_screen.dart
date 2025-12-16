@@ -227,7 +227,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> with FormStat
                   24.verticalSpace,
                   PrimaryButton(
                     isLight: true,
-                    withShadow: true,
+                    //withShadow: true,
                     text: LocaleKeys.changePassword.tr(),
                     borederColor: ColorManager.primary,
                     onPressed: () => showChangePasswordBottomSheet(context),

@@ -45,8 +45,8 @@ class LoginScreen extends StatelessWidget {
                         backgroundColor: ColorManager.blackSwatch[4],
                         borederColor: ColorManager.blackSwatch[4],
                         textColor: ColorManager.black,
-                        withShadow: true,
-                        shadowColor: ColorManager.onBoardingShadowColor,
+                        //withShadow: true,
+                        //shadowColor: ColorManager.onBoardingShadowColor,
                         onPressed: () {
                           final prefs = getIt<AppPreferences>();
                           prefs.setGuest(true);
