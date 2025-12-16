@@ -72,7 +72,12 @@ class _FilterCategoryInfoState extends State<FilterCategoryInfo> {
                               ),
                             ),
                             10.horizontalSpace,
-                            Expanded(child: Text(sub.name, style: Theme.of(context).textTheme.bodyMedium)),
+                            Expanded(
+                              child: Text(
+                                sub.name,
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
+                              ),
+                            ),
                           ],
                         ),
                       ),
@@ -86,6 +91,8 @@ class _FilterCategoryInfoState extends State<FilterCategoryInfo> {
 
             PrimaryButton(
               text: LocaleKeys.apply.tr(),
+              borederColor: ColorManager.white,
+              isLight: true,
               onPressed: () {
                 Navigator.of(context).pop(_selectedId);
               },

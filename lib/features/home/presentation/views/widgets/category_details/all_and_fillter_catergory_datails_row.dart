@@ -82,7 +82,8 @@ class AllAndFilterCategoryDetailsRow extends StatelessWidget {
   ) {
     return showModalBottomSheet<String?>(
       context: context,
-      backgroundColor: ColorManager.white,
+      showDragHandle: true,
+      backgroundColor: ColorManager.primary,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
       builder: (_) {
         return FilterCategoryInfo(subCategories: subCategories, initialSelectedId: currentSelectedId);
