@@ -42,7 +42,7 @@ class NetworkIcon extends StatelessWidget {
         errorBuilder: (context, url, error) => const Icon(Icons.error, color: Colors.red),
       );
     } else {
-      return CachedImage(url: url, height: size ?? height, width: size ?? width, fit: fit, placeholder: placeholder);
+      return CachedImage(url: url, height: size ?? height, width: size ?? width);
     }
   }
 }

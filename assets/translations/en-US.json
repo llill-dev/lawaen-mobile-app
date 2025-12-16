@@ -289,5 +289,7 @@
   "searchFor": "Search for",
   "items": "Items",
   "now": "Now",
-  "CurrentWeather": "Current Weather"
+  "CurrentWeather": "Current Weather",
+  "mapBottomSheetTitle": "Welcome to Map Search For Places",
+  "mapBottomSheetDescription": "To get better results, select your options. The system will display the results closest to you."
 } 

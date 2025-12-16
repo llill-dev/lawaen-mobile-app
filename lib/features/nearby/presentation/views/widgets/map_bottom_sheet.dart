@@ -61,9 +61,9 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       builder: (context, state) {
         return DraggableScrollableSheet(
           controller: _controller,
-          minChildSize: 0.12,
+          minChildSize: 0.17,
           maxChildSize: 0.50,
-          initialChildSize: 0.12,
+          initialChildSize: 0.17,
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
@@ -100,18 +100,45 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDragHandle(),
+        InkWell(
+          onTap: () {
+            if (!cubit.state.isSheetExpanded) {
+              _expandSheetAnimated();
+            }
+          },
+          child: Column(
+            children: [
+              Text(
+                LocaleKeys.mapBottomSheetTitle.tr(),
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(color: ColorManager.black),
+              ),
+              8.verticalSpace,
+              Text(
+                LocaleKeys.mapBottomSheetDescription.tr(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
+              ),
+            ],
+          ),
+        ),
+        12.verticalSpace,
 
         // _buildSearchBar(context, cubit),
         // SizedBox(height: 12.h),
         if (state.isSheetExpanded) ...[
-          Text(LocaleKeys.mainCategory.tr(), style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            LocaleKeys.mainCategory.tr(),
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.black),
+          ),
           SizedBox(height: 8.h),
           _buildMainCategories(context, state),
           SizedBox(height: 8.h),
         ],
 
         if (state.selectedMainCategoryId != null && state.currentSubCategories.isNotEmpty) ...[
-          Text(LocaleKeys.subCategory.tr(), style: Theme.of(context).textTheme.headlineMedium),
+          Text(
+            LocaleKeys.subCategory.tr(),
+            style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.black),
+          ),
           SizedBox(height: 8.h),
           _buildSubCategories(context, state),
           SizedBox(height: 8.h),
@@ -152,53 +179,53 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     );
   }
 
-  Widget _buildSearchBar(BuildContext context, MapCubit cubit) {
-    return Row(
-      children: [
-        Expanded(
-          child: CustomTextField(
-            controller: _searchController,
-            hint: LocaleKeys.homeSearchBarHit.tr(),
-            prefixIcon: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 12.w),
-              child: SvgPicture.asset(IconManager.search),
-            ),
-            fillColor: ColorManager.lightGrey,
-            borderColor: ColorManager.lightGrey,
-            horizontalContentPadding: 16,
-            verticalContentPadding: 12,
-            borderRadius: 16.0,
-            onTap: () {
-              if (!cubit.state.isSheetExpanded) {
-                _expandSheetAnimated();
-              }
-            },
-            onFieldSubmitted: (value) {
-              if (value.isNotEmpty) {
-                _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-                cubit.updateSearch(value);
-              }
-            },
-          ),
-        ),
-        SizedBox(width: 10.w),
-        GestureDetector(
-          onTap: () {
-            final text = _searchController.text.trim();
-            if (text.isNotEmpty) {
-              _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-              cubit.updateSearch(text);
-            }
-          },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-            decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
-            child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
-          ),
-        ),
-      ],
-    );
-  }
+  // Widget _buildSearchBar(BuildContext context, MapCubit cubit) {
+  //   return Row(
+  //     children: [
+  //       Expanded(
+  //         child: CustomTextField(
+  //           controller: _searchController,
+  //           hint: LocaleKeys.homeSearchBarHit.tr(),
+  //           prefixIcon: Padding(
+  //             padding: EdgeInsets.symmetric(horizontal: 12.w),
+  //             child: SvgPicture.asset(IconManager.search),
+  //           ),
+  //           fillColor: ColorManager.lightGrey,
+  //           borderColor: ColorManager.lightGrey,
+  //           horizontalContentPadding: 16,
+  //           verticalContentPadding: 12,
+  //           borderRadius: 16.0,
+  //           onTap: () {
+  //             if (!cubit.state.isSheetExpanded) {
+  //               _expandSheetAnimated();
+  //             }
+  //           },
+  //           onFieldSubmitted: (value) {
+  //             if (value.isNotEmpty) {
+  //               _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+  //               cubit.updateSearch(value);
+  //             }
+  //           },
+  //         ),
+  //       ),
+  //       SizedBox(width: 10.w),
+  //       GestureDetector(
+  //         onTap: () {
+  //           final text = _searchController.text.trim();
+  //           if (text.isNotEmpty) {
+  //             _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+  //             cubit.updateSearch(text);
+  //           }
+  //         },
+  //         child: Container(
+  //           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+  //           decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
+  //           child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
+  //         ),
+  //       ),
+  //     ],
+  //   );
+  // }
 
   // ================================
   // MAIN CATEGORY LIST

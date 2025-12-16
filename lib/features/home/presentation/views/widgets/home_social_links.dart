@@ -47,7 +47,7 @@ class HomeSocialLinks extends StatelessWidget {
   Widget _buildLinkItem({required ContactModel item}) {
     return GestureDetector(
       onTap: () => launchURL(link: item.url),
-      child: CachedImage(url: item.image, width: 32.r, height: 32.r),
+      child: CachedImage(url: item.image, width: 40.r, height: 40.r),
     );
   }
 }

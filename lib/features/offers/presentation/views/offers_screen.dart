@@ -3,8 +3,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/core/widgets/cached_image.dart';
 import 'package:lawaen/app/core/widgets/empty_view.dart';
 import 'package:lawaen/app/core/widgets/error_view.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
@@ -92,7 +92,7 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    NetworkIcon(url: offer.image, fit: BoxFit.cover),
+                    CachedImage(url: offer.image, fit: BoxFit.cover),
 
                     Positioned(
                       right: 24.w,
