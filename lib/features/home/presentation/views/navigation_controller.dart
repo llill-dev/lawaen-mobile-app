@@ -89,6 +89,7 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
       extendBody: true,
       extendBodyBehindAppBar: true,
       body: PageView(
+        clipBehavior: Clip.none,
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: const BouncingScrollPhysics(),
@@ -120,9 +121,9 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
       child: Container(
         height: 74.h,
         decoration: BoxDecoration(
-          color: ColorManager.white,
+          color: ColorManager.primary,
           borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
-          border: Border.all(color: ColorManager.lightGrey, width: 1.9),
+          border: Border(top: BorderSide(color: ColorManager.white, width: 2)),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -146,13 +147,10 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
             SvgPicture.asset(
               selected ? icons[0] : icons[1],
               width: 20.w,
-              colorFilter: selected ? ColorFilter.mode(ColorManager.primary, BlendMode.srcIn) : null,
+              colorFilter: ColorFilter.mode(selected ? ColorManager.black : ColorManager.white, BlendMode.srcIn),
             ),
             SizedBox(height: 6.h),
-            Text(
-              title,
-              style: TextStyle(fontSize: 10, color: selected ? ColorManager.primary : ColorManager.blackSwatch[10]),
-            ),
+            Text(title, style: TextStyle(fontSize: 10, color: selected ? ColorManager.black : ColorManager.white)),
           ],
         ),
       ),

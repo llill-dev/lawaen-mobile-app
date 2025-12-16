@@ -24,11 +24,7 @@ class ImageManager {
   static const String marker = "${imagePath}marker.png";
 
   //weather
-  static const String weatherCloudy = "${imagePath}weather_cloudy.png";
-  static const String weatherPartlyCloudy = "${imagePath}weather_partly_cloudy.png";
-  static const String weatherRainy = "${imagePath}weather_rainy.png";
-  static const String weatherSunny = "${imagePath}weather_sun.png";
-  static const String weatherThunder = "${imagePath}weather_thundery.png";
+
   static const String weatherSnowy = "${imagePath}weather_snowy.png";
 }
 
@@ -99,6 +95,14 @@ class IconManager {
   static const String emptySearch = "${iconPath}empty_saerch.svg";
   static const String emptyRatings = "${iconPath}empty_reviews.svg";
   static const String emptyFavorites = "${iconPath}empty_favorites.svg";
+
+  /// Weather
+
+  static const String weatherCloudy = "${iconPath}weather_cloudy.svg";
+  static const String weatherPartlyCloudy = "${iconPath}weather_partly_cloudy.svg";
+  static const String weatherRainy = "${iconPath}weather_rainy.svg";
+  static const String weatherSunny = "${iconPath}weather_sunny.svg";
+  static const String weatherThunder = "${iconPath}weather_thundery.svg";
 }
 
 class JsonManager {

@@ -73,6 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
           onRefresh: () async => cubit.initHome(),
           child: CustomScrollView(
             controller: _scrollController,
+            clipBehavior: Clip.none,
             physics: const AlwaysScrollableScrollPhysics(),
             slivers: [
               SliverToBoxAdapter(child: const HomeAppBar()),
