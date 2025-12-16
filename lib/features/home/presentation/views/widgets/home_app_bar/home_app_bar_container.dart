@@ -13,11 +13,12 @@ class HomeAppBarContainer extends StatelessWidget {
     return Container(
       padding: padding ?? EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: ColorManager.homeAppBarGradient,
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-        ),
+        color: ColorManager.primary,
+        // gradient: LinearGradient(
+        //   colors: ColorManager.homeAppBarGradient,
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        // ),
         borderRadius: BorderRadius.only(bottomLeft: Radius.circular(30.r), bottomRight: Radius.circular(30.r)),
         boxShadow: [
           BoxShadow(

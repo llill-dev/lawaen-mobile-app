@@ -187,8 +187,10 @@ class _WeatherContent extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20.r),
+        border: Border.all(color: ColorManager.primary),
         gradient: LinearGradient(
           colors: [ColorManager.primary, ColorManager.white],
+
           begin: lang == english ? Alignment.topLeft : Alignment.topRight,
           end: lang == english ? Alignment.bottomRight : Alignment.bottomLeft,
         ),
