@@ -7,22 +7,23 @@ class ShimmerBox extends StatelessWidget {
   final double width;
   final double height;
   final BorderRadius? borderRadius;
+  final Color? color;
 
-  const ShimmerBox({super.key, required this.width, required this.height, this.borderRadius});
+  const ShimmerBox({super.key, required this.width, required this.height, this.borderRadius, this.color});
 
   @override
   Widget build(BuildContext context) {
     return Shimmer(
       duration: Duration(seconds: 3),
       interval: Duration(seconds: 5),
-      color: ColorManager.lightGrey,
+      color: color ?? ColorManager.lightGrey,
       enabled: true,
       direction: ShimmerDirection.fromLTRB(),
       child: Container(
         width: width,
         height: height,
         decoration: BoxDecoration(
-          color: ColorManager.lightGrey,
+          color: color ?? ColorManager.lightGrey,
           borderRadius: borderRadius ?? BorderRadius.circular(10.r),
         ),
       ),

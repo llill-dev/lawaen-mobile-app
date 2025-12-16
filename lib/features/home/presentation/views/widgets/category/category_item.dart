@@ -27,39 +27,51 @@ class CategoryItem extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: ColorManager.white,
+          color: isLoading ? ColorManager.lightGrey.withValues(alpha: .8) : ColorManager.primary,
           borderRadius: BorderRadius.circular(14.r),
-          boxShadow: [
-            BoxShadow(
-              color: ColorManager.black.withValues(alpha: .25),
-              spreadRadius: -1,
-              blurRadius: 3,
-              offset: const Offset(0, 1),
-            ),
-            BoxShadow(
-              color: ColorManager.black.withValues(alpha: .25),
-              spreadRadius: 0,
-              blurRadius: 3,
-              offset: const Offset(0, 1),
-            ),
-          ],
+          boxShadow: isLoading
+              ? []
+              : [
+                  BoxShadow(
+                    color: ColorManager.black.withValues(alpha: .25),
+                    spreadRadius: -1,
+                    blurRadius: 3,
+                    offset: const Offset(0, 1),
+                  ),
+                  BoxShadow(
+                    color: ColorManager.black.withValues(alpha: .25),
+                    spreadRadius: 0,
+                    blurRadius: 3,
+                    offset: const Offset(0, 1),
+                  ),
+                ],
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             isLoading
-                ? ShimmerBox(width: 40.w, height: 40.w, borderRadius: BorderRadius.circular(50))
-                : NetworkIcon(url: categoryModel.image, size: 34.w, color: ColorManager.primary),
+                ? ShimmerBox(
+                    width: 40.w,
+                    height: 40.w,
+                    borderRadius: BorderRadius.circular(50),
+                    color: ColorManager.lightGrey,
+                  )
+                : NetworkIcon(url: categoryModel.image, size: 34.w, color: ColorManager.white),
 
             SizedBox(height: 4.h),
 
             isLoading
-                ? ShimmerBox(width: 35.w, height: 10.h, borderRadius: BorderRadius.circular(4))
+                ? ShimmerBox(
+                    width: 35.w,
+                    height: 10.h,
+                    borderRadius: BorderRadius.circular(4),
+                    color: ColorManager.lightGrey,
+                  )
                 : BlocBuilder<HomeCubit, HomeState>(
                     builder: (context, state) {
                       return Text(
                         context.read<HomeCubit>().getCategoryCountForCity(categoryModel).toString(),
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 12),
+                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
                       );
                     },
                   ),
@@ -67,10 +79,15 @@ class CategoryItem extends StatelessWidget {
             SizedBox(height: 4.h),
 
             isLoading
-                ? ShimmerBox(width: 50.w, height: 10.h, borderRadius: BorderRadius.circular(4))
+                ? ShimmerBox(
+                    width: 50.w,
+                    height: 10.h,
+                    borderRadius: BorderRadius.circular(4),
+                    color: ColorManager.lightGrey,
+                  )
                 : Text(
                     categoryModel.name,
-                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
+                    style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
                   ),
           ],
         ),

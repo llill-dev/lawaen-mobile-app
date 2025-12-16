@@ -31,9 +31,16 @@ class ViewAllCategories extends StatelessWidget {
               const Spacer(),
               GestureDetector(
                 onTap: isReady ? () => context.router.push(CategoryRoute(categories: state.categories)) : null,
-                child: Text(
-                  LocaleKeys.viewAll.tr(),
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                child: Container(
+                  padding: EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: ColorManager.primary),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
+                  child: Text(
+                    LocaleKeys.viewAll.tr(),
+                    style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.green),
+                  ),
                 ),
               ),
             ],

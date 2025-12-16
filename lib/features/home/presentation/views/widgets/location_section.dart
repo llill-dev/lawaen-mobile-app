@@ -107,9 +107,7 @@ class _LocationSectionState extends State<LocationSection> {
                                     padding: EdgeInsets.all(3.w),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      border: isCurrentCity
-                                          ? Border.all(color: ColorManager.primary, width: 2.w)
-                                          : null,
+                                      border: isCurrentCity ? Border.all(color: ColorManager.green, width: 1.w) : null,
                                     ),
                                     child: ClipOval(
                                       child: CachedNetworkImage(imageUrl: city.image, fit: BoxFit.cover),

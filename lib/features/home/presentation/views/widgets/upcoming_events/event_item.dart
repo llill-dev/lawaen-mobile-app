@@ -40,20 +40,17 @@ class EventItem extends StatelessWidget {
               left: 7.w,
               child: Container(
                 decoration: BoxDecoration(
-                  color: ColorManager.primary.withValues(alpha: 0.7),
+                  color: ColorManager.green.withValues(alpha: 0.7),
                   borderRadius: BorderRadius.circular(10.r),
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      safeDay(eventModel.startDate),
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(color: Colors.white),
-                    ),
+                    Text(safeDay(eventModel.startDate), style: Theme.of(context).textTheme.bodyLarge),
                     Text(
                       safeMonthName(eventModel.startDate),
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.white),
+                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: Colors.black),
                     ),
                   ],
                 ),
@@ -61,8 +58,8 @@ class EventItem extends StatelessWidget {
             ),
             if (eventModel.name != null)
               Positioned(
-                bottom: 12.h,
-                left: 0,
+                top: 12.h,
+                right: 0,
                 child: Container(
                   decoration: BoxDecoration(
                     color: ColorManager.primary.withValues(alpha: 0.7),

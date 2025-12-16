@@ -37,8 +37,8 @@ class AddYourBusiness extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.r),
             color: ColorManager.white,
-            boxShadow: [BoxShadow(color: ColorManager.primary, blurRadius: 4, spreadRadius: 0, offset: Offset(0, 4))],
-            border: Border.all(color: ColorManager.primary, width: 1.w),
+            //boxShadow: [BoxShadow(color: ColorManager.primary, blurRadius: 4, spreadRadius: 0, offset: Offset(0, 4))],
+            border: Border.all(color: ColorManager.green, width: 2.w),
           ),
           child: Text(
             LocaleKeys.addYourBusiness.tr(),

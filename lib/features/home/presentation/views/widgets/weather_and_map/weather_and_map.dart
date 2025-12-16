@@ -9,15 +9,6 @@ class WeatherAndMap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          OpenMapWidget(),
-          SizedBox(width: 10.w),
-          const WeatherWidget(),
-        ],
-      ).horizontalPadding(padding: 16.w),
-    );
+    return SliverToBoxAdapter(child: const WeatherWidget().horizontalPadding(padding: 16.w));
   }
 }
