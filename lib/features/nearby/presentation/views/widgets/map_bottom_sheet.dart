@@ -3,14 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lawaen/app/core/helper/network_icon.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/widgets/custom_text_field.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
-import 'package:lawaen/features/home/data/models/category_model.dart';
+import 'package:lawaen/features/add_to_app/presentation/views/widget/drop_down_item.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_cubit.dart';
-import 'package:lawaen/features/nearby/presentation/views/widgets/map_category_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'package:lawaen/app/core/widgets/primary_button.dart';
@@ -69,7 +67,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
           builder: (context, scrollController) {
             return Container(
               decoration: BoxDecoration(
-                color: ColorManager.white,
+                color: ColorManager.primary,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24.r)),
                 boxShadow: [
                   BoxShadow(
@@ -103,10 +101,8 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       children: [
         _buildDragHandle(),
 
-        _buildSearchBar(context, cubit),
-
-        SizedBox(height: 12.h),
-
+        // _buildSearchBar(context, cubit),
+        // SizedBox(height: 12.h),
         if (state.isSheetExpanded) ...[
           Text(LocaleKeys.mainCategory.tr(), style: Theme.of(context).textTheme.headlineMedium),
           SizedBox(height: 8.h),
@@ -124,6 +120,9 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         if (state.showApplyButton) ...[
           SizedBox(height: 12.h),
           PrimaryButton(
+            isLight: true,
+            backgroundColor: ColorManager.white,
+            borederColor: ColorManager.white,
             text: LocaleKeys.apply.tr(),
             isLoading: state.itemsState == RequestState.loading,
             onPressed: state.itemsState == RequestState.loading
@@ -131,6 +130,8 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
                 : () {
                     _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
                     context.read<MapCubit>().applyCategory();
+                    context.read<MapCubit>().selectMainCategory(null);
+                    context.read<MapCubit>().selectSubCategory(null);
                   },
           ),
         ],
@@ -146,7 +147,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
         width: 60.w,
         height: 4.h,
         margin: EdgeInsets.only(bottom: 12.h),
-        decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(12)),
+        decoration: BoxDecoration(color: ColorManager.white, borderRadius: BorderRadius.circular(12)),
       ),
     );
   }
@@ -204,37 +205,52 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
   // ================================
   Widget _buildMainCategories(BuildContext context, MapState state) {
     if (state.categoriesState == RequestState.loading) {
-      return SizedBox(
-        height: 110.h,
-        child: ListView.separated(
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (_, __) => MapCategoryItem(
-            category: CategoryModel(id: '', name: '', image: '', description: null, secondCategory: const []),
-            isSelected: false,
-            isLoading: true,
-            onTap: () {},
-          ),
-          separatorBuilder: (_, __) => 12.horizontalSpace,
-          itemCount: 6,
-        ),
-      );
+      return _buildDropdownLoading();
+    }
+
+    final categoryLabels = {for (final cat in state.categories) cat.id: cat.name};
+    final categoryIds = categoryLabels.keys.toList();
+    final selectedMain = categoryIds.contains(state.selectedMainCategoryId) ? state.selectedMainCategoryId : null;
+
+    if (selectedMain == null && state.selectedMainCategoryId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => context.read<MapCubit>().selectMainCategory(null));
     }
 
     return SizedBox(
-      height: 110.h,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: state.categories.length,
-        itemBuilder: (_, index) {
-          final cat = state.categories[index];
-          final isSelected = state.selectedMainCategoryId == cat.id;
-
-          return MapCategoryItem(
-            category: cat,
-            isSelected: isSelected,
-            onTap: () => context.read<MapCubit>().selectMainCategory(isSelected ? null : cat.id),
-          );
+      width: double.infinity,
+      child: DropDownItem(
+        withTitle: false,
+        title: LocaleKeys.mainCategory.tr(),
+        hit: LocaleKeys.mainCategory.tr(),
+        items: categoryIds,
+        initialValue: selectedMain,
+        itemLabelBuilder: (id) => categoryLabels[id] ?? id,
+        onChanged: (value) {
+          final cubit = context.read<MapCubit>();
+          if (value == state.selectedMainCategoryId) {
+            cubit.selectMainCategory(null);
+          } else {
+            cubit.selectMainCategory(value);
+          }
         },
+      ),
+    );
+  }
+
+  Widget _buildDropdownLoading() {
+    return Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 12.h),
+      decoration: BoxDecoration(
+        color: ColorManager.lightGrey.withOpacity(0.4),
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Center(
+        child: SizedBox(
+          height: 22.w,
+          width: 22.w,
+          child: CircularProgressIndicator(strokeWidth: 2.5, color: ColorManager.primary),
+        ),
       ),
     );
   }
@@ -243,72 +259,31 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
   // SUB CATEGORY LIST
   // ================================
   Widget _buildSubCategories(BuildContext context, MapState state) {
+    final subCategoryLabels = {for (final sub in state.currentSubCategories) sub.id: sub.name};
+    final subCategoryIds = subCategoryLabels.keys.toList();
+    final selectedSub = subCategoryIds.contains(state.selectedSubCategoryId) ? state.selectedSubCategoryId : null;
+
+    if (selectedSub == null && state.selectedSubCategoryId != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) => context.read<MapCubit>().selectSubCategory(null));
+    }
+
     return SizedBox(
-      height: 100.h,
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        itemCount: state.currentSubCategories.length,
-        itemBuilder: (_, index) {
-          final sc = state.currentSubCategories[index];
-          final isSelected = state.selectedSubCategoryId == sc.id;
-
-          return MapSubCategoryItem(
-            sub: sc,
-            isSelected: isSelected,
-            onTap: () => context.read<MapCubit>().selectSubCategory(isSelected ? null : sc.id),
-          );
+      width: double.infinity,
+      child: DropDownItem(
+        withTitle: false,
+        title: LocaleKeys.subCategory.tr(),
+        hit: LocaleKeys.subCategory.tr(),
+        items: subCategoryIds,
+        initialValue: selectedSub,
+        itemLabelBuilder: (id) => subCategoryLabels[id] ?? id,
+        onChanged: (value) {
+          final cubit = context.read<MapCubit>();
+          if (value == state.selectedSubCategoryId) {
+            cubit.selectSubCategory(null);
+          } else {
+            cubit.selectSubCategory(value);
+          }
         },
-      ),
-    );
-  }
-}
-
-class MapSubCategoryItem extends StatelessWidget {
-  final SecondCategory sub;
-  final bool isSelected;
-  final VoidCallback onTap;
-
-  const MapSubCategoryItem({super.key, required this.sub, required this.isSelected, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final borderColor = isSelected ? ColorManager.primary : ColorManager.lightGrey;
-
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 95.w,
-        padding: EdgeInsets.all(10.w),
-        margin: EdgeInsets.only(right: 12.w),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: borderColor, width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.10),
-              blurRadius: 4,
-              spreadRadius: 1,
-              offset: const Offset(0, 1),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (sub.image != null && sub.image!.isNotEmpty)
-              NetworkIcon(url: sub.image!, size: 25.w, color: ColorManager.primary)
-            else
-              Image.asset(ImageManager.emptyPhoto, width: 35.w, height: 35.h),
-            SizedBox(height: 6.h),
-            Text(
-              sub.name,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 11),
-            ),
-          ],
-        ),
       ),
     );
   }

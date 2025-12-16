@@ -24,6 +24,9 @@ class DropDownItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final effectiveInitialValue = initialValue != null && items.contains(initialValue) ? initialValue : null;
+    final dropdownKey = ValueKey<String>('${effectiveInitialValue ?? 'empty'}-${items.join('|')}');
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -37,6 +40,7 @@ class DropDownItem extends StatelessWidget {
             splashColor: Colors.transparent,
           ),
           child: DropdownButtonFormField(
+            key: dropdownKey,
             dropdownColor: ColorManager.blackSwatch[2],
             borderRadius: BorderRadius.circular(24.r),
             decoration: InputDecoration(
@@ -69,7 +73,7 @@ class DropDownItem extends StatelessWidget {
               ),
             ),
 
-            initialValue: initialValue,
+            initialValue: effectiveInitialValue,
             items: items.map((e) => DropdownMenuItem(value: e, child: Text(itemLabelBuilder?.call(e) ?? e))).toList(),
             onChanged: (value) {
               if (value != null) onChanged(value);

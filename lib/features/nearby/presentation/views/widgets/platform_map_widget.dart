@@ -13,6 +13,7 @@ import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
+import 'package:lawaen/features/nearby/presentation/views/widgets/map_cluster_items_bottom_sheet.dart';
 import 'map_itme_detail_bottom_sheet.dart';
 
 class _MapClusterItem with gm_cluster.ClusterItem {
@@ -159,12 +160,23 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
         position: cluster.location,
         icon: icon,
         onTap: () async {
-          if (_googleMapController == null) return;
-          final zoom = await _googleMapController!.getZoomLevel();
+          if (_googleMapController != null) {
+            final zoom = await _googleMapController!.getZoomLevel();
+            _googleMapController!.animateCamera(
+              CameraUpdate.newCameraPosition(CameraPosition(target: cluster.location, zoom: zoom + 1)),
+            );
+          }
 
-          _googleMapController!.animateCamera(
-            CameraUpdate.newCameraPosition(CameraPosition(target: cluster.location, zoom: zoom + 2)),
-          );
+          final items = cluster.items.map((e) => e.item).toList();
+
+          if (mounted) {
+            showModalBottomSheet(
+              context: context,
+              backgroundColor: Colors.transparent,
+              isScrollControlled: true,
+              builder: (_) => MapClusterItemsBottomSheet(items: items),
+            );
+          }
         },
       );
     }
@@ -252,7 +264,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      backgroundColor: Colors.white,
+      backgroundColor: ColorManager.primary,
       shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
       builder: (_) => MapItemDetailBottomSheet(item: item),
     );

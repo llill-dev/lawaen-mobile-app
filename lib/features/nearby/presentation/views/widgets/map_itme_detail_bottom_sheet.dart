@@ -25,7 +25,8 @@ class MapItemDetailBottomSheet extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (item.name != null) Text(item.name!, style: Theme.of(context).textTheme.displayLarge),
+              if (item.name != null)
+                Text(item.name!, style: Theme.of(context).textTheme.displayLarge!.copyWith(color: ColorManager.white)),
 
               SizedBox(height: 16.h),
 
@@ -44,9 +45,15 @@ class MapItemDetailBottomSheet extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(LocaleKeys.address.tr(), style: Theme.of(context).textTheme.headlineMedium),
+                    Text(
+                      LocaleKeys.address.tr(),
+                      style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.white),
+                    ),
                     SizedBox(height: 4.h),
-                    Text(item.location!.address!, style: Theme.of(context).textTheme.headlineLarge),
+                    Text(
+                      item.location!.address!,
+                      style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: ColorManager.white),
+                    ),
                   ],
                 ),
 
@@ -87,12 +94,15 @@ class MapItemDetailBottomSheet extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
-          decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(10.r)),
+          decoration: BoxDecoration(color: ColorManager.white, borderRadius: BorderRadius.circular(10.r)),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              if (icon != null) ...[SvgPicture.asset(icon), SizedBox(width: 6.w)],
-              Text(text, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.white)),
+              if (icon != null) ...[
+                SvgPicture.asset(icon, colorFilter: ColorFilter.mode(ColorManager.black, BlendMode.srcIn)),
+                SizedBox(width: 6.w),
+              ],
+              Text(text, style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.black)),
             ],
           ),
         ),
