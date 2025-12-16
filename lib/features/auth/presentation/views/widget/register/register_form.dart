@@ -96,13 +96,13 @@ class _RegisterFormState extends State<RegisterForm> with FormStateMixin {
                 context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
               }
               if (state is AuthFailure) {
-                showToast(message: state.errorMessage);
+                showToast(message: state.errorMessage, isError: true);
               }
             },
             builder: (context, state) {
               return PrimaryButton(
                 isLoading: state is AuthLoading,
-                text: LocaleKeys.signIn.tr(),
+                text: LocaleKeys.signUp.tr(),
                 onPressed: () {
                   if (form.key.currentState!.validate()) {
                     final name = form.controllers[0].text;

@@ -60,7 +60,7 @@ class _LoginFormState extends State<LoginForm> with FormStateMixin {
             bloc: authCubit,
             listener: (context, state) {
               if (state is AuthFailure) {
-                showToast(message: state.errorMessage);
+                showToast(message: state.errorMessage, isError: true);
               }
               if (state is AuthSuccess) {
                 context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
