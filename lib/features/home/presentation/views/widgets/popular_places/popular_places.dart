@@ -48,11 +48,11 @@ class PopularPlaces extends StatelessWidget {
               crossAxisSpacing: 12.w,
               mainAxisExtent: 240.h,
             ),
-            itemCount: items.length + (state.isLoadMore ? 1 : 0),
+            itemCount: items.length,
             itemBuilder: (context, index) {
-              if (index >= items.length) {
-                return const Center(child: LoadingWidget());
-              }
+              // if (index >= items.length) {
+              //   return const Center(child: LoadingWidget());
+              // }
 
               return _PopularPlaceCard(place: items[index]);
             },

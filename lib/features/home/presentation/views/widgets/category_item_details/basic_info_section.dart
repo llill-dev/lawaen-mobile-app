@@ -85,9 +85,7 @@ class BasicInfoSection extends StatelessWidget {
                 ),
                 child: Text(
                   LocaleKeys.feedback.tr(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.headlineMedium?.copyWith(color: ColorManager.primary, fontSize: 12),
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.primary),
                 ),
               ),
             ),
@@ -181,10 +179,7 @@ class BasicInfoSection extends StatelessWidget {
           children: [
             Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r),
             4.horizontalSpace,
-            Text(
-              title,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(color: ColorManager.white, fontSize: 12),
-            ),
+            Text(title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white)),
           ],
         ),
       ),
