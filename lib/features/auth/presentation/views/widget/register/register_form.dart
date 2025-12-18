@@ -62,11 +62,12 @@ class _RegisterFormState extends State<RegisterForm> with FormStateMixin {
             validator: FormBuilderValidators.compose([
               FormBuilderValidators.required(errorText: LocaleKeys.fieldRequired.tr()),
               FormBuilderValidators.password(
-                minUppercaseCount: 1,
                 minLowercaseCount: 1,
-                minSpecialCharCount: 1,
                 minNumberCount: 1,
                 minLength: 8,
+                minSpecialCharCount: 0,
+                minUppercaseCount: 0,
+                checkNullOrEmpty: true,
                 errorText: LocaleKeys.passwordMustBe8Chars.tr(),
               ),
             ]),

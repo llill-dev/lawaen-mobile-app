@@ -25,6 +25,10 @@ class EventModel {
   final String? endDate;
   final String? note;
 
+  final String? instagram;
+  final String? whatsapp;
+  final String? facebook;
+
   EventModel({
     this.id,
     this.image,
@@ -41,6 +45,9 @@ class EventModel {
     this.startDate,
     this.endDate,
     this.note,
+    this.facebook,
+    this.instagram,
+    this.whatsapp,
   });
 
   factory EventModel.fromJson(Map<String, dynamic> json) => _$EventModelFromJson(json);

@@ -100,6 +100,11 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDragHandle(),
+
+        12.verticalSpace,
+
+        _buildSearchBar(context, cubit),
+        24.verticalSpace,
         InkWell(
           onTap: () {
             if (!cubit.state.isSheetExpanded) {
@@ -120,10 +125,9 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
             ],
           ),
         ),
-        12.verticalSpace,
 
-        // _buildSearchBar(context, cubit),
-        // SizedBox(height: 12.h),
+        12.verticalSpace,
+        SizedBox(height: 12.h),
         if (state.isSheetExpanded) ...[
           Text(
             LocaleKeys.mainCategory.tr(),
@@ -179,53 +183,54 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
     );
   }
 
-  // Widget _buildSearchBar(BuildContext context, MapCubit cubit) {
-  //   return Row(
-  //     children: [
-  //       Expanded(
-  //         child: CustomTextField(
-  //           controller: _searchController,
-  //           hint: LocaleKeys.homeSearchBarHit.tr(),
-  //           prefixIcon: Padding(
-  //             padding: EdgeInsets.symmetric(horizontal: 12.w),
-  //             child: SvgPicture.asset(IconManager.search),
-  //           ),
-  //           fillColor: ColorManager.lightGrey,
-  //           borderColor: ColorManager.lightGrey,
-  //           horizontalContentPadding: 16,
-  //           verticalContentPadding: 12,
-  //           borderRadius: 16.0,
-  //           onTap: () {
-  //             if (!cubit.state.isSheetExpanded) {
-  //               _expandSheetAnimated();
-  //             }
-  //           },
-  //           onFieldSubmitted: (value) {
-  //             if (value.isNotEmpty) {
-  //               _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-  //               cubit.updateSearch(value);
-  //             }
-  //           },
-  //         ),
-  //       ),
-  //       SizedBox(width: 10.w),
-  //       GestureDetector(
-  //         onTap: () {
-  //           final text = _searchController.text.trim();
-  //           if (text.isNotEmpty) {
-  //             _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
-  //             cubit.updateSearch(text);
-  //           }
-  //         },
-  //         child: Container(
-  //           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
-  //           decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
-  //           child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
-  //         ),
-  //       ),
-  //     ],
-  //   );
-  // }
+  Widget _buildSearchBar(BuildContext context, MapCubit cubit) {
+    return Row(
+      children: [
+        Expanded(
+          child: CustomTextField(
+            controller: _searchController,
+            readOnly: true,
+            hint: LocaleKeys.homeSearchBarHit.tr(),
+            prefixIcon: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 12.w),
+              child: SvgPicture.asset(IconManager.search),
+            ),
+            fillColor: ColorManager.white,
+            borderColor: ColorManager.white,
+            horizontalContentPadding: 16,
+            verticalContentPadding: 12,
+            borderRadius: 16.0,
+            onTap: () {
+              if (!cubit.state.isSheetExpanded) {
+                _expandSheetAnimated();
+              }
+              // },
+              // onFieldSubmitted: (value) {
+              //   if (value.isNotEmpty) {
+              //     _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+              //     cubit.updateSearch(value);
+              //   }
+            },
+          ),
+        ),
+        // SizedBox(width: 10.w),
+        // GestureDetector(
+        //   onTap: () {
+        //     final text = _searchController.text.trim();
+        //     if (text.isNotEmpty) {
+        //       _controller.animateTo(0.12, duration: const Duration(milliseconds: 250), curve: Curves.easeOut);
+        //       cubit.updateSearch(text);
+        //     }
+        //   },
+        //   child: Container(
+        //     padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        //     decoration: BoxDecoration(color: ColorManager.primary, borderRadius: BorderRadius.circular(16)),
+        //     child: Icon(Icons.search, color: ColorManager.white, size: 26.sp),
+        //   ),
+        // ),
+      ],
+    );
+  }
 
   // ================================
   // MAIN CATEGORY LIST
@@ -247,6 +252,8 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       width: double.infinity,
       child: DropDownItem(
         withTitle: false,
+        fillColor: ColorManager.white,
+
         title: LocaleKeys.mainCategory.tr(),
         hit: LocaleKeys.mainCategory.tr(),
         items: categoryIds,
@@ -298,6 +305,7 @@ class _MapBottomSheetState extends State<MapBottomSheet> {
       width: double.infinity,
       child: DropDownItem(
         withTitle: false,
+        fillColor: ColorManager.white,
         title: LocaleKeys.subCategory.tr(),
         hit: LocaleKeys.subCategory.tr(),
         items: subCategoryIds,

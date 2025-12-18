@@ -31,6 +31,7 @@ class CategoryScreen extends StatelessWidget {
             ),
             buildSpace(),
             CategoryList(categories: categories),
+            buildSpace(height: 50.h),
           ],
         ),
       ),

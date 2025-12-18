@@ -39,20 +39,24 @@ class PopularPlaces extends StatelessWidget {
           return const SliverToBoxAdapter(child: SizedBox.shrink());
         }
 
-        return SliverList.builder(
-          itemCount: items.length + 1,
-          itemBuilder: (context, index) {
-            if (index == items.length) {
-              return state.isLoadMore
-                  ? Padding(
-                      padding: EdgeInsets.symmetric(vertical: 12.h),
-                      child: const Center(child: LoadingWidget()),
-                    )
-                  : const SizedBox.shrink();
-            }
+        return SliverPadding(
+          padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+          sliver: SliverGrid.builder(
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              mainAxisSpacing: 12.h,
+              crossAxisSpacing: 12.w,
+              mainAxisExtent: 240.h,
+            ),
+            itemCount: items.length + (state.isLoadMore ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index >= items.length) {
+                return const Center(child: LoadingWidget());
+              }
 
-            return _PopularPlaceCard(place: items[index]);
-          },
+              return _PopularPlaceCard(place: items[index]);
+            },
+          ),
         );
       },
     );
@@ -64,19 +68,24 @@ class _PopularPlacesSkeleton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverList.builder(
-      itemCount: 3,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
-          child: RedactedBox(
+    return SliverPadding(
+      padding: EdgeInsets.fromLTRB(16.w, 8.h, 16.w, 8.h),
+      sliver: SliverGrid.builder(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 12.h,
+          crossAxisSpacing: 12.w,
+          mainAxisExtent: 240.h,
+        ),
+        itemCount: 4,
+        itemBuilder: (context, index) {
+          return RedactedBox(
             child: Container(
               decoration: BoxDecoration(color: ColorManager.white, borderRadius: BorderRadius.circular(14)),
-              height: 220.h,
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }
@@ -95,7 +104,6 @@ class _PopularPlaceCard extends StatelessWidget {
     return GestureDetector(
       onTap: () => context.router.push(CategoryItemDetialsRoute(subCategoryId: place.main ?? "", itemId: place.id)),
       child: Container(
-        margin: EdgeInsets.symmetric(vertical: 8.h, horizontal: 16.w),
         decoration: BoxDecoration(
           color: ColorManager.white,
           borderRadius: BorderRadius.circular(14),

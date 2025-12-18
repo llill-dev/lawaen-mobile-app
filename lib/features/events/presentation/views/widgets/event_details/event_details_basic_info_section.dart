@@ -3,10 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/core/functions/url_launcher.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
+import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 class EventDetailsBasicInfoSection extends StatelessWidget {
   final EventModel event;
@@ -55,8 +58,134 @@ class EventDetailsBasicInfoSection extends StatelessWidget {
     final startDateText = _formatDate(event.startDate);
     final endDateText = _formatDate(event.endDate);
     final timeText = _formatTimeRange(event.startTime, event.endTime);
+    final organization = event.organization?.trim() ?? "";
     final place = address?.trim() ?? "";
     final phone = event.phone?.trim() ?? "";
+    final instagram = event.instagram?.trim() ?? "";
+    final facebook = event.facebook?.trim() ?? "";
+    final whatsapp = event.whatsapp?.trim() ?? "";
+
+    Widget buildGreenIconContainer(Widget icon) {
+      return Container(
+        padding: EdgeInsets.all(8.r),
+        decoration: BoxDecoration(color: ColorManager.green, borderRadius: BorderRadius.circular(8.r)),
+        child: icon,
+      );
+    }
+
+    Widget buildSocialIconButton({required String iconPath, required VoidCallback onTap}) {
+      return GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.all(8.r),
+          decoration: BoxDecoration(
+            color: ColorManager.white,
+            borderRadius: BorderRadius.circular(8.r),
+            border: Border.all(color: ColorManager.blackSwatch[4]!),
+          ),
+          child: SvgPicture.asset(
+            iconPath,
+            width: 22.w,
+            height: 22.h,
+            //colorFilter: ColorFilter.mode(ColorManager.primary, BlendMode.srcIn),
+          ),
+        ),
+      );
+    }
+
+    final contactWidgets = <Widget>[];
+    void addContactWidget(Widget widget) {
+      if (contactWidgets.isNotEmpty) {
+        contactWidgets.add(8.horizontalSpace);
+      }
+      contactWidgets.add(widget);
+    }
+
+    if (event.latitude != null && event.longitude != null) {
+      addContactWidget(
+        GestureDetector(
+          onTap: () async {
+            await getIt<LocationService>().openLocationInMaps(latitude: event.latitude!, longitude: event.longitude!);
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 8.h),
+            decoration: BoxDecoration(
+              color: ColorManager.primary,
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: ColorManager.blackSwatch[4]!),
+            ),
+            child: Row(
+              children: [
+                Icon(Icons.location_on_outlined, size: 20, color: ColorManager.white),
+                10.horizontalSpace,
+                Text(
+                  LocaleKeys.location.tr(),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.white),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (phone.isNotEmpty) {
+      addContactWidget(
+        GestureDetector(
+          onTap: () => makePhoneCall(phone),
+          child: Container(
+            padding: EdgeInsets.all(8.r),
+            decoration: BoxDecoration(
+              color: ColorManager.white,
+              borderRadius: BorderRadius.circular(8.r),
+              border: Border.all(color: ColorManager.blackSwatch[4]!),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  width: 16.w,
+                  height: 16.h,
+                  IconManager.phoneIcon,
+                  colorFilter: ColorFilter.mode(ColorManager.primary, BlendMode.srcIn),
+                ),
+                4.horizontalSpace,
+                Text(
+                  LocaleKeys.phoneNumber.tr(),
+                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.primary),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    }
+
+    if (instagram.isNotEmpty) {
+      addContactWidget(
+        buildSocialIconButton(
+          iconPath: IconManager.insta,
+          onTap: () => launchURL(link: instagram),
+        ),
+      );
+    }
+
+    if (facebook.isNotEmpty) {
+      addContactWidget(
+        buildSocialIconButton(
+          iconPath: IconManager.facebook,
+          onTap: () => launchURL(link: facebook),
+        ),
+      );
+    }
+
+    if (whatsapp.isNotEmpty) {
+      addContactWidget(
+        buildSocialIconButton(
+          iconPath: IconManager.whatsApp,
+          onTap: () => launchURL(link: whatsapp),
+        ),
+      );
+    }
 
     return SliverToBoxAdapter(
       child: Column(
@@ -69,9 +198,9 @@ class EventDetailsBasicInfoSection extends StatelessWidget {
           if (startDateText.isNotEmpty) ...[
             Row(
               children: [
-                Icon(Icons.date_range_outlined, color: ColorManager.grey, size: 19.r),
+                buildGreenIconContainer(Icon(Icons.date_range_outlined, color: ColorManager.white, size: 18.r)),
                 6.horizontalSpace,
-                Text(startDateText, style: Theme.of(context).textTheme.headlineSmall),
+                Text(startDateText, style: Theme.of(context).textTheme.headlineMedium),
               ],
             ),
             12.verticalSpace,
@@ -79,9 +208,9 @@ class EventDetailsBasicInfoSection extends StatelessWidget {
           if (endDateText.isNotEmpty) ...[
             Row(
               children: [
-                Icon(Icons.date_range_outlined, color: ColorManager.grey, size: 19.r),
+                buildGreenIconContainer(Icon(Icons.date_range_outlined, color: ColorManager.white, size: 18.r)),
                 6.horizontalSpace,
-                Text(endDateText, style: Theme.of(context).textTheme.headlineSmall),
+                Text(endDateText, style: Theme.of(context).textTheme.headlineMedium),
               ],
             ),
             12.verticalSpace,
@@ -90,12 +219,29 @@ class EventDetailsBasicInfoSection extends StatelessWidget {
           if (timeText.isNotEmpty)
             Row(
               children: [
-                Icon(Icons.watch_later_outlined, color: ColorManager.grey, size: 19.r),
+                buildGreenIconContainer(Icon(Icons.watch_later_outlined, color: ColorManager.white, size: 18.r)),
                 6.horizontalSpace,
-                Text(timeText, style: Theme.of(context).textTheme.headlineSmall),
+                Text(timeText, style: Theme.of(context).textTheme.headlineMedium),
               ],
             ),
           if (timeText.isNotEmpty) 12.verticalSpace,
+
+          if (organization.isNotEmpty)
+            Row(
+              children: [
+                buildGreenIconContainer(Icon(Icons.business_outlined, color: ColorManager.white, size: 18.r)),
+                6.horizontalSpace,
+                Expanded(
+                  child: Text(
+                    organization,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          if (organization.isNotEmpty) 12.verticalSpace,
 
           if (place.isNotEmpty)
             Row(
@@ -113,22 +259,28 @@ class EventDetailsBasicInfoSection extends StatelessWidget {
                 ),
               ],
             ),
-          if (place.isNotEmpty) 12.verticalSpace,
+          // if (place.isNotEmpty) 12.verticalSpace,
 
-          if (phone.isNotEmpty)
-            Row(
-              children: [
-                GestureDetector(onTap: () => makePhoneCall(phone), child: SvgPicture.asset(IconManager.phoneIcon)),
-                8.horizontalSpace,
-                Expanded(
-                  child: Text(
-                    phone,
-                    style: Theme.of(context).textTheme.headlineSmall,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ),
-              ],
+          // if (phone.isNotEmpty)
+          //   Row(
+          //     children: [
+          //       GestureDetector(onTap: () => makePhoneCall(phone), child: SvgPicture.asset(IconManager.phoneIcon)),
+          //       8.horizontalSpace,
+          //       Expanded(
+          //         child: Text(
+          //           phone,
+          //           style: Theme.of(context).textTheme.headlineSmall,
+          //           maxLines: 1,
+          //           overflow: TextOverflow.ellipsis,
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          12.verticalSpace,
+          if (contactWidgets.isNotEmpty)
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(children: contactWidgets),
             ),
         ],
       ).horizontalPadding(padding: 16.w),

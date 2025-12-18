@@ -12,6 +12,7 @@ part 'offers_state.dart';
 @singleton
 class OffersCubit extends Cubit<OffersState> {
   final OffersRepo _offersRepo;
+  static const int _limit = 4;
 
   OffersCubit(this._offersRepo) : super(const OffersState());
 
@@ -34,20 +35,51 @@ class OffersCubit extends Cubit<OffersState> {
   Future<void> getOffersForSelectedTypes() async {
     if (selectedTypes.isEmpty) return;
 
-    final params = GetOffersParams(selectedTypes.toList());
-    await getOffers(params: params);
+    emit(
+      state.copyWith(
+        offersState: RequestState.loading,
+        offers: [],
+        currentPage: 1,
+        hasMore: true,
+        isLoadMore: false,
+        offersError: null,
+      ),
+    );
+
+    await _getOffers(isLoadMore: false);
   }
 
-  Future<void> getOffers({required GetOffersParams params}) async {
-    emit(state.copyWith(offersState: RequestState.loading, offersError: null));
+  Future<void> loadMoreOffers() async {
+    if (!state.hasMore || state.isLoadMore) return;
+    await _getOffers(isLoadMore: true);
+  }
+
+  Future<void> _getOffers({required bool isLoadMore}) async {
+    if (isLoadMore) {
+      emit(state.copyWith(isLoadMore: true));
+    }
+
+    final params = GetOffersParams(offerTypeIds: selectedTypes.toList(), page: state.currentPage, limit: _limit);
 
     final result = await _offersRepo.getOffers(params: params);
+
     result.fold(
       (failure) {
-        emit(state.copyWith(offersState: RequestState.error, offersError: failure.errorMessage));
+        emit(state.copyWith(offersState: RequestState.error, offersError: failure.errorMessage, isLoadMore: false));
       },
-      (offers) {
-        emit(state.copyWith(offersState: RequestState.success, offers: offers, offersError: null));
+      (newOffers) {
+        final updatedList = isLoadMore ? [...state.offers, ...newOffers] : newOffers;
+
+        emit(
+          state.copyWith(
+            offersState: RequestState.success,
+            offers: updatedList,
+            offersError: null,
+            isLoadMore: false,
+            currentPage: newOffers.isEmpty ? state.currentPage : state.currentPage + 1,
+            hasMore: newOffers.isNotEmpty,
+          ),
+        );
       },
     );
   }

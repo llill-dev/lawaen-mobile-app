@@ -26,7 +26,7 @@ class EventDetailsImageSection extends StatelessWidget {
     return SliverToBoxAdapter(
       child: Stack(
         children: [
-          AspectRatio(aspectRatio: 16 / 9, child: _buildImage()),
+          _buildImage(),
           Positioned(
             top: 8.h,
             left: 4.w,

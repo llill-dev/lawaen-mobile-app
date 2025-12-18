@@ -86,6 +86,12 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
               itemCount: offers.length,
+              onPageChanged: (index) {
+                final cubit = context.read<OffersCubit>();
+                if (index >= offers.length - 1) {
+                  cubit.loadMoreOffers();
+                }
+              },
               itemBuilder: (context, index) {
                 final offer = offers[index];
 

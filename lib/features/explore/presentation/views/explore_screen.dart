@@ -86,6 +86,7 @@ class _ExploreScreenState extends State<ExploreScreen> with AutomaticKeepAliveCl
                 _buildTitle(context),
                 buildSpace(),
                 ..._buildContent(context, state),
+                buildSpace(height: 24),
               ],
             );
           },

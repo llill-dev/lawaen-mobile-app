@@ -9,6 +9,11 @@ class OffersState extends Equatable {
   final List<OfferModel> offers;
   final String? offersError;
 
+  // pagination
+  final int currentPage;
+  final bool hasMore;
+  final bool isLoadMore;
+
   const OffersState({
     this.offerTypesState = RequestState.idle,
     this.offerTypes = const [],
@@ -16,6 +21,10 @@ class OffersState extends Equatable {
     this.offersState = RequestState.idle,
     this.offers = const [],
     this.offersError,
+
+    this.currentPage = 1,
+    this.hasMore = true,
+    this.isLoadMore = false,
   });
 
   OffersState copyWith({
@@ -25,6 +34,9 @@ class OffersState extends Equatable {
     RequestState? offersState,
     List<OfferModel>? offers,
     String? offersError,
+    int? currentPage,
+    bool? hasMore,
+    bool? isLoadMore,
   }) {
     return OffersState(
       offerTypesState: offerTypesState ?? this.offerTypesState,
@@ -33,16 +45,22 @@ class OffersState extends Equatable {
       offersState: offersState ?? this.offersState,
       offers: offers ?? this.offers,
       offersError: offersError,
+      currentPage: currentPage ?? this.currentPage,
+      hasMore: hasMore ?? this.hasMore,
+      isLoadMore: isLoadMore ?? this.isLoadMore,
     );
   }
 
   @override
   List<Object?> get props => [
-        offerTypesState,
-        offerTypes,
-        offerTypesError,
-        offersState,
-        offers,
-        offersError,
-      ];
+    offerTypesState,
+    offerTypes,
+    offerTypesError,
+    offersState,
+    offers,
+    offersError,
+    currentPage,
+    hasMore,
+    isLoadMore,
+  ];
 }

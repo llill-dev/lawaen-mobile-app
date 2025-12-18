@@ -11,6 +11,7 @@ class DropDownItem extends StatelessWidget {
   final bool withTitle;
   final String? initialValue;
   final String Function(String value)? itemLabelBuilder;
+  final Color? fillColor;
   const DropDownItem({
     super.key,
     required this.title,
@@ -20,6 +21,7 @@ class DropDownItem extends StatelessWidget {
     this.hit,
     this.initialValue,
     this.itemLabelBuilder,
+    this.fillColor,
   });
 
   @override
@@ -44,7 +46,7 @@ class DropDownItem extends StatelessWidget {
             dropdownColor: ColorManager.blackSwatch[2],
             borderRadius: BorderRadius.circular(24.r),
             decoration: InputDecoration(
-              fillColor: ColorManager.blackSwatch[2],
+              fillColor: fillColor ?? ColorManager.blackSwatch[2],
               hint: Text(
                 hit ?? title,
                 style: Theme.of(context).textTheme.headlineMedium!.copyWith(color: ColorManager.blackSwatch[6]),

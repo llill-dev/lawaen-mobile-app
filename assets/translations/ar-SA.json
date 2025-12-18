@@ -43,7 +43,7 @@
   "enterYourName": "أدخل اسمك",
   "enterEmailOrPhoneNumber": "أدخل بريدك الإلكتروني أو رقم هاتفك",
   "enterYourPassword": "أدخل كلمة المرور",
-  "passwordMustBe8Chars": "يجب أن تكون كلمة المرور 8 حروف ، 1 حرف كبير ، 1 حرف صغير ، 1 حرف خاص ورقم واحد.",
+  "passwordMustBe8Chars": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل وتحتوي على حرف ورقم.",
   "doNotHaveAnAccount": "ليس لديك حساب؟",
   "forgetPassword": "هل نسيت كلمة المرور؟",
   "askingToLogout": "هل تريد تسجيل الخروج؟",

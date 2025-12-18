@@ -104,6 +104,8 @@ class _EventsScreenState extends State<EventsScreen> with AutomaticKeepAliveClie
                   _buildGridView(events)
                 else
                   _buildListView(events),
+
+                buildSpace(height: 50.h),
               ],
             ),
           ),
