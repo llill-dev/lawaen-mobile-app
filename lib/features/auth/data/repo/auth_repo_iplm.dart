@@ -127,7 +127,7 @@ class AuthRepoImpl implements AuthRepo {
   Future<Either<ErrorModel, Unit>> forgotPassword(ForgetPasswordParams params) async {
     try {
       final response = await appServiceClient.forgotPassword(params);
-      if (response.status == true) {
+      if (response.message == "success") {
         return Right(unit);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));

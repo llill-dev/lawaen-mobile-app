@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 import 'package:otp_text_field_v2/otp_text_field_v2.dart';
 
@@ -18,25 +21,14 @@ class OtpVerificationForm extends StatefulWidget {
 }
 
 class _OtpVerificationFormState extends State<OtpVerificationForm> {
-  final _otpController = OtpFieldControllerV2();
   String _otpCode = '';
-
-  @override
-  void dispose() {
-    _otpController.clear();
-    super.dispose();
-  }
 
   void _submit() {
     if (_otpCode.length != 5) {
       showToast(message: LocaleKeys.fieldRequired.tr(), isError: true);
       return;
     }
-    if (!RegExp(r'^\d{5}$').hasMatch(_otpCode)) {
-      showToast(message: LocaleKeys.invalidInput.tr(), isError: true);
-      return;
-    }
-    context.router.push(ResetPasswordRoute(contact: widget.contact));
+    context.read<ForgetPasswordCubit>().sendOtpVerification(widget.contact, _otpCode);
   }
 
   @override
@@ -45,7 +37,6 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
     return Column(
       children: [
         OTPTextFieldV2(
-          controller: _otpController,
           length: 5,
           width: availableWidth,
           fieldWidth: 52.w,
@@ -65,14 +56,28 @@ class _OtpVerificationFormState extends State<OtpVerificationForm> {
             errorBorderColor: ColorManager.red,
           ),
           onChanged: (value) => _otpCode = value,
-          onCompleted: (value) => _otpCode = value,
           cursorColor: ColorManager.primary,
         ),
         32.verticalSpace,
-        PrimaryButton(
-          text: LocaleKeys.next.tr(),
-          onPressed: _submit,
-          height: 40.h,
+        BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
+          listener: (context, state) {
+            if (state.verifyState == RequestState.error) {
+              final message = state.verifyError ?? LocaleKeys.defaultError.tr();
+              showToast(message: message, isError: true);
+            }
+            if (state.verifyState == RequestState.success) {
+              context.router.push(ResetPasswordRoute(contact: widget.contact));
+              context.read<ForgetPasswordCubit>().resetStates();
+            }
+          },
+          builder: (context, state) {
+            return PrimaryButton(
+              text: LocaleKeys.next.tr(),
+              isLoading: state.verifyState == RequestState.loading,
+              onPressed: state.verifyState == RequestState.loading ? null : _submit,
+              height: 40.h,
+            );
+          },
         ),
       ],
     );

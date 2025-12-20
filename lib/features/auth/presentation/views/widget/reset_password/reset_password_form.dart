@@ -1,13 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/utils/form_state_mixin.dart';
 import 'package:lawaen/app/core/utils/form_utils.dart';
 import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:lawaen/features/auth/presentation/views/widget/auth_text_field_item.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -85,16 +88,31 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> with FormStateMix
             },
           ),
           32.verticalSpace,
-          PrimaryButton(
-            text: LocaleKeys.resetPassword.tr(),
-            onPressed: () {
-              if (form.key.currentState!.validate()) {
+          BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
+            listener: (context, state) {
+              if (state.resetState == RequestState.error) {
+                final message = state.resetError ?? LocaleKeys.defaultError.tr();
+                showToast(message: message, isError: true);
+              }
+              if (state.resetState == RequestState.success) {
                 showToast(message: LocaleKeys.passwordUpdatedSuccessfully.tr());
-
-                //context.router.pushAndPopUntil(const LoginRoute(), predicate: (_) => false);
+                context.router.replace(const LoginRoute());
               }
             },
-            height: 40.h,
+            builder: (context, state) {
+              return PrimaryButton(
+                text: LocaleKeys.resetPassword.tr(),
+                isLoading: state.resetState == RequestState.loading,
+                onPressed: () {
+                  if (form.key.currentState!.validate()) {
+                    final contact = form.controllers[0].text.trim();
+                    final password = form.controllers[1].text;
+                    context.read<ForgetPasswordCubit>().resetPassword(contact, password);
+                  }
+                },
+                height: 40.h,
+              );
+            },
           ),
         ],
       ),

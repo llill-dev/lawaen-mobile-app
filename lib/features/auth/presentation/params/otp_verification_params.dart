@@ -1,7 +1,7 @@
 import 'package:json_annotation/json_annotation.dart';
 part 'otp_verification_params.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(includeIfNull: false)
 class OtpVerificationParams {
   final String? email;
   final String? phone;

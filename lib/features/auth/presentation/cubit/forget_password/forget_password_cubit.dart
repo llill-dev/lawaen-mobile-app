@@ -18,12 +18,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   Future<void> sendForgetRequest(String contact) async {
     final trimmedContact = contact.trim();
     emit(
-      state.copyWith(
-        forgotState: RequestState.loading,
-        forgotError: null,
-        globalError: null,
-        contact: trimmedContact,
-      ),
+      state.copyWith(forgotState: RequestState.loading, forgotError: null, globalError: null, contact: trimmedContact),
     );
 
     final params = _buildForgetParams(trimmedContact);
@@ -71,12 +66,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   Future<void> resetPassword(String contact, String password) async {
     final trimmedContact = contact.trim();
     emit(
-      state.copyWith(
-        resetState: RequestState.loading,
-        resetError: null,
-        globalError: null,
-        contact: trimmedContact,
-      ),
+      state.copyWith(resetState: RequestState.loading, resetError: null, globalError: null, contact: trimmedContact),
     );
 
     final params = _buildResetParams(trimmedContact, password);
@@ -84,11 +74,7 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
     final result = await _authRepo.resetPassword(params);
     result.fold(
       (error) => emit(
-        state.copyWith(
-          resetState: RequestState.error,
-          resetError: error.errorMessage,
-          globalError: error.errorMessage,
-        ),
+        state.copyWith(resetState: RequestState.error, resetError: error.errorMessage, globalError: error.errorMessage),
       ),
       (_) => emit(state.copyWith(resetState: RequestState.success, resetError: null)),
     );
@@ -107,5 +93,9 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
   ResetPasswordParams _buildResetParams(String contact, String password) {
     final isEmail = contact.contains('@');
     return ResetPasswordParams(email: isEmail ? contact : null, phone: isEmail ? null : contact, password: password);
+  }
+
+  void resetStates() {
+    emit(const ForgetPasswordState());
   }
 }
