@@ -66,7 +66,7 @@ class HomeCubit extends Cubit<HomeState> {
         await getHomeEvents();
         await getHomeData();
         await getWeather();
-        _tryRegisterFcmToken();
+        await _tryRegisterFcmToken();
       },
     );
   }

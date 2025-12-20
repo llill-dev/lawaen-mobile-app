@@ -94,10 +94,10 @@ class AuthInterceptor extends Interceptor {
     final signature = _generateSignature(urlPath: path, data: mergedData, timestamp: timestamp);
 
     // For debugging
-    log("SIGN PATH: $path");
-    log("SIGN DATA: $mergedData");
-    log("TIMESTAMP: $timestamp");
-    log("SIGNATURE: $signature");
+    // log("SIGN PATH: $path");
+    // log("SIGN DATA: $mergedData");
+    // log("TIMESTAMP: $timestamp");
+    // log("SIGNATURE: $signature");
 
     // Required headers
     options.headers.addAll({

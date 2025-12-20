@@ -4,6 +4,7 @@ part 'register_fcm_token_params.g.dart';
 
 @JsonSerializable()
 class RegisterFcmTokenParams {
+  @JsonKey(name: "fcm")
   final String fcmToken;
   final String longitude;
   final String latitude;
