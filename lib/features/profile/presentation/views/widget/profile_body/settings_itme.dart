@@ -13,6 +13,7 @@ class SettingsItme extends StatelessWidget {
   final bool hasDivider;
   final double? iconSize;
   final bool fromServer;
+  final Widget? titleWidget;
   const SettingsItme({
     super.key,
     required this.title,
@@ -23,6 +24,7 @@ class SettingsItme extends StatelessWidget {
     this.iconSize,
     this.isLogin = false,
     this.fromServer = false,
+    this.titleWidget,
   });
 
   @override
@@ -40,24 +42,41 @@ class SettingsItme extends StatelessWidget {
                   child: fromServer
                       ? NetworkIcon(url: icon, color: iconColor, size: 22.r)
                       : isLogin
-                      ? Icon(Icons.login, color: ColorManager.red, size: iconSize)
+                      ? Icon(
+                          Icons.login,
+                          color: ColorManager.red,
+                          size: iconSize,
+                        )
                       : SvgPicture.asset(
                           icon,
                           width: iconSize,
                           height: iconSize,
-                          colorFilter: iconColor == null ? null : ColorFilter.mode(iconColor!, BlendMode.srcIn),
+                          colorFilter: iconColor == null
+                              ? null
+                              : ColorFilter.mode(iconColor!, BlendMode.srcIn),
                         ),
                 ),
                 const SizedBox(width: 16),
-                Text(title, style: Theme.of(context).textTheme.headlineMedium),
+                titleWidget ??
+                    Text(
+                      title,
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
                 const Spacer(),
-                Icon(Icons.arrow_forward_ios_rounded, size: 16, color: ColorManager.black),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 16,
+                  color: ColorManager.black,
+                ),
               ],
             ),
             if (hasDivider)
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4),
-                child: const Divider(color: ColorManager.lightGrey, thickness: 2),
+                child: const Divider(
+                  color: ColorManager.lightGrey,
+                  thickness: 2,
+                ),
               ),
           ],
         ),

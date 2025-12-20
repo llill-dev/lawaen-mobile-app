@@ -103,6 +103,12 @@ abstract class AppServiceClient {
   @POST(Urls.resetPasswordAfterActive)
   Future<ApiResponse> resetPasswordAfterActive(@Body() ResetPasswordParams params);
 
+  @POST(Urls.logout)
+  Future<void> logout(@Body() Map<String, dynamic> body);
+
+  @DELETE(Urls.deleteAccount)
+  Future<ApiResponse> deleteAccount();
+
   //Home
   @GET(Urls.getCities)
   Future<ApiResponse<List<CityModel>>> getCities();

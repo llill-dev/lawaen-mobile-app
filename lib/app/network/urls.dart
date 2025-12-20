@@ -9,6 +9,8 @@ class Urls {
   static const String forgotPassword = "$_authPrefix/forgot_password/forgot";
   static const String sendPasscode = "$_authPrefix/forgot_password/send_passcode";
   static const String resetPasswordAfterActive = "$_authPrefix/forgot_password/reset_password_after_active";
+  static const String logout = "$_authPrefix/account/logout";
+  static const String deleteAccount = "$_authPrefix/account/delete_account";
 
   //home
   static const String getCities = "cities/get";

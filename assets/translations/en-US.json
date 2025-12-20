@@ -294,5 +294,6 @@
   "now": "Now",
   "CurrentWeather": "Current Weather",
   "mapBottomSheetTitle": "Welcome to Map Search For Places",
-  "mapBottomSheetDescription": "To get better results, select your options. The system will display the results closest to you."
+  "mapBottomSheetDescription": "To get better results, select your options. The system will display the results closest to you.",
+  "deleteAccountConfirmation": "Your account will be deleted permanently. This action cannot be undone."
 } 

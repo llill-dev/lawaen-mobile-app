@@ -5,6 +5,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/core/widgets/show_language_bottom_sheet.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
@@ -12,6 +15,7 @@ import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/onboarding/presentation/views/widgets/location_permssion_dialog.dart';
 import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
@@ -19,11 +23,59 @@ import 'package:lawaen/features/profile/presentation/views/widget/profile_body/p
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_itme.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
-class SettingsSection extends StatelessWidget {
+class SettingsSection extends StatefulWidget {
   const SettingsSection({super.key});
 
   @override
+  State<SettingsSection> createState() => _SettingsSectionState();
+}
+
+class _SettingsSectionState extends State<SettingsSection> {
+  late final AuthCubit _authCubit;
+  late final AppPreferences _prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    _authCubit = getIt<AuthCubit>();
+    _prefs = getIt<AppPreferences>();
+  }
+
+  @override
+  void dispose() {
+    _authCubit.close();
+    super.dispose();
+  }
+
+  void _navigateToLogin() {
+    context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => false);
+  }
+
+  Widget _loadingTitle() {
+    return const SizedBox(width: 16, height: 16, child: LoadingWidget());
+  }
+
+  void _showDeleteConfirmation() {
+    alertDialog(
+      context: context,
+      icon: Icons.warning_rounded,
+      iconcolor: ColorManager.red,
+      message: LocaleKeys.deleteAccountConfirmation.tr(),
+      approveButtonColor: ColorManager.red,
+      rejectButtonTitle: LocaleKeys.cancel.tr(),
+      approveButtonTitle: LocaleKeys.ok.tr(),
+      onConfirm: () {
+        _authCubit.deleteAccount();
+      },
+      onCancel: () {
+        context.router.pop();
+      },
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final authCubit = _authCubit;
     return SliverToBoxAdapter(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,7 +98,7 @@ class SettingsSection extends StatelessWidget {
           _SettingsContainer(
             child: Column(
               children: [
-                if (getIt<AppPreferences>().isGuest)
+                if (_prefs.isGuest)
                   SettingsItme(
                     title: LocaleKeys.signIn.tr(),
                     isLogin: true,
@@ -106,23 +158,61 @@ class SettingsSection extends StatelessWidget {
           ),
 
           const SizedBox(height: 16),
-          if (!getIt<AppPreferences>().isGuest)
+          if (!_prefs.isGuest)
             _SettingsContainer(
               child: Column(
                 children: [
-                  SettingsItme(
-                    title: LocaleKeys.logout.tr(),
-                    icon: IconManager.logout,
-                    onTap: () {
-                      getIt<AppPreferences>().logout();
-                      context.router.pushAndPopUntil(LoginRoute(), predicate: (route) => false);
+                  BlocConsumer<AuthCubit, AuthState>(
+                    bloc: authCubit,
+                    listenWhen: (previous, current) {
+                      if (current is AuthFailure) return previous is AuthLogoutLoading;
+                      return current is AuthLogoutSuccess;
+                    },
+                    listener: (context, state) async {
+                      if (state is AuthLogoutSuccess || state is AuthFailure) {
+                        await _prefs.logout();
+                        await _prefs.setGuest(true);
+                        if (!mounted) return;
+                        _navigateToLogin();
+                      }
+                    },
+                    builder: (context, state) {
+                      final isLoading = state is AuthLogoutLoading;
+                      return SettingsItme(
+                        title: LocaleKeys.logout.tr(),
+                        titleWidget: isLoading ? _loadingTitle() : null,
+                        icon: IconManager.logout,
+                        onTap: isLoading ? null : () => authCubit.logout(),
+                      );
                     },
                   ),
-                  SettingsItme(
-                    title: LocaleKeys.deleteAccount.tr(),
-                    icon: IconManager.deleteAccount,
-                    onTap: () {},
-                    hasDivider: false,
+                  BlocConsumer<AuthCubit, AuthState>(
+                    bloc: authCubit,
+                    listenWhen: (previous, current) {
+                      if (current is AuthFailure) return previous is AuthDeleteAccountLoading;
+                      return current is AuthDeleteAccountSuccess;
+                    },
+                    listener: (context, state) async {
+                      if (state is AuthDeleteAccountSuccess) {
+                        await _prefs.logout();
+                        await _prefs.setGuest(true);
+                        if (!mounted) return;
+                        _navigateToLogin();
+                      } else if (state is AuthFailure) {
+                        if (!mounted) return;
+                        showToast(message: state.errorMessage, isError: true);
+                      }
+                    },
+                    builder: (context, state) {
+                      final isLoading = state is AuthDeleteAccountLoading;
+                      return SettingsItme(
+                        title: LocaleKeys.deleteAccount.tr(),
+                        titleWidget: isLoading ? _loadingTitle() : null,
+                        icon: IconManager.deleteAccount,
+                        onTap: isLoading ? null : _showDeleteConfirmation,
+                        hasDivider: false,
+                      );
+                    },
                   ),
                 ],
               ),

@@ -243,6 +243,39 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
+  @override
+  Future<Either<ErrorModel, Unit>> logout() async {
+    try {
+      final storedRefresh = prefs.storedRefreshToken;
+
+      if (storedRefresh.isEmpty) {
+        return Left(ErrorModel(errorMessage: "No refresh token stored"));
+      }
+
+      await appServiceClient.logout({"refreshToken": storedRefresh});
+      await prefs.logout();
+      await prefs.setGuest(true);
+      return const Right(unit);
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, String>> deleteAccount() async {
+    try {
+      final response = await appServiceClient.deleteAccount();
+      if (response.status == true) {
+        await prefs.logout();
+        await prefs.setGuest(true);
+        return Right(response.message ?? "");
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
   Future<void> _saveTokens({required String accessToken, required String refreshToken}) async {
     await prefs.saveTokens(accessToken: accessToken, refresh: refreshToken);
   }

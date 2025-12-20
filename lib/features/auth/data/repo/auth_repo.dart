@@ -25,4 +25,8 @@ abstract class AuthRepo {
   Future<Either<ErrorModel, Unit>> refreshToken();
 
   Future<Either<ErrorModel, UserModel>> updateProfile(UpdateProfileParams params);
+
+  Future<Either<ErrorModel, Unit>> logout();
+
+  Future<Either<ErrorModel, String>> deleteAccount();
 }

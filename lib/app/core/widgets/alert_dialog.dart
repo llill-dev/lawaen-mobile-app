@@ -18,6 +18,7 @@ Future<void> alertDialog({
   Widget? actions,
   bool isTwoButtons = true,
   Color? approveButtonColor,
+  Color? iconcolor,
   Color? rejectButtonColor,
 }) {
   final Color primary = ColorManager.primary;
@@ -39,9 +40,10 @@ Future<void> alertDialog({
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                if (isError) Icon(icon ?? Icons.error_outline_outlined, color: ColorManager.red, size: 46.r),
+                if (isError)
+                  Icon(icon ?? Icons.error_outline_outlined, color: iconcolor ?? ColorManager.red, size: 46.r),
 
-                if (!isError && icon != null) Icon(icon, size: 46.r, color: primary),
+                if (!isError && icon != null) Icon(icon, size: 46.r, color: iconcolor ?? primary),
 
                 14.verticalSpace,
 
