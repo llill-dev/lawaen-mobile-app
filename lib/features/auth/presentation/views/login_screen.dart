@@ -72,7 +72,12 @@ class LoginScreen extends StatelessWidget {
                         ],
                       ),
                       12.verticalSpace,
-                      Text(LocaleKeys.forgetPassword.tr(), style: Theme.of(context).textTheme.headlineSmall),
+                      GestureDetector(
+                        onTap: () {
+                          context.router.push(const ForgetPasswordRoute());
+                        },
+                        child: Text(LocaleKeys.forgetPassword.tr(), style: Theme.of(context).textTheme.headlineSmall),
+                      ),
                     ],
                   ),
                 ),

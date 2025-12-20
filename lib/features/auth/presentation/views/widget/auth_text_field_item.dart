@@ -10,6 +10,7 @@ class AuthTextFieldItem extends StatelessWidget {
   final TextEditingController? controller;
   final String? Function(String?)? validator;
   final bool? isFieldObscure;
+  final TextInputType? keyboardType;
   const AuthTextFieldItem({
     super.key,
     required this.title,
@@ -18,6 +19,7 @@ class AuthTextFieldItem extends StatelessWidget {
     this.controller,
     this.validator,
     this.isFieldObscure,
+    this.keyboardType,
   });
 
   @override
@@ -30,6 +32,7 @@ class AuthTextFieldItem extends StatelessWidget {
         CustomTextField(
           controller: controller,
           validator: validator,
+          keyboardType: keyboardType,
           fillColor: ColorManager.blackSwatch[3],
           borderColor: ColorManager.blackSwatch[3],
           verticalContentPadding: 12.h,
