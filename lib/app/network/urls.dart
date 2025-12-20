@@ -6,6 +6,9 @@ class Urls {
   static const String refreshToken = "$_authPrefix/refresh_token";
   static const String changePassword = "$_authPrefix/change_password";
   static const String updateProfile = "$_authPrefix/update_profile";
+  static const String forgotPassword = "$_authPrefix/forgot_password/forgot";
+  static const String sendPasscode = "$_authPrefix/forgot_password/send_passcode";
+  static const String resetPasswordAfterActive = "$_authPrefix/forgot_password/reset_password_after_active";
 
   //home
   static const String getCities = "cities/get";

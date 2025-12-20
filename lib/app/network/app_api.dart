@@ -9,6 +9,9 @@ import 'package:lawaen/features/auth/data/models/token_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/auth/presentation/params/forget_password_params.dart';
+import 'package:lawaen/features/auth/presentation/params/otp_verification_params.dart';
+import 'package:lawaen/features/auth/presentation/params/reset_password_params.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_event_model.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_missing_plcae_model.dart';
 import 'package:lawaen/features/add_to_app/data/models/add_offer_model.dart';
@@ -90,6 +93,15 @@ abstract class AppServiceClient {
 
   @POST(Urls.refreshToken)
   Future<TokenModel> refreshToken(@Body() Map<String, dynamic> body);
+
+  @POST(Urls.forgotPassword)
+  Future<ApiResponse> forgotPassword(@Body() ForgetPasswordParams params);
+
+  @POST(Urls.sendPasscode)
+  Future<ApiResponse> sendPasscode(@Body() OtpVerificationParams params);
+
+  @POST(Urls.resetPasswordAfterActive)
+  Future<ApiResponse> resetPasswordAfterActive(@Body() ResetPasswordParams params);
 
   //Home
   @GET(Urls.getCities)

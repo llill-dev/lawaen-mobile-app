@@ -14,8 +14,11 @@ import 'package:lawaen/features/auth/data/models/basic_user_info_model.dart';
 import 'package:lawaen/features/auth/data/models/user_model.dart';
 import 'package:lawaen/features/auth/data/repo/auth_repo.dart';
 import 'package:lawaen/features/auth/presentation/params/change_password_params.dart';
+import 'package:lawaen/features/auth/presentation/params/forget_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/login_params.dart';
+import 'package:lawaen/features/auth/presentation/params/otp_verification_params.dart';
 import 'package:lawaen/features/auth/presentation/params/register_params.dart';
+import 'package:lawaen/features/auth/presentation/params/reset_password_params.dart';
 import 'package:lawaen/features/auth/presentation/params/update_profile_params.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
@@ -112,6 +115,45 @@ class AuthRepoImpl implements AuthRepo {
     try {
       final response = await appServiceClient.changePassword(params);
       if (_successResponse(response)) {
+        return Right(unit);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> forgotPassword(ForgetPasswordParams params) async {
+    try {
+      final response = await appServiceClient.forgotPassword(params);
+      if (response.status == true) {
+        return Right(unit);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> sendPasscode(OtpVerificationParams params) async {
+    try {
+      final response = await appServiceClient.sendPasscode(params);
+      if (response.status == true) {
+        return Right(unit);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      return Left(ErrorModel.fromException(e.convertToAppException()));
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, Unit>> resetPassword(ResetPasswordParams params) async {
+    try {
+      final response = await appServiceClient.resetPasswordAfterActive(params);
+      if (response.status == true) {
         return Right(unit);
       }
       return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
