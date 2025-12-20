@@ -14,6 +14,7 @@ import 'package:lawaen/app/resources/language_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/onboarding/presentation/views/widgets/location_permssion_dialog.dart';
+import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/profile_pages_section.dart';
 import 'package:lawaen/features/profile/presentation/views/widget/profile_body/settings_itme.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -70,6 +71,7 @@ class SettingsSection extends StatelessWidget {
                         setLocaleIdentifier(appPreferences.getAppLanguage() == english ? 'en_US' : 'ar_SA');
                         context.router.pushAndPopUntil(NavigationControllerRoute(), predicate: (route) => false);
                         context.read<HomeCubit>().initHome();
+                        context.read<ProfileCubit>().retryProfilePages();
                       },
                     );
                   },
@@ -86,7 +88,9 @@ class SettingsSection extends StatelessWidget {
                       barrierDismissible: false,
                       builder: (dialogContext) {
                         return LocationPermissionDialog(
-                          onApprove: () => context.read<HomeCubit>().initHome(),
+                          onApprove: () {
+                            context.read<HomeCubit>().initHome();
+                          },
                           onClose: () => context.router.pop(),
                         );
                       },
