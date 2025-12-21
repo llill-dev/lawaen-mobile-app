@@ -45,7 +45,8 @@ class EventItem extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(safeDay(eventModel.startDate), style: Theme.of(context).textTheme.bodyLarge),
                     Text(
@@ -58,7 +59,7 @@ class EventItem extends StatelessWidget {
             ),
             if (eventModel.name != null)
               Positioned(
-                top: 12.h,
+                bottom: 35.h,
                 right: 0,
                 child: Container(
                   decoration: BoxDecoration(
@@ -68,6 +69,8 @@ class EventItem extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 4.h),
                   child: Text(
                     eventModel.name!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.titleSmall?.copyWith(color: Colors.white),
                   ),
                 ),

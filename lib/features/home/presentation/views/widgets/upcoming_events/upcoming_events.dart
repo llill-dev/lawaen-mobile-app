@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,29 +21,43 @@ class UpcomingEvents extends StatefulWidget {
 }
 
 class _UpcomingEventsState extends State<UpcomingEvents> {
-  final PageController _pageController = PageController();
+  late final PageController _pageController;
+  Timer? _timer;
   int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
+
     _pageController.addListener(() {
-      setState(() {
-        _currentPage = _pageController.page?.round() ?? 0;
-      });
+      final page = _pageController.page?.round() ?? 0;
+      if (page != _currentPage) {
+        setState(() => _currentPage = page);
+      }
+    });
+
+    _startAutoScroll();
+  }
+
+  void _startAutoScroll() {
+    _timer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      if (!mounted) return;
+
+      final homeState = context.read<HomeCubit>().state;
+      final length = homeState.events.length;
+
+      if (length <= 1) return;
+
+      final nextPage = (_currentPage + 1) % length;
+
+      _pageController.animateToPage(nextPage, duration: const Duration(milliseconds: 500), curve: Curves.easeInOut);
     });
   }
 
-  // void _goToNextPage(int lenght) {
-  //   if (_currentPage < lenght) {
-  //     _pageController.nextPage(duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-  //   } else {
-  //     _pageController.animateToPage(0, duration: Duration(milliseconds: 300), curve: Curves.easeInOut);
-  //   }
-  // }
-
   @override
   void dispose() {
+    _timer?.cancel();
     _pageController.dispose();
     super.dispose();
   }
@@ -58,7 +74,7 @@ class _UpcomingEventsState extends State<UpcomingEvents> {
                 Text(LocaleKeys.upcomingEvents.tr(), style: Theme.of(context).textTheme.bodyMedium),
                 SizedBox(height: 5.h),
                 AspectRatio(
-                  aspectRatio: 16 / 7,
+                  aspectRatio: 16 / 8,
                   child: Stack(
                     children: [
                       PageView.builder(
