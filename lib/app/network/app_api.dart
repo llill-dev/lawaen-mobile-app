@@ -41,6 +41,7 @@ import 'package:lawaen/features/home/presentation/params/get_category_details_pa
 import 'package:lawaen/features/offers/data/models/offer_type_model.dart';
 import 'package:lawaen/features/offers/data/models/offer_model.dart';
 import 'package:lawaen/features/offers/presentation/params/get_offers_params.dart';
+import 'package:lawaen/features/onboarding/data/models/onboarding_message_model.dart';
 import 'package:lawaen/features/profile/data/models/contact_us_model.dart';
 import 'package:lawaen/features/profile/data/models/counts_model.dart';
 import 'package:lawaen/features/profile/data/models/profile_page_model.dart';
@@ -320,4 +321,8 @@ abstract class AppServiceClient {
 
   @GET(Urls.getSaved)
   Future<ApiResponse<List<CategoryDetailsModel>>> getSaved();
+
+  //onboarding
+  @GET(Urls.adminMessage)
+  Future<ApiResponse<OnboardingMessageModel>> getAdminMessage();
 }

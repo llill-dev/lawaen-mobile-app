@@ -338,7 +338,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> _tryRegisterFcmToken() async {
     final prefs = getIt<AppPreferences>();
-    if (prefs.isGuest) return;
+    //if (prefs.isGuest) return;
 
     if (prefs.isFcmRegistered) return;
 

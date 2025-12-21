@@ -64,4 +64,7 @@ class Urls {
   static const String getCounts = "profile/get_count";
   static const String getSaved = "profile/get_saved";
   static const String getRated = "profile/get_rated";
+
+  //onboarding
+  static const String adminMessage = "message/admin_message";
 }
