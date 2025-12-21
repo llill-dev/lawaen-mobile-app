@@ -17,6 +17,23 @@ class MapItemDetailBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String formatTravelTime(BuildContext context, double minutes) {
+      final totalMinutes = (minutes + 5).round();
+
+      if (totalMinutes < 60) {
+        return "$totalMinutes ${LocaleKeys.minutes.tr()}";
+      }
+
+      final hours = totalMinutes ~/ 60;
+      final remainingMinutes = totalMinutes % 60;
+
+      if (remainingMinutes == 0) {
+        return "$hours ${LocaleKeys.hours.tr()}";
+      }
+
+      return "$hours ${LocaleKeys.hours.tr()} $remainingMinutes ${LocaleKeys.minutes.tr()}";
+    }
+
     return SafeArea(
       top: false,
       child: Padding(
@@ -64,9 +81,7 @@ class MapItemDetailBottomSheet extends StatelessWidget {
                   if (item.travelMinutes != null)
                     _buildCustomButton(
                       icon: IconManager.car,
-                      text: item.travelMinutes! > 60
-                          ? "${item.travelMinutes! / 60} ${LocaleKeys.hours.tr()}"
-                          : "${(item.travelMinutes! + 3).toStringAsFixed(1)} ${LocaleKeys.minutes.tr()}",
+                      text: formatTravelTime(context, item.travelMinutes!),
                       context: context,
                     ),
                   if (item.travelMinutes != null) 8.horizontalSpace,

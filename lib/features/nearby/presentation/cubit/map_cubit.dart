@@ -21,64 +21,7 @@ class MapCubit extends Cubit<MapState> {
   final MapRepo _mapRepo;
   final LocationService _locationService;
 
-  String? _search;
-
   MapCubit(this._mapRepo, this._locationService) : super(const MapState());
-
-  // ===================================================
-  // SEARCH
-  // ===================================================
-  Future<void> updateSearch(String text) async {
-    _search = text.trim().isEmpty ? null : text.trim();
-
-    if (_search == null) {
-      emit(state.copyWith(items: [], itemsState: RequestState.idle, itemsError: null, globalError: null));
-      return;
-    }
-
-    await _searchItems();
-  }
-
-  Future<void> _searchItems() async {
-    final location = await _locationService.getBestEffortLocation();
-
-    emit(
-      state.copyWith(
-        itemsState: RequestState.loading,
-        userLatitude: location.latitude,
-        userLongitude: location.longitude,
-        itemsError: null,
-        globalError: null,
-      ),
-    );
-
-    final params = GetCategoryDetailsParams(
-      latitude: location.latitude,
-      longitude: location.longitude,
-      limit: 25,
-      page: 1,
-      search: _search,
-      cityId: location.cityId ?? "",
-    );
-
-    final result = await _mapRepo.getInitialItems(params);
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            itemsState: RequestState.error,
-            itemsError: failure.errorMessage,
-            globalError: failure.errorMessage,
-          ),
-        );
-      },
-      (items) {
-        final updated = _attachTravelTimes(items);
-        emit(state.copyWith(itemsState: RequestState.success, items: updated, itemsError: null));
-      },
-    );
-  }
 
   // ===================================================
   // FILTER BY MAIN / SUB CATEGORY
@@ -353,6 +296,61 @@ class MapCubit extends Cubit<MapState> {
   //           itemsError: null,
   //         ),
   //       );
+  //     },
+  //   );
+  // }
+
+  // ===================================================
+  // SEARCH
+  // ===================================================
+  // Future<void> updateSearch(String text) async {
+  //   _search = text.trim().isEmpty ? null : text.trim();
+
+  //   if (_search == null) {
+  //     emit(state.copyWith(items: [], itemsState: RequestState.idle, itemsError: null, globalError: null));
+  //     return;
+  //   }
+
+  //   await _searchItems();
+  // }
+
+  // Future<void> _searchItems() async {
+  //   final location = await _locationService.getBestEffortLocation();
+
+  //   emit(
+  //     state.copyWith(
+  //       itemsState: RequestState.loading,
+  //       userLatitude: location.latitude,
+  //       userLongitude: location.longitude,
+  //       itemsError: null,
+  //       globalError: null,
+  //     ),
+  //   );
+
+  //   final params = GetCategoryDetailsParams(
+  //     latitude: location.latitude,
+  //     longitude: location.longitude,
+  //     limit: 25,
+  //     page: 1,
+  //     search: _search,
+  //     cityId: location.cityId ?? "",
+  //   );
+
+  //   final result = await _mapRepo.getInitialItems(params);
+
+  //   result.fold(
+  //     (failure) {
+  //       emit(
+  //         state.copyWith(
+  //           itemsState: RequestState.error,
+  //           itemsError: failure.errorMessage,
+  //           globalError: failure.errorMessage,
+  //         ),
+  //       );
+  //     },
+  //     (items) {
+  //       final updated = _attachTravelTimes(items);
+  //       emit(state.copyWith(itemsState: RequestState.success, items: updated, itemsError: null));
   //     },
   //   );
   // }

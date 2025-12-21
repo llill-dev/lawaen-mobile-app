@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 import 'dart:ui' as ui;
 
 import 'package:auto_route/auto_route.dart';
@@ -62,6 +63,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       _clusterManager.setItems(_createClusterItems(widget.items));
       _clusterManager.updateMap();
     }
+    _moveCameraToResults(widget.items);
   }
 
   @override
@@ -73,6 +75,29 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
   // =====================================================
   // HELPERS
   // =====================================================
+
+  LatLngBounds? _calculateBounds(List<CategoryDetailsModel> items) {
+    final points = items
+        .where((e) => e.location?.latitude != null && e.location?.longitude != null)
+        .map((e) => LatLng(e.location!.latitude!, e.location!.longitude!))
+        .toList();
+
+    if (points.isEmpty) return null;
+
+    double south = points.first.latitude;
+    double north = points.first.latitude;
+    double west = points.first.longitude;
+    double east = points.first.longitude;
+
+    for (final p in points) {
+      south = math.min(south, p.latitude);
+      north = math.max(north, p.latitude);
+      west = math.min(west, p.longitude);
+      east = math.max(east, p.longitude);
+    }
+
+    return LatLngBounds(southwest: LatLng(south, west), northeast: LatLng(north, east));
+  }
 
   List<_MapClusterItem> _createClusterItems(List<CategoryDetailsModel> items) {
     return items
@@ -91,6 +116,16 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
   bool get _markersReady {
     final state = context.read<MapMarkerCubit>().state;
     return state.fallbackGoogle != null && state.fallbackApple != null;
+  }
+
+  void _moveCameraToResults(List<CategoryDetailsModel> items) {
+    if (_googleMapController == null) return;
+    if (items.isEmpty) return;
+
+    final bounds = _calculateBounds(items);
+    if (bounds == null) return;
+
+    _googleMapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 80));
   }
 
   // =====================================================
