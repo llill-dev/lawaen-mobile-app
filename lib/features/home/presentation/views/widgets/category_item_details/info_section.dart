@@ -107,6 +107,7 @@ class InfoSection extends StatelessWidget {
               ),
               20.verticalSpace,
               ServicesSection(itemData: itemData),
+              20.verticalSpace,
             ],
           ],
         ).horizontalPadding(padding: 16.w),

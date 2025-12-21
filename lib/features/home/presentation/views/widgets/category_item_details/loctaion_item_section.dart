@@ -20,13 +20,19 @@ class LocationItemSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(24.w),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: ColorManager.secondary.withValues(alpha: .25),
         borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         children: [
-          SvgPicture.asset(IconManager.location, color: ColorManager.primary, width: 50.w, height: 50.h),
+          SvgPicture.asset(
+            IconManager.location,
+            colorFilter: ColorFilter.mode(ColorManager.primary, BlendMode.srcIn),
+            width: 50.w,
+            height: 50.h,
+          ),
           15.verticalSpace,
           // Text("Damascus Bluewaters Island", style: Theme.of(context).textTheme.headlineMedium),
           15.verticalSpace,
