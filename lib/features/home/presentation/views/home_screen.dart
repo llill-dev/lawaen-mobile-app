@@ -8,9 +8,10 @@ import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/banners/home_banners.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_social_links.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/view_all_categories.dart';
-import '../../../../generated/locale_keys.g.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'widgets/home_app_bar/home_app_bar.dart';
 import 'widgets/location_section.dart';
@@ -91,7 +92,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const UpcomingEvents(),
               buildSpace(),
 
-              //// here we will show the first half of hommeBanners
+              HomeBannersSection(isFirstHalf: true, height: 80.h),
+              buildSpace(),
+
               const AddYourBusiness(),
               buildSpace(),
 
@@ -101,7 +104,9 @@ class _HomeScreenState extends State<HomeScreen> {
               const HomeSocialLinks(),
               buildSpace(),
 
-              //// here we will show the second half of homeBanners
+              HomeBannersSection(isFirstHalf: false, height: 80.h),
+              buildSpace(),
+
               SliverToBoxAdapter(
                 child: Text(
                   LocaleKeys.popularPlaces.tr(),

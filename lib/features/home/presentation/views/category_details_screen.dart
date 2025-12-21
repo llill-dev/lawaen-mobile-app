@@ -10,6 +10,8 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
+import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/home/presentation/views/widgets/banners/banners_section.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/all_and_fillter_catergory_datails_row.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/category_details_app_bar.dart';
 
@@ -113,6 +115,15 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
 
                   if (widget.secondCategory != null) ...[
                     AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory!),
+                    buildSpace(),
+                  ],
+
+                  if (context.read<HomeCubit>().state.otherBanners.isNotEmpty) ...[
+                    SliverToBoxAdapter(
+                      child: BannersSection(
+                        banners: context.read<HomeCubit>().state.otherBanners,
+                      ).horizontalPadding(padding: 16.w),
+                    ),
                     buildSpace(),
                   ],
 
