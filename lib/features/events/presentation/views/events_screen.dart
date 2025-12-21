@@ -56,58 +56,57 @@ class _EventsScreenState extends State<EventsScreen> with AutomaticKeepAliveClie
         final events = state.events;
         final isLoading = state.eventsState == RequestState.loading;
         final isError = state.eventsError != null || state.eventsState == RequestState.error;
-        return Scaffold(
-          body: SafeArea(
-            child: CustomScrollView(
-              clipBehavior: Clip.none,
-              slivers: [
-                SliverToBoxAdapter(
-                  child: Column(
-                    children: [
-                      GridAndListButtonsWithTitle(
-                        isGridView: _isGridView,
-                        title: LocaleKeys.events.tr(),
-                        onViewModeChanged: isLoading ? (v) {} : _onViewModeChanged,
-                      ),
+        return SafeArea(
+          child: CustomScrollView(
+            clipBehavior: Clip.none,
+            slivers: [
+              SliverToBoxAdapter(
+                child: Column(
+                  children: [
+                    12.verticalSpace,
+                    GridAndListButtonsWithTitle(
+                      isGridView: _isGridView,
+                      title: LocaleKeys.events.tr(),
+                      onViewModeChanged: isLoading ? (v) {} : _onViewModeChanged,
+                    ),
 
-                      16.verticalSpace,
+                    16.verticalSpace,
 
-                      SizedBox(
-                        height: 35.h,
-                        child: ListView.separated(
-                          separatorBuilder: (_, _) => 12.horizontalSpace,
-                          scrollDirection: Axis.horizontal,
-                          itemCount: eventTypes.length,
-                          itemBuilder: (context, index) => EventType(
-                            isSelected: index == _selectedEventTypeIndex,
-                            eventType: eventTypes[index],
-                            onTap: isLoading ? () {} : () => _onEventTypeChanged(index),
-                          ),
+                    SizedBox(
+                      height: 35.h,
+                      child: ListView.separated(
+                        separatorBuilder: (_, _) => 12.horizontalSpace,
+                        scrollDirection: Axis.horizontal,
+                        itemCount: eventTypes.length,
+                        itemBuilder: (context, index) => EventType(
+                          isSelected: index == _selectedEventTypeIndex,
+                          eventType: eventTypes[index],
+                          onTap: isLoading ? () {} : () => _onEventTypeChanged(index),
                         ),
                       ),
-                    ],
-                  ).horizontalPadding(padding: 16.w),
-                ),
+                    ),
+                  ],
+                ).horizontalPadding(padding: 16.w),
+              ),
 
-                buildSpace(),
+              buildSpace(),
 
-                if (isLoading)
-                  _buildListShimmer()
-                else if (isError)
-                  _buildErrorWidget(
-                    state.eventsError,
-                    () => cubit.getEvents(eventTypeId: cubit.state.eventTypes[_selectedEventTypeIndex].id),
-                  )
-                else if (events.isEmpty)
-                  _buildEmptyState()
-                else if (_isGridView)
-                  _buildGridView(events)
-                else
-                  _buildListView(events),
+              if (isLoading)
+                _buildListShimmer()
+              else if (isError)
+                _buildErrorWidget(
+                  state.eventsError,
+                  () => cubit.getEvents(eventTypeId: cubit.state.eventTypes[_selectedEventTypeIndex].id),
+                )
+              else if (events.isEmpty)
+                _buildEmptyState()
+              else if (_isGridView)
+                _buildGridView(events)
+              else
+                _buildListView(events),
 
-                buildSpace(height: 50.h),
-              ],
-            ),
+              buildSpace(height: 50.h),
+            ],
           ),
         );
       },

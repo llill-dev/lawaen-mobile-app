@@ -29,6 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(),
       body: SafeArea(
         child: CustomScrollView(clipBehavior: Clip.none, slivers: [ProfileHeader(), SettingsSection()]),
       ),

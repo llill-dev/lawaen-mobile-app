@@ -38,6 +38,7 @@ class _NearbyMapScreenState extends State<NearbyMapScreen> {
     return BlocProvider.value(
       value: _mapCubit,
       child: Scaffold(
+        appBar: AppBar(),
         body: BlocConsumer<MapCubit, MapState>(
           listener: (context, state) {
             if (state.itemsState == RequestState.error || state.globalError != null) {

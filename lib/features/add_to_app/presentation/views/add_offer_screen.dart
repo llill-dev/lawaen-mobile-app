@@ -25,6 +25,7 @@ class AddOfferScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddOfferFormCubit>(),
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             child: BlocConsumer<AddOfferFormCubit, AddOfferFormState>(

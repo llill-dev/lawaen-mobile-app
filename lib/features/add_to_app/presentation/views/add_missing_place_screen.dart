@@ -26,6 +26,7 @@ class AddMissingPlaceScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddMissingPlaceFormCubit>(),
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             clipBehavior: Clip.none,

@@ -31,7 +31,9 @@ class _ProfileStaticScreenState extends State<ProfileStaticScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        leading: const BackButton(color: ColorManager.black),
+        toolbarHeight: kToolbarHeight,
+        backgroundColor: ColorManager.white,
+        elevation: 0,
         title: BlocSelector<ProfileCubit, ProfileState, String?>(
           selector: (state) => state.getProfilePage?.name,
           builder: (context, title) {

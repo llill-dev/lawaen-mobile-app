@@ -26,6 +26,7 @@ class AddEventScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => getIt<AddEventFormCubit>(),
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: SingleChildScrollView(
             clipBehavior: Clip.none,

@@ -53,6 +53,7 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
+        appBar: AppBar(),
         extendBodyBehindAppBar: true,
         body: BlocBuilder<CategoryItemDetialsCubit, CategoryItemDetialsState>(
           builder: (context, state) {

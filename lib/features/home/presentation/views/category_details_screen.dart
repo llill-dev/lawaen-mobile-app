@@ -63,6 +63,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     return BlocProvider.value(
       value: cubit,
       child: Scaffold(
+        appBar: AppBar(),
         body: BlocListener<CategoryDetailsCubit, CategoryDetailsState>(
           listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
           listener: (context, state) {

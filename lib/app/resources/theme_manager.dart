@@ -42,14 +42,12 @@ ThemeData getApplicationTheme() {
     appBarTheme: AppBarTheme(
       centerTitle: false,
       actionsIconTheme: IconThemeData(color: ColorManager.primary),
+      backgroundColor: ColorManager.primary,
       elevation: 0,
+      foregroundColor: Colors.transparent,
+      toolbarHeight: 0,
       scrolledUnderElevation: 0,
-      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(bottom: Radius.circular(16))),
-      iconTheme: IconThemeData(color: ColorManager.primary),
-      color: ColorManager.white,
-      titleTextStyle: getSemiBoldStyle(fontSize: 20, color: ColorManager.blackSwatch[11]!),
     ),
-
     buttonTheme: ButtonThemeData(
       shape: const StadiumBorder(),
       buttonColor: ColorManager.primary,

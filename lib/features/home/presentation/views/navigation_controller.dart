@@ -87,6 +87,7 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
+      appBar: AppBar(),
       extendBodyBehindAppBar: true,
       body: PageView(
         clipBehavior: Clip.none,
