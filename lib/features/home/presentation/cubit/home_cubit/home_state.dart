@@ -42,6 +42,12 @@ class HomeState extends Equatable {
   final WeatherModel? weather;
   final String? weatherError;
 
+  // BANNERS
+  final RequestState bannersState;
+  final List<BannerModel> homeBanners;
+  final List<BannerModel> otherBanners;
+  final String? bannersError;
+
   // GLOBAL
   final String? globalError;
 
@@ -73,6 +79,10 @@ class HomeState extends Equatable {
     this.weatherState = RequestState.idle,
     this.weather,
     this.weatherError,
+    this.bannersState = RequestState.idle,
+    this.homeBanners = const [],
+    this.otherBanners = const [],
+    this.bannersError,
     this.globalError,
   });
 
@@ -118,6 +128,12 @@ class HomeState extends Equatable {
     final WeatherModel? weather,
     final String? weatherError,
 
+    // banners
+    final RequestState? bannersState,
+    final List<BannerModel>? homeBanners,
+    final List<BannerModel>? otherBanners,
+    final String? bannersError,
+
     // global
     String? globalError,
   }) {
@@ -157,6 +173,11 @@ class HomeState extends Equatable {
       weatherState: weatherState ?? this.weatherState,
       weather: weather ?? this.weather,
       weatherError: weatherError,
+
+      bannersState: bannersState ?? this.bannersState,
+      homeBanners: homeBanners ?? this.homeBanners,
+      otherBanners: otherBanners ?? this.otherBanners,
+      bannersError: bannersError,
 
       globalError: globalError,
     );
@@ -204,6 +225,12 @@ class HomeState extends Equatable {
     weatherState,
     weather,
     weatherError,
+
+    // banners
+    bannersState,
+    homeBanners,
+    otherBanners,
+    bannersError,
 
     globalError,
   ];

@@ -91,6 +91,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const UpcomingEvents(),
               buildSpace(),
 
+              //// here we will show the first half of hommeBanners
               const AddYourBusiness(),
               buildSpace(),
 
@@ -100,6 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
               const HomeSocialLinks(),
               buildSpace(),
 
+              //// here we will show the second half of homeBanners
               SliverToBoxAdapter(
                 child: Text(
                   LocaleKeys.popularPlaces.tr(),

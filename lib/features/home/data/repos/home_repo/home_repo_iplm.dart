@@ -11,6 +11,7 @@ import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/data/models/banner_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
@@ -146,6 +147,20 @@ class HomeRepoImpl implements HomeRepo {
     } catch (e) {
       final error = WeatherExceptionMapper.map(e);
       return Left(error);
+    }
+  }
+
+  @override
+  Future<Either<ErrorModel, List<BannerModel>>> getBanners() async {
+    try {
+      final response = await appServiceClient.getBanners();
+      if (response.status == true && response.data != null) {
+        return Right(response.data!);
+      }
+      return Left(ErrorModel(errorMessage: response.message ?? LocaleKeys.defaultError.tr()));
+    } on DioException catch (e) {
+      log("getBanners error: ${e.toString()}");
+      return Left(ErrorModel.fromException(e.convertToAppException()));
     }
   }
 }

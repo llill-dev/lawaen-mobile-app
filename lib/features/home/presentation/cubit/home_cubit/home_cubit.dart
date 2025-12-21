@@ -12,6 +12,7 @@ import 'package:lawaen/app/external/params/get_weather_params.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/data/models/banner_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/presentation/params/get_category_details_params.dart';
@@ -41,6 +42,7 @@ class HomeCubit extends Cubit<HomeState> {
     getCategories();
     getCities();
     getContact();
+    getBanners();
   }
 
   // ────────────────────────────────────────────────
@@ -228,6 +230,40 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (weather) {
         emit(state.copyWith(weatherState: RequestState.success, weather: weather, weatherError: null));
+      },
+    );
+  }
+
+  // ────────────────────────────────────────────────
+  // BANNERS
+  // ────────────────────────────────────────────────
+  Future<void> getBanners() async {
+    emit(state.copyWith(bannersState: RequestState.loading, bannersError: null));
+
+    final result = await _homeRepo.getBanners();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            bannersState: RequestState.error,
+            bannersError: failure.errorMessage,
+            globalError: failure.errorMessage,
+          ),
+        );
+      },
+      (banners) {
+        final homeBanners = banners.where((banner) => banner.inhome == true).toList();
+        final otherBanners = banners.where((banner) => banner.inhome != true).toList();
+
+        emit(
+          state.copyWith(
+            bannersState: RequestState.success,
+            homeBanners: homeBanners,
+            otherBanners: otherBanners,
+            bannersError: null,
+          ),
+        );
       },
     );
   }

@@ -19,6 +19,7 @@ import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/data/models/event_type_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
 import 'package:lawaen/features/explore/data/models/user_preferences_model.dart';
+import 'package:lawaen/features/home/data/models/banner_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/category_item_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -136,6 +137,10 @@ abstract class AppServiceClient {
 
   @GET(Urls.getWeather)
   Future<WeatherApiResponseModel> getWeather({@Queries() required GetWeatherParams params});
+
+  //home
+  @GET(Urls.getBanners)
+  Future<ApiResponse<List<BannerModel>>> getBanners();
 
   //category details
   @GET(Urls.getCategoryDetails)

@@ -20,6 +20,7 @@ class Urls {
   static const String registerFcmToken = "fcm/save_fcm";
   static const String homeData = "location/home_data";
   static const String getMune = "menu/get";
+  static const String getBanners = "banner/get";
   static const String getContact = "other/contact";
   static const String getWeather = "https://api.open-meteo.com/v1/forecast";
 

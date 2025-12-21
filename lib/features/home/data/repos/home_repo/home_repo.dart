@@ -3,6 +3,7 @@ import 'package:lawaen/app/core/models/error_model.dart';
 import 'package:lawaen/app/external/models/weather_error_model.dart';
 import 'package:lawaen/features/events/data/models/event_model.dart';
 import 'package:lawaen/features/events/presentation/params/get_events_params.dart';
+import 'package:lawaen/features/home/data/models/banner_model.dart';
 import 'package:lawaen/features/home/data/models/category_details_model.dart';
 import 'package:lawaen/features/home/data/models/city_model.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
@@ -24,4 +25,5 @@ abstract class HomeRepo {
   Future<Either<ErrorModel, MuneModel>> getMune(GetMenuParams params);
   Future<Either<ErrorModel, List<ContactModel>>> getContact();
   Future<Either<WeatherErrorModel, WeatherModel>> getWeather(GetWeatherParams params);
+  Future<Either<ErrorModel, List<BannerModel>>> getBanners();
 }
