@@ -10,6 +10,7 @@ import 'package:lawaen/features/home/presentation/cubit/mune_cubit/mune_cubit.da
 import 'package:lawaen/features/auth/presentation/cubit/forget_password/forget_password_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_marker/map_marker_cubit.dart';
 import 'package:lawaen/features/offers/presentation/cubit/offers_cubit/offers_cubit.dart';
+import 'package:lawaen/features/onboarding/presentation/cubit/onboarding_cubit.dart';
 import 'package:lawaen/features/profile/presentation/cubit/profile_cubit/profile_cubit.dart';
 
 import 'app/di/injection.dart';
@@ -44,6 +45,7 @@ class _MyAppState extends State<MyApp> {
         BlocProvider(create: (context) => getIt<ProfileCubit>()),
         BlocProvider(create: (context) => getIt<MessagesCubit>()),
         BlocProvider(create: (context) => getIt<ForgetPasswordCubit>()),
+        BlocProvider(create: (context) => getIt<OnboardingCubit>()),
       ],
       child: MaterialApp.router(
         title: "Lawaen",
