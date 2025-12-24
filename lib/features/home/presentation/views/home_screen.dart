@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void _onScroll() {
     if (!_scrollController.hasClients) return;
-    if (_scrollController.position.extentAfter < 200) {
+    if (_scrollController.position.extentAfter < 400) {
       cubit.getHomeData(isLoadMore: true);
     }
   }

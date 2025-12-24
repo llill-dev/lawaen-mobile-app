@@ -210,7 +210,7 @@ class _WeatherContent extends StatelessWidget {
               Text(
                 LocaleKeys.CurrentWeather.tr(),
                 style: textTheme.titleSmall?.copyWith(
-                  color: ColorManager.black,
+                  color: ColorManager.white,
                   fontWeight: FontWeight.w700,
                   fontSize: 13.sp,
                 ),
@@ -218,7 +218,7 @@ class _WeatherContent extends StatelessWidget {
               SizedBox(height: 6.h),
               Text(
                 resolvedCity,
-                style: textTheme.bodyMedium?.copyWith(color: ColorManager.black, fontWeight: FontWeight.w600),
+                style: textTheme.bodyMedium?.copyWith(color: ColorManager.white, fontWeight: FontWeight.w600),
               ),
             ],
           ),

@@ -28,32 +28,38 @@ class BannerItemWidget extends StatelessWidget {
       },
       child: imageUrl.isNotEmpty
           ? isGif
-                ? Image.network(
-                    imageUrl,
-                    fit: fit ?? BoxFit.fill,
-                    loadingBuilder: (context, child, loadingProgress) {
-                      if (loadingProgress == null) return child;
-                      return Center(
-                        child: SizedBox(
-                          width: 20,
-                          height: 20,
-                          child: CircularProgressIndicator(
-                            color: ColorManager.primary,
-                            value: loadingProgress.expectedTotalBytes != null
-                                ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                                : null,
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Image.network(
+                      imageUrl,
+                      fit: fit ?? BoxFit.fill,
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return Center(
+                          child: SizedBox(
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                              color: ColorManager.primary,
+                              value: loadingProgress.expectedTotalBytes != null
+                                  ? loadingProgress.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
+                                  : null,
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    errorBuilder: (context, error, stackTrace) {
-                      return Container(
-                        color: ColorManager.lightGrey,
-                        child: const Icon(Icons.broken_image, color: Colors.grey),
-                      );
-                    },
+                        );
+                      },
+                      errorBuilder: (context, error, stackTrace) {
+                        return Container(
+                          color: ColorManager.lightGrey,
+                          child: const Icon(Icons.broken_image, color: Colors.grey),
+                        );
+                      },
+                    ),
                   )
-                : CachedImage(url: imageUrl, fit: fit ?? BoxFit.fill)
+                : ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: CachedImage(url: imageUrl, fit: fit ?? BoxFit.fill),
+                  )
           : SizedBox.shrink(),
     );
   }

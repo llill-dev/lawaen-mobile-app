@@ -37,7 +37,7 @@ class InfoSection extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(LocaleKeys.contactInformation.tr(), style: Theme.of(context).textTheme.headlineMedium),
+                    Text(LocaleKeys.contactInformation.tr(), style: Theme.of(context).textTheme.displayMedium),
 
                     18.verticalSpace,
 
@@ -146,7 +146,9 @@ class _InfoItem extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+
         children: [
           if (icon != null)
             Container(

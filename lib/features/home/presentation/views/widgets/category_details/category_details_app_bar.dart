@@ -43,6 +43,7 @@ class CategoryDetailsAppBar extends StatelessWidget {
               //prefixIcon: SvgPicture.asset(IconManager.search).horizontalPadding(padding: 12),
               suffixIcon: GestureDetector(
                 onTap: () {
+                  FocusScope.of(context).unfocus();
                   final text = controller.text.trim();
                   if (text.isNotEmpty) {
                     cubit.initCategoryDetails(mainCategoryId: categoryId, search: text, isGetAll: categoryId == null);

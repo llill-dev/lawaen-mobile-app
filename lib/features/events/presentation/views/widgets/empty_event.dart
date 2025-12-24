@@ -3,6 +3,10 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/functions/url_launcher.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
@@ -12,6 +16,7 @@ class EmptyEvent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AppPreferences _prefs = getIt<AppPreferences>();
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -26,7 +31,20 @@ class EmptyEvent extends StatelessWidget {
         ),
         24.verticalSpace,
         GestureDetector(
-          onTap: () => context.router.push(AddEventRoute()),
+          onTap: () {
+            if (_prefs.isGuest) {
+              alertDialog(
+                context: context,
+                message: LocaleKeys.signInToContinue.tr(),
+                onConfirm: () => context.router.push(LoginRoute()),
+                onCancel: () => (),
+                approveButtonTitle: LocaleKeys.signIn.tr(),
+                rejectButtonTitle: LocaleKeys.cancel.tr(),
+              );
+              return;
+            }
+            launchURL(link: "https://cp.lawaen.com/");
+          },
           child: Container(
             padding: EdgeInsets.all(18),
             decoration: BoxDecoration(color: Color(0xffF5F3FF), borderRadius: BorderRadius.circular(12)),

@@ -71,7 +71,7 @@ class HomeState extends Equatable {
     this.categoryDetailsError,
     this.isLoadMore = false,
     this.homeDataCurrentPage = 1,
-    this.homeDataLimit = 10,
+    this.homeDataLimit = 25,
     this.homeDataHasMore = true,
     this.contactState = RequestState.idle,
     this.contact = const [],

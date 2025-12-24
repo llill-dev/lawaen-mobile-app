@@ -134,10 +134,10 @@ class _CategoryItemDetialsScreenState extends State<CategoryItemDetialsScreen> {
   Widget _buildSelectedSection(CategoryItemDetialsState state) {
     switch (selectedIndex) {
       case 0:
-        return PhotosSection(
-          photos: state.categoryItems!.item?.images ?? [],
-          maxDisplayPhotos: 3,
-        ).horizontalPadding(padding: 16.w);
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+          child: PhotosSection(photos: state.categoryItems!.item?.images ?? [], maxDisplayPhotos: 3),
+        );
 
       case 1:
         return InfoSection(itemData: state.categoryItems!);

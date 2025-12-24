@@ -12,11 +12,12 @@ class AddAppBar extends StatelessWidget {
     return Container(
       padding: REdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: ColorManager.homeAppBarGradient,
-        ),
+        color: ColorManager.primary,
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   colors: ColorManager.homeAppBarGradient,
+        // ),
         boxShadow: [
           BoxShadow(color: ColorManager.black.withValues(alpha: .25), blurRadius: 10.r, offset: const Offset(0, 5)),
         ],

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/functions/url_launcher.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/loading_widget.dart';
 import 'package:lawaen/app/core/widgets/show_language_bottom_sheet.dart';
@@ -39,12 +40,6 @@ class _SettingsSectionState extends State<SettingsSection> {
     super.initState();
     _authCubit = getIt<AuthCubit>();
     _prefs = getIt<AppPreferences>();
-  }
-
-  @override
-  void dispose() {
-    _authCubit.close();
-    super.dispose();
   }
 
   void _navigateToLogin() {
@@ -150,7 +145,50 @@ class _SettingsSectionState extends State<SettingsSection> {
                   },
                 ),
 
-                SettingsItme(title: LocaleKeys.claim.tr(), icon: IconManager.claimProfile, onTap: () {}),
+                // SettingsItme(title: LocaleKeys.claim.tr(), icon: IconManager.claimProfile, onTap: () {
+                //   context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: secondCategoryId))
+                // }),
+                SettingsItme(
+                  title: "Business center",
+                  icon: "",
+                  iconData: Icon(Icons.business_center_outlined, color: ColorManager.primary),
+                  iconSize: 22,
+                  onTap: () {
+                    if (_prefs.isGuest) {
+                      alertDialog(
+                        context: context,
+                        message: LocaleKeys.signInToContinue.tr(),
+                        onConfirm: () => context.router.push(LoginRoute()),
+                        onCancel: () => (),
+                        approveButtonTitle: LocaleKeys.signIn.tr(),
+                        rejectButtonTitle: LocaleKeys.cancel.tr(),
+                      );
+                      return;
+                    }
+                    launchURL(link: "https://cp.lawaen.com/");
+                  },
+                ),
+
+                SettingsItme(
+                  title: LocaleKeys.addMissingPlaceTitle.tr(),
+                  icon: "",
+                  iconData: Icon(Icons.place_outlined, color: ColorManager.primary),
+                  iconSize: 22,
+                  onTap: () {
+                    if (_prefs.isGuest) {
+                      alertDialog(
+                        context: context,
+                        message: LocaleKeys.signInToContinue.tr(),
+                        onConfirm: () => context.router.push(LoginRoute()),
+                        onCancel: () => (),
+                        approveButtonTitle: LocaleKeys.signIn.tr(),
+                        rejectButtonTitle: LocaleKeys.cancel.tr(),
+                      );
+                      return;
+                    }
+                    context.router.push(AddMissingPlaceRoute());
+                  },
+                ),
 
                 ProfilePagesSection(),
               ],

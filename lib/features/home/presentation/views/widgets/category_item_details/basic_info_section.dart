@@ -73,7 +73,13 @@ class BasicInfoSection extends StatelessWidget {
                   : null,
               child: Row(children: List.generate(stars.length, (index) => stars[index])),
             ),
+          ],
+        ),
 
+        12.verticalSpace,
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
             GestureDetector(
               onTap: isGuest ? guestMessage : () => _showFeedBackBttomSheet(context),
               child: Container(
@@ -89,13 +95,7 @@ class BasicInfoSection extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
-
-        12.verticalSpace,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
+            4.horizontalSpace,
             if (itemData.isClaim == true)
               _buildUserActionContainer(
                 context: context,
@@ -104,7 +104,7 @@ class BasicInfoSection extends StatelessWidget {
                     ? guestMessage
                     : () => context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: categoryId)),
               ),
-            4.horizontalSpace,
+            if (itemData.isClaim == true) 4.horizontalSpace,
             _buildUserActionContainer(
               context: context,
               title: LocaleKeys.report.tr(),
@@ -165,22 +165,23 @@ class BasicInfoSection extends StatelessWidget {
     bool read = false,
     required Function()? onTap,
   }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 150.w,
-        padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
-        decoration: BoxDecoration(
-          color: read ? ColorManager.red : ColorManager.green,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r),
-            4.horizontalSpace,
-            Text(title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white)),
-          ],
+    return Expanded(
+      child: GestureDetector(
+        onTap: onTap,
+        child: Container(
+          padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 12.w),
+          decoration: BoxDecoration(
+            color: read ? ColorManager.red : ColorManager.green,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(Icons.warning_rounded, color: ColorManager.white, size: 15.r),
+              4.horizontalSpace,
+              Text(title, style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white)),
+            ],
+          ),
         ),
       ),
     );

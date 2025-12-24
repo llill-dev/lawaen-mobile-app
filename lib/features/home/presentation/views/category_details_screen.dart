@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,14 +9,15 @@ import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
+import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/data/models/category_model.dart';
 import 'package:lawaen/features/home/presentation/cubit/category_details_cubit/category_details_cubit.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/banners/banners_section.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/all_and_fillter_catergory_datails_row.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/category_details/category_details_app_bar.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
-import '../../../../app/core/widgets/primary_back_button.dart';
 import 'widgets/category_details/category_info_list.dart';
 
 @RoutePage()
@@ -54,8 +56,8 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     cubit.initCategoryDetails(mainCategoryId: widget.categoryId, isGetAll: isGetAll);
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
-        cubit.loadMoreDebounced();
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 400) {
+        cubit.loadMore();
       }
     });
   }
@@ -95,23 +97,38 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
                   ),
 
                   buildSpace(),
-                  SliverToBoxAdapter(
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: PrimaryBackButton(withShadow: false).horizontalPadding(padding: 16.w),
-                    ),
-                  ),
 
+                  SliverToBoxAdapter(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () => context.pop(),
+                          child: Row(
+                            children: [
+                              Icon(Icons.arrow_back_rounded, size: 20),
+                              if (widget.categoryName == null) ...[
+                                8.horizontalSpace,
+                                Text(
+                                  LocaleKeys.back.tr(),
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.headlineLarge?.copyWith(color: ColorManager.primary),
+                                ),
+                              ],
+                            ],
+                          ),
+                        ),
+                        if (widget.categoryName != null) ...[
+                          8.horizontalSpace,
+
+                          Text(widget.categoryName!, style: Theme.of(context).textTheme.bodyLarge),
+                        ],
+                      ],
+                    ).horizontalPadding(padding: 16.w),
+                  ),
                   buildSpace(),
-                  if (widget.categoryName != null) ...[
-                    SliverToBoxAdapter(
-                      child: Text(
-                        widget.categoryName!,
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      ).horizontalPadding(padding: 16.w),
-                    ),
-                    buildSpace(),
-                  ],
 
                   if (widget.secondCategory != null) ...[
                     AllAndFilterCategoryDetailsRow(secondCategory: widget.secondCategory!),

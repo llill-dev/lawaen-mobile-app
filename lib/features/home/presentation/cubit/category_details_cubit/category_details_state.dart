@@ -18,7 +18,7 @@ class CategoryDetailsState extends Equatable {
     this.categoriesError,
     this.globalError,
     this.categoriesCurrentPage = 1,
-    this.limit = 10,
+    this.limit = 15,
     this.hasMore = true,
     this.isLoadingMore = false,
     this.selectedSecondCategoryId,
