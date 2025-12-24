@@ -51,7 +51,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
       _createClusterItems(widget.items),
       _updateMarkers,
       markerBuilder: _markerBuilder,
-      stopClusteringZoom: 50,
+      stopClusteringZoom: 14,
     );
   }
 
@@ -125,7 +125,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     final bounds = _calculateBounds(items);
     if (bounds == null) return;
 
-    _googleMapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 80));
+    _googleMapController!.animateCamera(CameraUpdate.newLatLngBounds(bounds, 10));
   }
 
   // =====================================================
@@ -159,7 +159,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
     // GOOGLE MAPS
     if (!Platform.isIOS) {
       return GoogleMap(
-        initialCameraPosition: CameraPosition(target: LatLng(widget.latitude!, widget.longitude!), zoom: 18),
+        initialCameraPosition: CameraPosition(target: LatLng(widget.latitude!, widget.longitude!), zoom: 15),
         myLocationEnabled: true,
         markers: _googleMarkers,
         onMapCreated: (controller) {
@@ -174,7 +174,7 @@ class _PlatformMapWidgetState extends State<PlatformMapWidget> {
 
     // APPLE MAPS
     return apple.AppleMap(
-      initialCameraPosition: apple.CameraPosition(target: apple.LatLng(widget.latitude!, widget.longitude!), zoom: 18),
+      initialCameraPosition: apple.CameraPosition(target: apple.LatLng(widget.latitude!, widget.longitude!), zoom: 15),
       myLocationEnabled: true,
       annotations: _buildAppleMarkers(context, appleMarkerCache, fallbackApple),
     );

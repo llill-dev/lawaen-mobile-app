@@ -5,6 +5,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/services/device_info_service.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/external/models/weather_model.dart';
@@ -338,9 +339,8 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> _tryRegisterFcmToken() async {
     final prefs = getIt<AppPreferences>();
-    //if (prefs.isGuest) return;
 
-    if (prefs.isFcmRegistered) return;
+    //if (prefs.isFcmRegistered) return;
 
     if (state.currentCity == null) return;
 
@@ -350,6 +350,8 @@ class HomeCubit extends Cubit<HomeState> {
     final lat = state.userLatitude?.toString() ?? "";
     final lng = state.userLongitude?.toString() ?? "";
     final cityId = state.currentCity!.id;
+
+    await getIt<DeviceInfoService>().getDeviceInfo();
 
     final params = RegisterFcmTokenParams(fcmToken: fcmToken, latitude: lat, longitude: lng, cityId: cityId);
 

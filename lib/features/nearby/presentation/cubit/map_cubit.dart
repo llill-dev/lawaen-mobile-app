@@ -52,6 +52,10 @@ class MapCubit extends Cubit<MapState> {
     );
   }
 
+  void resetCategoryFilter() {
+    emit(state.copyWith(selectedMainCategoryId: null, selectedSubCategoryId: null, currentSubCategories: const []));
+  }
+
   void selectSubCategory(String? subId) {
     if (subId == null) {
       emit(state.copyWith(selectedSubCategoryId: null, showApplyButton: true));
@@ -82,6 +86,7 @@ class MapCubit extends Cubit<MapState> {
       limit: 25,
       page: 1,
       search: null,
+      isMap: true,
       cityId: location.cityId ?? "",
     );
 

@@ -1,14 +1,19 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/widgets/primary_back_button.dart';
+import 'package:lawaen/app/core/widgets/primary_button.dart';
 import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/location_manager/location_service.dart';
+import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/nearby/presentation/cubit/map_cubit.dart';
 import 'package:lawaen/features/nearby/presentation/views/widgets/map_bottom_sheet.dart';
 import 'package:lawaen/features/nearby/presentation/views/widgets/platform_map_widget.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 @RoutePage()
 class NearbyMapScreen extends StatefulWidget {
@@ -33,6 +38,22 @@ class _NearbyMapScreenState extends State<NearbyMapScreen> {
     //_mapCubit.initMap();
   }
 
+  void _showNearbyBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: ColorManager.primary,
+      isScrollControlled: true,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20.r))),
+      builder: (_) {
+        return BlocProvider.value(
+          value: _mapCubit,
+          child: FractionallySizedBox(heightFactor: 0.5, child: MapBottomSheet()),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
@@ -51,8 +72,26 @@ class _NearbyMapScreenState extends State<NearbyMapScreen> {
               child: Stack(
                 children: [
                   PlatformMapWidget(latitude: lat, longitude: long, items: state.items),
+
                   Positioned(top: 10, left: 10, child: PrimaryBackButton(iconOnlay: true, iconSize: 20, width: 50)),
-                  const MapBottomSheet(),
+
+                  Align(
+                    alignment: AlignmentGeometry.bottomCenter,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 60.0),
+                      child: PrimaryButton(
+                        text: LocaleKeys.search.tr(),
+                        backgroundColor: ColorManager.red,
+                        borderRadius: 20,
+                        borederColor: ColorManager.red,
+                        icon: Icon(Icons.search, color: ColorManager.white),
+                        width: 150.w,
+                        onPressed: () {
+                          _showNearbyBottomSheet(context);
+                        },
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

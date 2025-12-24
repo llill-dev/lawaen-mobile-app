@@ -53,7 +53,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       if (!mounted) return;
       showDialog(
         context: context,
-        barrierDismissible: false,
         useRootNavigator: true,
         builder: (_) => OnboardingAdminMessageDialog(message: msg),
       );

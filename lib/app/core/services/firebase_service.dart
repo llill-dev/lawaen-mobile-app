@@ -30,6 +30,7 @@ class FirebaseMessagingService {
     // Handle foreground notifications
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       log("Foreground Message: ${message.notification?.title}");
+      log("Foreground Message: ${message.data}");
       _showNotification(message);
     });
 
@@ -39,6 +40,11 @@ class FirebaseMessagingService {
     // Handle notifications when the app is opened via a notification
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       log("Notification Clicked: ${message.notification?.title}");
+      log("Foreground Message: ${message.data}");
+      log("Foreground Message: ${message.notification?.title}");
+      log("Foreground Message: ${message.notification?.body}");
+      log("Foreground Message: ${message.notification?.title}");
+      log("Foreground Message: ${message.category}");
     });
   }
 
@@ -89,4 +95,7 @@ class FirebaseMessagingService {
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
   log("Background Message: ${message.notification?.title}");
+  log("Background Message: ${message.notification?.body}");
+  log("Background Message: ${message.notification?.title}");
+  log("Background Message: ${message.category}");
 }
