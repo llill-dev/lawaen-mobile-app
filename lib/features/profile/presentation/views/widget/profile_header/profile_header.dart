@@ -37,7 +37,7 @@ class ProfileHeader extends StatelessWidget {
                 clipBehavior: Clip.none,
                 children: [
                   ProfileSectionsGrid().horizontalPadding(padding: 16.w),
-                  Positioned(left: 50.w, right: 50.w, top: 40.h, child: SvgPicture.asset(IconManager.qrCodeProfile)),
+                  //Positioned(left: 50.w, right: 50.w, top: 40.h, child: SvgPicture.asset(IconManager.qrCodeProfile)),
                 ],
               ),
             ),

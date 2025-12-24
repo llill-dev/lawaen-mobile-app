@@ -1,9 +1,13 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
+import 'package:lawaen/features/onboarding/presentation/views/widgets/location_permssion_dialog.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/resources/assets_manager.dart';
 import '../../../../../../app/routes/router.gr.dart';
@@ -23,16 +27,16 @@ class HomeAppBarHeaderSection extends StatelessWidget {
             Image.asset(ImageManager.logo, width: 50.w, height: 50.h),
             Row(
               children: [
-                if (showNotificationIcon)
-                  CircleAvatar(
-                    backgroundColor: Colors.white.withValues(alpha: 0.2),
-                    child: IconButton(
-                      icon: SvgPicture.asset(IconManager.notification),
-                      onPressed: () {
-                        context.router.push(NotificationRoute());
-                      },
-                    ),
-                  ),
+                // if (showNotificationIcon)
+                //   CircleAvatar(
+                //     backgroundColor: Colors.white.withValues(alpha: 0.2),
+                //     child: IconButton(
+                //       icon: SvgPicture.asset(IconManager.notification),
+                //       onPressed: () {
+                //         context.router.push(NotificationRoute());
+                //       },
+                //     ),
+                //   ),
                 6.horizontalSpace,
                 CircleAvatar(
                   backgroundColor: Colors.white.withValues(alpha: 0.2),
@@ -55,25 +59,66 @@ class HomeAppBarHeaderSection extends StatelessWidget {
           buildWhen: (prev, curr) => prev.currentCity != curr.currentCity,
           builder: (context, state) {
             String text;
+            bool hasCity = state.currentCity != null && state.currentCity!.name.isNotEmpty;
 
-            if (state.currentCity != null && state.currentCity!.name.isNotEmpty) {
+            if (hasCity) {
               text = state.currentCity!.name;
-              return Row(
-                children: [
-                  SvgPicture.asset(IconManager.location),
-                  SizedBox(width: 4.w),
-                  Expanded(
-                    child: Text(
-                      text,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
-                    ),
-                  ),
-                ],
-              );
+            } else {
+              text = "";
             }
-            return const SizedBox.shrink();
+
+            return Row(
+              children: [
+                Expanded(
+                  child: hasCity
+                      ? Row(
+                          children: [
+                            SvgPicture.asset(IconManager.location),
+                            SizedBox(width: 4.w),
+                            Expanded(
+                              child: Text(
+                                text,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        )
+                      : const SizedBox.shrink(),
+                ),
+
+                InkWell(
+                  onTap: () {
+                    showDialog(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (dialogContext) {
+                        return LocationPermissionDialog(
+                          onApprove: () {
+                            context.read<HomeCubit>().initHome();
+                          },
+                          onClose: () => context.router.pop(),
+                        );
+                      },
+                    );
+                  },
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.location_searching_rounded, size: 17, color: ColorManager.white),
+                      8.horizontalSpace,
+                      Text(
+                        LocaleKeys.refreshCurrentLocation.tr(),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(color: ColorManager.white, fontSize: 12),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            );
           },
         ),
       ],

@@ -57,10 +57,10 @@ class ProfileSectionsGrid extends StatelessWidget {
       ),
       _ProfileSectionData(
         title: LocaleKeys.notifications.tr(),
-        subtitle: "3 Items",
+        subtitle: "",
         icon: IconManager.notification,
         notification: true,
-        onTap: () => context.pushRoute(NotificationRoute()),
+        onTap: () => (), //context.pushRoute(NotificationRoute()),
       ),
     ];
     return LayoutBuilder(
