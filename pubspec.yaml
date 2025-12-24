@@ -91,12 +91,12 @@ flutter:
     - assets/json/
     - .env
   fonts:
-    - family: Arimo
+    - family: Cairo
       fonts:
-        - asset: assets/fonts/Arimo-Bold.ttf
-        - asset: assets/fonts/Arimo-Medium.ttf
-        - asset: assets/fonts/Arimo-Regular.ttf
-        - asset: assets/fonts/Arimo-SemiBold.ttf
+        - asset: assets/fonts/Cairo-Bold.ttf
+        - asset: assets/fonts/Cairo-Medium.ttf
+        - asset: assets/fonts/Cairo-Regular.ttf
+        - asset: assets/fonts/Cairo-SemiBold.ttf
 
 flutter_launcher_icons:
   android: "launcher_icon"

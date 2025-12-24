@@ -7,7 +7,7 @@ import 'styles_manager.dart';
 ThemeData getApplicationTheme() {
   return ThemeData(
     useMaterial3: true,
-    fontFamily: 'Arimo',
+    fontFamily: 'Cairo',
     splashFactory: NoSplash.splashFactory,
     bottomSheetTheme: BottomSheetThemeData(
       dragHandleSize: Size(94.w, 4.h),
