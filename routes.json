@@ -1,154 +1,95 @@
 {
-  "routes": [
+  "screens": [
     {
-      "route": "splash",
-      "screen": "SplashRoute",
-      "params": []
+      "path": "/navigation_controller",
+      "args": [],
+      "path_example": "/navigation_controller"
     },
     {
-      "route": "home",
-      "screen": "HomeRoute",
-      "params": []
+      "path": "/notifications",
+      "args": [],
+      "path_example": "/notifications"
     },
     {
-      "route": "navigation_controller",
-      "screen": "NavigationControllerRoute",
-      "params": []
+      "path": "/add_missing_place",
+      "args": [],
+      "path_example": "/add_missing_place"
     },
     {
-      "route": "notifications",
-      "screen": "NotificationRoute",
-      "params": []
+      "path": "/onboarding",
+      "args": [],
+      "path_example": "/onboarding"
     },
     {
-      "route": "notification_details",
-      "screen": "NotificationDetailsRoute",
-      "params": ["id"]
+      "path": "/login",
+      "args": [],
+      "path_example": "/login"
     },
     {
-      "route": "category",
-      "screen": "CategoryRoute",
-      "params": []
+      "path": "/register",
+      "args": [],
+      "path_example": "/register"
     },
     {
-      "route": "category_details",
-      "screen": "CategoryDetailsRoute",
-      "params": ["categoryId"]
+      "path": "/profile",
+      "args": [],
+      "path_example": "/profile"
     },
     {
-      "route": "category_item_details",
-      "screen": "CategoryItemDetialsRoute",
-      "params": ["subCategoryId", "itemId"]
+      "path": "/ratings",
+      "args": [],
+      "path_example": "/ratings"
     },
     {
-      "route": "menu",
-      "screen": "MuneRoute",
-      "params": []
+      "path": "/favorites",
+      "args": [],
+      "path_example": "/favorites"
     },
     {
-      "route": "feedback",
-      "screen": "FeedbackRoute",
-      "params": []
+      "path": "/contact_us",
+      "args": [],
+      "path_example": "/contact_us"
     },
     {
-      "route": "feedback_chat",
-      "screen": "FeedbackChatRoute",
-      "params": ["chatId"]
+      "path": "/update_profile",
+      "args": [],
+      "path_example": "/update_profile"
     },
     {
-      "route": "add",
-      "screen": "AddRoute",
-      "params": []
+      "path": "/map_nearby",
+      "args": [],
+      "path_example": "/map_nearby"
+    },
+
+    {
+      "path": "/notification_details/:id",
+      "args": ["id"],
+      "path_example": "/notification_details/12"
     },
     {
-      "route": "add_event",
-      "screen": "AddEventRoute",
-      "params": []
+      "path": "/category_details/:categoryId",
+      "args": ["categoryId"],
+      "path_example": "/category_details/2383843"
     },
     {
-      "route": "add_offer",
-      "screen": "AddOfferRoute",
-      "params": []
+      "path": "/menu/:subCategoryId/:id",
+      "args": ["subCategoryId", "id"],
+      "path_example": "/menu/2383843/342343324"
     },
     {
-      "route": "add_missing_place",
-      "screen": "AddMissingPlaceRoute",
-      "params": []
+      "path": "/feedback_chat/:subCategoryId/:id",
+      "args": ["subCategoryId", "id"],
+      "path_example": "/feedback_chat/2383843/342343324"
     },
     {
-      "route": "services_manager",
-      "screen": "ServicesManagerRoute",
-      "params": []
+      "path": "/claim/:subCategoryId/:id",
+      "args": ["subCategoryId", "id"],
+      "path_example": "/claim/2383843/342343324"
     },
     {
-      "route": "menu_manager",
-      "screen": "MuneManagerRoute",
-      "params": []
-    },
-    {
-      "route": "claim",
-      "screen": "ClaimRoute",
-      "params": []
-    },
-    {
-      "route": "map_picker",
-      "screen": "MapPickerRoute",
-      "params": []
-    },
-    {
-      "route": "event_details",
-      "screen": "EventsDetailsRoute",
-      "params": ["eventId"]
-    },
-    {
-      "route": "onboarding",
-      "screen": "OnboardingRoute",
-      "params": []
-    },
-    {
-      "route": "login",
-      "screen": "LoginRoute",
-      "params": []
-    },
-    {
-      "route": "register",
-      "screen": "RegisterRoute",
-      "params": []
-    },
-    {
-      "route": "qr_code",
-      "screen": "QrCodeRoute",
-      "params": []
-    },
-    {
-      "route": "profile",
-      "screen": "ProfileRoute",
-      "params": []
-    },
-    {
-      "route": "ratings",
-      "screen": "RatingsRoute",
-      "params": []
-    },
-    {
-      "route": "favorites",
-      "screen": "FavoritesRoute",
-      "params": []
-    },
-    {
-      "route": "contact_us",
-      "screen": "ContactUsRoute",
-      "params": []
-    },
-    {
-      "route": "update_profile",
-      "screen": "UpdateProfileRoute",
-      "params": []
-    },
-    {
-      "route": "map_nearby",
-      "screen": "NearbyMapRoute",
-      "params": []
+      "path": "/item/:subCategoryId/:id",
+      "args": ["subCategoryId", "id"],
+      "path_example": "/item/2383843/342343324"
     }
   ]
 }
