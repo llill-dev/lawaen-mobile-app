@@ -27,13 +27,24 @@ class OffersScreen extends StatefulWidget {
 }
 
 class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClientMixin {
+  late PageController _pageController;
+  int _currentIndex = 0;
+  bool _hasCheckedEnd = false;
+
   @override
   bool get wantKeepAlive => true;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     _getOffers();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _getOffers() {
@@ -54,6 +65,21 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
     }
   }
 
+  void _checkForLooping(List<OfferModel> offers, OffersCubit cubit) {
+    // Check if we're at the last page and there's no more data to load
+    if (_currentIndex == offers.length - 1 && !cubit.state.hasMore && !_hasCheckedEnd && offers.isNotEmpty) {
+      _hasCheckedEnd = true;
+
+      // Wait a moment and then loop back to the first page
+      Future.delayed(const Duration(seconds: 2), () {
+        if (mounted && _currentIndex == offers.length - 1) {
+          _pageController.jumpToPage(0);
+          _hasCheckedEnd = false;
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -61,6 +87,14 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
       listener: (context, state) async {
         if (state.offersState == RequestState.success) {
           await _preloadImages(state.offers);
+
+          // Reset the check flag when new data is loaded
+          _hasCheckedEnd = false;
+
+          // Check if we need to loop after loading new data
+          if (_currentIndex >= state.offers.length - 1 && !state.hasMore) {
+            _checkForLooping(state.offers, context.read<OffersCubit>());
+          }
         }
       },
       builder: (context, state) {
@@ -68,7 +102,7 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
           return const _OffersShimmer();
         }
         if (state.offersState == RequestState.error || state.offerTypesError != null) {
-          ErrorView(errorMsg: state.offersError, onRetry: _getOffers);
+          return ErrorView(errorMsg: state.offersError, onRetry: _getOffers);
         }
 
         final offers = state.offers;
@@ -82,44 +116,71 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
         return Scaffold(
           body: SafeArea(
             bottom: false,
-            child: PageView.builder(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              itemCount: offers.length,
-              onPageChanged: (index) {
-                final cubit = context.read<OffersCubit>();
-                if (index >= offers.length - 1) {
-                  cubit.loadMoreOffers();
+            child: NotificationListener<ScrollNotification>(
+              onNotification: (notification) {
+                // Listen for scroll updates to detect when user tries to scroll beyond the end
+                if (notification is ScrollEndNotification &&
+                    _currentIndex == offers.length - 1 &&
+                    !state.hasMore &&
+                    offers.isNotEmpty &&
+                    !_hasCheckedEnd) {
+                  final cubit = context.read<OffersCubit>();
+                  _checkForLooping(offers, cubit);
                 }
+                return false;
               },
-              itemBuilder: (context, index) {
-                final offer = offers[index];
+              child: PageView.builder(
+                controller: _pageController,
+                physics: const BouncingScrollPhysics(),
+                scrollDirection: Axis.vertical,
+                itemCount: offers.length,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;
+                  });
 
-                return Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    CachedImage(url: offer.image, fit: BoxFit.cover),
+                  final cubit = context.read<OffersCubit>();
 
-                    Positioned(
-                      right: 24.w,
-                      bottom: 100.h,
-                      child: Column(
-                        children: [
-                          OffersCircularActionButton(
-                            icon: IconManager.offersDetails,
-                            onTap: () => _showOfferDetailsBottomSheet(context, offer),
-                          ),
-                          SizedBox(height: 16.h),
-                          OffersCircularActionButton(
-                            icon: IconManager.offersFilter,
-                            onTap: () => _showFilterBottomSheet(context),
-                          ),
-                        ],
+                  // Reset check flag when moving away from the last page
+                  if (index < offers.length - 1) {
+                    _hasCheckedEnd = false;
+                  }
+
+                  // Check if we need to load more data
+                  if (index >= offers.length - 2) {
+                    // Load when 2 items from the end
+                    if (cubit.state.hasMore && !cubit.state.isLoadMore) {
+                      cubit.loadMoreOffers();
+                    }
+                  }
+                },
+                itemBuilder: (context, index) {
+                  final offer = offers[index];
+
+                  return Stack(
+                    children: [
+                      CachedImage(url: offer.image, fit: BoxFit.fill, height: double.infinity),
+                      Positioned(
+                        right: 24.w,
+                        bottom: 100.h,
+                        child: Column(
+                          children: [
+                            OffersCircularActionButton(
+                              icon: IconManager.offersDetails,
+                              onTap: () => _showOfferDetailsBottomSheet(context, offer),
+                            ),
+                            SizedBox(height: 16.h),
+                            OffersCircularActionButton(
+                              icon: IconManager.offersFilter,
+                              onTap: () => _showFilterBottomSheet(context),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                );
-              },
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         );
