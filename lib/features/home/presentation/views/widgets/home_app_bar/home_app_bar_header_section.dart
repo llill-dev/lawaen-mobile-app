@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/app_prefs.dart';
+import 'package:lawaen/app/core/widgets/alert_dialog.dart';
+import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.dart';
 import 'package:lawaen/features/onboarding/presentation/views/widgets/location_permssion_dialog.dart';
@@ -27,16 +30,27 @@ class HomeAppBarHeaderSection extends StatelessWidget {
             Image.asset(ImageManager.logo, width: 50.w, height: 50.h),
             Row(
               children: [
-                // if (showNotificationIcon)
-                //   CircleAvatar(
-                //     backgroundColor: Colors.white.withValues(alpha: 0.2),
-                //     child: IconButton(
-                //       icon: SvgPicture.asset(IconManager.notification),
-                //       onPressed: () {
-                //         context.router.push(NotificationRoute());
-                //       },
-                //     ),
-                //   ),
+                if (showNotificationIcon)
+                  CircleAvatar(
+                    backgroundColor: Colors.white.withValues(alpha: 0.2),
+                    child: IconButton(
+                      icon: SvgPicture.asset(IconManager.notification),
+                      onPressed: () {
+                        if (getIt<AppPreferences>().isGuest) {
+                          alertDialog(
+                            context: context,
+                            message: LocaleKeys.signInToContinue.tr(),
+                            onConfirm: () => context.router.push(LoginRoute()),
+                            onCancel: () => (),
+                            approveButtonTitle: LocaleKeys.signIn.tr(),
+                            rejectButtonTitle: LocaleKeys.cancel.tr(),
+                          );
+                          return;
+                        }
+                        context.router.push(NotificationRoute());
+                      },
+                    ),
+                  ),
                 6.horizontalSpace,
                 CircleAvatar(
                   backgroundColor: Colors.white.withValues(alpha: 0.2),

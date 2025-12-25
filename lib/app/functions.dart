@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:lawaen/generated/locale_keys.g.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// This function is for converting the url image to a file.
@@ -87,4 +88,19 @@ String showChatDate(String dateString) {
 String getMonthName(int month) {
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   return months[month - 1];
+}
+
+String notificationTimeLabel(String? createdAt) {
+  if (createdAt == null || createdAt.trim().isEmpty) return "";
+
+  final parsed = DateTime.tryParse(createdAt);
+  if (parsed == null) return "";
+
+  final now = DateTime.now();
+  final isToday = parsed.year == now.year && parsed.month == now.month && parsed.day == now.day;
+
+  if (isToday) return LocaleKeys.today.tr();
+
+  // show date string (simple)
+  return "${parsed.year}-${parsed.month.toString().padLeft(2, '0')}-${parsed.day.toString().padLeft(2, '0')}";
 }

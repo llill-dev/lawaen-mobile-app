@@ -2,17 +2,26 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/core/helper/network_icon.dart';
+import 'package:lawaen/app/functions.dart';
 import 'package:lawaen/app/resources/assets_manager.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
+import 'package:lawaen/features/home/data/models/notification_model.dart';
 
 class NotificationItem extends StatelessWidget {
-  const NotificationItem({super.key, required this.isNew});
+  const NotificationItem({super.key, required this.notification});
 
-  final bool isNew;
+  final NotificationModel notification;
 
   @override
   Widget build(BuildContext context) {
+    final title = (notification.title ?? "").trim();
+    final body = (notification.body ?? "").trim();
+    final timeText = notificationTimeLabel(notification.createdAt);
+
+    final isUnread = (notification.isRead ?? false) == false;
+
     return GestureDetector(
       onTap: () => context.router.push(NotificationDetailsRoute()),
       child: Container(
@@ -28,47 +37,52 @@ class NotificationItem extends StatelessWidget {
             Container(
               decoration: BoxDecoration(
                 color: ColorManager.primarySwatch[100],
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
-              padding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-              child: Center(child: SvgPicture.asset(IconManager.discount)),
+              padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 12.h),
+              child: Center(
+                child: (notification.imageUrl != null && notification.imageUrl!.trim().isNotEmpty)
+                    ? NetworkIcon(url: notification.imageUrl!, width: 24.w, height: 24.w, fit: BoxFit.contain)
+                    : SvgPicture.asset(IconManager.discount, width: 24.w, height: 24.w),
+              ),
             ),
             SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Special Discount Available!", style: Theme.of(context).textTheme.headlineMedium),
+                  Text(
+                    title.isEmpty ? "-" : title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
                   6.verticalSpace,
                   Text(
-                    "Your hotel reservation at Banyan Tree Dubai has been confirmed",
+                    body.isEmpty ? "-" : body,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   8.verticalSpace,
                   Row(
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: isNew ? ColorManager.orange.withValues(alpha: .7) : ColorManager.lightGrey,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                        child: Text(
-                          "offer",
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(color: ColorManager.black),
-                        ),
-                      ),
-                      8.horizontalSpace,
-                      Text("Shopping •", style: Theme.of(context).textTheme.headlineSmall),
-                      8.horizontalSpace,
                       SvgPicture.asset(IconManager.clock),
                       4.horizontalSpace,
-                      Text("2 hours ago", style: Theme.of(context).textTheme.headlineSmall),
+                      if (timeText.isNotEmpty) Text(timeText, style: Theme.of(context).textTheme.headlineSmall),
                     ],
                   ),
                 ],
               ),
             ),
+            if (isUnread) ...[
+              10.horizontalSpace,
+              Container(
+                width: 10.w,
+                height: 10.w,
+                decoration: const BoxDecoration(color: ColorManager.orange, shape: BoxShape.circle),
+              ),
+            ],
           ],
         ),
       ),

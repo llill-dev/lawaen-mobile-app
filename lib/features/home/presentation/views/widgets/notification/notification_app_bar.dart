@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_container.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_app_bar/home_app_bar_header_section.dart';
+import 'package:lawaen/generated/locale_keys.g.dart';
 
 import '../../../../../../app/core/widgets/primary_back_button.dart';
 
@@ -20,7 +22,7 @@ class NotificationAppBar extends StatelessWidget {
               PrimaryBackButton(),
               SizedBox(width: 12),
               Text(
-                'Notifications',
+                LocaleKeys.notifications.tr(),
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(color: ColorManager.white),
               ),
             ],
