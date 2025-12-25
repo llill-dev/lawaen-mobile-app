@@ -67,4 +67,10 @@ class Urls {
 
   //onboarding
   static const String adminMessage = "message/admin_message";
+
+  //notifications
+  static const String _fcmPrefix = "fcm";
+  static const String getNotifications = "$_fcmPrefix/get_notifications";
+  static const String getUpNotification = "$_fcmPrefix/get_up_notifications/{notification_id}";
+  static const String markAsRead = "$_fcmPrefix/mark_as_read/{notification_id}";
 }

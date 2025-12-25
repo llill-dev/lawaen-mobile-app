@@ -28,6 +28,7 @@ import 'package:lawaen/features/home/data/models/claim_item_model.dart';
 import 'package:lawaen/features/home/data/models/contact_model.dart';
 import 'package:lawaen/features/home/data/models/message_api_reponse.dart';
 import 'package:lawaen/features/home/data/models/mune_model.dart';
+import 'package:lawaen/features/home/data/models/notification_model.dart';
 import 'package:lawaen/features/home/data/models/register_fcm_token_model.dart';
 import 'package:lawaen/features/home/data/models/send_feed_back_model.dart';
 import 'package:lawaen/features/home/data/models/toggle_model.dart';
@@ -325,4 +326,16 @@ abstract class AppServiceClient {
   //onboarding
   @GET(Urls.adminMessage)
   Future<ApiResponse<OnboardingMessageModel>> getAdminMessage();
+
+  //notifications
+  @GET(Urls.getNotifications)
+  Future<ApiResponse<List<NotificationModel>>> getNotifications();
+
+  @GET(Urls.getUpNotification)
+  Future<ApiResponse<NotificationModel>> getUpNotification({@Path("notification_id") required String notificationId});
+
+  @POST(Urls.markAsRead)
+  Future<ApiResponse<NotificationModel>> markNotificationAsRead({
+    @Path("notification_id") required String notificationId,
+  });
 }
