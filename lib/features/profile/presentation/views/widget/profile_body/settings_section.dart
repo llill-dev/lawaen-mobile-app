@@ -132,13 +132,12 @@ class _SettingsSectionState extends State<SettingsSection> {
                   onTap: () {
                     showDialog(
                       context: context,
-                      barrierDismissible: false,
                       builder: (dialogContext) {
                         return LocationPermissionDialog(
+                          isRefreshFlow: true,
                           onApprove: () {
                             context.read<HomeCubit>().initHome();
                           },
-                          onClose: () => context.router.pop(),
                         );
                       },
                     );

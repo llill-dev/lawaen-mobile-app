@@ -60,7 +60,7 @@ class ProfileSectionsGrid extends StatelessWidget {
         subtitle: "",
         icon: IconManager.notification,
         notification: true,
-        onTap: () => (), //context.pushRoute(NotificationRoute()),
+        onTap: isGuest ? isGeusMsg : () => context.pushRoute(NotificationRoute()),
       ),
     ];
     return LayoutBuilder(

@@ -300,5 +300,6 @@
   "checkYourConnection" : "Please check your internet connection and try again. You need an active internet connection to use this app.",
   "recentNotifications" : "Recent Notifications",
   "today" : "Today",
-  "noNotifications" : "No notifications yet!"
+  "noNotifications" : "No notifications yet!",
+  "openSettings":  "Open Settings"
 } 

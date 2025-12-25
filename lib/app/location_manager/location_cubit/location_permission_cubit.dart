@@ -10,10 +10,14 @@ class LocationPermissionCubit extends Cubit<LocationPermissionState> {
 
   LocationPermissionCubit(this._locationService) : super(LocationPermissionInitial());
 
-  Future<void> requestLocation() async {
+  /// If [forceRequest] is false => only checks current status (no OS sheet).
+  /// If [forceRequest] is true  => will request permission (OS sheet if allowed).
+  Future<void> requestLocation({bool forceRequest = true}) async {
     emit(LocationPermissionLoading());
 
-    final status = await _locationService.requestPermission();
+    final status = forceRequest
+        ? await _locationService.requestPermission()
+        : await _locationService.checkPermissionStatus();
 
     switch (status) {
       case AppLocationPermissionStatus.granted:
@@ -45,7 +49,6 @@ class LocationPermissionCubit extends Cubit<LocationPermissionState> {
     }
   }
 
-  /// Returns Damascus center as fallback.
   AppLocation tempLocation() {
     return AppLocation(latitude: 33.5138, longitude: 36.2765, timestamp: DateTime.now());
   }

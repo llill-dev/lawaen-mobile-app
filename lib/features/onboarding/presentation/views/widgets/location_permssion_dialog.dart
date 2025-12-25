@@ -10,17 +10,27 @@ import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
+import 'package:permission_handler/permission_handler.dart' as Geolocator;
 
 class LocationPermissionDialog extends StatelessWidget {
-  const LocationPermissionDialog({super.key, this.onClose, this.onApprove});
+  const LocationPermissionDialog({super.key, this.onClose, this.onApprove, this.isRefreshFlow = false});
 
   final VoidCallback? onClose;
   final VoidCallback? onApprove;
+
+  /// false = onboarding (Enable / Deny)
+  /// true  = refresh (Enable / Cancel)
+  final bool isRefreshFlow;
 
   @override
   Widget build(BuildContext context) {
     final cubit = getIt<LocationPermissionCubit>();
     final router = context.router;
+
+    void closeOnly() {
+      onClose?.call();
+      Navigator.of(context).pop();
+    }
 
     void goToHome() {
       onClose?.call();
@@ -28,6 +38,7 @@ class LocationPermissionDialog extends StatelessWidget {
     }
 
     return Dialog(
+      backgroundColor: Colors.white,
       insetPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       child: Padding(
@@ -35,10 +46,16 @@ class LocationPermissionDialog extends StatelessWidget {
         child: BlocConsumer<LocationPermissionCubit, LocationPermissionState>(
           bloc: cubit,
           listener: (context, state) {
-            if (state is LocationPermissionGranted ||
-                state is LocationPermissionDenied ||
-                state is LocationPermissionForeverDenied ||
-                state is LocationPermissionServiceDisabled) {
+            if (state is LocationPermissionGranted) {
+              if (isRefreshFlow) {
+                closeOnly();
+              } else {
+                goToHome();
+              }
+            } else if (!isRefreshFlow &&
+                (state is LocationPermissionDenied ||
+                    state is LocationPermissionForeverDenied ||
+                    state is LocationPermissionServiceDisabled)) {
               goToHome();
             }
           },
@@ -65,17 +82,39 @@ class LocationPermissionDialog extends StatelessWidget {
                 else
                   PrimaryButton(
                     onPressed: () async {
-                      await cubit.requestLocation();
+                      // user explicitly pressed enable => request OS permission
+                      await cubit.requestLocation(forceRequest: true);
                       onApprove?.call();
                     },
                     text: LocaleKeys.enableLocation.tr(),
                     height: 45.h,
                   ),
                 12.verticalSpace,
+
                 GestureDetector(
-                  onTap: goToHome,
-                  child: Text(LocaleKeys.denyLocation.tr(), style: Theme.of(context).textTheme.headlineSmall),
+                  onTap: () {
+                    if (isRefreshFlow) {
+                      closeOnly();
+                    } else {
+                      goToHome();
+                    }
+                  },
+                  child: Text(
+                    isRefreshFlow ? LocaleKeys.cancel.tr() : LocaleKeys.denyLocation.tr(),
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
                 ),
+
+                if (isRefreshFlow && state is LocationPermissionForeverDenied) ...[
+                  12.verticalSpace,
+                  PrimaryButton(
+                    onPressed: () async {
+                      await Geolocator.openAppSettings();
+                    },
+                    text: LocaleKeys.openSettings.tr(),
+                    height: 45.h,
+                  ),
+                ],
               ],
             );
           },
