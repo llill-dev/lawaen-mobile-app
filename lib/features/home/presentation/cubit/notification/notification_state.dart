@@ -6,6 +6,12 @@ class NotificationState extends Equatable {
   final List<NotificationModel> notifications;
   final String? listError;
 
+  // pagination
+  final int notificationsCurrentPage;
+  final bool notificationsHasMore;
+  final bool isLoadMoreNotifications;
+  final int notificationsLimit;
+
   // details
   final RequestState detailsState;
   final NotificationModel? selectedNotification;
@@ -20,6 +26,10 @@ class NotificationState extends Equatable {
     this.listState = RequestState.idle,
     this.notifications = const [],
     this.listError,
+    this.notificationsCurrentPage = 1,
+    this.notificationsHasMore = true,
+    this.isLoadMoreNotifications = false,
+    this.notificationsLimit = 20,
     this.detailsState = RequestState.idle,
     this.selectedNotification,
     this.detailsError,
@@ -32,6 +42,10 @@ class NotificationState extends Equatable {
     RequestState? listState,
     List<NotificationModel>? notifications,
     String? listError,
+    int? notificationsCurrentPage,
+    bool? notificationsHasMore,
+    bool? isLoadMoreNotifications,
+    int? notificationsLimit,
     RequestState? detailsState,
     NotificationModel? selectedNotification,
     String? detailsError,
@@ -43,9 +57,14 @@ class NotificationState extends Equatable {
       listState: listState ?? this.listState,
       notifications: notifications ?? this.notifications,
       listError: listError,
+      notificationsCurrentPage: notificationsCurrentPage ?? this.notificationsCurrentPage,
+      notificationsHasMore: notificationsHasMore ?? this.notificationsHasMore,
+      isLoadMoreNotifications: isLoadMoreNotifications ?? this.isLoadMoreNotifications,
+      notificationsLimit: notificationsLimit ?? this.notificationsLimit,
       detailsState: detailsState ?? this.detailsState,
       selectedNotification: selectedNotification,
       detailsError: detailsError,
+      lastReadNotification: lastReadNotification,
       markReadState: markReadState ?? this.markReadState,
       markReadError: markReadError,
     );
@@ -56,6 +75,10 @@ class NotificationState extends Equatable {
     listState,
     notifications,
     listError,
+    notificationsCurrentPage,
+    notificationsHasMore,
+    isLoadMoreNotifications,
+    notificationsLimit,
     detailsState,
     selectedNotification,
     detailsError,

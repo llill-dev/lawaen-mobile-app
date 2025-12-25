@@ -329,7 +329,9 @@ abstract class AppServiceClient {
 
   //notifications
   @GET(Urls.getNotifications)
-  Future<ApiResponse<List<NotificationModel>>> getNotifications();
+  Future<ApiResponse<List<NotificationModel>>> getNotifications({
+    @Queries() required PaginationParams paginationParams,
+  });
 
   @GET(Urls.getUpNotification)
   Future<ApiResponse<NotificationModel>> getUpNotification({@Path("notification_id") required String notificationId});

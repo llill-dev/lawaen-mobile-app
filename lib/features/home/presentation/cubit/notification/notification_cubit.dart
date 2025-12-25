@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/app/core/services/notification_navigation_helper.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/routes/router.dart';
@@ -17,16 +18,57 @@ class NotificationCubit extends Cubit<NotificationState> {
 
   NotificationCubit(this._notificationRepo, this._router) : super(const NotificationState());
 
-  Future<void> getNotifications() async {
-    emit(state.copyWith(listState: RequestState.loading, listError: null));
+  Future<void> getNotifications({bool isLoadMore = false}) async {
+    if (isLoadMore) {
+      if (!state.notificationsHasMore || state.isLoadMoreNotifications) return;
+      emit(state.copyWith(isLoadMoreNotifications: true));
+    } else {
+      emit(
+        state.copyWith(
+          listState: RequestState.loading,
+          listError: null,
+          notifications: [],
+          isLoadMoreNotifications: false,
+          notificationsCurrentPage: 1,
+          notificationsHasMore: true,
+        ),
+      );
+    }
 
-    final result = await _notificationRepo.getNotifications();
+    final params = PaginationParams(
+      page: isLoadMore ? state.notificationsCurrentPage : 1,
+      limit: state.notificationsLimit,
+    );
+
+    final result = await _notificationRepo.getNotifications(paginationParams: params);
+
     result.fold(
       (failure) {
-        emit(state.copyWith(listState: RequestState.error, listError: failure.errorMessage));
+        emit(
+          state.copyWith(
+            listState: RequestState.error,
+            listError: failure.errorMessage,
+            isLoadMoreNotifications: false,
+          ),
+        );
+
+        if (!isLoadMore) {
+          showToast(message: failure.errorMessage, isError: true);
+        }
       },
-      (notifications) {
-        emit(state.copyWith(listState: RequestState.success, notifications: notifications, listError: null));
+      (newNotifications) {
+        final updatedList = isLoadMore ? [...state.notifications, ...newNotifications] : newNotifications;
+
+        emit(
+          state.copyWith(
+            listState: RequestState.success,
+            notifications: updatedList,
+            listError: null,
+            isLoadMoreNotifications: false,
+            notificationsCurrentPage: isLoadMore ? state.notificationsCurrentPage + 1 : 2,
+            notificationsHasMore: newNotifications.length >= state.notificationsLimit,
+          ),
+        );
       },
     );
   }

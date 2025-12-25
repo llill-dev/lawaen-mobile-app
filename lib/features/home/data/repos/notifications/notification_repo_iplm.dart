@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/core/models/error_model.dart';
+import 'package:lawaen/app/core/params/pagination_params.dart';
 import 'package:lawaen/app/network/app_api.dart';
 import 'package:lawaen/app/network/exceptions.dart';
 import 'package:lawaen/features/home/data/models/notification_model.dart';
@@ -18,9 +19,11 @@ class NotificationRepoImpl implements NotificationRepo {
   NotificationRepoImpl(this.appServiceClient);
 
   @override
-  Future<Either<ErrorModel, List<NotificationModel>>> getNotifications() async {
+  Future<Either<ErrorModel, List<NotificationModel>>> getNotifications({
+    required PaginationParams paginationParams,
+  }) async {
     try {
-      final response = await appServiceClient.getNotifications();
+      final response = await appServiceClient.getNotifications(paginationParams: paginationParams);
       if (response.status == true && response.data != null) {
         return Right(response.data!);
       }
