@@ -56,7 +56,7 @@ class _CategoryDetailsScreenState extends State<CategoryDetailsScreen> {
     cubit.initCategoryDetails(mainCategoryId: widget.categoryId, isGetAll: isGetAll);
 
     _scrollController.addListener(() {
-      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 400) {
+      if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 600) {
         cubit.loadMore();
       }
     });
