@@ -309,5 +309,9 @@
   "locationPermissionDeniedMessage": "لم يتم السماح بالوصول إلى موقعك.\nيرجى تمكين الإذن للمتابعة.",
   "locationPermissionForeverDeniedMessage": "تم رفض إذن الموقع بشكل دائم.\nيرجى تمكينه من إعدادات التطبيق.",
   "openLocationSettings": "فتح إعدادات الموقع",
-  "businessCenter" : "مركز الأعمال"
+  "businessCenter" : "مركز الأعمال",
+  "yourServicesConnected" : "خدماتك متصلة.",
+  "iAgreeTo": "أوافق على",
+  "acceptCookiesDesc": "أوافق على استخدام ملفات تعريف الارتباط لتحسين تجربة التطبيق",
+  "pleaseAcceptAll": "يرجى الموافقة على جميع الشروط"
 }

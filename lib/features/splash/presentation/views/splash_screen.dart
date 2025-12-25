@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
   late AnimationController _textController;
   late Animation<int> _textAnimation;
 
-  final String _animatedText = "Your services, connected.";
+  final String _animatedText = LocaleKeys.yourServicesConnected.tr();
 
   late final SplashCubit _cubit;
 
@@ -101,7 +101,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
     final isValid = JwtHelper.isValid(token, leeway: const Duration(seconds: 10));
 
     if (isValid) {
-      context.router.replace(NavigationControllerRoute());
+      context.router.replace(OnboardingRoute());
       return;
     }
 

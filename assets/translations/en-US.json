@@ -306,5 +306,9 @@
   "locationPermissionDeniedMessage": "Location permission is not granted.\nPlease allow access to continue.",
   "locationPermissionForeverDeniedMessage": "Location permission is permanently denied.\nPlease enable it from app settings.",
   "openLocationSettings": "Open Location Settings",
-  "businessCenter" : "Business Center"
+  "businessCenter" : "Business Center",
+  "yourServicesConnected" : "Your services, connected.",
+  "iAgreeTo": "I agree to ",
+  "acceptCookiesDesc": "I accept the use of cookies to improve the app experience",
+  "pleaseAcceptAll": "Please accept all"
 } 
