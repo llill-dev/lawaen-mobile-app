@@ -115,7 +115,6 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
 
         return Scaffold(
           body: SafeArea(
-            bottom: false,
             child: NotificationListener<ScrollNotification>(
               onNotification: (notification) {
                 // Listen for scroll updates to detect when user tries to scroll beyond the end
@@ -130,6 +129,7 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
                 return false;
               },
               child: PageView.builder(
+                clipBehavior: Clip.none,
                 controller: _pageController,
                 physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
@@ -161,8 +161,8 @@ class _OffersScreenState extends State<OffersScreen> with AutomaticKeepAliveClie
                     children: [
                       CachedImage(url: offer.image, fit: BoxFit.fill, height: double.infinity),
                       Positioned(
-                        right: 24.w,
-                        bottom: 100.h,
+                        right: 12.w,
+                        bottom: 24.h,
                         child: Column(
                           children: [
                             OffersCircularActionButton(
