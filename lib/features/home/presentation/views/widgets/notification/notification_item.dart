@@ -24,16 +24,12 @@ class NotificationItem extends StatelessWidget {
 
     return BlocBuilder<NotificationCubit, NotificationState>(
       builder: (context, state) {
-        final isLoading =
-            state.markReadState == RequestState.loading && state.lastReadNotification?.id == notification.id;
+        final isLoading = state.markReadState == RequestState.loading && state.markReadLoadingId == notification.id;
 
         return GestureDetector(
-          onTap: isLoading
-              ? null
-              : () {
-                  context.read<NotificationCubit>().markAsRead(notification.id!);
-                },
-          child: Opacity(
+          onTap: isLoading ? null : () => context.read<NotificationCubit>().markAsRead(notification.id!),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 150),
             opacity: isLoading ? 0.7 : 1.0,
             child: Container(
               decoration: BoxDecoration(
@@ -59,6 +55,7 @@ class NotificationItem extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 12.w),
+
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,6 +68,7 @@ class NotificationItem extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         6.verticalSpace,
+
                         // Body
                         Text(
                           body.isEmpty ? "-" : body,
@@ -79,6 +77,7 @@ class NotificationItem extends StatelessWidget {
                           style: Theme.of(context).textTheme.headlineSmall,
                         ),
                         8.verticalSpace,
+
                         // Time
                         Row(
                           children: [
@@ -90,21 +89,42 @@ class NotificationItem extends StatelessWidget {
                       ],
                     ),
                   ),
-                  // Unread indicator
-                  if (isUnread && !isLoading) ...[
-                    10.horizontalSpace,
-                    Container(
-                      width: 10.w,
-                      height: 10.w,
-                      decoration: const BoxDecoration(color: ColorManager.orange, shape: BoxShape.circle),
-                    ),
-                  ],
+
+                  // Right-side indicator (unread dot OR loader)
+                  10.horizontalSpace,
+                  AnimatedSwitcher(
+                    duration: const Duration(milliseconds: 180),
+                    transitionBuilder: (child, animation) => FadeTransition(opacity: animation, child: child),
+                    child: isLoading
+                        ? _InlineLoading(key: const ValueKey('loading'))
+                        : (isUnread
+                              ? Container(
+                                  key: const ValueKey('dot'),
+                                  width: 10.w,
+                                  height: 10.w,
+                                  decoration: const BoxDecoration(color: ColorManager.orange, shape: BoxShape.circle),
+                                )
+                              : const SizedBox(key: ValueKey('empty'), width: 10, height: 10)),
+                  ),
                 ],
               ),
             ),
           ),
         );
       },
+    );
+  }
+}
+
+class _InlineLoading extends StatelessWidget {
+  const _InlineLoading({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 18.w,
+      height: 18.w,
+      child: const CircularProgressIndicator(strokeWidth: 2, color: ColorManager.primary),
     );
   }
 }

@@ -20,6 +20,7 @@ class NotificationState extends Equatable {
 
   // mark read
   final RequestState markReadState;
+  final String? markReadLoadingId;
   final String? markReadError;
 
   const NotificationState({
@@ -35,6 +36,7 @@ class NotificationState extends Equatable {
     this.detailsError,
     this.lastReadNotification,
     this.markReadState = RequestState.idle,
+    this.markReadLoadingId,
     this.markReadError,
   });
 
@@ -51,22 +53,28 @@ class NotificationState extends Equatable {
     String? detailsError,
     NotificationModel? lastReadNotification,
     RequestState? markReadState,
+    String? markReadLoadingId,
     String? markReadError,
   }) {
     return NotificationState(
       listState: listState ?? this.listState,
       notifications: notifications ?? this.notifications,
-      listError: listError,
+
+      listError: listError ?? this.listError,
+
       notificationsCurrentPage: notificationsCurrentPage ?? this.notificationsCurrentPage,
       notificationsHasMore: notificationsHasMore ?? this.notificationsHasMore,
       isLoadMoreNotifications: isLoadMoreNotifications ?? this.isLoadMoreNotifications,
       notificationsLimit: notificationsLimit ?? this.notificationsLimit,
+
       detailsState: detailsState ?? this.detailsState,
-      selectedNotification: selectedNotification,
-      detailsError: detailsError,
-      lastReadNotification: lastReadNotification,
+      selectedNotification: selectedNotification ?? this.selectedNotification,
+      detailsError: detailsError ?? this.detailsError,
+      lastReadNotification: lastReadNotification ?? this.lastReadNotification,
+
       markReadState: markReadState ?? this.markReadState,
-      markReadError: markReadError,
+      markReadLoadingId: markReadLoadingId ?? this.markReadLoadingId,
+      markReadError: markReadError ?? this.markReadError,
     );
   }
 
@@ -84,6 +92,7 @@ class NotificationState extends Equatable {
     detailsError,
     lastReadNotification,
     markReadState,
+    markReadLoadingId,
     markReadError,
   ];
 }
