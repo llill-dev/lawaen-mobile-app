@@ -196,6 +196,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       builder: (dialogContext) {
         return LocationPermissionDialog(
           isRefreshFlow: true,
+          onApprove: () {
+            context.router.push(NavigationControllerRoute());
+          },
           onClose: () {
             Navigator.of(dialogContext, rootNavigator: true).pop();
 
