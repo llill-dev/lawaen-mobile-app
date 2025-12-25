@@ -221,7 +221,7 @@
   "upcomingEvents" : "Upcoming Events",
   "back" : "Back",
   "english" : "English",
-  "arabic" : "Arabic",
+  "arabic" : "العربية",
   "openInteractiveMap" : "Open Interactive Map",
   "more" : "More", 
   "address" : "Address", 
@@ -301,5 +301,10 @@
   "recentNotifications" : "Recent Notifications",
   "today" : "Today",
   "noNotifications" : "No notifications yet!",
-  "openSettings":  "Open Settings"
+  "openSettings":  "Open Settings",
+  "locationServicesDisabledMessage": "Location services are turned off.\nPlease enable location services in your device settings, then return to the app and tap \"Enable Location\" to update your location.",
+  "locationPermissionDeniedMessage": "Location permission is not granted.\nPlease allow access to continue.",
+  "locationPermissionForeverDeniedMessage": "Location permission is permanently denied.\nPlease enable it from app settings.",
+  "openLocationSettings": "Open Location Settings",
+  "businessCenter" : "Business Center"
 } 

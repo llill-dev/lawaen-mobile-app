@@ -74,17 +74,21 @@ class _ClaimScreenState extends State<ClaimScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              PrimaryBackButton(iconOnlay: true),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(
-                    LocaleKeys.claimFormMessage.tr(),
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: ColorManager.primary),
-                  ).horizontalPadding(padding: 16.w),
+                  PrimaryBackButton(withShadow: false, iconOnlay: true, iconSize: 22),
+                  Flexible(
+                    child: Text(
+                      LocaleKeys.claimFormMessage.tr(),
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.headlineLarge!.copyWith(color: ColorManager.primary),
+                    ),
+                  ),
                 ],
               ),
+
               24.verticalSpace,
 
               ClaimForm(phoneController: _phoneController, noteController: _noteController),

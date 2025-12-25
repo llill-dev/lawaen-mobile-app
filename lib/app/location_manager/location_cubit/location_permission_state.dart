@@ -11,20 +11,11 @@ class LocationPermissionGranted extends LocationPermissionState {
   LocationPermissionGranted(this.location);
 }
 
-class LocationPermissionDenied extends LocationPermissionState {
-  final AppLocation fallback;
-  LocationPermissionDenied(this.fallback);
-}
+class LocationPermissionNeedsServiceEnabled extends LocationPermissionState {}
 
-class LocationPermissionForeverDenied extends LocationPermissionState {
-  final AppLocation fallback;
-  LocationPermissionForeverDenied(this.fallback);
-}
+class LocationPermissionNeedsPermission extends LocationPermissionState {}
 
-class LocationPermissionServiceDisabled extends LocationPermissionState {
-  final AppLocation fallback;
-  LocationPermissionServiceDisabled(this.fallback);
-}
+class LocationPermissionNeedsAppSettings extends LocationPermissionState {}
 
 class LocationPermissionError extends LocationPermissionState {
   final String message;

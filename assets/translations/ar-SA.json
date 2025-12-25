@@ -220,7 +220,7 @@
   "friday" : "الجمعة",
   "saturday" : "السبت",
   "openInMap" : "فتح في الخريطة",
-  "english" : "الإنجليزية",
+  "english" : "English",
   "arabic" : "العربية",
   "openInteractiveMap" : "فتح الخريطة التفاعلية",
     "more" : "المزيد", 
@@ -304,5 +304,10 @@
   "recentNotifications" : "الاشعارات الحديثة",
   "today" : "اليوم",
   "noNotifications" : "لا يوجد اشعارات بعد!",
-  "openSettings" : "فتح الاعدادات"
+  "openSettings" : "فتح الاعدادات",
+ "locationServicesDisabledMessage": "خدمات تحديد الموقع غير مفعّلة.\nيرجى تشغيل الموقع من إعدادات الجهاز، ثم العودة إلى التطبيق والضغط على زر \"تمكين الوصول للموقع\" لتحديث موقعك.",
+  "locationPermissionDeniedMessage": "لم يتم السماح بالوصول إلى موقعك.\nيرجى تمكين الإذن للمتابعة.",
+  "locationPermissionForeverDeniedMessage": "تم رفض إذن الموقع بشكل دائم.\nيرجى تمكينه من إعدادات التطبيق.",
+  "openLocationSettings": "فتح إعدادات الموقع",
+  "businessCenter" : "مركز الأعمال"
 }

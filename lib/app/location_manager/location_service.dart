@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:injectable/injectable.dart';
 import 'package:lawaen/app/app_prefs.dart';
 import 'package:lawaen/app/core/functions/url_launcher.dart';
@@ -271,4 +272,41 @@ class LocationException implements Exception {
 
   @override
   String toString() => 'LocationException: $status';
+}
+
+enum AppLocationGate {
+  ready,
+  serviceDisabled,
+  permissionDenied, // can request again
+  permissionDeniedForever, // must go to app settings
+}
+
+extension LocationServiceSettings on LocationService {
+  Future<bool> openAppSettings() => geo.Geolocator.openAppSettings();
+  Future<bool> openLocationSettings() => geo.Geolocator.openLocationSettings();
+}
+
+/// One gatekeeper method for the UI layer.
+/// If [requestIfDenied] is true, it will call the OS permission sheet when possible.
+extension LocationServiceGate on LocationService {
+  Future<AppLocationGate> ensureLocationReady({required bool requestIfDenied}) async {
+    final serviceEnabled = await geo.Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) return AppLocationGate.serviceDisabled;
+
+    var permission = await geo.Geolocator.checkPermission();
+
+    if (permission == geo.LocationPermission.denied && requestIfDenied) {
+      permission = await geo.Geolocator.requestPermission();
+    }
+
+    if (permission == geo.LocationPermission.deniedForever) {
+      return AppLocationGate.permissionDeniedForever;
+    }
+
+    if (permission == geo.LocationPermission.always || permission == geo.LocationPermission.whileInUse) {
+      return AppLocationGate.ready;
+    }
+
+    return AppLocationGate.permissionDenied;
+  }
 }

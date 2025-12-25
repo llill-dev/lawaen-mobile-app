@@ -148,7 +148,7 @@ class _SettingsSectionState extends State<SettingsSection> {
                 //   context.router.push(ClaimRoute(itemId: itemId, secondCategoryId: secondCategoryId))
                 // }),
                 SettingsItme(
-                  title: "Business center",
+                  title: LocaleKeys.businessCenter.tr(),
                   icon: "",
                   iconData: Icon(Icons.business_center_outlined, color: ColorManager.primary),
                   iconSize: 22,
