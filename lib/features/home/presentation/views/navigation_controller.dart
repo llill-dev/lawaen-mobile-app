@@ -111,7 +111,7 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     return Scaffold(
       extendBody: true,
       extendBodyBehindAppBar: true,
-      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
+      appBar: AppBar(),
       body: PageView(
         controller: _pageController,
         onPageChanged: _onPageChanged,

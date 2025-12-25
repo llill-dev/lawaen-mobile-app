@@ -37,7 +37,7 @@ class _MyAppState extends State<MyApp> {
       // 1) Handle pending notification navigation (terminated -> launched)
       final data = await getIt<FirebaseMessagingService>().takePendingNavigationData();
       if (data != null && data.isNotEmpty) {
-        await NotificationNavigationHelper.handle(router: getIt<AppRouter>(), data: data);
+        await NotificationNavigationHelper.handleColdStart(router: getIt<AppRouter>(), data: data);
       }
       // if (mounted) {
       //   // 2) Then handle deep links (can also navigate)
