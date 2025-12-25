@@ -18,6 +18,8 @@ class OffersCubit extends Cubit<OffersState> {
 
   Set<String> selectedTypes = {};
 
+  bool _didLoopOnceOnEmpty = false;
+
   Future<void> getOfferTypes() async {
     emit(state.copyWith(offerTypesState: RequestState.loading, offerTypesError: null));
 
@@ -34,6 +36,8 @@ class OffersCubit extends Cubit<OffersState> {
 
   Future<void> getOffersForSelectedTypes() async {
     if (selectedTypes.isEmpty) return;
+
+    _didLoopOnceOnEmpty = false;
 
     emit(
       state.copyWith(
@@ -67,7 +71,34 @@ class OffersCubit extends Cubit<OffersState> {
       (failure) {
         emit(state.copyWith(offersState: RequestState.error, offersError: failure.errorMessage, isLoadMore: false));
       },
-      (newOffers) {
+      (newOffers) async {
+        // --- END OF PAGINATION: LOOP BACK ---
+        if (newOffers.isEmpty) {
+          // guard: if we already looped once and still empty, stop looping
+          if (_didLoopOnceOnEmpty || state.offers.isEmpty) {
+            emit(
+              state.copyWith(
+                hasMore: false,
+                isLoadMore: false,
+                // keep success if we already have items, or keep loading handled above
+                offersState: state.offers.isEmpty ? RequestState.success : state.offersState,
+              ),
+            );
+            return;
+          }
+
+          _didLoopOnceOnEmpty = true;
+
+          // reset pagination and refetch from page 1 (keep current list visible)
+          emit(state.copyWith(currentPage: 1, hasMore: true, isLoadMore: false));
+
+          await _getOffers(isLoadMore: true);
+          return;
+        }
+
+        // normal success path
+        _didLoopOnceOnEmpty = false;
+
         final updatedList = isLoadMore ? [...state.offers, ...newOffers] : newOffers;
 
         emit(
@@ -76,8 +107,8 @@ class OffersCubit extends Cubit<OffersState> {
             offers: updatedList,
             offersError: null,
             isLoadMore: false,
-            currentPage: newOffers.isEmpty ? state.currentPage : state.currentPage + 1,
-            hasMore: newOffers.isNotEmpty,
+            currentPage: state.currentPage + 1,
+            hasMore: true,
           ),
         );
       },
