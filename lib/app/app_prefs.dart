@@ -43,6 +43,10 @@ class AppPreferences {
     return _sharedPreferences.getString(prefsKey) ?? "";
   }
 
+  Future<void> remove({required String prefsKey}) async {
+    await _sharedPreferences.remove(prefsKey);
+  }
+
   String getAppLanguage() {
     String? language = _sharedPreferences.getString(prefsLang);
     if (language != null && language.isNotEmpty) {
