@@ -1,7 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:injectable/injectable.dart';
+import 'package:lawaen/app/core/functions/toast_message.dart';
+import 'package:lawaen/app/core/services/notification_navigation_helper.dart';
 import 'package:lawaen/app/core/utils/enums.dart';
+import 'package:lawaen/app/routes/router.dart';
 import 'package:lawaen/features/home/data/models/notification_model.dart';
 import 'package:lawaen/features/home/data/repos/notifications/notification_repo.dart';
 
@@ -10,8 +13,9 @@ part 'notification_state.dart';
 @singleton
 class NotificationCubit extends Cubit<NotificationState> {
   final NotificationRepo _notificationRepo;
+  final AppRouter _router;
 
-  NotificationCubit(this._notificationRepo) : super(const NotificationState());
+  NotificationCubit(this._notificationRepo, this._router) : super(const NotificationState());
 
   Future<void> getNotifications() async {
     emit(state.copyWith(listState: RequestState.loading, listError: null));
@@ -43,36 +47,91 @@ class NotificationCubit extends Cubit<NotificationState> {
     );
   }
 
-  Future<void> markAsRead({required String notificationId}) async {
-    emit(state.copyWith(markReadState: RequestState.loading, markReadError: null));
+  Future<void> markAsRead(String notificationId) async {
+    // Update the local notification first for immediate UI feedback
+    final updatedNotifications = List<NotificationModel>.from(state.notifications);
+    final index = updatedNotifications.indexWhere((n) => n.id == notificationId);
+
+    if (index != -1) {
+      final notification = updatedNotifications[index];
+      updatedNotifications[index] = notification.copyWith(isRead: true);
+
+      emit(
+        state.copyWith(notifications: updatedNotifications, markReadState: RequestState.loading, markReadError: null),
+      );
+    } else {
+      emit(state.copyWith(markReadState: RequestState.loading, markReadError: null));
+    }
 
     final result = await _notificationRepo.markAsRead(notificationId: notificationId);
+
     result.fold(
       (failure) {
-        emit(state.copyWith(markReadState: RequestState.error, markReadError: failure.errorMessage));
-      },
-      (notification) {
-        // update selected + list locally
-        final updatedList = state.notifications.map((n) {
-          if (n.id == notification.id) return notification;
-          return n;
-        }).toList();
+        // Revert the local change on error
+        if (index != -1) {
+          final revertedNotifications = List<NotificationModel>.from(state.notifications);
+          final originalNotification = revertedNotifications[index];
+          revertedNotifications[index] = originalNotification.copyWith(isRead: false);
 
-        emit(
-          state.copyWith(
-            markReadState: RequestState.success,
-            selectedNotification: state.selectedNotification?.id == notification.id
-                ? notification
-                : state.selectedNotification,
-            notifications: updatedList,
-            markReadError: null,
-          ),
-        );
+          emit(
+            state.copyWith(
+              notifications: revertedNotifications,
+              markReadState: RequestState.error,
+              markReadError: failure.errorMessage,
+            ),
+          );
+        } else {
+          emit(state.copyWith(markReadState: RequestState.error, markReadError: failure.errorMessage));
+        }
+
+        // Show error toast
+        showToast(message: failure.errorMessage, isError: true);
+      },
+      (updatedNotification) {
+        // Update with server response
+        if (index != -1) {
+          final finalNotifications = List<NotificationModel>.from(state.notifications);
+          finalNotifications[index] = updatedNotification;
+
+          emit(
+            state.copyWith(
+              notifications: finalNotifications,
+              markReadState: RequestState.success,
+              lastReadNotification: updatedNotification,
+              markReadError: null,
+            ),
+          );
+        } else {
+          emit(
+            state.copyWith(
+              markReadState: RequestState.success,
+              lastReadNotification: updatedNotification,
+              markReadError: null,
+            ),
+          );
+        }
+
+        // Handle navigation if screen key exists
+        final screen = updatedNotification.screen;
+        if (screen != null && screen.trim().isNotEmpty) {
+          _handleNotificationNavigation(updatedNotification);
+        }
       },
     );
   }
 
-  /// THEME: mark all as read locally (UI theme behavior, no API)
+  void _handleNotificationNavigation(NotificationModel notification) {
+    final data = {
+      'screen': notification.screen,
+      'title': notification.title,
+      'body': notification.body,
+      '_id': notification.id,
+      'dedupeKey': notification.dedupeKey,
+    };
+
+    NotificationNavigationHelper.handle(router: _router, data: data);
+  }
+
   void markAllAsReadLocal() {
     final updated = state.notifications
         .map(
@@ -90,8 +149,35 @@ class NotificationCubit extends Cubit<NotificationState> {
     emit(state.copyWith(notifications: updated));
   }
 
-  /// THEME: clear selection (useful for navigation)
   void clearSelected() {
     emit(state.copyWith(selectedNotification: null));
+  }
+}
+
+extension NotificationModelCopyWith on NotificationModel {
+  NotificationModel copyWith({
+    String? id,
+    String? title,
+    String? body,
+    bool? isRead,
+    String? createdAt,
+    String? imageUrl,
+    String? screen,
+    String? dedupeKey,
+    String? userId,
+    String? updatedAt,
+  }) {
+    return NotificationModel(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      body: body ?? this.body,
+      isRead: isRead ?? this.isRead,
+      createdAt: createdAt ?? this.createdAt,
+      imageUrl: imageUrl ?? this.imageUrl,
+      screen: screen ?? this.screen,
+      dedupeKey: dedupeKey ?? this.dedupeKey,
+      userId: userId ?? this.userId,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
   }
 }

@@ -10,6 +10,7 @@ class NotificationState extends Equatable {
   final RequestState detailsState;
   final NotificationModel? selectedNotification;
   final String? detailsError;
+  final NotificationModel? lastReadNotification;
 
   // mark read
   final RequestState markReadState;
@@ -22,6 +23,7 @@ class NotificationState extends Equatable {
     this.detailsState = RequestState.idle,
     this.selectedNotification,
     this.detailsError,
+    this.lastReadNotification,
     this.markReadState = RequestState.idle,
     this.markReadError,
   });
@@ -33,6 +35,7 @@ class NotificationState extends Equatable {
     RequestState? detailsState,
     NotificationModel? selectedNotification,
     String? detailsError,
+    NotificationModel? lastReadNotification,
     RequestState? markReadState,
     String? markReadError,
   }) {
@@ -56,6 +59,7 @@ class NotificationState extends Equatable {
     detailsState,
     selectedNotification,
     detailsError,
+    lastReadNotification,
     markReadState,
     markReadError,
   ];

@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lawaen/app/core/widgets/skeletons/redacted_box.dart';
 import 'package:lawaen/app/core/widgets/skeletons/shimmer_container.dart';
-import 'package:lawaen/app/di/injection.dart';
 import 'package:lawaen/app/extensions.dart';
 import 'package:lawaen/app/resources/color_manager.dart';
 import 'package:lawaen/features/home/presentation/cubit/notification/notification_cubit.dart';
@@ -15,25 +14,35 @@ import 'widgets/notification/notifications_list.dart';
 import 'widgets/notification/recent_notification.dart';
 
 @RoutePage()
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({super.key});
 
   @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  late final NotificationCubit _cubit;
+  @override
+  void initState() {
+    _cubit = context.read<NotificationCubit>();
+    _cubit.getNotifications();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => getIt<NotificationCubit>()..getNotifications(),
-      child: Scaffold(
-        appBar: AppBar(),
-        body: SafeArea(
-          child: CustomScrollView(
-            slivers: [
-              const SliverToBoxAdapter(child: NotificationAppBar()),
-              buildSpace(),
-              SliverToBoxAdapter(child: RecentNotifications().horizontalPadding(padding: 16.w)),
-              buildSpace(),
-              const NotificationsList(),
-            ],
-          ),
+    return Scaffold(
+      appBar: AppBar(),
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: [
+            const SliverToBoxAdapter(child: NotificationAppBar()),
+            buildSpace(),
+            SliverToBoxAdapter(child: RecentNotifications().horizontalPadding(padding: 16.w)),
+            buildSpace(),
+            const NotificationsList(),
+          ],
         ),
       ),
     );
