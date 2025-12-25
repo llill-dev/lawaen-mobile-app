@@ -33,7 +33,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   @override
   void initState() {
     cubit = context.read<OnboardingCubit>();
-    cubit.getAdminMessage();
+    // cubit.getAdminMessage();
     super.initState();
   }
 
@@ -66,127 +66,120 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OnboardingCubit, OnboardingState>(
-      listenWhen: (previous, current) =>
-          previous.messageState != current.messageState || previous.message != current.message,
-      listener: (context, state) => _maybeShowAdminDialog(context, state),
-      child: Scaffold(
-        body: Container(
-          width: double.infinity,
-          height: double.infinity,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: ColorManager.onBoardingGradient,
-            ),
+    return Scaffold(
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: ColorManager.onBoardingGradient,
           ),
-          child: SafeArea(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
-              child: Column(
-                children: [
-                  Text(
-                    LocaleKeys.onBoardingTitle.tr(),
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(color: ColorManager.white, fontSize: 24),
-                  ),
-                  24.verticalSpace,
-                  Image.asset(ImageManager.onboarding),
-                  12.verticalSpace,
-                  Text(
-                    LocaleKeys.onBoardingMessage.tr(),
-                    style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: ColorManager.white),
-                  ),
-                  12.verticalSpace,
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      /// Privacy Policy
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Checkbox(
-                            value: _acceptPrivacyPolicy,
-                            activeColor: ColorManager.white,
-                            checkColor: ColorManager.black,
-                            onChanged: (value) {
-                              setState(() {
-                                _acceptPrivacyPolicy = value ?? false;
-                              });
+        ),
+        child: SafeArea(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
+            child: Column(
+              children: [
+                Text(
+                  LocaleKeys.onBoardingTitle.tr(),
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(color: ColorManager.white, fontSize: 24),
+                ),
+                24.verticalSpace,
+                Image.asset(ImageManager.onboarding),
+                12.verticalSpace,
+                Text(
+                  LocaleKeys.onBoardingMessage.tr(),
+                  style: Theme.of(context).textTheme.headlineLarge?.copyWith(color: ColorManager.white),
+                ),
+                12.verticalSpace,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    /// Privacy Policy
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: _acceptPrivacyPolicy,
+                          activeColor: ColorManager.white,
+                          checkColor: ColorManager.black,
+                          onChanged: (value) {
+                            setState(() {
+                              _acceptPrivacyPolicy = value ?? false;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              context.router.push(ProfileStaticRoute(pageId: "678d050897f6b25056ce049d"));
                             },
-                          ),
-                          Expanded(
-                            child: GestureDetector(
-                              onTap: () {
-                                context.router.push(ProfileStaticRoute(pageId: "678d050897f6b25056ce049d"));
-                              },
-                              child: RichText(
-                                text: TextSpan(
-                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
-                                  children: [
-                                    TextSpan(text: LocaleKeys.iAgreeTo.tr()),
-                                    TextSpan(
-                                      text: LocaleKeys.privacyPolicy.tr(),
-                                      style: const TextStyle(
-                                        decoration: TextDecoration.underline,
-                                        fontWeight: FontWeight.w600,
-                                        decorationColor: ColorManager.white,
-                                      ),
+                            child: RichText(
+                              text: TextSpan(
+                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
+                                children: [
+                                  TextSpan(text: LocaleKeys.iAgreeTo.tr()),
+                                  TextSpan(
+                                    text: LocaleKeys.privacyPolicy.tr(),
+                                    style: const TextStyle(
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.w600,
+                                      decorationColor: ColorManager.white,
                                     ),
-                                  ],
-                                ),
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
+                    ),
 
-                      8.verticalSpace,
+                    8.verticalSpace,
 
-                      /// Cookies
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Checkbox(
-                            value: _acceptCookies,
-                            activeColor: ColorManager.white,
-                            checkColor: ColorManager.black,
-                            onChanged: (value) {
-                              setState(() {
-                                _acceptCookies = value ?? false;
-                              });
-                            },
+                    /// Cookies
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Checkbox(
+                          value: _acceptCookies,
+                          activeColor: ColorManager.white,
+                          checkColor: ColorManager.black,
+                          onChanged: (value) {
+                            setState(() {
+                              _acceptCookies = value ?? false;
+                            });
+                          },
+                        ),
+                        Expanded(
+                          child: Text(
+                            LocaleKeys.acceptCookiesDesc.tr(),
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
                           ),
-                          Expanded(
-                            child: Text(
-                              LocaleKeys.acceptCookiesDesc.tr(),
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: ColorManager.white),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
 
-                  24.verticalSpace,
-                  PrimaryButton(
-                    text: LocaleKeys.next.tr(),
-                    onPressed: (_acceptPrivacyPolicy && _acceptCookies)
-                        ? () => _showLocationPermissionDialog(context)
-                        : () => showToast(message: LocaleKeys.pleaseAcceptAll.tr(), isError: true),
-                    textColor: (_acceptPrivacyPolicy && _acceptCookies) ? ColorManager.black : ColorManager.white,
+                24.verticalSpace,
+                PrimaryButton(
+                  text: LocaleKeys.next.tr(),
+                  onPressed: (_acceptPrivacyPolicy && _acceptCookies)
+                      ? () => _showLocationPermissionDialog(context)
+                      : () => showToast(message: LocaleKeys.pleaseAcceptAll.tr(), isError: true),
+                  textColor: (_acceptPrivacyPolicy && _acceptCookies) ? ColorManager.black : ColorManager.white,
 
-                    backgroundColor: (_acceptPrivacyPolicy && _acceptCookies)
-                        ? ColorManager.white
-                        : ColorManager.primary,
-                    borederColor: (_acceptPrivacyPolicy && _acceptCookies) ? ColorManager.white : ColorManager.primary,
-                    withShadow: false,
-                    height: 45.h,
-                  ),
-                ],
-              ),
+                  backgroundColor: (_acceptPrivacyPolicy && _acceptCookies) ? ColorManager.white : ColorManager.primary,
+                  borederColor: (_acceptPrivacyPolicy && _acceptCookies) ? ColorManager.white : ColorManager.primary,
+                  withShadow: false,
+                  height: 45.h,
+                ),
+              ],
             ),
           ),
         ),
@@ -198,9 +191,11 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     showDialog(
       context: context,
       barrierDismissible: false,
+
       useRootNavigator: true,
       builder: (dialogContext) {
         return LocationPermissionDialog(
+          isRefreshFlow: true,
           onClose: () {
             Navigator.of(dialogContext, rootNavigator: true).pop();
 

@@ -3,6 +3,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:lawaen/app/core/utils/enums.dart';
 import 'package:lawaen/app/core/utils/functions.dart';
 import 'package:lawaen/app/core/widgets/alert_dialog.dart';
 import 'package:lawaen/app/core/widgets/custom_refresh_indcator.dart';
@@ -11,6 +12,8 @@ import 'package:lawaen/features/home/presentation/cubit/home_cubit/home_cubit.da
 import 'package:lawaen/features/home/presentation/views/widgets/banners/home_banners.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/home_social_links.dart';
 import 'package:lawaen/features/home/presentation/views/widgets/view_all_categories.dart';
+import 'package:lawaen/features/onboarding/presentation/cubit/onboarding_cubit.dart';
+import 'package:lawaen/features/onboarding/presentation/views/widgets/onboarding_admin_message_dialog.dart';
 import 'package:lawaen/generated/locale_keys.g.dart';
 
 import 'widgets/home_app_bar/home_app_bar.dart';
@@ -31,12 +34,15 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late HomeCubit cubit;
+  late OnboardingCubit onbardingCubit;
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
     cubit = context.read<HomeCubit>();
+    onbardingCubit = context.read<OnboardingCubit>();
+    onbardingCubit.getAdminMessage();
     //cubit.initHome();
     _scrollController.addListener(_onScroll);
   }
@@ -57,18 +63,36 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<HomeCubit, HomeState>(
-      listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
-      listener: (context, state) {
-        alertDialog(
-          context: context,
-          message: state.globalError!,
-          isError: true,
-          icon: Icons.wifi_tethering_error_rounded_outlined,
-          onConfirm: () => cubit.initHome(),
-          onCancel: () => cubit.clearGlobalError(),
-        );
-      },
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeCubit, HomeState>(
+          listenWhen: (prev, curr) => prev.globalError != curr.globalError && curr.globalError != null,
+          listener: (context, state) {
+            alertDialog(
+              context: context,
+              message: state.globalError!,
+              isError: true,
+              icon: Icons.wifi_tethering_error_rounded_outlined,
+              onConfirm: () => cubit.initHome(),
+              onCancel: () => cubit.clearGlobalError(),
+            );
+          },
+        ),
+        BlocListener<OnboardingCubit, OnboardingState>(
+          listenWhen: (previous, current) =>
+              previous.messageState != current.messageState || previous.message != current.message,
+          listener: (context, state) {
+            if (state.messageState == RequestState.success && state.message != null) {
+              showDialog(
+                context: context,
+                useRootNavigator: true,
+                builder: (_) => OnboardingAdminMessageDialog(message: state.message!),
+              );
+            }
+          },
+        ),
+      ],
+
       child: SafeArea(
         child: CustomRefreshIndcator(
           onRefresh: () async => cubit.initHome(),
