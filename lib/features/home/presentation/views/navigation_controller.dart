@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
@@ -15,8 +16,6 @@ import 'home_screen.dart';
 import 'package:lawaen/features/explore/presentation/views/explore_screen.dart';
 import 'package:lawaen/features/offers/presentation/views/offers_screen.dart';
 import 'package:lawaen/features/events/presentation/views/events_screen.dart';
-
-import 'widgets/weather_and_map/open_map_widget.dart';
 
 @RoutePage()
 class NavigationControllerScreen extends StatefulWidget {
@@ -35,11 +34,13 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
   int _currentIndex = 0;
   int _lastRealIndex = 0;
 
+  bool _isNavigatingToNearby = false;
+
   late final List<Widget> _pages = [
     const HomeScreen(),
     const ExploreScreen(),
-    const SizedBox.shrink(),
-    OffersScreen(),
+    const SizedBox.shrink(), // Nearby placeholder
+    const OffersScreen(),
     const EventsScreen(),
   ];
 
@@ -53,11 +54,31 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     _pageController = PageController(initialPage: _currentIndex);
   }
 
+  // ---------------------------
+  // Nearby navigation (SAFE)
+  // ---------------------------
+  Future<void> _openNearbyMap() async {
+    if (_isNavigatingToNearby) return;
+
+    _isNavigatingToNearby = true;
+
+    await context.router.push(const NearbyMapRoute());
+
+    _isNavigatingToNearby = false;
+  }
+
+  // ---------------------------
+  // Bottom nav tap
+  // ---------------------------
   void _onNavBarTapped(int index) {
+    HapticFeedback.lightImpact();
+
     if (index == 2) {
-      context.router.push(const NearbyMapRoute());
+      _openNearbyMap();
       return;
     }
+
+    if (_currentIndex == index) return;
 
     setState(() {
       _currentIndex = index;
@@ -67,10 +88,12 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     _pageController.jumpToPage(index);
   }
 
+  // ---------------------------
+  // PageView change
+  // ---------------------------
   void _onPageChanged(int index) {
     if (index == 2) {
-      context.router.push(const NearbyMapRoute());
-
+      _openNearbyMap();
       _pageController.jumpToPage(_lastRealIndex);
       return;
     }
@@ -87,10 +110,9 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       extendBody: true,
-      appBar: AppBar(),
       extendBodyBehindAppBar: true,
+      appBar: AppBar(elevation: 0, backgroundColor: Colors.transparent),
       body: PageView(
-        clipBehavior: Clip.none,
         controller: _pageController,
         onPageChanged: _onPageChanged,
         physics: const BouncingScrollPhysics(),
@@ -100,6 +122,9 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     );
   }
 
+  // ---------------------------
+  // Bottom Navigation Bar
+  // ---------------------------
   Widget _buildBottomNav() {
     final icons = [
       [IconManager.homeFill, IconManager.home],
@@ -118,7 +143,7 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     ];
 
     return Material(
-      borderRadius: const BorderRadius.only(topLeft: Radius.circular(24), topRight: Radius.circular(24)),
+      color: Colors.transparent,
       child: Container(
         height: 74.h,
         decoration: BoxDecoration(
@@ -134,36 +159,48 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     );
   }
 
+  // ---------------------------
+  // Animated Nav Item
+  // ---------------------------
   Widget _buildNavItem(int index, String title, List<String> icons) {
     final bool selected = index == _currentIndex;
 
-    return GestureDetector(
+    return InkWell(
       onTap: () => _onNavBarTapped(index),
-      behavior: HitTestBehavior.opaque,
-      child: SizedBox(
+      borderRadius: BorderRadius.circular(16),
+      splashColor: Colors.white24,
+      highlightColor: Colors.transparent,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 250),
+        curve: Curves.easeOutCubic,
         width: 60.w,
+        padding: EdgeInsets.symmetric(vertical: 6.h),
+        transform: Matrix4.identity()..scale(selected ? 1.15 : 1.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              selected ? icons[0] : icons[1],
-              width: 20.w,
-              colorFilter: ColorFilter.mode(selected ? ColorManager.black : ColorManager.white, BlendMode.srcIn),
+            AnimatedSwitcher(
+              duration: const Duration(milliseconds: 200),
+              child: SvgPicture.asset(
+                selected ? icons[0] : icons[1],
+                key: ValueKey(selected),
+                width: 20.w,
+                colorFilter: ColorFilter.mode(selected ? ColorManager.black : ColorManager.white, BlendMode.srcIn),
+              ),
             ),
             SizedBox(height: 6.h),
-            Text(title, style: TextStyle(fontSize: 10, color: selected ? ColorManager.black : ColorManager.white)),
+            AnimatedDefaultTextStyle(
+              duration: const Duration(milliseconds: 200),
+              style: TextStyle(
+                fontSize: 10,
+                fontWeight: selected ? FontWeight.bold : FontWeight.normal,
+                color: selected ? ColorManager.black : ColorManager.white,
+              ),
+              child: Text(title),
+            ),
           ],
         ),
       ),
     );
-  }
-}
-
-class NearbyTabScreen extends StatelessWidget {
-  const NearbyTabScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return SafeArea(child: Column(children: const [OpenMapWidget()]));
   }
 }
