@@ -310,5 +310,6 @@
   "yourServicesConnected" : "Your services, connected.",
   "iAgreeTo": "I agree to ",
   "acceptCookiesDesc": "I accept the use of cookies to improve the app experience",
-  "pleaseAcceptAll": "Please accept all"
+  "pleaseAcceptAll": "Please accept all",
+  "pressBackAgainToExit" : "Press Back Again To Exit"
 } 

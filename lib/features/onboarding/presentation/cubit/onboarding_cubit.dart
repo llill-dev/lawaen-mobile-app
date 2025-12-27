@@ -14,6 +14,8 @@ class OnboardingCubit extends Cubit<OnboardingState> {
   OnboardingCubit(this._repo) : super(const OnboardingState());
 
   Future<void> getAdminMessage() async {
+    if (!state.messageShow) return;
+
     emit(state.copyWith(messageState: RequestState.loading, messageError: null, globalError: null));
 
     final result = await _repo.getAdminMessage();
@@ -32,6 +34,10 @@ class OnboardingCubit extends Cubit<OnboardingState> {
         emit(state.copyWith(messageState: RequestState.success, message: message, messageError: null));
       },
     );
+  }
+
+  void dontShowMessageAgen() {
+    emit(state.copyWith(messageShow: false));
   }
 
   void clearGlobalError() {

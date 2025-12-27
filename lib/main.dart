@@ -42,7 +42,24 @@ FutureOr<void> main() async {
 
   _initAppApi();
 
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) async {
+    final appPrefs = getIt<AppPreferences>();
+
+    Locale startLocale = englishLocale;
+
+    if (appPrefs.isFirstTime) {
+      final deviceLocale = WidgetsBinding.instance.platformDispatcher.locale;
+
+      if (deviceLocale.languageCode == arabic) {
+        startLocale = arabicLocale;
+        await appPrefs.setString(prefsKey: prefsLang, value: LanguageType.arabic.getValue());
+      } else {
+        startLocale = englishLocale;
+        await appPrefs.setString(prefsKey: prefsLang, value: LanguageType.english.getValue());
+      }
+    } else {
+      startLocale = await appPrefs.getLocale();
+    }
     runApp(
       ScreenUtilInit(
         designSize: const Size(375, 812),
@@ -54,7 +71,7 @@ FutureOr<void> main() async {
           child: EasyLocalization(
             supportedLocales: const [arabicLocale, englishLocale],
             fallbackLocale: englishLocale,
-            startLocale: englishLocale,
+            startLocale: startLocale,
 
             path: assetPathLocalization,
             child: const MyApp(),

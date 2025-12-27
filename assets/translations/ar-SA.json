@@ -313,5 +313,6 @@
   "yourServicesConnected" : "خدماتك متصلة.",
   "iAgreeTo": "أوافق على",
   "acceptCookiesDesc": "أوافق على استخدام ملفات تعريف الارتباط لتحسين تجربة التطبيق",
-  "pleaseAcceptAll": "يرجى الموافقة على جميع الشروط"
+  "pleaseAcceptAll": "يرجى الموافقة على جميع الشروط",
+  "pressBackAgainToExit" : "اضغط مرة أخرى للخروج"
 }

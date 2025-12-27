@@ -1,8 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:lawaen/app/core/functions/toast_message.dart';
 import 'package:lawaen/app/routes/router.gr.dart';
 import '../../../../app/core/refresh_cubit/refresh_cubit.dart';
 import '../../../../app/di/injection.dart';
@@ -24,6 +26,7 @@ class NavigationControllerScreen extends StatefulWidget {
 
 class _NavigationControllerScreenState extends State<NavigationControllerScreen> {
   late final PageController _pageController;
+  DateTime? _lastBackPressed;
   final _refreshCubit = getIt<RefreshCubit>();
   int _currentIndex = 0;
   int _lastRealIndex = 0;
@@ -67,20 +70,46 @@ class _NavigationControllerScreenState extends State<NavigationControllerScreen>
     _refreshCubit.refresh();
   }
 
+  Future<bool> _onWillPop(BuildContext context) async {
+    final now = DateTime.now();
+
+    if (_lastBackPressed == null || now.difference(_lastBackPressed!) > const Duration(seconds: 2)) {
+      _lastBackPressed = now;
+
+      showToast(message: LocaleKeys.pressBackAgainToExit.tr(), isError: true);
+
+      return false;
+    }
+
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBody: true,
-      appBar: AppBar(),
-      extendBodyBehindAppBar: true,
-      body: PageView(
-        clipBehavior: Clip.none,
-        controller: _pageController,
-        onPageChanged: _onPageChanged,
-        physics: const BouncingScrollPhysics(),
-        children: _pages,
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) async {
+        if (didPop) return;
+
+        final shouldExit = await _onWillPop(context);
+        if (shouldExit) {
+          SystemNavigator.pop();
+        }
+      },
+
+      child: Scaffold(
+        extendBody: true,
+        appBar: AppBar(),
+        extendBodyBehindAppBar: true,
+        body: PageView(
+          clipBehavior: Clip.none,
+          controller: _pageController,
+          onPageChanged: _onPageChanged,
+          physics: const BouncingScrollPhysics(),
+          children: _pages,
+        ),
+        bottomNavigationBar: _buildBottomNav(),
       ),
-      bottomNavigationBar: _buildBottomNav(),
     );
   }
 
